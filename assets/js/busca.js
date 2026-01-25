@@ -32,18 +32,24 @@ function initSearch() {
         { url: "servicos.html", name: "Serviços de TI e Segurança" },
         { url: "sobre.html", name: "Sobre Jardel Santos" },
         { url: "artigos.html", name: "Biblioteca de Artigos" },
-        { url: "artigos/artigo-ciberseguranca-para-pmes.html", name: "Cibersegurança para PMEs" },
-        { url: "artigos/artigo-lgpd-pme-rj.html", name: "LGPD no Rio de Janeiro" },
-        { url: "artigos/artigo-n8n-vulnerabilidade.html", name: "Vulnerabilidade n8n" },
-        { url: "artigos/artigo-automacao-service-desk.html", name: "Automação de Service Desk" },
-        { url: "artigos/artigo-ciberseguranca-2026.html", name: "Desafios Cibersegurança 2026" },
-        { url: "artigos/artigo-servicedesk-automacao.html", name: "ITSM e Automação" },
-        { url: "artigos/artigo-ia-seguranca-corporativa.html", name: "IA Generativa e Governança" }
+        { url: "artigos/ciberseguranca-para-pmes.html", name: "Cibersegurança para PMEs" },
+        { url: "artigos/lgpd-pme-rj.html", name: "LGPD no Rio de Janeiro" },
+        { url: "artigos/n8n-vulnerabilidade.html", name: "Vulnerabilidade n8n" },
+        { url: "artigos/automacao-service-desk.html", name: "Automação de Service Desk" },
+        { url: "artigos/ciberseguranca-2026.html", name: "Desafios Cibersegurança 2026" },
+        { url: "artigos/servicedesk-automacao.html", name: "ITSM e Automação" },
+        { url: "artigos/ia-seguranca-corporativa.html", name: "IA Generativa e Governança" },
+		{ url: "artigos/prompts-ia-service-desk-seguranca.html", name: "Prompts para Service Desk" },
+		{ url: "legal/privacidade.html", name: "Política de Privacidade" },
+		{ url: "legal/termo-de-uso.html", name: "Termos de Uso" }
     ];
 
-    const getBasePrefix = () => {
-        return window.location.pathname.includes('/artigos/') ? "../" : "./";
-    };
+	const getBasePrefix = () => {
+		// Lista de subpastas que precisam voltar um nível (../)
+		const subfolders = ['/artigos/', '/legal/'];
+		const isSubfolder = subfolders.some(folder => window.location.pathname.includes(folder));
+		return isSubfolder ? "../" : "./";
+	};
 
     openBtn.addEventListener("click", (e) => {
         e.preventDefault();
