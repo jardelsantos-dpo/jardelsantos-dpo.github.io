@@ -1,29 +1,11 @@
 /**
- * Script Consolidado e Otimizado - Jardel Santos
- * Inclui: Menu Mobile, Carrossel de Destaques, Casos de Sucesso e Certificações
- * Funcionalidades: Auto-play, Pausa na interação e Suporte a Touch (Swipe)
+ * Script de Funcionalidades Específicas - Jardel Santos
+ * Lógica de Carrosséis e Certificações (Sem Menu Mobile)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. MENU MOBILE (Universal) ---
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('navLinks');
-
-    if (hamburger && navLinks) {
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-        
-        const links = navLinks.querySelectorAll('a');
-        links.forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-    }
-
-    // --- 2. CARROSSEL DE DESTAQUES (index.html) ---
+    // --- 1. CARROSSEL DE DESTAQUES (index.html) ---
     const track = document.getElementById('carouselTrack');
     if (track) {
         const slides = Array.from(track.children);
@@ -65,11 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
             autoPlayInterval = setInterval(() => moveToSlide(currentSlideIndex + 1), 6000);
         }
 
-        function stopAutoPlay() {
-            clearInterval(autoPlayInterval);
-        }
+        function stopAutoPlay() { clearInterval(autoPlayInterval); }
 
-        // Lógica de Swipe (Dedo)
         track.addEventListener('touchstart', e => {
             touchStartX = e.changedTouches[0].screenX;
             stopAutoPlay();
@@ -93,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         startAutoPlay();
     }
 
-    // --- 3. CARROSSEL DE CASOS DE SUCESSO ---
+    // --- 2. CARROSSEL DE CASOS DE SUCESSO ---
     const casesTrack = document.getElementById('casesTrack');
     const casesDotsContainer = document.getElementById('casesDots');
 
@@ -127,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
             dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
         }
 
-        // Swipe para Casos de Sucesso
         casesTrack.addEventListener('touchstart', e => { tStartX = e.changedTouches[0].screenX; isPaused = true; }, {passive: true});
         casesTrack.addEventListener('touchend', e => {
             tEndX = e.changedTouches[0].screenX;
@@ -150,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setupCasesDots();
     }
 
-    // --- 4. CARROSSEL DE CERTIFICAÇÕES (sobre.html) ---
+    // --- 3. CARROSSEL DE CERTIFICAÇÕES (sobre.html) ---
     const certTrack = document.getElementById('certGrid');
     const certDotsNav = document.getElementById('certDots');
 
@@ -184,7 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Swipe para Certificações
         certTrack.addEventListener('touchstart', e => { cTouchStartX = e.changedTouches[0].screenX; certPaused = true; }, {passive: true});
         certTrack.addEventListener('touchend', e => {
             cTouchEndX = e.changedTouches[0].screenX;

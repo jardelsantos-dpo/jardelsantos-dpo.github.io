@@ -12,21 +12,7 @@
 </head>
 <body>
 
-    <header>
-        <div class="logo">
-            <i class="fas fa-user-shield" style="color:#007bff; font-size: 30px;"></i>
-            <span>Jardel Santos</span>
-        </div>
-        <nav>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="../index.html">Início</a></li>
-                <li><a href="../servicos.html">Serviços</a></li>
-                <li><a href="../sobre.html">Sobre</a></li>
-                <li><a href="../artigos.html">Artigos</a></li>
-            </ul>
-        </nav>
-        <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
-    </header>
+    <header></header>
 
     <main class="about-container">
         <div class="about-header" style="text-align: left;">
@@ -39,9 +25,7 @@
         <img src="../img/n8n-vulnerability.webp" alt="n8n CVE-2026-21858" class="article-banner">
 
         <article class="article-body">
-		<button class="btn-print" onclick="window.print()">
-		  🖨️ Imprimir artigo
-		</button>
+		<div id="share-bar-location"></div>
 		<p>
 		É preocupante perceber como um único detalhe na forma como um serviço processa webhooks pode abrir caminho
 		para o controle total de milhares de servidores. A vulnerabilidade apelidada de
@@ -225,65 +209,15 @@
         </div>
     </div>
 
-    <div class="footer-main">
-        <div class="footer-container main-grid">
-            
-            <div class="footer-col">
-                <h3>Navegue</h3>
-                <ul>
-                    <li><a href="../index.html">Início</a></li>
-                    <li><a href="../servicos.html">Serviços</a></li>
-                    <li><a href="../sobre.html">Sobre</a></li>
-                    <li><a href="../artigos.html">Artigos</a></li>
-                    
-                </ul>
-            </div>
+<footer class="site-footer"></footer>
 
-            <div class="footer-col">
-                <h3>Info</h3>
-                <ul class="contact-list">
-                    <li>
-                        <i class="fas fa-phone-alt"></i>
-                        <span>+55 21 99549-8872</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-envelope"></i>
-                        <span>jardelsantos-dpo@outlook.com.br</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Rio de Janeiro, RJ</span>
-                    </li>
-                </ul>
-            </div>
+<script src="../assets/js/busca.js"></script>
 
-			<div class="footer-col">
-				<h3>Jardel Santos</h3>
-				<p class="footer-about">
-					<strong>DPO certificado pela EXIN.</strong> Especialista em Segurança da Informação, focado em proteger dados críticos e garantir a conformidade legal e continuidade do seu negócio com estratégias robustas.
-				</p>
-				<a href="../sobre.html#certGrid" class="linkedin-btn">
-					Ver Certificações <i class="fas fa-arrow-right"></i>
-				</a>
-			</div>
-
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        <div class="footer-container bottom-flex">
-            <div class="legal-links">
-          <a href="../legal/privacidade.html">Privacidade</a>
-          <a href="../legal/termos-de-uso.html">Termos de Uso</a>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2026 Jardel Santos. Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </div>
-</footer>
+<script src="../assets/js/components.js"></script>
 
 <script src="../assets/js/script.js"></script>
+
+<script src="../assets/js/sharing.js"></script>
 
 <button class="btn-print-floating" onclick="window.print()" title="Imprimir artigo">
   🖨️

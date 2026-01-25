@@ -983,7 +983,7 @@ header {
 .settings-table th, .settings-table td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.95rem; min-width: 150px; }
 .settings-table th { background: rgba(40, 167, 69, 0.2); color: #fff; }
 .example-card { background: rgba(0, 123, 255, 0.1); border-left: 4px solid var(--accent-blue); padding: 20px; border-radius: 0 12px 12px 0; margin-top: 20px; }
-.article-banner { width: 100%; height: 400px; object-fit: cover; border-radius: 12px; margin-bottom: 40px; }
+.article-banner { width: 100%; height: 400px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; }
 .source-list { font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 40px; }
 
 /* Estilo para o Termo com Tooltip */
@@ -1934,4 +1934,270 @@ cite.cite--sep-slash a + a::before {
     page-break-before: avoid;
   }
 
+}
+/* ===== Reset/Utilidades rápidas ===== */
+.desktop-only { display: block; }
+.mobile-only  { display: none; }
+
+.about-section {
+  display: flex;
+  align-items: stretch; /* CHAVE: mesma altura */
+  gap: clamp(1rem, 2.5vw, 2rem);
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(1rem, 2vw, 2rem);
+}
+
+/* TEXTO */
+.about-text-full {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.6;
+}
+
+/* CONTAINER DA IMAGEM */
+.about-photo {
+  flex: 0 0 340px;      /* largura fixa elegante */
+  overflow: hidden;    /* corta o excesso */
+  display: flex;
+}
+
+/* IMAGEM */
+.about-photo img {
+  width: 100%;
+  height: 100%;        /* ocupa a altura do texto */
+  object-fit: cover;   /* CROP real */
+  object-position: top;
+  display: block;
+}
+
+/* Desktop: texto à esquerda, foto à direita */
+@media (min-width: 769px) {
+  .about-text-full { order: 1; }  /* texto primeiro */
+  .about-photo     { order: 2; }  /* foto depois (à direita) */
+}
+
+@media (max-width: 768px) {
+  .about-section {
+    flex-direction: column;
+  }
+
+  .about-photo {
+    order: 2;
+    flex: none;
+    max-width: 220px;
+    margin: 1rem auto 0;
+  }
+
+  .about-photo img {
+    height: auto;
+    width: 100%;
+    object-fit: contain; /* sem crop no mobile */
+  }
+
+  .desktop-only { display: none; }
+  .mobile-only  { display: block; }
+}
+ul {
+  list-style-position: outside;
+  text-align: justify;
+}
+ol {
+  list-style-position: outside;
+  text-align: justify;
+}
+
+/* Estilização do Paginador */
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 50px;
+    padding: 20px;
+}
+
+.pag-btn {
+    background-color: #fff;
+    border: 1px solid #007bff;
+    color: #007bff;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.pag-btn.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.pag-btn:hover:not(.active) {
+    background-color: #e7f1ff;
+}
+
+/* Força todos os cards a terem a mesma altura na linha */
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    align-items: stretch; /* Garante que os cards da mesma linha tenham a mesma altura */
+}
+
+.article-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ocupa toda a altura disponível do grid */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Fixa a altura da imagem para não empurrar o texto */
+.article-thumb {
+    width: 100%;
+    height: 200px;
+    object-fit: cover; /* Corta a imagem sem distorcer */
+}
+
+/* Faz o conteúdo ocupar o espaço restante e alinha o botão ao rodapé */
+.article-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; 
+}
+
+/* Limita o Título a 2 linhas e o Exerpt a 3 linhas (Cria o "...") */
+.article-content h3 {
+    height: 3em; /* Altura fixa para títulos */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    margin-bottom: 10px;
+}
+
+.article-excerpt {
+    height: 4.5em; /* Altura fixa para o resumo */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    color: var(--text-gray);
+    margin-bottom: 10px;
+}
+
+.share-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 10px 0;
+    font-family: sans-serif;
+}
+
+.share-label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.share-btn:hover {
+    background: #f0f0f0;
+}
+
+/* Tamanho dos ícones */
+.share-btn img, .share-btn svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+}
+
+/* --- Cores Padrão dos Ícones (via Filter) --- */
+
+/* WhatsApp - Verde */
+#share-whatsapp img { filter: invert(59%) sepia(93%) saturate(347%) hue-rotate(85deg) brightness(96%) contrast(92%); }
+
+/* X - Branco/Cinza Claro */
+#share-x img { filter: invert(59%); }
+
+/* Facebook - Azul */
+#share-facebook img { filter: invert(35%) sepia(75%) saturate(2680%) hue-rotate(203deg) brightness(98%) contrast(105%); }
+
+/* LinkedIn - Azul LinkedIn */
+#share-linkedin img { filter: invert(32%) sepia(92%) saturate(1257%) hue-rotate(179deg) brightness(94%) contrast(101%); }
+
+/* Email - Vermelho/Cinza */
+#share-email img { filter: invert(36%) sepia(74%) saturate(2250%) hue-rotate(344deg) brightness(96%) contrast(93%); }
+
+/* Print - Mantendo o padrão que você tem */
+#btn-print { background: #f0f0f0; color: #000; }
+
+/* --- Efeito ao passar o mouse (Hover) --- */
+
+.share-btn:hover {
+    transform: translateY(-3px);
+    border-color: #666;
+    background: #25282e;
+}
+
+.share-btn:hover img {
+    transform: scale(1.1);
+    filter: brightness(1.2) !important; /* Deixa a cor original mais vibrante */
+}
+
+#btn-print:hover {
+    background: #fff;
+    box-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+/* Cores específicas no Hover */
+
+/* WhatsApp: Verde */
+#share-whatsapp:hover { background: #25D366; }
+#share-whatsapp:hover img { filter: brightness(0) invert(1); }
+
+/* X (Twitter): Preto/Branco */
+#share-x:hover { background: #808080; }
+#share-x:hover img { filter: brightness(0) invert(1); }
+
+/* Facebook: Azul */
+#share-facebook:hover { background: #1877F2; }
+#share-facebook:hover img { filter: brightness(0) invert(1); }
+
+/* LinkedIn: Azul Escuro */
+#share-linkedin:hover { background: #0077B5; }
+#share-linkedin:hover img { filter: brightness(0) invert(1); }
+
+/* Email: Cinza/Vermelho */
+#share-email:hover { background: #EA4335; }
+#share-email:hover img { filter: brightness(0) invert(1); }
+
+/* Imprimir: Branco (como na sua imagem) */
+#btn-print { background: #f0f0f0; color: #333; }
+#btn-print:hover { background: #000; color: #fff; }
+
+
+.article-body {
+    display: flex;
+    flex-direction: column; /* Garante que o conteúdo continue empilhado verticalmente */
+}
+
+#share-bar-location {
+    display: flex;
+    justify-content: flex-end; /* Alinha o conteúdo da barra à direita */
+    width: 100%;
 }
