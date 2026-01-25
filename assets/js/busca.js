@@ -1,6 +1,6 @@
 /**
  * Sistema de Busca Global - Jardel Santos
- * Compatível com pastas raiz, /artigos/ e /legal/
+ * Corrigido para carregar mesmo com Header Dinâmico
  */
 
 console.log("Sistema de busca Jardel Santos iniciado...");
@@ -9,9 +9,15 @@ let searchController;
 
 function initSearch() {
     const openBtn = document.getElementById("openSearch");
-    if (!openBtn) return;
+    
+    // Se o botão ainda não existe (Header não carregou), tentamos novamente em 500ms
+    if (!openBtn) {
+        console.warn("Botão de busca não encontrado. Reentando em 500ms...");
+        setTimeout(initSearch, 500);
+        return;
+    }
 
-    // 1. Criação do Modal (se não existir)
+    // 1. Criação do Modal (apenas se não existir)
     if (!document.getElementById("searchModal")) {
         const modalHTML = `
             <div id="searchModal" style="display:none; position:fixed; z-index:10000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:flex-start; padding-top:50px;">
@@ -31,7 +37,7 @@ function initSearch() {
     const results = document.getElementById("searchResults");
     const closeBtn = document.getElementById("closeSearch");
 
-    // 2. Lista exaustiva de páginas
+    // 2. Lista de Páginas
     const pages = [
         { url: "index.html", name: "Página Inicial" },
         { url: "servicos.html", name: "Serviços de TI e Segurança" },
@@ -49,21 +55,17 @@ function initSearch() {
         { url: "legal/termo-de-uso.html", name: "Termos de Uso" }
     ];
 
-    // 3. Função de Prefixo de Caminho
     const getBasePrefix = () => {
         const path = window.location.pathname;
-        if (path.includes('/artigos/') || path.includes('/legal/')) {
-            return "../";
-        }
-        return "./";
+        return (path.includes('/artigos/') || path.includes('/legal/')) ? "../" : "./";
     };
 
-    // Eventos de abrir/fechar
-    openBtn.addEventListener("click", (e) => {
+    // 3. Atribuição do Evento de Clique
+    openBtn.onclick = (e) => {
         e.preventDefault();
         modal.style.display = "flex";
         input.focus();
-    });
+    };
 
     closeBtn.onclick = () => { 
         modal.style.display = "none";
@@ -71,15 +73,12 @@ function initSearch() {
         results.innerHTML = "";
     };
 
-    // 4. Lógica de Busca principal
-    input.addEventListener("input", async () => {
+    // 4. Lógica de Fetch e Busca
+    input.oninput = async () => {
         const query = input.value.toLowerCase().trim();
-        
-        // Cancela busca anterior se o usuário continuar digitando
         if (searchController) searchController.abort();
         searchController = new AbortController();
-        const signal = searchController.signal;
-
+        
         results.innerHTML = "";
         if (query.length < 3) return;
 
@@ -88,32 +87,25 @@ function initSearch() {
         for (const page of pages) {
             try {
                 const targetUrl = `${prefix}${page.url}`;
-                
-                const response = await fetch(targetUrl, { signal });
+                const response = await fetch(targetUrl, { signal: searchController.signal });
                 if (!response.ok) continue;
                 
                 const html = await response.text();
-                
-                // Remove tags HTML para buscar apenas no texto visível
-                const doc = new DOMParser().parseFromString(html, 'text/html');
-                const bodyText = doc.body.textContent.toLowerCase();
+                const bodyText = html.replace(/<[^>]*>?/gm, '').toLowerCase();
                 
                 if (bodyText.includes(query)) {
                     const li = document.createElement("li");
-                    li.style.cssText = "padding:12px; border-bottom:1px solid #eee; cursor:pointer; transition: background 0.2s;";
-                    li.innerHTML = `<strong style="color:#007bff;">${page.name}</strong><br><small style="color:#666;">${page.url}</small>`;
-                    
-                    li.onmouseover = () => li.style.background = "#f8f9fa";
-                    li.onmouseout = () => li.style.background = "transparent";
-                    
-                    li.onclick = () => {
-                        window.location.href = targetUrl;
-                    };
+                    li.style.cssText = "padding:12px; border-bottom:1px solid #eee; cursor:pointer;";
+                    li.innerHTML = `<strong style="color:#007bff;">${page.name}</strong>`;
+                    li.onclick = () => window.location.href = targetUrl;
                     results.appendChild(li);
                 }
             } catch (err) {
-                if (err.name !== 'AbortError') console.error("Erro ao processar página:", page.url, err);
+                if (err.name !== 'AbortError') console.error("Erro na busca:", err);
             }
         }
-    });
+    };
 }
+
+// Inicia a função
+initSearch();
