@@ -2,12 +2,18 @@
  * Gerenciador de Componentes Dinâmicos - Jardel Santos
  * Carrega Header e Footer e ajusta caminhos para subpastas
  */
-
+ 
 document.addEventListener("DOMContentLoaded", function() {
-    // Detecta se estamos na pasta de artigos para ajustar os caminhos relativos
-    const isSubfolder = window.location.pathname.includes('/artigos/');
+    // Detecta se estamos em QUALQUER subpasta (artigos ou legal)
+    // O uso de .some() permite adicionar novas pastas facilmente no futuro
+    const subfolders = ['/artigos/', '/legal/'];
+    const isSubfolder = subfolders.some(folder => window.location.pathname.includes(folder));
+    
     const basePath = isSubfolder ? '../' : '';
 
+    // O restante do seu código de fetch (Header e Footer) permanece o mesmo, 
+    // pois ele já utiliza a variável 'basePath' configurada acima.
+    
     // 1. Carregar Header
     fetch(basePath + 'includes/header.html')
         .then(response => {
