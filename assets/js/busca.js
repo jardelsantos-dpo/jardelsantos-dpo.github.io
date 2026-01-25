@@ -27,74 +27,67 @@ function initSearch() {
     const closeBtn = document.getElementById("closeSearch");
 
     // Lista atualizada com as suas páginas
-    const pages = [
-        { url: "index.html", name: "Página Inicial" },
-        { url: "servicos.html", name: "Serviços de TI e Segurança" },
-        { url: "sobre.html", name: "Sobre Jardel Santos" },
-        { url: "artigos.html", name: "Biblioteca de Artigos" },
-        { url: "artigos/ciberseguranca-para-pmes.html", name: "Cibersegurança para PMEs" },
-        { url: "artigos/lgpd-pme-rj.html", name: "LGPD no Rio de Janeiro" },
-        { url: "artigos/n8n-vulnerabilidade.html", name: "Vulnerabilidade n8n" },
-        { url: "artigos/automacao-service-desk.html", name: "Automação de Service Desk" },
-        { url: "artigos/ciberseguranca-2026.html", name: "Desafios Cibersegurança 2026" },
-        { url: "artigos/servicedesk-automacao.html", name: "ITSM e Automação" },
-        { url: "artigos/ia-seguranca-corporativa.html", name: "IA Generativa e Governança" },
+	const pages = [
+		{ url: "index.html", name: "Página Inicial" },
+		{ url: "servicos.html", name: "Serviços" },
+		{ url: "sobre.html", name: "Sobre" },
+		{ url: "artigos.html", name: "Artigos" },
+		{ url: "artigos/ciberseguranca-para-pmes.html", name: "Cibersegurança para PMEs" },
+		{ url: "artigos/lgpd-pme-rj.html", name: "LGPD no Rio de Janeiro" },
+		{ url: "artigos/n8n-vulnerabilidade.html", name: "Vulnerabilidade n8n" },
+		{ url: "artigos/automacao-service-desk.html", name: "Automação de Service Desk" },
+		{ url: "artigos/ciberseguranca-2026.html", name: "Desafios Cibersegurança 2026" },
+		{ url: "artigos/servicedesk-automacao.html", name: "ITSM e Automação" },
+		{ url: "artigos/ia-seguranca-corporativa.html", name: "IA Generativa e Governança" },
 		{ url: "artigos/prompts-ia-service-desk-seguranca.html", name: "Prompts para Service Desk" },
 		{ url: "legal/privacidade.html", name: "Política de Privacidade" },
 		{ url: "legal/termo-de-uso.html", name: "Termos de Uso" }
-    ];
+	];
 
+	// Função aprimorada para detectar a profundidade atual
 	const getBasePrefix = () => {
-		// Lista de subpastas que precisam voltar um nível (../)
 		const subfolders = ['/artigos/', '/legal/'];
-		const isSubfolder = subfolders.some(folder => window.location.pathname.includes(folder));
-		return isSubfolder ? "../" : "./";
+		return subfolders.some(f => window.location.pathname.includes(f)) ? "../" : "./";
 	};
 
-    openBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        modal.style.display = "flex";
-        input.focus();
-    });
+	input.addEventListener("input", async () => {
+		const query = input.value.toLowerCase().trim();
+		if (searchController) searchController.abort();
+		searchController = new AbortController();
+		const signal = searchController.signal;
 
-    closeBtn.onclick = () => { 
-        modal.style.display = "none";
-        input.value = "";
-        results.innerHTML = "";
-    };
+		results.innerHTML = "";
+		if (query.length < 3) return;
 
-    input.addEventListener("input", async () => {
-        const query = input.value.toLowerCase().trim();
-        if (searchController) searchController.abort();
-        searchController = new AbortController();
-        const signal = searchController.signal;
+		const prefix = getBasePrefix();
 
-        results.innerHTML = "";
-        if (query.length < 3) return;
+		for (const page of pages) {
+			try {
+				// O segredo está aqui: o fetch usa o prefixo calculado
+				const fetchUrl = `${prefix}${page.url}`;
+				
+				const response = await fetch(fetchUrl, { signal });
+				if (!response.ok) continue;
+				
+				const html = await response.text();
+				
+				// Remove scripts e tags HTML da busca para evitar falsos positivos
+				const cleanText = html.replace(/<[^>]*>?/gm, '').toLowerCase();
 
-        const prefix = getBasePrefix();
-
-        for (const page of pages) {
-            try {
-                const response = await fetch(`${prefix}${page.url}`, { signal });
-                if (!response.ok) continue;
-                const html = await response.text();
-                
-                if (html.toLowerCase().includes(query)) {
-                    if (!Array.from(results.querySelectorAll('strong')).some(el => el.textContent === page.name)) {
-                        const li = document.createElement("li");
-                        li.style.cssText = "padding:12px; border-bottom:1px solid #eee; cursor:pointer; transition: background 0.2s;";
-                        li.innerHTML = `<strong>${page.name}</strong>`;
-                        li.onmouseover = () => li.style.background = "#f8f9fa";
-                        li.onmouseout = () => li.style.background = "transparent";
-                        li.onclick = () => window.location.href = `${prefix}${page.url}`;
-                        results.appendChild(li);
-                    }
-                }
-            } catch (err) {
-                if (err.name !== 'AbortError') console.error("Erro na busca:", err);
-            }
-        }
-    });
+				if (cleanText.includes(query)) {
+					const li = document.createElement("li");
+					li.style.cssText = "padding:12px; border-bottom:1px solid #eee; cursor:pointer;";
+					li.innerHTML = `<strong>${page.name}</strong>`;
+					
+					// O redirecionamento também deve usar o prefixo
+					li.onclick = () => window.location.href = fetchUrl;
+					
+					results.appendChild(li);
+				}
+			} catch (err) {
+				if (err.name !== 'AbortError') console.error("Erro ao buscar em:", page.url, err);
+			}
+		}
+	});
 }
 
