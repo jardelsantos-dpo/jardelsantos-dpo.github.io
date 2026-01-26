@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jardelsantos-dpo.github.io/sitemap.xml
