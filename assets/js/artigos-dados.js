@@ -30,7 +30,7 @@ const listaArtigos = [
 	{ 
 	  data: "2026-01-26", 
 	  categoria: "Inteligência Artificial",
-	  titulo: "Como Conversar com a IA: O Guia Prático para Ganhar Tempo e Proteger seus Dados", 
+	  titulo: "Guia Prático para ganhar tempo e criar prompts eficientes", 
 	  resumo: "Domine a arte de criar prompts eficientes com o método C.O.T.E. e aprenda a usar a IA de forma segura e profissional.",
 	  img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200",
 	  link: "artigos/guia-engenharia-prompt-ia-seguranca"
