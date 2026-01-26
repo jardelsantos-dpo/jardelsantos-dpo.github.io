@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   (function () {
     // ========= CONFIG =========
     const CFG = {
-      postUrl: 'https://www.instagram.com/p/DT-qaJtjqDE/'
+      postUrl: 'https://www.instagram.com/p/DT-qaJtjqDE/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=='
       imageUrl: 'https://jardelsantos-dpo.github.io/img/instagram.webp',
       handle: '@jardelsantos.dpo',
       publishedAt: '2026-01-26T12:34:00-03:00',
