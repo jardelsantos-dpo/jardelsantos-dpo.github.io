@@ -2,10 +2,10 @@ document.addEventListener('DOMContentLoaded', function () {
   (function () {
     // ========= CONFIG =========
     const CFG = {
-      postUrl: 'https://www.instagram.com/p/DTqioVFmGmY/',
-      imageUrl: 'https://jardelsantos-dpo.github.io/img/badge-dpo.webp',
+      postUrl: 'https://www.instagram.com/p/DT-qaJtjqDE/'
+      imageUrl: 'https://jardelsantos-dpo.github.io/img/instagram.webp',
       handle: '@jardelsantos.dpo',
-      publishedAt: '2026-01-18T16:30:00-03:00',
+      publishedAt: '2026-01-26T12:34:00-03:00',
       showDelayMs: 800,
       autoCloseMs: 5000,
       hideForHours: 24,
