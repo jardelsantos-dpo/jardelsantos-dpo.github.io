@@ -2010,7 +2010,7 @@ ul {
   text-align: justify;
 }
 ol {
-  list-style-position: outside;
+  list-style-position: inside;
   text-align: justify;
 }
 
@@ -2218,3 +2218,18 @@ ol {
     word-break: normal;
     overflow-wrap: break-word;
 }
+
+.guide-box-yellow {
+  background-color: #fff9db;
+  border-left: 5px solid #f0c36d;
+  padding: 18px 20px;
+  border-radius: 8px;
+  margin: 15px 0;
+  color: #5f4b00;
+  line-height: 1.6;
+}
+.guide-box-yellow strong {
+  color: #000;
+  font-weight: 700;
+}
+
