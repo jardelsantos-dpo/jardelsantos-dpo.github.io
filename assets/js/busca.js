@@ -35,22 +35,31 @@ function initSearch() {
     const results = document.getElementById("searchResults");
     const closeBtn = document.getElementById("closeSearch");
 
-    const pages = [
-        { url: "index.html", name: "Página Inicial" },
-        { url: "servicos.html", name: "Serviços de TI e Segurança" },
-        { url: "sobre.html", name: "Sobre Jardel Santos" },
-        { url: "artigos.html", name: "Biblioteca de Artigos" },
-        { url: "artigos/ciberseguranca-para-pmes.html", name: "Cibersegurança para PMEs" },
-        { url: "artigos/lgpd-pme-rj.html", name: "LGPD no Rio de Janeiro" },
-        { url: "artigos/n8n-vulnerabilidade.html", name: "Vulnerabilidade n8n" },
-        { url: "artigos/automacao-service-desk.html", name: "Automação de Service Desk" },
-        { url: "artigos/ciberseguranca-2026.html", name: "Desafios Cibersegurança 2026" },
-        { url: "artigos/servicedesk-automacao.html", name: "ITSM e Automação" },
-        { url: "artigos/ia-seguranca-corporativa.html", name: "IA Generativa e Governança" },
-        { url: "artigos/prompts-ia-service-desk-seguranca.html", name: "Prompts para Service Desk" },
-        { url: "legal/privacidade.html", name: "Política de Privacidade" },
-        { url: "legal/termo-de-uso.html", name: "Termos de Uso" }
-    ];
+	const pages = [
+		{ url: "index.html", name: "Página Inicial" },
+		{ url: "servicos.html", name: "Serviços de TI e Segurança" },
+		{ url: "sobre.html", name: "Sobre Jardel Santos" },
+		{ url: "artigos.html", name: "Biblioteca de Artigos" },
+
+		// Artigos listados nos dados
+		{ url: "artigos/ciberseguranca-para-pmes.html", name: "Cibersegurança para PMEs" },
+		{ url: "artigos/lgpd-pme-rj.html", name: "LGPD no Rio de Janeiro" },
+		{ url: "artigos/n8n-vulnerabilidade.html", name: "CVE-2026-21858: Falha no n8n" },
+		{ url: "artigos/automacao-service-desk.html", name: "Como reduzir custos e TMA com IA" },
+		{ url: "artigos/ciberseguranca-2026.html", name: "Segurança na velocidade do ataque: o desafio de 2026" },
+		{ url: "artigos/servicedesk-automacao.html", name: "ITSM inteligente com SaaS, automação e open source" },
+		{ url: "artigos/ia-seguranca-corporativa.html", name: "IA Generativa: Desafios de Segurança e Governança" },
+		{ url: "artigos/prompts-ia-service-desk-seguranca.html", name: "10 Prompts de IA para potencializar o Service Desk" },
+		{ url: "artigos/guia-engenharia-prompt-ia.html", name: "Guia prático para criar prompts eficientes" },
+		{ url: "artigos/como-criar-agente-ia-auditoria-software.html", name: "Como Usar IA na Auditoria de Software" },
+
+		// Página futura (status: em-breve)
+		{ url: "#", name: "Tendências de Cibersegurança para 2026 (Em breve)" },
+
+		// Páginas legais
+		{ url: "legal/privacidade.html", name: "Política de Privacidade" },
+		{ url: "legal/termo-de-uso.html", name: "Termos de Uso" }
+	];
 
     const getBasePrefix = () => {
         const path = window.location.pathname;

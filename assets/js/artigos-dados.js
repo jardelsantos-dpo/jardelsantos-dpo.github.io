@@ -22,11 +22,19 @@ const listaArtigos = [
         categoria: "Segurança & Governança",
         titulo: "Tendências de Cibersegurança para 2026", 
         resumo: "Em breve: Como a transformação digital acelerada e a IA estão redefinindo o cenário da segurança.",
-        img: "img/tendencias-2026-placeholder.webp", // Sugestão: crie uma imagem para o placeholder
+        img: "img/tendencias-2026-placeholder.webp",
         link: "#",
         status: "em-breve",
         dataDisponivel: "Disponível em 30 de Janeiro"
     },
+	{ 
+	  data: "2026-01-29", 
+	  categoria: "Inteligência Artificial",
+	  titulo: "Como Usar IA na Auditoria de Software", 
+	  resumo: "Automatize a governança de software e a análise de riscos de segurança utilizando agentes de IA",
+	  img: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1200",
+	  link: "artigos/como-criar-agente-ia-auditoria-software.html"
+	},
 	{ 
 	  data: "2026-01-26", 
 	  categoria: "Inteligência Artificial",
