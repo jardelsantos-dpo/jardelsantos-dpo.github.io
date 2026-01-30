@@ -32,7 +32,7 @@ const listaArtigos = [
 	  categoria: "Cibersegurança",
 	  titulo: "Tendências de Cibersegurança para 2026", 
 	  resumo: "IA moldando ataques e defesas, Deepfakes e a nova era da Privacidade: prepare sua empresa.",
-	  img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200",
+	  img: "img/tendencias-2026.webp",
 	  link: "artigos/tendencias-ciberseguranca-2026.html"
 	},
 	{ 
