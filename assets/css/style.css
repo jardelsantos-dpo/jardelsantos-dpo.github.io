@@ -2233,3 +2233,31 @@ ol {
   font-weight: 700;
 }
 
+.checklist-box {
+  background: #fff3cd;
+  border: #fff3cd; 
+  border-radius: 12px;
+}
+.checklist strong {
+  color: #000;
+}
+
+.content-box--alert {
+  border-color: var(--color-danger);
+  background: rgba(220, 53, 69, 0.1);
+  border-radius: 12px;
+  border: 1px solid #dc3545;
+  border-left: 5px solid #d9534f;
+  padding: 20px;
+  margin: 10px 0;
+}
+
+.content-box h4 { color: #fff; }
+
+.content-box--info {
+  background: rgba(0, 123, 255, 0.1);
+  border-left: 4px solid var(--accent-blue);
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 10px;
+}

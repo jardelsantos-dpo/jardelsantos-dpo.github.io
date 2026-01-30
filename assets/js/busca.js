@@ -11,7 +11,7 @@ function initSearch() {
     const openBtn = document.getElementById("openSearch");
     
     if (!openBtn) {
-        console.warn("Botão de busca não encontrado. Reentando em 500ms...");
+        console.warn("Botão de busca não encontrado. Reiniciando em 500ms...");
         setTimeout(initSearch, 500);
         return;
     }
@@ -52,9 +52,10 @@ function initSearch() {
 		{ url: "artigos/prompts-ia-service-desk-seguranca.html", name: "10 Prompts de IA para potencializar o Service Desk" },
 		{ url: "artigos/guia-engenharia-prompt-ia.html", name: "Guia prático para criar prompts eficientes" },
 		{ url: "artigos/como-criar-agente-ia-auditoria-software.html", name: "Como Usar IA na Auditoria de Software" },
+		{ url: "artigos/tendencias-ciberseguranca-2026.html", name: "Tendências de Cibersegurança para 2026" },
 
 		// Página futura (status: em-breve)
-		{ url: "#", name: "Tendências de Cibersegurança para 2026 (Em breve)" },
+		{ url: "#", name: "20 prompts de IA para um Service Desk de Elite (em breve)" },
 
 		// Páginas legais
 		{ url: "legal/privacidade.html", name: "Política de Privacidade" },

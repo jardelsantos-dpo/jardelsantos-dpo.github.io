@@ -18,15 +18,23 @@
 
 const listaArtigos = [
     { 
-        data: "2026-01-30", 
-        categoria: "Segurança & Governança",
-        titulo: "Tendências de Cibersegurança para 2026", 
-        resumo: "Em breve: Como a transformação digital acelerada e a IA estão redefinindo o cenário da segurança.",
+        data: "2026-02-06", 
+        categoria: "inteligência Artificial",
+        titulo: "20 prompts de IA para um Service Desk de Elite", 
+        resumo: "Em breve: Agilidade, Automação e Segurança para o sua equipe de TI.",
         img: "img/tendencias-2026-placeholder.webp",
         link: "#",
         status: "em-breve",
-        dataDisponivel: "Disponível em 30 de Janeiro"
+        dataDisponivel: "Disponível em 06 de Fevereiro"
     },
+	{ 
+	  data: "2026-01-30", 
+	  categoria: "Cibersegurança",
+	  titulo: "Tendências de Cibersegurança para 2026", 
+	  resumo: "IA moldando ataques e defesas, Deepfakes e a nova era da Privacidade: prepare sua empresa.",
+	  img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200",
+	  link: "artigos/tendencias-ciberseguranca-2026.html"
+	},
 	{ 
 	  data: "2026-01-29", 
 	  categoria: "Inteligência Artificial",
