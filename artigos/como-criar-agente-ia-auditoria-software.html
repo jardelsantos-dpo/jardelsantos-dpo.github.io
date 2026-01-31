@@ -7,7 +7,7 @@
     <meta name="description" content="Guia completo sobre como criar um agente de IA para automatizar a auditoria de softwares, garantindo segurança, conformidade com a LGPD e gestão de riscos.">
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
@@ -28,7 +28,7 @@
 
 
         <article class="article-body">
-            <div id="share-bar-location"></div>
+            
 
             <h2>O Desafio da Governança de Software na Era da Agilidade</h2>
 			<p>Até 2024, a maioria das pequenas e médias empresas utilizava a Inteligência Artificial (IA) de forma passiva: perguntas e respostas simples no ChatGPT ou Copilot. Em 2025/2026, o jogo mudou. Não estamos mais apenas "conversando" com a IA; estamos construindo <strong>Agentes</strong>.</p>
@@ -48,10 +48,10 @@
 		  <figure style="margin: 0px 0; text-align: center;">
 			<img src="../img/exemplo-relatorio-ia-1.png"
 				 alt="Exemplo de relatório de auditoria gerado por agente de IA"
-				 style="width:50%; height:auto; display:block; margin:0 auto; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,0.15);">		 
+				 class="report-img">		 
 			<img src="../img/exemplo-relatorio-ia-2.png"
 				 alt="Exemplo de relatório de auditoria gerado por agente de IA"
-				 style="width:50%; height:auto; display:block; margin:0 auto; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,0.15);">		 
+				 class="report-img">		 
 			<figcaption style="font-size: 0.85rem; color: var(--text-gray); margin-top: 10px;">
 			  Exemplo de relatório gerado automaticamente pelo agente, evidenciando cada etapa
 			  da análise, validações realizadas e fontes oficiais consultadas.
@@ -196,7 +196,7 @@
 			  <figure style="margin: 5px 0; text-align: center;">
 				<img src="../img/exemplo-relatorio-preview.png"
 					 alt="Prévia de relatório de auditoria de software gerado por agente de IA"
-					 style="max-width: 50%; display:block; margin:0 auto; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,0.2);">
+					 class="report-img">
 			  </figure>
 
 			  <div style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; justify-content: center;">
@@ -233,9 +233,8 @@
     <script src="../assets/js/components.js"></script>
     <script src="../assets/js/script.js"></script>
     <script src="../assets/js/sharing.js"></script>
-
-    <button class="btn-print-floating" onclick="window.print()" title="Imprimir artigo" style="position: fixed; bottom: 20px; right: 20px; background: var(--accent-blue); color: white; border: none; padding: 15px; border-radius: 50%; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-      <i class="fas fa-print"></i>
-    </button>
+    <script src="../assets/js/schema-article.js"></script>
+    <script src="../assets/js/image-lightbox-gallery.js"></script>
+	
 </body>
 </html>
