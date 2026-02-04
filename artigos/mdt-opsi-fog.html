@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>MDT foi descontinuado em jan/2026: Alternativas Open Source (UEFI)</title>
+  <meta name="description" content="Saiba como manter o deploy on-premise após o fim do MDT. Guia completo sobre migração para OPSI e FOG em ambientes UEFI e foco em governança.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  
+  <script id="article-data" type="application/json">
+  {
+    "headline": "MDT foi descontinuado: Alternativas Open Source para Deploy On-Premise",
+    "description": "Análise técnica da aposentadoria do MDT e guia de migração para OPSI e FOG Project focando em governança e ambientes UEFI.",
+    "image": "../img/mdt-migration-cover.webp",
+    "datePublished": "2026-02-02",
+    "dateModified": "2026-02-02",
+    "url": "https://jardelsantos-dpo.github.io/artigos/mdt-descontinuado-OPSI-fog"
+  }
+  </script>
+</head>
+
+<body>
+
+<header></header>
+
+<main class="about-container" id="artigo">
+
+  <div class="about-header" style="text-align: left;">
+      <a href="../artigos.html" style="color: var(--accent-blue); font-size: 0.9rem;"><i class="fas fa-arrow-left"></i> Voltar para Artigos</a>
+      <h1 style="margin-top: 20px;">Sem MDT e agora? Estratégias open source para manter o deploy UEFI on‑prem</h1>
+      <div class="underline" style="margin: 20px 0;"></div>
+      <p style="color: var(--text-gray); font-size: 0.9rem;"><i class="far fa-calendar-alt"></i> Publicado em: 04 de fevereiro de 2026 | <i class="far fa-clock"></i> 20 min de leitura</p>
+  </div>
+
+  <img src="../img/mdt-opsi-fog.webp" alt="Servidor de deploy e infraestrutura de rede" class="article-banner">
+
+  <article class="article-body">
+
+    <section class="article-section">
+      <p>A Microsoft anunciou a aposentadoria imediata do Microsoft Deployment Toolkit (MDT) em 06 de janeiro de 2026, deixando claro que o MDT não receberá mais atualizações, correções ou suporte (embora instalações existentes possam continuar funcionando "como estão").</p>
+      <p>Para organizações que dependem de implantação on-premises e não têm orçamento para ConfigMgr/SCCM ou Intune/Autopilot, o cenário exige uma decisão: continuar com MDT sem suporte (<em>aumentando risco operacional e de segurança</em>) ou migrar para alternativas, incluindo opções open source como <strong>OPSI</strong> e <strong>FOG Project</strong>.</p>
+      <p>Neste artigo, o foco é um ambiente <strong>100% UEFI</strong> e um modelo de deploy baseado em mídia + "sequência de tarefas" (automação e padronização pós-instalação), priorizando governança (padronização, inventário, rastreabilidade e manutenção contínua).</p>
+    </section>
+
+    <section class="article-section">
+      <h2>1. O que mudou: o MDT saiu de cena (e por que isso importa para a gestão)</h2>
+      <p><a href="https://learn.microsoft.com/pt-br/intune/configmgr/mdt/release-notes" target="_blank" title="Clique aqui para saber mais">O aviso oficial da Microsoft informa</a> que o MDT foi retirado com efeito imediato, sem roadmap de correções e alerta que os pacotes podem ser removidos/depreciados dos canais oficiais, além de não haver garantia de compatibilidade com futuras versões do Windows.</p>
+      <p>Isso transforma o MDT em um <strong>risco de continuidade</strong>: mesmo que "funcione hoje", a ferramenta fica congelada diante de mudanças do Windows, do ADK/WinPE e do ecossistema de drivers, criando vulnerabilidade operacional (paradas, falhas de implantação, retrabalho e downtime de usuários).</p>
+    </section>
+
+    <div class="content-box content-box--alert">
+      <h4><i class="fas fa-exclamation-triangle" style="color: yellow;"></i> Atenção: Sem Migração In-Place</h4>
+      <p>A Microsoft indica que <strong>não há caminho de migração "in-place" (automática)</strong>. As empresas precisam <strong>reconstruir os fluxos de implantação</strong> em outra solução, o que exige planejamento executivo (prazo, risco, custo, governança e capacidade do time).</p>
+    </div>
+
+    <section class="article-section">
+      <h2>2. Por que "as alternativas oficiais" nem sempre servem</h2>
+      <p>A recomendação oficial cita <strong>Windows Autopilot e ConfigMgr OSD</strong> como alternativas suportadas, porém isso pode implicar <strong>custos de licenciamento/infraestrutura</strong> e uma curva de adoção significativa para equipes enxutas.</p>
+      <p>Para empresas que precisam manter deploy <strong>totalmente on-prem</strong> e com orçamento limitado, considerar alternativas open source pode ser racional — desde que a decisão seja guiada por critérios de governança, suporte e riscos, e não apenas por "custo zero".</p>
+    </section>
+
+    <section class="article-section">
+      <h2>3. O que "governança" significa no deploy</h2>
+	  <p>Quando a prioridade é a governança, o objetivo vai além de simplesmente <em>instalar o Windows</em>, trata-se de assegurar um processo consistente, estruturado e com controles bem definidos. Para isso, a gestão deve se apoiar em critérios objetivos, que incluem:</p>
+      
+      <div class="stats-box">
+        <h4><i class="fas fa-tasks"></i> Pilares de Governança</h4>
+        <ul>
+            <li><strong>Padronização:</strong> Mesma base, drivers e configurações, com rastreabilidade do que foi aplicado.</li>
+            <li><strong>Inventário e visibilidade:</strong> Controle de hardware/software e capacidade de manter o parque ao longo do tempo, não só no dia 1.</li>
+            <li><strong>Automação pós-instalação:</strong> Apps, scripts, políticas, join de domínio e <em>naming</em>, reduzindo trabalho manual e incidentes.</li>
+            <li><strong>Confiabilidade do PXE/UEFI:</strong> Controles claros de rede (DHCP/TFTP), pois falhas aqui geram indisponibilidade direta.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="article-section">
+      <h2>4. Alternativa open source #1: OPSI (Foco em Governança)</h2>
+
+		<section class="example-report">			
+		  <figure style="margin: 0px 0; text-align: center;">
+			<img src="../img/opsi-painel.webp"
+				 alt="Painel do OPSI"
+				 class="mdt-fog-opsi-img">		 
+			<figcaption style="font-size: 0.85rem; color: var(--text-gray); margin-top: 10px;">
+			  Painel do OPSI
+			</figcaption>
+		  </figure>
+		</section>
+		
+	  
+		<section class="article-section">
+		  <p>
+			O <strong>OPSI (Open PC Server Integration)</strong> é uma solução open source de gestão de clientes que cobre todo o ciclo de vida do endpoint. 
+			Ele permite a instalação automatizada de sistemas operacionais (Windows e distribuições Linux suportadas), 
+			a distribuição centralizada de software e o inventário completo de hardware e software. 
+			Seu servidor principal é baseado em Linux e oferece uma interface única para administrar de forma consistente todo o parque de máquinas.
+		  </p>
+		</section>
+
+		<section class="article-section">
+		  <h2>Por que o OPSI se aproxima do MDT?</h2>
+		  <p>
+			O OPSI adota um modelo muito próximo ao conceito de <strong>“mídia + automação”</strong>. 
+			Os <em>netboot products</em> funcionam como <em>wrappers</em> que exigem a disponibilização da mídia de instalação em 
+			<code>installfiles</code> e de um ambiente WinPE em <code>winpe</code>. 
+			Essa abordagem reproduz a lógica do MDT (Microsoft Deployment Toolkit), que combina fonte de instalação com ambiente de pré-instalação, 
+			garantindo flexibilidade e repetibilidade nos processos.
+		  </p>
+
+		  <p>
+			Além disso, o OPSI estrutura o servidor como um <strong>componente central de governança</strong>, responsável por inventário e gerenciamento contínuo. 
+			Isso atende diretamente às necessidades de manutenção, conformidade e padronização ao longo do tempo — pontos críticos em qualquer estratégia de governança de TI.
+		  </p>
+		</section>
+
+		<section class="article-section">
+		  <h2>Principais Funcionalidades</h2>
+		  <ul>
+			<li>• <strong>Instalação automatizada</strong> de sistemas operacionais (Windows, Linux e gerenciamento de clientes macOS).</li>
+			<li>• <strong>Distribuição de software em larga escala</strong>, assegurando consistência e economia de tempo.</li>
+			<li>• <strong>Inventário detalhado de hardware e software</strong>, com coleta contínua de informações dos dispositivos.</li>
+			<li>• <strong>Patch management</strong>, garantindo que sistemas e aplicativos recebam atualizações de segurança.</li>
+			<li>• <strong>Interface de administração via GUI ou web</strong>, simplificando o controle e monitoramento.</li>
+		  </ul>
+		</section>
+
+<section class="article-section">
+  <h2>Vantagens do OPSI</h2>
+  <ul>
+    <li>• <strong>Open source</strong>: sem custos de licença, com comunidade ativa e código disponível.</li>
+    <li>• <strong>Escalabilidade</strong>: adequado tanto para ambientes pequenos quanto para grandes organizações.</li>
+    <li>• <strong>Flexibilidade</strong>: módulos adicionais permitem expandir funcionalidades conforme a necessidade.</li>
+    <li>• <strong>Automação</strong>: reduz esforço manual e aumenta a confiabilidade dos processos de TI.</li>
+  </ul>
+</section>
+	  
+    <section class="article-section">
+      <h2>5. Alternativa open source #2: FOG Project (Foco em Imaging)</h2>
+
+		<section class="example-report">			
+		  <figure style="margin: 0px 0; text-align: center;">
+			<img src="../img/fog-dashboard.webp"
+				 alt="Painel do FOG Project"
+				 class="mdt-fog-opsi-img">		 
+			<figcaption style="font-size: 0.85rem; color: var(--text-gray); margin-top: 10px;">
+			  Painel do FOG Project
+			</figcaption>
+		  </figure>
+		</section>
+
+  <p>
+    O <strong>FOG Project</strong> é um sistema de <strong>clonagem e gerenciamento de computadores via rede (PXE boot)</strong>. 
+    Ele permite capturar imagens de sistemas operacionais já configurados e implantá-las em múltiplos dispositivos 
+    de forma rápida e padronizada.
+  </p>
+
+  <h3>Principais características</h3>
+  <ul>
+    <li><strong>Clonagem de sistemas operacionais</strong>: captura e deploy de imagens de Windows e Linux</li>
+    <li><strong>PXE boot</strong>: inicialização pela rede sem necessidade de mídia física.</li>
+    <li><strong>Gerenciamento remoto</strong>: administração centralizada de múltiplos dispositivos, mas limitado (Wake-on-LAN, deploy agendado, snap-ins).</li>
+    <li><strong>Hardware independent images</strong>: imagens aplicáveis em diferentes modelos de hardware.</li>
+    <li><strong>Escalabilidade</strong>: suporta múltiplos sites e ambientes com centenas ou milhares de máquinas.</li>
+  </ul>
+
+
+
+  <h2>Como o FOG Project substitui o MDT?</h2>
+  <p>
+    O MDT era amplamente utilizado para criar ambientes de pré-instalação (WinPE) e aplicar imagens de sistemas 
+    operacionais com automação básica. O FOG Project pode assumir esse papel com algumas diferenças importantes:
+  </p>
+
+  <ul>
+    <li>
+      <strong>Modelo de Deploy</strong><br>
+      <em>MDT:</em> baseado em mídia + scripts de automação.<br>
+      <em>FOG:</em> baseado em imagens capturadas e distribuídas via rede.
+    </li>
+
+    <li>
+      <strong>Governança e Automação</strong><br>
+      <em>MDT:</em> forte integração com Windows e Active Directory.<br>
+      <em>FOG:</em> menos integração nativa, mas oferece inventário básico e gestão centralizada.
+    </li>
+
+    <li>
+      <strong>Custo e Licenciamento</strong><br>
+      <em>MDT:</em> gratuito, porém descontinuado.<br>
+      <em>FOG:</em> totalmente open source, sem custos de licença, com suporte comunitário.
+    </li>
+  </ul>
+
+
+
+  <h2>Vantagens do FOG Project</h2>
+  <ul>
+    <li><strong>Gratuito e open source</strong>: sem custos de licença.</li>
+    <li><strong>Multiplataforma</strong>: suporta Windows e Linux.</li>
+    <li><strong>Deploy rápido em massa</strong>: ideal para laboratórios e ambientes educacionais.</li>
+    <li><strong>Comunidade ativa</strong>: fóruns participativos e documentação extensa.</li>
+  </ul>
+
+
+
+  <h2>Limitações</h2>
+  <ul>
+    <li><strong>Menor integração com Active Directory</strong> em comparação ao MDT.</li>
+    <li><strong>Foco em clonagem</strong>: não oferece a mesma flexibilidade de customização de scripts.</li>
+    <li><strong>Curva de aprendizado</strong>: exige conhecimento de PXE, DHCP e configuração de rede.</li>
+  </ul>
+
+      <div class="stats-box">
+        <h4>Onde o FOG se encaixa melhor?</h4>
+		
+		<p>O <strong>FOG Project</strong> se apresenta como uma alternativa robusta ao MDT em cenários que demandam <strong>deploy rápido e padronizado de sistemas operacionais</strong>. Embora não ofereça o mesmo nível de integração corporativa que o MDT possuía com o ecossistema Microsoft, o FOG compensa com sua natureza <strong>multiplataforma</strong>, alta <strong>escalabilidade</strong> e <strong>custo zero</strong>, características que o tornam especialmente atraente para órgãos públicos e empresas que priorizam soluções open source.  
+
+No entanto, é importante destacar um ponto de atenção: por ser uma solução <strong>mantida pela comunidade</strong>, o FOG requer que a organização estabeleça uma <strong>governança interna de suporte</strong>, incluindo documentação própria, planos de contingência e processos claros para garantir continuidade e confiabilidade no uso da ferramenta.
+</p>
+      </div>
+	  
+
+</section>
+
+    <section class="article-section">
+      <h2>6. Comparação objetiva para decisão</h2>
+      <p>Se sua prioridade é <strong>governança</strong>, o <strong>OPSI</strong> se alinha melhor porque combina instalação de SO com gestão contínua do endpoint, reduzindo dependência manual. O <strong>FOG</strong> tende a vencer quando o objetivo principal é <strong>imaging rápido</strong> e grandes lotes.</p>
+      
+      <div class="info-grid">
+        <div class="info-card info-card--allowed" style="border-color: var(--color-info);">
+          <h5 style="color: var(--color-info);"><i class="fas fa-check"></i> Foco em Governança (OPSI)</h5>
+          <ul>
+            <li>Instalação de SO + Gestão Contínua</li>
+            <li>Rastreabilidade e Inventário</li>
+            <li>Redução de tarefas manuais</li>
+          </ul>
+        </div>
+
+        <div class="info-card info-card--restricted" style="border-color: var(--color-info);">
+          <h5 style="color: var(--color-info);"><i class="fas fa-bolt"></i> Foco em deploy rápido de imagens (FOG)</h5>
+          <ul>
+            <li>Imaging rápido (Captura/Deploy)</li>
+            <li>Deploy em massa (Multicast)</li>
+            <li>Ideal para ambientes muito padronizados</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+	<div class="article-section">
+		  <h3>📊 Comparação focada em empresas com até 100 PCs</h3>
+		  
+		  <div style="margin: 24px 0; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; font-family: 'Poppins', sans-serif;">
+			<table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+			  <thead>
+				<tr>
+				  <th style="padding: 15px; border: 1px solid #e5e7eb; text-align: center; font-weight: 700;">Critério</th>
+				  <th style="padding: 15px; border: 1px solid #e5e7eb; text-align: center; font-weight: 700;">FOG Project</th>
+				  <th style="padding: 15px; border: 1px solid #e5e7eb; text-align: center; font-weight: 700;">OPSI</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<tr>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;"><strong>Escalabilidade</strong></td>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;">Funciona bem em ambientes pequenos e médios. 100 máquinas é tranquilo.</td>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;">Também suporta bem 100 máquinas, mas é pensado para ambientes maiores e complexos.</td>
+				</tr>
+				<tr>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;"><strong>Facilidade de uso</strong></td>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;">Mais simples: ideal para quem só precisa fazer clone/deploy de sistemas rapidamente.</td>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;">Mais complexo: exige mais configuração e conhecimento de administração.</td>
+				</tr>
+				<tr>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;"><strong>Recursos principais</strong></td>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;">- Deploy de imagens<br>- PXE boot<br>- Reset rápido de máquinas</td>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;">- Inventário de hardware/software<br>- Deploy de software<br>- Patch management<br>- Instalação automatizada de SO</td>
+				</tr>
+				<tr>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;"><strong>Manutenção</strong></td>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;">Baixa: servidor Linux + imagens</td>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;">Moderada/alta: precisa de configuração contínua para inventário e pacotes</td>
+				</tr>
+				<tr>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;"><strong>Custo</strong></td>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;">100% gratuito, comunidade ativa</td>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;">Open source, mas suporte profissional pode ser pago</td>
+				</tr>
+				<tr>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;"><strong>Cenário ideal</strong></td>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;">Laboratórios, escolas, empresas que reinstalam sistemas com frequência</td>
+				  <td style="padding: 15px; border: 1px solid #e5e7eb;">Empresas que precisam controlar software, inventário e atualizações</td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+	</div>
+
+    <section class="article-section">
+      <h3><i class="fas fa-rocket"></i> Recomendação Prática</h3>
+      <div class="info-grid">
+        <div class="info-card info-card--allowed">
+          <h5><i class="fas fa-bolt" style="color: var(--color-info);"></i> FOG Project</h5>
+          <p>Ideal se o ambiente já possui uma ferramenta para gerenciamento (inventário) e você precisa apenas clonar e implantar sistemas rapidamente. É mais leve e direto.</p>
+        </div>
+        <div class="info-card info-card--allowed">
+          <h5><i class="fas fa-shield-alt" style="color: var(--color-info);"></i> OPSI</h5>
+          <p>Ideal para gerenciamento completo (inventário, patch management). Mais robusto e exige mais conhecimento de administração, mas oferece muito mais funcionalidades.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="checklist-box">
+      <h4 style="color: var(--color-info);">💡 Estratégia sugerida para transição</h4>
+      <ul class="checklist">
+        <li><input type="checkbox"> <strong>Risco e continuidade (0–2 semanas):</strong> Congelar o ambiente MDT e documentar o que é crítico (drivers, apps, etapas e dependências).</li>
+        <li><input type="checkbox"> <strong>Piloto controlado (2–6 semanas):</strong> Implantar um ambiente piloto de OPSI (ou FOG) e validar PXE/UEFI em um subconjunto representativo de hardware.</li>
+        <li><input type="checkbox"> <strong>Governança (4–10 semanas):</strong> Recriar a "sequência de tarefas" do MDT como automação de pós-deploy e pacotes gerenciáveis.</li>
+        <li><input type="checkbox"> <strong>Escala e operação (contínuo):</strong> Definir rotina de atualização, logs, troubleshooting e responsabilidades internas.</li>
+      </ul>
+    </div>
+	<section class="article-section">
+        <p>O fim do MDT em janeiro de 2026 não significa o fim do deploy on-prem, mas manter uma ferramenta descontinuada aumenta riscos e custos ocultos. A escolha da nova solução depende da maturidade da sua infraestrutura atual:</p>
+        
+        <ul style="margin: 15px 0; text-align: justify; list-style: none;">
+            <li style="margin-bottom: 10px;">
+                <i class="fas fa-check-circle" style="color: var(--color-success);"></i> 
+                <strong>Cenário A:</strong> Se sua empresa já possui uma ferramenta sólida de gestão de hardware e software (inventário e conformidade), o <strong>FOG Project</strong> é a melhor opção para focar na agilidade do imaging e clonagem em escala.
+            </li>
+            <li>
+                <i class="fas fa-cog" style="color: var(--accent-blue);"></i> 
+                <strong>Cenário B:</strong> Caso você ainda não tenha essa infraestrutura de gestão, o <strong>OPSI</strong> é a escolha ideal. Embora possua uma curva de aprendizado e configuração mais complexa, ele entrega uma governança completa do ciclo de vida do dispositivo que o MDT sozinho não oferecia.
+            </li>
+        </ul>
+	</section>
+    <div class="cta-box">        
+        <p style="text-align: center">Precisa de apoio técnico para essa migração?</p>
+        <a href="https://wa.me/5521995498872" class="btn" style="background: var(--accent-blue);">Entre em contato</a>
+    </div>
+
+
+    <div class="source-list">
+      <strong>📚 Fontes:</strong>
+      <ul style="list-style:none; padding-left:0; margin-top:10px;">
+        <li>• <a href="https://learn.microsoft.com/pt-br/intune/configmgr/mdt/release-notes" target="_blank">Documentação Oficial Microsoft (MDT Retirement)</a></li>
+        <li>• <a href="https://opsi.org/en/" target="_blank">Manuais OPSI (uib gmbh)</a></li>
+        <li>• <a href="https://docs.fogproject.org/en/latest/" target="_blank">Documentação FOG Project</a></li>
+      </ul>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"></footer>
+
+<script src="../assets/js/busca.js"></script>
+<script src="../assets/js/components.js"></script>
+<script src="../assets/js/script.js"></script>
+<script src="../assets/js/sharing.js"></script>
+<script src="../assets/js/schema-article.js"></script>
+<script src="../assets/js/image-lightbox.js"></script>
+
+</body>
+</html>
