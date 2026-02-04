@@ -27,6 +27,14 @@ const listaArtigos = [
         status: "em-breve",
         dataDisponivel: "Disponível em 06 de Fevereiro"
     },
+    { 
+        data: "2026-02-04", 
+        categoria: "Segurança & Governança",
+        titulo: "MDT descontinuado em jan/2026", 
+        resumo: "Sem MDT e agora? Estratégias open source para manter o deploy UEFI on‑premisses.",
+        img: "img/mdt-opsi-fog.webp",
+        link: "artigos/mdt-opsi-fog.html",
+    },
 	{ 
 	  data: "2026-01-30", 
 	  categoria: "Cibersegurança",
