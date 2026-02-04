@@ -10,6 +10,9 @@
     --accent-black: #000000;
     --accent-blue: #007bff;
     --nav-height: 50px;
+    --color-success: #28a745;
+    --color-warning: #f59e0b;
+	--color-info: #0ea5e9;
 }
 
 * {
@@ -2274,8 +2277,19 @@ ol {
   cursor: zoom-in;
 }
 
+.mdt-fog-opsi-img{
+  width:80%;
+  height:auto;
+  display:block;
+  margin:0 auto;
+  border-radius:8px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.15);
+  cursor: zoom-in;
+}
+
+
 /* No mobile: ocupa quase toda a largura para leitura */
 @media (max-width: 768px){
-  .report-img{ width: 100%; }
+  .report-img .mdt-fog-opsi-img{ width: 100%; }
 }
-``
+
