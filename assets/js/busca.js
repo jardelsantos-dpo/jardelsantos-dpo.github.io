@@ -54,9 +54,10 @@ function initSearch() {
 		{ url: "artigos/como-criar-agente-ia-auditoria-software.html", name: "Como Usar IA na Auditoria de Software" },
 		{ url: "artigos/tendencias-ciberseguranca-2026.html", name: "Tendências de Cibersegurança para 2026" },
 		{ url: "artigos/mdt-opsi-fog.html", name: "MDT descontinuado em jan/2026" },
-
+		{ url: "artigos/20-prompts-ia-service-desk-seguranca.html", name: "20 prompts de IA para um Service Desk de Elite" },
+		
 		// Página futura (status: em-breve)
-		{ url: "#", name: "20 prompts de IA para um Service Desk de Elite (em breve)" },
+		
 
 		// Páginas legais
 		{ url: "legal/privacidade.html", name: "Política de Privacidade" },
