@@ -1,173 +1,148 @@
-/**
- * Sistema de Busca Global — versão ultra estável
- */
-
 (() => {
 
-    // 🧱 Se já existe modal, o sistema já foi iniciado.
     if (document.getElementById("searchModal")) return;
 
-    let searchController;
-    let debounceTimer;
+    let controller;
+    let debounce;
 
-    function startWhenReady() {
+    // ⭐ MINI ÍNDICE LOCAL (busca imediata)
+    const pages = [
+        { url: "index.html", name: "Página Inicial", keywords: "home ti segurança tecnologia" },
+        { url: "servicos.html", name: "Serviços de TI e Segurança", keywords: "serviços consultoria cibersegurança" },
+        { url: "sobre.html", name: "Sobre Jardel Santos", keywords: "sobre especialista ti segurança" },
+        { url: "artigos.html", name: "Biblioteca de Artigos", keywords: "blog artigos tecnologia" },
 
-        const openBtn = document.getElementById("openSearch");
+        { url: "artigos/ciberseguranca-para-pmes.html", name: "Cibersegurança para PMEs", keywords: "segurança pequenas empresas ataques" },
+        { url: "artigos/lgpd-pme-rj.html", name: "LGPD no Rio de Janeiro", keywords: "lgpd dados privacidade lei" },
+        { url: "artigos/n8n-vulnerabilidade.html", name: "Falha no n8n", keywords: "cve vulnerabilidade automação" },
+        { url: "artigos/automacao-service-desk.html", name: "IA no Service Desk", keywords: "ia automação suporte tma" },
+        { url: "artigos/ciberseguranca-2026.html", name: "Desafios de Segurança 2026", keywords: "tendências ataques futuro" },
+        { url: "artigos/ia-seguranca-corporativa.html", name: "IA e Governança", keywords: "governança riscos ia" },
 
-        // Espera real pelo botão sem criar tempestade de timers
-        if (!openBtn) {
-            requestAnimationFrame(startWhenReady);
+        { url: "legal/privacidade.html", name: "Política de Privacidade", keywords: "privacidade dados" },
+        { url: "legal/termo-de-uso.html", name: "Termos de Uso", keywords: "termos uso legal" }
+    ];
+
+    function ready(fn){
+        if(document.readyState !== "loading") fn();
+        else document.addEventListener("DOMContentLoaded", fn);
+    }
+
+    ready(init);
+
+    function init(){
+
+        const btn = document.getElementById("openSearch");
+
+        if(!btn){
+            requestAnimationFrame(init);
             return;
         }
 
-        createSearch(openBtn);
-    }
-
-    function createSearch(openBtn) {
-
-        console.log("Sistema de busca iniciado.");
-
-        // Evita duplicação absoluta
-        if (document.getElementById("searchModal")) return;
-
-        const modalHTML = `
-            <div id="searchModal" style="display:none; position:fixed; z-index:10000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:flex-start; padding-top:50px;">
-                <div style="background:#fff; width:90%; max-width:500px; padding:20px; border-radius:10px; color:#333; margin: 0 auto;">
-                    <div style="display:flex; flex-wrap: wrap; gap: 10px; border-bottom:1px solid #eee; padding-bottom:10px;">
-                        <input type="text" id="searchInput" placeholder="Buscar artigos ou serviços..." style="flex:1; min-width:180px; border:1px solid #ddd; padding:10px; border-radius:5px;">
-                        <button id="closeSearch" style="border:none; background:#007bff; color:#fff; padding:5px 15px; border-radius:5px; cursor:pointer; font-size:14px; height: 40px;">Fechar</button>
-                    </div>
-                    <ul id="searchResults" style="list-style:none; padding:0; margin-top:15px; max-height:60vh; overflow-y:auto;"></ul>
-                </div>
-            </div>`;
-
-        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        document.body.insertAdjacentHTML("beforeend", modalHTML);
 
         const modal = document.getElementById("searchModal");
         const input = document.getElementById("searchInput");
         const results = document.getElementById("searchResults");
-        const closeBtn = document.getElementById("closeSearch");
+        const close = document.getElementById("closeSearch");
 
-        const pages = [
-            { url: "index.html", name: "Página Inicial" },
-            { url: "servicos.html", name: "Serviços de TI e Segurança" },
-            { url: "sobre.html", name: "Sobre Jardel Santos" },
-            { url: "artigos.html", name: "Biblioteca de Artigos" },
-
-            { url: "artigos/ciberseguranca-para-pmes.html", name: "Cibersegurança para PMEs" },
-            { url: "artigos/lgpd-pme-rj.html", name: "LGPD no Rio de Janeiro" },
-            { url: "artigos/n8n-vulnerabilidade.html", name: "CVE-2026-21858: Falha no n8n" },
-            { url: "artigos/automacao-service-desk.html", name: "Como reduzir custos e TMA com IA" },
-            { url: "artigos/ciberseguranca-2026.html", name: "Segurança na velocidade do ataque: o desafio de 2026" },
-            { url: "artigos/servicedesk-automacao.html", name: "ITSM inteligente com SaaS, automação e open source" },
-            { url: "artigos/ia-seguranca-corporativa.html", name: "IA Generativa: Desafios de Segurança e Governança" },
-            { url: "artigos/prompts-ia-service-desk-seguranca.html", name: "10 Prompts de IA para potencializar o Service Desk" },
-            { url: "artigos/guia-engenharia-prompt-ia.html", name: "Guia prático para criar prompts eficientes" },
-            { url: "artigos/como-criar-agente-ia-auditoria-software.html", name: "Como Usar IA na Auditoria de Software" },
-            { url: "artigos/tendencias-ciberseguranca-2026.html", name: "Tendências de Cibersegurança para 2026" },
-            { url: "artigos/mdt-opsi-fog.html", name: "MDT descontinuado em jan/2026" },
-            { url: "artigos/20-prompts-ia-service-desk-seguranca.html", name: "20 prompts de IA para um Service Desk de Elite" },
-
-            { url: "legal/privacidade.html", name: "Política de Privacidade" },
-            { url: "legal/termo-de-uso.html", name: "Termos de Uso" }
-        ];
-
-        const getBasePrefix = () => {
-            const path = window.location.pathname;
-            return (path.includes('/artigos/') || path.includes('/legal/')) ? "../" : "./";
+        btn.onclick = e=>{
+            e.preventDefault();
+            modal.style.display="flex";
+            input.focus();
         };
 
-        openBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            modal.style.display = "flex";
-            input.focus();
+        close.onclick = ()=>{
+            modal.style.display="none";
+            results.innerHTML="";
+            input.value="";
+            controller?.abort();
+        };
+
+        input.addEventListener("input", ()=>{
+            clearTimeout(debounce);
+            debounce=setTimeout(()=>search(input.value, results),180);
         });
+    }
 
-        closeBtn.addEventListener("click", () => {
-            modal.style.display = "none";
-            input.value = "";
-            results.innerHTML = "";
+    async function search(term, results){
 
-            if (searchController) {
-                searchController.abort();
-                searchController = null;
-            }
-        });
+        term = term.toLowerCase().trim();
+        results.innerHTML="";
 
-        input.addEventListener("input", () => {
+        if(term.length<2) return;
 
-            clearTimeout(debounceTimer);
+        const prefix = (location.pathname.includes("/artigos/") || location.pathname.includes("/legal/")) ? "../":"./";
 
-            debounceTimer = setTimeout(runSearch, 250);
-        });
+        // ⭐ FASE 1 — busca instantânea
+        const instant = pages.filter(p=>
+            p.name.toLowerCase().includes(term) ||
+            p.keywords.includes(term)
+        );
 
-        async function runSearch() {
+        instant.forEach(p=>results.appendChild(createItem(prefix+p.url,p.name)));
 
-            const query = input.value.toLowerCase().trim();
+        // Se já achou bons resultados, nem faz fetch
+        if(instant.length>=5) return;
 
-            if (query.length < 3) {
-                results.innerHTML = "";
-                return;
-            }
+        // ⭐ FASE 2 — busca profunda (abortável)
+        controller?.abort();
+        controller = new AbortController();
 
-            if (searchController) searchController.abort();
-            searchController = new AbortController();
+        const added = new Set(instant.map(p=>prefix+p.url));
 
-            results.innerHTML = "";
+        for(const page of pages){
 
-            const prefix = getBasePrefix();
-            const addedUrls = new Set();
+            const url = prefix+page.url;
+            if(added.has(url)) continue;
 
-            for (const page of pages) {
+            try{
 
-                try {
+                const res = await fetch(url,{
+                    signal:controller.signal,
+                    cache:"force-cache"
+                });
 
-                    const targetUrl = `${prefix}${page.url}`;
+                if(!res.ok) continue;
 
-                    if (addedUrls.has(targetUrl)) continue;
+                const html = await res.text();
+                const text = html.replace(/<[^>]*>/g," ").toLowerCase();
 
-                    const response = await fetch(targetUrl, {
-                        signal: searchController.signal,
-                        cache: "force-cache" // 🔥 acelera MUITO no GitHub Pages
-                    });
-
-                    if (!response.ok) continue;
-
-                    const html = await response.text();
-                    const bodyText = html.replace(/<[^>]*>?/gm, '').toLowerCase();
-
-                    if (bodyText.includes(query)) {
-
-                        addedUrls.add(targetUrl);
-
-                        const li = document.createElement("li");
-                        li.style.cssText = "padding:12px; border-bottom:1px solid #eee; cursor:pointer; transition: background 0.2s;";
-                        li.innerHTML = `<strong style="color:#007bff; display:block;">${page.name}</strong>`;
-
-                        li.addEventListener("mouseenter", () => li.style.background = "#f8f9fa");
-                        li.addEventListener("mouseleave", () => li.style.background = "transparent");
-
-                        li.addEventListener("click", () => {
-                            window.location.href = targetUrl;
-                        });
-
-                        results.appendChild(li);
-                    }
-
-                } catch (err) {
-                    if (err.name !== "AbortError") {
-                        console.error("Erro na busca:", err);
-                    }
+                if(text.includes(term)){
+                    results.appendChild(createItem(url,page.name));
+                    added.add(url);
                 }
+
+            }catch(e){
+                if(e.name!=="AbortError")
+                    console.error(e);
             }
         }
     }
 
-    // Inicialização resiliente
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", startWhenReady);
-    } else {
-        startWhenReady();
+    function createItem(url,name){
+
+        const li=document.createElement("li");
+
+        li.style.cssText="padding:12px;border-bottom:1px solid #eee;cursor:pointer;";
+        li.innerHTML=`<strong style="color:#007bff">${name}</strong>`;
+
+        li.onmouseenter=()=>li.style.background="#f5f7fa";
+        li.onmouseleave=()=>li.style.background="transparent";
+
+        li.onclick=()=>location.href=url;
+
+        return li;
     }
 
+    const modalHTML=`
+    <div id="searchModal" style="display:none;position:fixed;z-index:10000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.9);justify-content:center;align-items:flex-start;padding-top:60px;">
+        <div style="background:#fff;width:90%;max-width:520px;padding:22px;border-radius:12px;">
+            <div style="display:flex;gap:10px;border-bottom:1px solid #eee;padding-bottom:10px;">
+                <input id="searchInput" placeholder="Buscar..." style="flex:1;padding:10px;border:1px solid #ddd;border-radius:6px;">
+                <button id="closeSearch" style="border:none;background:#007bff;color:#fff;padding:6px 14px;border-radius:6px;cursor:pointer;">Fechar</button>
+            </div>
+            <ul id="searchResults" style="list-style:none;padding:0;margin-top:14px;max-height:60vh;overflow:auto;"></ul>
+        </div>
+    </div>`;
 })();
