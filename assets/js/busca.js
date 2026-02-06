@@ -116,7 +116,10 @@
 					.normalize("NFD")
 					.replace(/[\u0300-\u036f]/g, "");
 
-				const keywords = (p.keywords || "").toLowerCase();
+				const keywords = (p.keywords || "")
+					.toLowerCase()
+					.normalize("NFD")
+					.replace(/[\u0300-\u036f]/g, "");
 
 				return {
 					page: p,
