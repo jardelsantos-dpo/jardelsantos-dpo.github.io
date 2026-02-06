@@ -7,7 +7,6 @@
 
     // ⭐ MINI ÍNDICE LOCAL (busca imediata)
     const pages = [
-const pages = [
 		{ url: "index.html", name: "Página Inicial", keywords: "home tecnologia ti segurança cibersegurança consultoria" },
 
 		{ url: "servicos.html", name: "Serviços de TI e Segurança", keywords: "serviços ti consultoria segurança ofensiva defensiva infraestrutura" },
