@@ -91,7 +91,12 @@ const pages = [
 
     async function search(term, results){
 
-        term = term.toLowerCase().trim();
+		term = term
+			.toLowerCase()
+			.trim()
+			.normalize("NFD")
+			.replace(/[\u0300-\u036f]/g, "");
+
         results.innerHTML="";
 
         if(term.length<2) return;
@@ -104,13 +109,25 @@ const pages = [
 
 		// ⭐ NOVO MOTOR DE RELEVÂNCIA
 		const instant = pages
-			.map(p => ({
-				page: p,
-				score:
-					(p.name.toLowerCase().startsWith(term) ? 4 : 0) +
-					(p.name.toLowerCase().includes(term) ? 2 : 0) +
-					(p.keywords.toLowerCase().includes(term) ? 1 : 0)
-			}))
+
+			.map(p => {
+
+				const name = p.name
+					.toLowerCase()
+					.normalize("NFD")
+					.replace(/[\u0300-\u036f]/g, "");
+
+				const keywords = (p.keywords || "").toLowerCase();
+
+				return {
+					page: p,
+					score:
+						(name.startsWith(term) ? 4 : 0) +
+						(name.includes(term) ? 2 : 0) +
+						(keywords.includes(term) ? 1 : 0)
+				};
+			})
+	
 			.filter(x => x.score > 0)
 			.sort((a,b) => b.score - a.score)
 			.map(x => x.page);
