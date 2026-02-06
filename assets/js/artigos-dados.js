@@ -3,14 +3,16 @@
  * Para adicionar um novo artigo, basta copiar um bloco {...} e colar no topo da lista.
  *
  
- 	{ 
-	  data: "2026-01-25", 
-	  categoria: "Suporte e Segurança",
-	  titulo: "20 prompts de IA para um Service Desk de Elite: Agilidade e Segurança", 
-	  resumo: "Vá além do básico com comandos avançados de IA para diagnóstico, conformidade com LGPD, automação no-code e resposta a incidentes.",
-	  img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=1200",
-	  link: "artigos/20-prompts-ia-service-desk-seguranca"
-	},
+    { 
+        data: "2026-02-06", 
+        categoria: "inteligência Artificial",
+        titulo: "20 prompts de IA para um Service Desk de Elite", 
+        resumo: "Em breve: Agilidade, Automação e Segurança para o sua equipe de TI.",
+        img: "img/tendencias-2026-placeholder.webp",
+        link: "#",
+        status: "em-breve",
+        dataDisponivel: "Disponível em 06 de Fevereiro"
+    },
  
  
  
@@ -21,11 +23,9 @@ const listaArtigos = [
         data: "2026-02-06", 
         categoria: "inteligência Artificial",
         titulo: "20 prompts de IA para um Service Desk de Elite", 
-        resumo: "Em breve: Agilidade, Automação e Segurança para o sua equipe de TI.",
-        img: "img/tendencias-2026-placeholder.webp",
-        link: "#",
-        status: "em-breve",
-        dataDisponivel: "Disponível em 06 de Fevereiro"
+        resumo: "Utilize a IA generativa como o multiplicador de força com estratégias para otimizar qualquer operação",
+        img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=1200",
+        link: "artigos/20-prompts-ia-service-desk-seguranca.html",
     },
     { 
         data: "2026-02-04", 
