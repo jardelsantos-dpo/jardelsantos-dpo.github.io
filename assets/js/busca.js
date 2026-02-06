@@ -99,10 +99,21 @@ const pages = [
         const prefix = (location.pathname.includes("/artigos/") || location.pathname.includes("/legal/")) ? "../":"./";
 
         // ⭐ FASE 1 — busca instantânea
-        const instant = pages.filter(p=>
-            p.name.toLowerCase().includes(term) ||
-            p.keywords.toLowerCase().includes(term)
-        );
+		const prefix = (location.pathname.includes("/artigos/") || 
+						location.pathname.includes("/legal/")) ? "../":"./";
+
+		// ⭐ NOVO MOTOR DE RELEVÂNCIA
+		const instant = pages
+			.map(p => ({
+				page: p,
+				score:
+					(p.name.toLowerCase().startsWith(term) ? 4 : 0) +
+					(p.name.toLowerCase().includes(term) ? 2 : 0) +
+					(p.keywords.toLowerCase().includes(term) ? 1 : 0)
+			}))
+			.filter(x => x.score > 0)
+			.sort((a,b) => b.score - a.score)
+			.map(x => x.page);
 
 		instant.slice(0,6).forEach(p =>
 			results.appendChild(createItem(prefix + p.url, p.name))
@@ -110,7 +121,7 @@ const pages = [
 
 
         // Se já achou bons resultados, nem faz fetch
-        if(instant.length>=5) return;
+        if(instant.length>=6) return;
 
         // ⭐ FASE 2 — busca profunda (abortável)
         controller?.abort();
