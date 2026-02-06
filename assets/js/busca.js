@@ -100,7 +100,7 @@
 
         if(term.length<2) return;
 
-        const prefix = (location.pathname.includes("/artigos/") || location.pathname.includes("/legal/")) ? "../":"./";
+        //*const prefix = (location.pathname.includes("/artigos/") || location.pathname.includes("/legal/")) ? "../":"./";
 
         // ⭐ FASE 1 — busca instantânea
 		const prefix = (location.pathname.includes("/artigos/") || 
