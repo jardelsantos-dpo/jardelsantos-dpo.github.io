@@ -7,20 +7,44 @@
 
     // ⭐ MINI ÍNDICE LOCAL (busca imediata)
     const pages = [
-        { url: "index.html", name: "Página Inicial", keywords: "home ti segurança tecnologia" },
-        { url: "servicos.html", name: "Serviços de TI e Segurança", keywords: "serviços consultoria cibersegurança" },
-        { url: "sobre.html", name: "Sobre Jardel Santos", keywords: "sobre especialista ti segurança" },
-        { url: "artigos.html", name: "Biblioteca de Artigos", keywords: "blog artigos tecnologia" },
+const pages = [
+		{ url: "index.html", name: "Página Inicial", keywords: "home tecnologia ti segurança cibersegurança consultoria" },
 
-        { url: "artigos/ciberseguranca-para-pmes.html", name: "Cibersegurança para PMEs", keywords: "segurança pequenas empresas ataques" },
-        { url: "artigos/lgpd-pme-rj.html", name: "LGPD no Rio de Janeiro", keywords: "lgpd dados privacidade lei" },
-        { url: "artigos/n8n-vulnerabilidade.html", name: "Falha no n8n", keywords: "cve vulnerabilidade automação" },
-        { url: "artigos/automacao-service-desk.html", name: "IA no Service Desk", keywords: "ia automação suporte tma" },
-        { url: "artigos/ciberseguranca-2026.html", name: "Desafios de Segurança 2026", keywords: "tendências ataques futuro" },
-        { url: "artigos/ia-seguranca-corporativa.html", name: "IA e Governança", keywords: "governança riscos ia" },
+		{ url: "servicos.html", name: "Serviços de TI e Segurança", keywords: "serviços ti consultoria segurança ofensiva defensiva infraestrutura" },
 
-        { url: "legal/privacidade.html", name: "Política de Privacidade", keywords: "privacidade dados" },
-        { url: "legal/termo-de-uso.html", name: "Termos de Uso", keywords: "termos uso legal" }
+		{ url: "sobre.html", name: "Sobre Jardel Santos", keywords: "especialista segurança ti arquiteto sobre profissional" },
+
+		{ url: "artigos.html", name: "Biblioteca de Artigos", keywords: "blog tecnologia segurança artigos engenharia prompt ia" },
+
+		{ url: "artigos/ciberseguranca-para-pmes.html", name: "Cibersegurança para PMEs", keywords: "pequenas empresas ataques proteção ransomware" },
+
+		{ url: "artigos/lgpd-pme-rj.html", name: "LGPD no Rio de Janeiro", keywords: "lgpd lei dados privacidade empresas compliance" },
+
+		{ url: "artigos/n8n-vulnerabilidade.html", name: "CVE-2026-21858: Falha no n8n", keywords: "cve vulnerabilidade n8n automação falha crítica" },
+
+		{ url: "artigos/automacao-service-desk.html", name: "Como reduzir custos e TMA com IA", keywords: "service desk automação ia suporte tma eficiência" },
+
+		{ url: "artigos/ciberseguranca-2026.html", name: "Segurança na velocidade do ataque: o desafio de 2026", keywords: "tendências segurança ataques futuro ameaças" },
+
+		{ url: "artigos/servicedesk-automacao.html", name: "ITSM inteligente com SaaS, automação e open source", keywords: "itsm automação saas suporte tecnologia" },
+
+		{ url: "artigos/ia-seguranca-corporativa.html", name: "IA Generativa: Desafios de Segurança e Governança", keywords: "ia governança riscos corporativo lgpd" },
+
+		{ url: "artigos/prompts-ia-service-desk-seguranca.html", name: "10 Prompts de IA para potencializar o Service Desk", keywords: "prompts ia service desk produtividade suporte" },
+
+		{ url: "artigos/guia-engenharia-prompt-ia.html", name: "Guia prático para criar prompts eficientes", keywords: "engenharia de prompt ia guia llm" },
+
+		{ url: "artigos/como-criar-agente-ia-auditoria-software.html", name: "Como Usar IA na Auditoria de Software", keywords: "auditoria software ia compliance inventário" },
+
+		{ url: "artigos/tendencias-ciberseguranca-2026.html", name: "Tendências de Cibersegurança para 2026", keywords: "tendências segurança previsões ataques" },
+
+		{ url: "artigos/mdt-opsi-fog.html", name: "MDT descontinuado em jan/2026", keywords: "mdt opsi fog deploy imagem windows" },
+
+		{ url: "artigos/20-prompts-ia-service-desk-seguranca.html", name: "20 prompts de IA para um Service Desk de Elite", keywords: "prompts avançados ia suporte elite" },
+
+		{ url: "legal/privacidade.html", name: "Política de Privacidade", keywords: "privacidade dados lgpd política" },
+
+		{ url: "legal/termo-de-uso.html", name: "Termos de Uso", keywords: "termos uso legal contrato site" }
     ];
 
     function ready(fn){
@@ -77,10 +101,13 @@
         // ⭐ FASE 1 — busca instantânea
         const instant = pages.filter(p=>
             p.name.toLowerCase().includes(term) ||
-            p.keywords.includes(term)
+            p.keywords.toLowerCase().includes(term)
         );
 
-        instant.forEach(p=>results.appendChild(createItem(prefix+p.url,p.name)));
+		instant.slice(0,6).forEach(p =>
+			results.appendChild(createItem(prefix + p.url, p.name))
+		);
+
 
         // Se já achou bons resultados, nem faz fetch
         if(instant.length>=5) return;
