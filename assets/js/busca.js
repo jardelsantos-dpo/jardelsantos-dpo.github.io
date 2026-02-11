@@ -37,6 +37,7 @@
         { url: "artigos/tendencias-ciberseguranca-2026.html", name: "Tendências de Cibersegurança", keywords: "previsões ataques" },
         { url: "artigos/mdt-opsi-fog.html", name: "MDT descontinuado", keywords: "deploy imagem windows" },
         { url: "artigos/20-prompts-ia-service-desk-seguranca.html", name: "20 Prompts de IA", keywords: "prompts avançados" },
+		{ url: "artigos/zero-trust-na-pratica.html", name: "Zero Trust na Prática", Keywords: "Zero Trust ZTNA SSE segurança cibernética LGPD controle acesso autenticação multifator" },
 
         { url: "legal/privacidade.html", name: "Política de Privacidade", keywords: "lgpd dados política" },
         { url: "legal/termo-de-uso.html", name: "Termos de Uso", keywords: "contrato legal site" }

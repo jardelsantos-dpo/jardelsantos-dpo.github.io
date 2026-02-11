@@ -19,6 +19,14 @@
  */
 
 const listaArtigos = [
+	{ 
+	  data: "2026-02-11", 
+	  categoria: "Cibersegurança",
+	  titulo: "Zero Trust na prática", 
+	  resumo: "Entenda o conceito de confiança zero e como implementá-lo.",
+	  img: "img/zero-trust.webp",
+	  link: "artigos/zero-trust-na-pratica.html"
+	},
     { 
         data: "2026-02-06", 
         categoria: "inteligência Artificial",
