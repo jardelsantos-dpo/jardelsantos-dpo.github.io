@@ -20,6 +20,14 @@
 
 const listaArtigos = [
 	{ 
+	  data: "2026-02-19", 
+	  categoria: "Inteligência Artificial",
+	  titulo: "Shadow AI: O perigo das IAs não homologadas", 
+	  resumo: "Entenda os riscos da Shadow AI para a privacidade, conformidade com a LGPD e como implementar controles sem sufocar a inovação.",
+	  img: "img/shadow-ai.webp",
+	  link: "artigos/shadow-ai.html"
+	},
+	{ 
 	  data: "2026-02-11", 
 	  categoria: "Cibersegurança",
 	  titulo: "Zero Trust na prática", 

@@ -38,6 +38,7 @@
         { url: "artigos/mdt-opsi-fog.html", name: "MDT descontinuado", keywords: "deploy imagem windows" },
         { url: "artigos/20-prompts-ia-service-desk-seguranca.html", name: "20 Prompts de IA", keywords: "prompts avançados" },
 		{ url: "artigos/zero-trust-na-pratica.html", name: "Zero Trust na Prática", Keywords: "Zero Trust ZTNA SSE segurança cibernética LGPD controle acesso autenticação multifator" },
+		{ url: "artigos/shadow-ai.html", name: "Shadow AI: O perigo das inteligências artificiais não homologadas", Keywords: "Shadow AI Segurança da Informação LGPD Inteligência Artificial Governança Cibersegurança" },
 
         { url: "legal/privacidade.html", name: "Política de Privacidade", keywords: "lgpd dados política" },
         { url: "legal/termo-de-uso.html", name: "Termos de Uso", keywords: "contrato legal site" }
