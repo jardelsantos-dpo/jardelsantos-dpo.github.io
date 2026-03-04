@@ -20,6 +20,14 @@
 
 const listaArtigos = [
 	{ 
+	  data: "2026-03-04", 
+	  categoria: "Segurança da Informação",
+	  titulo: "Gerenciamento Moderno com Microsoft Intune", 
+	  resumo: "O guia completo sobre como o Microsoft Intune transforma a gestão de TI e a segurança para negócios de todos os tamanhos, com foco em redução de custos.",
+	  img: "img/microsoft-intune.webp",
+	  link: "artigos/microsoft-intune-gerenciamento-seguranca-mpe.html"
+	},
+	{ 
 	  data: "2026-02-19", 
 	  categoria: "Inteligência Artificial",
 	  titulo: "Shadow AI: O perigo das IAs não homologadas", 

@@ -39,6 +39,7 @@
         { url: "artigos/20-prompts-ia-service-desk-seguranca.html", name: "20 Prompts de IA", keywords: "prompts avançados" },
 		{ url: "artigos/zero-trust-na-pratica.html", name: "Zero Trust na Prática", Keywords: "Zero Trust ZTNA SSE segurança cibernética LGPD controle acesso autenticação multifator" },
 		{ url: "artigos/shadow-ai.html", name: "Shadow AI: O perigo das inteligências artificiais não homologadas", Keywords: "Shadow AI Segurança da Informação LGPD Inteligência Artificial Governança Cibersegurança" },
+		{ url: "artigos/microsoft-intune-gerenciamento-seguranca-mpe.html", name: "Gerenciamento Moderno com Microsoft Intune: O guia definitivo para Micro e Pequenas Empresas", Keywords: "Microsoft Intune, Segurança da Informação, LGPD, Gerenciamento de Dispositivos, Cloud Computing, Pequenas Empresas, LibreOffice, Google Workspace" },
 
         { url: "legal/privacidade.html", name: "Política de Privacidade", keywords: "lgpd dados política" },
         { url: "legal/termo-de-uso.html", name: "Termos de Uso", keywords: "contrato legal site" }
