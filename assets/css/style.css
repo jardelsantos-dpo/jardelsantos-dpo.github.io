@@ -2303,3 +2303,87 @@ ol {
     text-align: left !important;
   }
 }
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  font-weight: bold;
+  color: #2563eb;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 280px;
+  background-color: #111827;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* posição acima da palavra */
+  left: 50%;
+  margin-left: -140px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 0.85rem;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Ajuste para telas pequenas */
+@media (max-width: 600px) {
+  .tooltip .tooltiptext {
+    bottom: auto;
+    top: 125%; /* aparece abaixo da palavra no mobile */
+    left: 50%;
+    transform: translateX(-50%);
+	}
+}
+
+/* 1. Garante que todos os cards tenham a mesma altura no grid */
+.cert-grid {
+    display: grid;
+    /* Suas configurações de colunas atuais */
+}
+
+/* 2. Configura o card para distribuir o espaço internamente */
+.cert-card {
+    display: flex;
+    flex-direction: column; /* Alinha os itens em coluna */
+    align-items: center;    /* Centraliza horizontalmente */
+    height: 100%;           /* Força o card a ocupar toda a altura da linha */
+    padding: 20px;          /* Espaçamento interno */
+    text-align: center;
+}
+
+/* 3. O "pulo do gato": empurra o botão para o final do card */
+.cert-card .btn-verify {
+    margin-top: auto;       /* Preenche todo o espaço vazio acima do botão */
+}
+
+/* 4. Opcional: Garante que as imagens/badges fiquem em uma área de altura fixa 
+      para evitar que títulos muito grandes "comam" o espaço */
+.cert-card img {
+    height: 140px;          /* Ajuste conforme o tamanho dos seus badges */
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+/* 5. Estabiliza o espaço do título */
+.cert-card h3 {
+    margin-bottom: 20px;
+    min-height: 3em;        /* Reserva espaço para até 2 ou 3 linhas de texto */
+    display: flex;
+    align-items: center;    /* Centraliza o texto verticalmente se for só 1 linha */
+    justify-content: center;
+}
+
+.highlight-card {
+    border: 2px solid #d4af37; /* Um tom dourado discreto */
+
+}
