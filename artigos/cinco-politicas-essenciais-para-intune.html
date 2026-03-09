@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>5 políticas essenciais do Microsoft Intune | Jardel Santos</title>
+  <meta name="description" content="Aprenda as 5 políticas mais importantes do Microsoft Intune — conformidade, acesso condicional, proteção de aplicativos, configurações e atualizações.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  
+  <script id="article-data" type="application/json">
+  {
+    "headline": "5 Políticas Essenciais do Microsoft Intune",
+    "description": "Guia prático e acessível das 5 políticas essenciais do Intune, com exemplos do dia a dia e referências oficiais da Microsoft.",
+    "image": "https://images.unsplash.com/photo-1551281044-8d8d0d8db07f?auto=format&fit=crop&q=80&w=1200",
+    "datePublished": "2026-03-09",
+    "dateModified": "2026-03-09",
+    "url": "artigos/5-politicas-essenciais-intune.html"
+  }
+  </script>
+</head>
+
+<body>
+
+<header></header>
+
+<main class="about-container" id="artigo">
+
+  <div class="about-header" style="text-align: left;">
+      <a href="../artigos.html" style="color: var(--accent-blue); font-size: 0.9rem;"><i class="fas fa-arrow-left"></i> Voltar para Artigos</a>
+      <h1 style="margin-top: 20px;">5 políticas essenciais do Microsoft Intune</h1>
+      <p class="subtitle">Na ordem de prioridade recomendada pela Microsoft — com exemplos do dia a dia</p>
+      <div class="underline" style="margin: 20px 0;"></div>
+      <p style="color: var(--text-gray); font-size: 0.9rem;"><i class="far fa-calendar-alt"></i> Publicado em: 09 de março de 2026 | <i class="far fa-clock"></i> 10–12 min de leitura</p>
+  </div>
+
+  <img src="../img/politicas-intune.webp" alt="Microsoft Intune Políticas essenciais para gerenciamento de dispositivos em nuvem" class="article-banner">
+
+  <article class="article-body">
+  
+	<section class="article-section">
+	  <p>
+		Implementar o <strong>Microsoft Intune</strong> é um dos passos mais decisivos para a maturidade digital de qualquer organização, no entanto, para tirar o máximo proveito das configurações técnicas, é fundamental compreender o papel estratégico desta ferramenta no ecossistema de segurança.
+	  </p>
+
+	  <div class="content-box content-box--info">
+		<h4>💡 Leitura Recomendada</h4>
+		<p>
+		O objetivo deste artigo é apresentar de forma simples como funcionam as políticas essenciais de proteção do Intune. Para uma análise mais aprofundada seria necessário avaliar o ambiente específico em que serão aplicadas, por isso vamos nos concentrar apenas em uma <strong>visão macro</strong> da implementação. Se você ainda tem dúvidas sobre como o Intune funciona na gestão do dia a dia ou quais os benefícios para pequenas e médias empresas, recomendo a leitura do artigo: 
+		  <a href="https://jardelsantos-dpo.github.io/artigos/microsoft-intune-gerenciamento-seguranca-mpe.html" target="_blank" rel="noopener">
+			<strong>Como o Microsoft Intune garante Proteção, Compliance e Controle para micros e pequenas empresas?</strong>
+		  </a>
+		</p>
+	  </div>
+
+	  <p>
+		Com essa visão estratégica em mente, vamos abordar as cinco políticas que a própria Microsoft define como prioritárias para proteger os seus dados e dispositivos.
+	  </p>
+	</section>
+  
+		
+    <section class="article-section">
+      <h2>1. Políticas de Conformidade de dispositivos</h2>
+      <p>
+        As políticas de conformidade definem o que é um <strong>dispositivo confiável</strong> no seu ambiente. Em termos práticos, você estabelece requisitos mínimos (ex.: versão do sistema operacional, PIN/senha com complexidade, storage criptografado) e o Intune avalia cada dispositivo contra esses critérios. A Microsoft posiciona a conformidade como a base do seu plano de implantação de segurança no Intune.
+      </p>
+      <p>
+        Quando integrada, a conformidade funciona como um "sinal de confiança" usado por outras camadas (como por exemplo o acesso condicional) para permitir ou bloquear acesso aos dados.
+      </p>
+    </section>
+
+    <div class="guide-box-yellow">
+      <h4>Exemplos do dia a dia</h4>
+      <ul class="styled-list">
+        <li>Notebook sem criptografia? <strong>Não conforme</strong>, sem acesso a dados sensíveis até regularizar.</li>
+        <li>Celular com OS desatualizado e sem PIN? <strong>Não conforme</strong>, bloqueado automaticamente.</li>
+        <li>Perda/roubo de equipamento: com criptografia exigida, o conteúdo fica <strong>inacessível</strong> a terceiros.</li>
+      </ul>
+    </div>
+
+      <figure style="margin: 0px 0; text-align: center;">
+        <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&q=80&w=1200" alt="Visão de conformidade e status de dispositivos" class="report-img">
+		<figcaption style="font-size: 0.85rem; color: var(--text-gray); margin-top: 10px;">
+          Conformidade: o primeiro filtro de segurança.
+        </figcaption>
+	</figure>
+ 
+    <section class="article-section">
+      <h2>2. Acesso Condicional baseado na Conformidade</h2>
+      <p>
+        O <strong>Acesso Condicional</strong>, no Microsoft Entra ID, utiliza o status de conformidade para conceder (ou negar) acesso a e‑mail, OneDrive, SharePoint, Teams e demais recursos. É um pilar do modelo Zero Trust recomendado pela Microsoft.
+      </p>
+      <p>
+        Políticas típicas incluem: permitir acesso apenas de dispositivos compliance, exigir MFA quando o risco é maior, bloquear logins vindos de dispositivos não gerenciados ou localizações suspeitas. Tudo isso pode ser planejado com base no status de conformidade fornecido pelo Intune.
+      </p>
+    </section>
+
+    <div class="guide-box-yellow">
+      <h4>Exemplos do dia a dia</h4>
+      <ul class="styled-list">
+        <li>Tentar abrir o OneDrive em um PC do hotel? <strong>Bloqueado</strong> se o dispositivo não for gerenciado e conforme.</li>
+        <li>Login a partir de outra região? <strong>MFA exigida</strong> antes de conceder acesso.</li>
+        <li>Dispositivo fora de conformidade? <strong>Acesso suspenso</strong> até corrigir o problema.</li>
+      </ul>
+    </div>
+        <figure style="margin: 0px 0; text-align: center;">
+          <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1200&auto=format&fit=crop" alt="Representação de acesso condicional e políticas de confiança" class="report-img" />
+          <figcaption style="font-size: 0.85rem; color: var(--text-gray); margin-top: 10px;">Acesso só para quem está conforme: simples e seguro.</figcaption>
+        </figure> 
+    <section class="article-section">
+		<h2>3. Políticas de Proteção de Aplicativos (MAM)</h2>
+		<p>
+		Empresas que adotam dispositivos móveis enfrentam o desafio de equilibrar <strong>segurança</strong> e <strong>experiência do usuário</strong>. 
+		O Microsoft Intune oferece duas abordagens complementares: 
+		<strong>App Protection Policies (MAM)</strong>, que protege apenas os dados corporativos dentro dos aplicativos 
+		e <strong>Mobile Device Management (MDM)</strong>, que gerencia o dispositivo inteiro.
+		</p>
+		<p>
+		No caso de BYOD (dispositivos pessoais), o MAM é especialmente útil, pois não exige inscrição do dispositivo no MDM. 
+		Isso permite aplicar controles como impedir copiar/colar, exigir PIN para abrir apps corporativos e restringir compartilhamento apenas para aplicativos aprovados. 
+		Já o MDM é mais indicado quando a empresa fornece os dispositivos e precisa de controle total sobre configurações, segurança e aplicativos.
+		</p>
+		<p>
+		Para ilustrar melhor essas diferenças, segue abaixo um <strong>quadro comparativo</strong> destacando os principais aspectos do MAM vs MDM:
+		</p>
+	  <div class="article-section">
+		<div style="margin: 24px 0; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; font-family: 'Poppins', sans-serif;">
+		  <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+			<thead>
+			  <tr>
+				<th style="padding: 15px; border: 1px solid #e5e7eb; text-align: center; font-weight: 700;">Aspecto</th>
+				<th style="padding: 15px; border: 1px solid #e5e7eb; text-align: center; font-weight: 700;">MAM (App Protection Policies)</th>
+				<th style="padding: 15px; border: 1px solid #e5e7eb; text-align: center; font-weight: 700;">MDM (Device Management)</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;"><strong>Escopo de Proteção</strong></td>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;">Protege apenas aplicativos e dados corporativos.</td>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;">Gerencia o dispositivo inteiro (configurações, apps, segurança).</td>
+			  </tr>
+			  <tr>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;"><strong>Uso em BYOD</strong></td>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;">Ideal para BYOD, não exige inscrição do dispositivo.</td>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;">Menos adequado para BYOD, requer controle total do dispositivo.</td>
+			  </tr>
+			  <tr>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;"><strong>Exemplos de Políticas</strong></td>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;">Bloquear copiar/colar, exigir PIN, restringir compartilhamento para apps aprovados.</td>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;">Forçar criptografia, aplicar Wi-Fi corporativo, instalar apps obrigatórios.</td>
+			  </tr>
+			  <tr>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;"><strong>Privacidade do Usuário</strong></td>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;">Dados pessoais permanecem intocados; apenas apps corporativos são isolados.</td>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;">Admin pode ter visibilidade e controle sobre todo o dispositivo.</td>
+			  </tr>
+			  <tr>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;"><strong>Experiência do Usuário</strong></td>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;">Mais flexível: usuário usa o próprio dispositivo sem impacto nos dados pessoais.</td>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;">Mais intrusivo: pode limitar configurações e uso do dispositivo.</td>
+			  </tr>
+			  <tr>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;"><strong>Cenários Típicos</strong></td>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;">Colaboradores que usam dispositivos pessoais para acessar dados corporativos.</td>
+				<td style="padding: 15px; border: 1px solid #e5e7eb;">Dispositivos corporativos fornecidos pela empresa, que precisam de controle total.</td>
+			  </tr>
+			</tbody>
+		  </table>
+		</div>
+		<div style="margin-top: 20px; font-family: 'Poppins', sans-serif; font-size: 0.9rem;">
+		  <p><strong>🔗 Para saber mais:</strong></p>
+		  <ul style="list-style-type: none; padding-left: 0;">
+			<li style="margin-bottom: 8px;">
+			  <a href="https://learn.microsoft.com/pt-br/mem/intune/apps/app-protection-policy" 
+				 target="_blank" 
+				 style="color: #2563eb; text-decoration: none; font-weight: 500;">
+				 Microsoft Intune – App Protection Policies (MAM)
+			  </a>
+			</li>
+			<li>
+			  <a href="https://learn.microsoft.com/pt-br/mem/intune/fundamentals/what-is-device-management" 
+				 target="_blank" 
+				 style="color: #2563eb; text-decoration: none; font-weight: 500;">
+				 Microsoft Intune – Mobile Device Management (MDM)
+			  </a>
+			</li>
+		  </ul>
+		</div>
+	  </div>
+	</section>
+
+    <div class="guide-box-yellow">
+      <h4>Exemplos do dia a dia (MAM)</h4>
+      <ul class="styled-list">
+        <li>Outlook corporativo no celular pessoal: <strong>PIN obrigatório</strong> e bloqueio ativo para copiar/colar para apps pessoais.</li>
+        <li>Arquivo do OneDrive: <strong>somente apps aprovados</strong> conseguem abrir e manipular o conteúdo.</li>
+        <li>Colaborador sai da empresa: <strong>wipe seletivo</strong> remove dados corporativos e mantém os pessoais.</li>
+      </ul>
+    </div>
+
+        <figure style="margin: 0px 0; text-align: center;">
+          <img src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=1200&auto=format&fit=crop" alt="Proteção de dados em aplicativos móveis" class="report-img" />
+          <figcaption style="font-size: 0.85rem; color: var(--text-gray); margin-top: 10px;">MAM: proteção de dados no nível do app, mesmo sem MDM.</figcaption>
+        </figure> 
+
+
+    <section class="article-section">
+      <h2>4. Políticas de Configuração de Segurança (Settings Catalog)</h2>
+      <p>
+        O <strong>Settings Catalog</strong> centraliza todas as configurações suportadas (Windows, iOS/iPadOS, macOS e Android) e é o caminho mais completo para aplicar <span class="tooltip">hardening<span class="tooltiptext">Processo preventivo de aumentar a segurança de sistemas operacionais, aplicações, servidores e redes, reduzindo sua superfície de ataque.</span></span> moderno: BitLocker, firewall, restrições de hardware, políticas de rede, controles de navegador e muito mais.
+      </p>
+      <p>
+        Ele também serve como a ponte natural para quem já usava GPOs locais e agora precisa manter o mesmo nível de detalhe e consistência ao migrar para a nuvem.
+      </p>
+    </section>
+
+    <div class="checklist-box">
+      <h4><i class="fas fa-check-double"></i> Hardening com Settings Catalog</h4>
+      <ul class="checklist">
+        <li><input type="checkbox" checked> <strong>BitLocker obrigatório</strong> em todos os notebooks Windows.</li>
+        <li><input type="checkbox" checked> <strong>Firewall sempre ativo</strong> e sem opção do usuário desabilitar.</li>
+        <li><input type="checkbox" checked> <strong>Bloqueio de USB</strong> para impedir cópia indevida.</li>
+      </ul>
+    </div>
+
+    <section class="article-section">
+      <h2>5. Políticas de Atualizações e Patches</h2>
+      <p>
+        Manter sistemas atualizados é uma das formas mais eficazes de reduzir ataques. No Intune, políticas de atualização garantem aplicação de patches críticos, controle de janelas de manutenção e versões mínimas suportadas, algo reiterado no plano de conformidade da Microsoft.
+      </p>
+      <p>
+        Ao padronizar atualizações, você reduz falhas de segurança e incompatibilidades, além de facilitar auditorias e evidências de conformidade.
+      </p>
+    </section>
+
+    <div class="guide-box-yellow">
+      <h4>Cenários de Atualização</h4>
+      <ul>
+        <li>Usuário adia reinicialização várias vezes: a política força a instalação no prazo máximo definido.</li>
+        <li>Aplicação automatizada de correções críticas fora do horário comercial para evitar impacto na operação.</li>
+        <li>Relatórios mostram quem está desatualizado para agir proativamente.</li>
+      </ul>
+    </div>
+
+    <section class="article-section">
+      <h2>Conclusão</h2>
+      <p>
+        Seguir a ordem de prioridade: <strong>Conformidade → Acesso Condicional → MAM → Settings Catalog → Atualizações</strong> colocará a empresa na trilha do Zero Trust, elevando a segurança, a conformidade e a eficiência operacional com mínimo atrito para o colaborador.
+      </p>
+    </section>
+
+
+    <div class="source-list">
+      <strong>📚 Fontes:</strong>
+      <ul style="list-style:none; padding-left:0; margin-top:10px;">
+        <li>• <a href="https://learn.microsoft.com/en-us/intune/intune-service/fundamentals/deployment-plan-compliance-policies" target="_blank" rel="noopener">Microsoft Learn — Configure compliance policies</a></li>
+        <li>• <a href="https://learn.microsoft.com/en-us/intune/intune-service/protect/device-compliance-get-started" target="_blank" rel="noopener">Microsoft Learn — Device compliance policies</a></li>
+        <li>• <a href="https://learn.microsoft.com/en-us/intune/intune-service/apps/app-protection-policy" target="_blank" rel="noopener">Microsoft Learn — App Protection Policies (overview)</a></li>
+        <li>• <a href="https://learn.microsoft.com/en-us/intune/intune-service/configuration/settings-catalog" target="_blank" rel="noopener">Microsoft Learn — Settings Catalog</a></li>
+      </ul>
+    </div>
+  </article>
+
+</main>
+
+<footer class="site-footer"></footer>
+
+<script src="../assets/js/busca.js"></script>
+<script src="../assets/js/components.js"></script>
+<script src="../assets/js/script.js"></script>
+<script src="../assets/js/sharing.js"></script>
+<script src="../assets/js/schema-article.js"></script>
+<script src="../assets/js/image-lightbox.js"></script>
+
+</body>
+</html>

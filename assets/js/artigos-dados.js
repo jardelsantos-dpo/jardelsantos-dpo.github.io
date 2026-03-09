@@ -20,6 +20,24 @@
 
 const listaArtigos = [
 	{ 
+	  data: "2026-03-09", 
+	  categoria: "Inteligência Artificial & Segurança",
+	  titulo: "Como micro‑prompts melhoram as respostas da IA", 
+	  resumo: "Descubra como micro-prompts ativam comportamentos cognitivos avançados na IA generativa e reduzem riscos de segurança da informação.",
+	  img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200",
+	  link: "#",
+      status: "em-breve",
+      dataDisponivel: "Disponível em 13 de Março"
+	},
+	{ 
+	  data: "2026-03-09", 
+	  categoria: "Segurança da Informação",
+	  titulo: "5 políticas essenciais do Microsoft Intune", 
+	  resumo: "Conheça as políticas prioritárias da Microsoft para garantir conformidade e segurança no gerenciamento de dispositivos.",
+	  img: "img/politicas-intune.webp",
+	  link: "artigos/cinco-politicas-essenciais-para-intune.html"
+	},
+	{ 
 	  data: "2026-03-04", 
 	  categoria: "Segurança da Informação",
 	  titulo: "Gerenciamento Moderno com Microsoft Intune", 
