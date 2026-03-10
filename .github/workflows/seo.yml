@@ -1,0 +1,45 @@
+name: SEO Generator
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+
+  seo:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate SEO files
+        run: node assets/js/generate-seo.js
+
+      - name: Commit SEO files
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          git add sitemap.xml rss.xml robots.txt rss-*.xml
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "auto update seo files"
+            git push
+          fi
