@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0">
+
+<channel>
+
+<title>Portal de Segurança e Tecnologia</title>
+
+<link>https://jardelsantos-dpo.github.io</link>
+
+<description>Conteúdos sobre segurança da informação, IA e gestão de TI.</description>
+
+<language>pt-BR</language>
+
+<lastBuildDate>Tue, 10 Mar 2026 18:00:04 GMT</lastBuildDate>
+
+<generator>GitHub Actions SEO Generator</generator>
+
+
+
+<item>
+
+<title>Como micro‑prompts melhoram as respostas da IA</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/poder-das-duas-linhas-micro-prompts-ia.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/poder-das-duas-linhas-micro-prompts-ia.html</guid>
+
+<description><![CDATA[Descubra como micro-prompts ativam comportamentos cognitivos avançados na IA generativa e reduzem riscos de segurança da informação.]]></description>
+
+<category>Inteligência Artificial</category>
+
+<pubDate>Mon, 09 Mar 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>5 políticas essenciais do Microsoft Intune</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/cinco-politicas-essenciais-para-intune.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/cinco-politicas-essenciais-para-intune.html</guid>
+
+<description><![CDATA[Conheça as políticas prioritárias da Microsoft para garantir conformidade e segurança no gerenciamento de dispositivos.]]></description>
+
+<category>Gerenciamento de Dispositivos</category>
+
+<pubDate>Mon, 09 Mar 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>Gerenciamento Moderno com Microsoft Intune</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/microsoft-intune-gerenciamento-seguranca-mpe.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/microsoft-intune-gerenciamento-seguranca-mpe.html</guid>
+
+<description><![CDATA[O guia completo sobre como o Microsoft Intune transforma a gestão de TI e a segurança para negócios de todos os tamanhos, com foco em redução de custos.]]></description>
+
+<category>Gerenciamento de Dispositivos</category>
+
+<pubDate>Wed, 04 Mar 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>Shadow AI: O perigo das IAs não homologadas</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/shadow-ai.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/shadow-ai.html</guid>
+
+<description><![CDATA[Entenda os riscos da Shadow AI para a privacidade, conformidade com a LGPD e como implementar controles sem sufocar a inovação.]]></description>
+
+<category>LGPD &amp; Compliance</category>
+
+<pubDate>Thu, 19 Feb 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>Zero Trust na prática</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/zero-trust-na-pratica.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/zero-trust-na-pratica.html</guid>
+
+<description><![CDATA[Entenda o conceito de confiança zero e como implementá-lo.]]></description>
+
+<category>Cibersegurança</category>
+
+<pubDate>Wed, 11 Feb 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>20 prompts de IA para um Service Desk de Elite</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/20-prompts-ia-service-desk-seguranca.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/20-prompts-ia-service-desk-seguranca.html</guid>
+
+<description><![CDATA[Utilize a IA generativa como o multiplicador de força com estratégias para otimizar qualquer operação]]></description>
+
+<category>Service Desk &amp; ITSM, Inteligência Artificial</category>
+
+<pubDate>Fri, 06 Feb 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>MDT descontinuado em jan/2026</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/mdt-opsi-fog.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/mdt-opsi-fog.html</guid>
+
+<description><![CDATA[Sem MDT e agora? Estratégias open source para manter o deploy UEFI on‑premisses.]]></description>
+
+<category>Gerenciamento de Dispositivos</category>
+
+<pubDate>Wed, 04 Feb 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>Tendências de Cibersegurança para 2026</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/tendencias-ciberseguranca-2026.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/tendencias-ciberseguranca-2026.html</guid>
+
+<description><![CDATA[IA moldando ataques e defesas, Deepfakes e a nova era da Privacidade: prepare sua empresa.]]></description>
+
+<category>Cibersegurança</category>
+
+<pubDate>Fri, 30 Jan 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>Como Usar IA na Auditoria de Software</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/como-criar-agente-ia-auditoria-software.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/como-criar-agente-ia-auditoria-software.html</guid>
+
+<description><![CDATA[Automatize a governança de software e a análise de riscos de segurança utilizando agentes de IA]]></description>
+
+<category>Inteligência Artificial</category>
+
+<pubDate>Thu, 29 Jan 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>Guia prático para criar prompts eficientes</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/guia-engenharia-prompt-ia.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/guia-engenharia-prompt-ia.html</guid>
+
+<description><![CDATA[Domine a arte de criar prompts eficientes com o método C.O.T.E. e aprenda a usar a IA de forma segura e profissional.]]></description>
+
+<category>Inteligência Artificial</category>
+
+<pubDate>Mon, 26 Jan 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>10 Prompts de IA para potencializar o Service Desk</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/prompts-ia-service-desk-seguranca.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/prompts-ia-service-desk-seguranca.html</guid>
+
+<description><![CDATA[Aprenda a usar a IA Generativa para transformar o suporte técnico da sua MPE com segurança, eficiência e foco na LGPD.]]></description>
+
+<category>Service Desk &amp; ITSM, Inteligência Artificial</category>
+
+<pubDate>Sun, 25 Jan 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>IA Generativa: Desafios de Segurança e Governança</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/ia-seguranca-corporativa.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/ia-seguranca-corporativa.html</guid>
+
+<description><![CDATA[Uma análise técnica sobre Shadow AI, proteção de dados e como implementar o uso do Copilot com segurança...]]></description>
+
+<category>LGPD &amp; Compliance</category>
+
+<pubDate>Thu, 22 Jan 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>ITSM inteligente com SaaS, automação e open source</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/servicedesk-automacao.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/servicedesk-automacao.html</guid>
+
+<description><![CDATA[Empresas brasileiras estão migrando para ITSM/ESM em nuvem para reduzir custos e dar conta do trabalho híbrido...]]></description>
+
+<category>Service Desk &amp; ITSM</category>
+
+<pubDate>Mon, 19 Jan 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>Segurança na velocidade do ataque: o desafio de 2026</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/ciberseguranca-2026.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/ciberseguranca-2026.html</guid>
+
+<description><![CDATA[Em 2026, a ameaça evolui com phishing personalizado e malware adaptativo movidos por IA e automação. A grande questão é: como proteger o negócio?]]></description>
+
+<category>Cibersegurança</category>
+
+<pubDate>Sun, 18 Jan 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>CVE-2026-21858: Falha no n8n</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/n8n-vulnerabilidade.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/n8n-vulnerabilidade.html</guid>
+
+<description><![CDATA[Uma falha crítica no n8n permitiu execução remota de código sem autenticação. Entenda o impacto real e as ações urgentes.]]></description>
+
+<category>Cibersegurança</category>
+
+<pubDate>Mon, 12 Jan 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>Como reduzir custos e TMA com IA</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/automacao-service-desk.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/automacao-service-desk.html</guid>
+
+<description><![CDATA[Automatizar tarefas simples no Service Desk não é luxo, é estratégia. Estudos mostram que a automação pode reduzir custos operacionais em até 40%.]]></description>
+
+<category>Service Desk &amp; ITSM</category>
+
+<pubDate>Sun, 11 Jan 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>LGPD no Rio de Janeiro</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/lgpd-pme-rj.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/lgpd-pme-rj.html</guid>
+
+<description><![CDATA[Pesquisa revela um cenário alarmante para micro e pequenas empresas cariocas. Saiba como evitar multas e ganhar a confiança do mercado.]]></description>
+
+<category>LGPD &amp; Compliance</category>
+
+<pubDate>Sun, 11 Jan 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>Seu negócio pode ser o próximo alvo</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/ciberseguranca-para-pmes.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/ciberseguranca-para-pmes.html</guid>
+
+<description><![CDATA[Ataques hackers já derrubaram milhares de pequenas empresas no Brasil. Em 2025, uma em cada cinco correu risco de fechar as portas.]]></description>
+
+<category>Cibersegurança</category>
+
+<pubDate>Sun, 11 Jan 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+</channel>
+
+</rss>
