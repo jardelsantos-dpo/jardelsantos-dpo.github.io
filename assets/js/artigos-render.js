@@ -65,7 +65,7 @@ function renderizarArtigos() {
     renderizarPaginacao();
 }
 
-// ESTA É A FUNÇÃO QUE ESTAVA FALTANDO:
+// ESTA É A FUNÇÃO QUE RENDERIZA OS CARDS
 function renderizarPaginacao() {
     const totalPaginas = Math.ceil(listaArtigos.length / itensPorPagina);
     const controles = document.getElementById('paginacao-controles');

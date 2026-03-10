@@ -41,6 +41,7 @@
 		{ url: "artigos/shadow-ai.html", name: "Shadow AI: O perigo das inteligências artificiais não homologadas", Keywords: "Shadow AI Segurança da Informação LGPD Inteligência Artificial Governança Cibersegurança" },
 		{ url: "artigos/microsoft-intune-gerenciamento-seguranca-mpe.html", name: "Gerenciamento Moderno com Microsoft Intune: O guia definitivo para Micro e Pequenas Empresas", Keywords: "Microsoft Intune, Segurança da Informação, LGPD, Gerenciamento de Dispositivos, Cloud Computing, Pequenas Empresas, LibreOffice, Google Workspace" },
 		{ url: "artigos/cinco-politicas-essenciais-para-intune.html", name: "5 políticas essenciais do Microsoft Intune", Keywords: "Intune, Microsoft, Conformidade, MDM, MAM, Acesso Condicional, Segurança" },
+		{ url: "artigos/poder-das-duas-linhas-micro-prompts-ia.html", name: "O Poder das Duas Linhas: Como Micro‑Prompts Transformam a Profundidade das Respostas na IA Generativa", Keywords: "inteligência artificial, ia generativa, chatgpt, copilot, gemini, engenharia de prompt, shadow ai, lgpd, segurança da informação, privacidade" },
 
         { url: "legal/privacidade.html", name: "Política de Privacidade", keywords: "lgpd dados política" },
         { url: "legal/termo-de-uso.html", name: "Termos de Uso", keywords: "contrato legal site" }
