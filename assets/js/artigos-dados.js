@@ -1,10 +1,9 @@
 /**
  * Banco de Dados dos Artigos - Jardel Santos
  * Padronização de categorias para funcionamento do acesso rápido.
- */
-
-const listaArtigos = [
-  {
+ *
+ Exemplo:
+   {
     data: "2026-03-09",
     categoria: "Inteligência Artificial",
     titulo: "Como micro‑prompts melhoram as respostas da IA",
@@ -13,6 +12,17 @@ const listaArtigos = [
     link: "artigos/poder-das-duas-linhas-micro-prompts-ia.html",
     status: "em-breve",
     dataDisponivel: "Disponível em 13 de Março"
+  }, 
+ */
+
+const listaArtigos = [
+  {
+    data: "2026-03-12",
+    categoria: "Inteligência Artificial",
+    titulo: "Como micro‑prompts melhoram as respostas da IA",
+    resumo: "Descubra como micro-prompts ativam comportamentos cognitivos avançados na IA generativa e reduzem riscos de segurança da informação.",
+    img: "img/micro-prompts.webp",
+    link: "artigos/poder-das-duas-linhas-micro-prompts-ia.html",
   },
   {
     data: "2026-03-09",
