@@ -16,6 +16,24 @@
  */
 
 const listaArtigos = [
+	{ 
+	  data: "2026-03-25", 
+	  categoria: "Inteligência Artificial",
+	  titulo: "Automatizar o caos não é a solução", 
+	  resumo: "Entenda por que automatizar processos ruins e usar IA sem governança de dados pode gerar riscos e prejudicar sua empresa.",
+	  img: "img/automatizar-caos-ia.webp",
+	  link: "artigos/automatizar-caos-ia",
+	  status: "em-breve",
+      dataDisponivel: "Disponível em 25 de Março"
+	},
+  { 
+	  data: "2026-03-20", 
+	  categoria: "Inteligência Artificial",
+	  titulo: "Inteligência Artificial Generativa no Direito", 
+	  resumo: "Entenda as oportunidades, os riscos de privacidade e a nova realidade da IA Generativa na advocacia e no ecossistema de compliance corporativo.",
+	  img: "img/ia-generativa-direito.webp",
+	  link: "artigos/ia-generativa-direito.html"
+	},
   {
     data: "2026-03-12",
     categoria: "Inteligência Artificial",

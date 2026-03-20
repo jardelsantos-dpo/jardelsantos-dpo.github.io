@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch(err => console.error(err));
 });
 
-// Função do Menu Mobile (Extraída do seu script.js original)
+// Função do Menu Mobile (Extraída do script.js original)
 function initMobileMenu() {
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('navLinks');
@@ -67,5 +67,29 @@ function initMobileMenu() {
                 navLinks.classList.remove('active');
             };
         });
+    }
+}
+
+/**
+ * Gerencia a exibição dos prompts de IA por abas (Copilot/Gemini)
+ * @param {string} promptId - O ID do elemento de conteúdo a ser exibido
+ * @param {string} containerId - O ID da caixa (box) pai
+ * @param {HTMLElement} btnElement - O botão que foi clicado
+ */
+function togglePrompt(promptId, containerId, btnElement) {
+    const container = document.getElementById(containerId);
+    const targetContent = container.querySelector('#' + promptId);
+    const isAlreadyActive = targetContent.classList.contains('active');
+
+    // Esconde todos os conteúdos desta caixa específica
+    container.querySelectorAll('.prompt-content').forEach(c => c.classList.remove('active'));
+    
+    // Remove o estado "ativo" de todos os botões desta caixa
+    container.querySelectorAll('.prompt-btn').forEach(b => b.classList.remove('active'));
+
+    // Se a aba clicada não estava ativa, ela é aberta (comportamento de toggle/sanfona)
+    if (!isAlreadyActive) {
+        targetContent.classList.add('active');
+        btnElement.classList.add('active');
     }
 }
