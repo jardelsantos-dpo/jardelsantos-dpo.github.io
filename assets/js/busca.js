@@ -43,6 +43,8 @@
 		{ url: "artigos/cinco-politicas-essenciais-para-intune.html", name: "5 políticas essenciais do Microsoft Intune", Keywords: "Intune, Microsoft, Conformidade, MDM, MAM, Acesso Condicional, Segurança" },
 		{ url: "artigos/poder-das-duas-linhas-micro-prompts-ia.html", name: "O Poder das Duas Linhas: Como Micro‑Prompts Transformam a Profundidade das Respostas na IA Generativa", Keywords: "inteligência artificial, ia generativa, chatgpt, copilot, gemini, engenharia de prompt, shadow ai, lgpd, segurança da informação, privacidade" },
 		{ url: "artigos/ia-generativa-direito.html", name: "Inteligência Artificial Generativa no Direito: Oportunidades, Riscos e a nova realidade Jurídica", Keywords: "inteligência artificial, ia generativa, gemini, copilot, chatgpt, direito, jurídico, lgpd, privacidade, alucinação, stj, cnj, compliance" },
+		{ url: "artigos/automatizar-caos-ia.html", name: "Automatizar o caos não é a solução: Como a IA e dados unificados podem ser o diferencial da sua empresa", Keywords: "inteligência artificial, automação, dados unificados, governança de dados, shadow AI, nist, lgpd, processos, power automate, produtividade" },
+		{ url: "artigos/ciberseguranca-ofensiva-brasil.html", name: "Cibersegurança Ofensiva no Brasil: Como as empresas nacionais protegem o seu negócio atacando-o", Keywords: "cibersegurança ofensiva, hacker ético, red team, pentest, teste de intrusão, segurança da informação, lgpd, empresas de segurança brasil" },
 
         { url: "legal/privacidade.html", name: "Política de Privacidade", keywords: "lgpd dados política" },
         { url: "legal/termo-de-uso.html", name: "Termos de Uso", keywords: "contrato legal site" }

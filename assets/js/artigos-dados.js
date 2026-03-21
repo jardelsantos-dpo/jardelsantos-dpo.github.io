@@ -26,6 +26,14 @@ const listaArtigos = [
 	  status: "em-breve",
       dataDisponivel: "Disponível em 25 de Março"
 	},
+	{ 
+	  data: "2026-03-21", 
+	  categoria: "Cibersegurança",
+	  titulo: "Cibersegurança Ofensiva no Brasil", 
+	  resumo: "Descubra o que é cibersegurança ofensiva, por que ela é essencial para o seu negócio e conheça as principais empresas do setor no Brasil.",
+	  img: "img/ciberseguranca-ofensiva-brasil.webp",
+	  link: "artigos/ciberseguranca-ofensiva-brasil.html"
+	},
   { 
 	  data: "2026-03-20", 
 	  categoria: "Inteligência Artificial",
