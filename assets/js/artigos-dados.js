@@ -22,9 +22,7 @@ const listaArtigos = [
 	  titulo: "Automatizar o caos não é a solução", 
 	  resumo: "Entenda por que automatizar processos ruins e usar IA sem governança de dados pode gerar riscos e prejudicar sua empresa.",
 	  img: "img/automatizar-caos-ia.webp",
-	  link: "artigos/automatizar-caos-ia",
-	  status: "em-breve",
-      dataDisponivel: "Disponível em 25 de Março"
+	  link: "artigos/automatizar-caos-ia.html",
 	},
 	{ 
 	  data: "2026-03-21", 
