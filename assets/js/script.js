@@ -183,3 +183,249 @@ document.addEventListener('DOMContentLoaded', () => {
         setupCertDots();
     }
 });
+
+// --- CERTIFICAÇÕES: Ver mais / Ver menos (Desktop) ---
+document.addEventListener("DOMContentLoaded", function() {
+  const cards = document.querySelectorAll('.cert-card');               // todos os cards
+  const btnLoadMore = document.getElementById('btnLoadMore');          // botão
+  const container = document.getElementById('loadMoreContainer');      // wrapper do botão
+
+  if (!cards.length || !btnLoadMore || !container) return;
+
+  const DESKTOP_BREAKPOINT = 768;     // mesmo critério usado no seu CSS/JS
+  const INITIAL_VISIBLE = 4;          // quantidade padrão visível no desktop
+  let expanded = false;               // estado atual no desktop
+
+  function applyDesktopView() {
+    // Mostra só os 4 primeiros no desktop (quando não expandido)
+    cards.forEach((card, index) => {
+      if (!expanded && index >= INITIAL_VISIBLE) {
+        card.classList.add('hidden');
+        // Em seu CSS já existe a regra para .cert-card.hidden no desktop
+      } else {
+        card.classList.remove('hidden');
+      }
+    });
+
+    // Atualiza texto/atributos do botão
+    btnLoadMore.textContent = expanded ? 'Ver menos' : 'Ver mais';
+    btnLoadMore.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+
+    // O botão deve aparecer se houver mais do que 4 cards
+    const shouldShowButton = cards.length > INITIAL_VISIBLE;
+    container.style.display = shouldShowButton ? 'block' : 'none';
+  }
+
+  function applyMobileView() {
+    // No mobile, mostramos todos e escondemos o botão
+    cards.forEach(card => card.classList.remove('hidden'));
+    container.style.display = 'none';
+    expanded = true; // evita “piscar” se rotacionar para desktop e voltar
+    btnLoadMore.setAttribute('aria-expanded', 'true');
+  }
+
+  function render() {
+    if (window.innerWidth > DESKTOP_BREAKPOINT) {
+      // Se voltarmos ao desktop e o estado não existir, garanta o default
+      if (typeof expanded !== 'boolean') expanded = false;
+      applyDesktopView();
+    } else {
+      applyMobileView();
+    }
+  }
+
+  // Clique no botão: alterna o estado no desktop
+  btnLoadMore.addEventListener('click', function() {
+    if (window.innerWidth > DESKTOP_BREAKPOINT) {
+      expanded = !expanded;
+      applyDesktopView();
+      // Scroll suave até a área dos cards quando fechar
+      if (!expanded) {
+        document.querySelector('.certifications-section')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  });
+
+  // Reage a redimensionamento / rotação
+  window.addEventListener('resize', render);
+
+  // Primeira renderização
+  render();
+});
+
+// --- SOFT SKILLS: Ver mais / Ver menos (Desktop) ---
+document.addEventListener("DOMContentLoaded", function () {
+
+  const cards = document.querySelectorAll('#skillsGrid .skill-card');
+  const btn = document.getElementById('btnSkillsLoadMore');
+  const container = document.getElementById('skillsLoadMoreContainer');
+
+  if (!cards.length || !btn || !container) return;
+
+  const DESKTOP_BREAKPOINT = 768;
+  const INITIAL_VISIBLE = 4;
+  let expanded = false;
+
+  function applyDesktopView() {
+    cards.forEach((card, index) => {
+      if (!expanded && index >= INITIAL_VISIBLE) {
+        card.classList.add('hidden');
+      } else {
+        card.classList.remove('hidden');
+      }
+    });
+
+    btn.textContent = expanded ? 'Ver menos' : 'Ver mais';
+    btn.setAttribute('aria-expanded', expanded);
+
+    container.style.display =
+      cards.length > INITIAL_VISIBLE ? 'block' : 'none';
+  }
+
+  function applyMobileView() {
+    // no mobile: NUNCA esconder cards
+    cards.forEach(card => card.classList.remove('hidden'));
+    container.style.display = 'none';
+    expanded = true;
+  }
+
+  function render() {
+    if (window.innerWidth > DESKTOP_BREAKPOINT) {
+      applyDesktopView();
+    } else {
+      applyMobileView();
+    }
+  }
+
+  btn.addEventListener('click', () => {
+    if (window.innerWidth > DESKTOP_BREAKPOINT) {
+      expanded = !expanded;
+      applyDesktopView();
+
+      if (!expanded) {
+        document
+          .querySelector('.soft-skills-section')
+          ?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  });
+
+  window.addEventListener('resize', render);
+  render();
+});
+
+// ==========================================================
+// SOFT SKILLS – CARROSSEL MANUAL (MOBILE)
+// ==========================================================
+document.addEventListener('DOMContentLoaded', function () {
+  const track = document.getElementById('skillsGrid');
+  const dotsContainer = document.getElementById('skillsDots');
+  const btnPrev = document.getElementById('prevSkill');
+  const btnNext = document.getElementById('nextSkill');
+
+  if (!track) return;
+
+  let currentIndex = 0;
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+
+  function getGapPx() {
+    const styles = window.getComputedStyle(track);
+    return parseFloat(styles.gap || styles.columnGap || 0) || 0;
+  }
+
+  function getCardWidth() {
+    const first = track.children[0];
+    return first ? first.getBoundingClientRect().width : 0;
+  }
+
+  function getMaxIndex() {
+    return Math.max(0, track.children.length - 1);
+  }
+
+  /* ===== Atualiza estado dos botões ===== */
+  function updateNavButtons() {
+    if (!btnPrev || !btnNext) return;
+
+    btnPrev.disabled = currentIndex === 0;
+    btnNext.disabled = currentIndex === getMaxIndex();
+  }
+
+  function updateDots() {
+    if (!dotsContainer) return;
+
+    dotsContainer.innerHTML = '';
+    const max = getMaxIndex();
+
+    for (let i = 0; i <= max; i++) {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (i === currentIndex) dot.classList.add('active');
+
+      dot.addEventListener('click', () => {
+        currentIndex = i;
+        move();
+      });
+
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  function move() {
+    if (!isMobile()) {
+      track.style.transform = 'none';
+      return;
+    }
+
+    const offset = currentIndex * (getCardWidth() + getGapPx());
+    track.style.transform = `translateX(-${offset}px)`;
+
+    updateDots();
+    updateNavButtons();
+  }
+
+  /* ===== Botões ===== */
+  btnPrev?.addEventListener('click', () => {
+    if (!isMobile() || currentIndex === 0) return;
+    currentIndex--;
+    move();
+  });
+
+  btnNext?.addEventListener('click', () => {
+    if (!isMobile() || currentIndex === getMaxIndex()) return;
+    currentIndex++;
+    move();
+  });
+
+  /* ===== Swipe ===== */
+  track.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  track.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    const threshold = 50;
+
+    if (touchStartX - touchEndX > threshold && currentIndex < getMaxIndex()) {
+      currentIndex++;
+    } else if (touchEndX - touchStartX > threshold && currentIndex > 0) {
+      currentIndex--;
+    }
+
+    move();
+  }, { passive: true });
+
+  /* ===== Resize ===== */
+  window.addEventListener('resize', () => {
+    currentIndex = 0;
+    move();
+  });
+
+  /* ===== Init ===== */
+  move();
+});
