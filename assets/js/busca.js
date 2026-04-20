@@ -45,6 +45,8 @@
 		{ url: "artigos/ia-generativa-direito.html", name: "Inteligência Artificial Generativa no Direito: Oportunidades, Riscos e a nova realidade Jurídica", Keywords: "inteligência artificial, ia generativa, gemini, copilot, chatgpt, direito, jurídico, lgpd, privacidade, alucinação, stj, cnj, compliance" },
 		{ url: "artigos/automatizar-caos-ia.html", name: "Automatizar o caos não é a solução: Como a IA e dados unificados podem ser o diferencial da sua empresa", Keywords: "inteligência artificial, automação, dados unificados, governança de dados, shadow AI, nist, lgpd, processos, power automate, produtividade" },
 		{ url: "artigos/ciberseguranca-ofensiva-brasil.html", name: "Cibersegurança Ofensiva no Brasil: Como as empresas nacionais protegem o seu negócio atacando-o", Keywords: "cibersegurança ofensiva, hacker ético, red team, pentest, teste de intrusão, segurança da informação, lgpd, empresas de segurança brasil" },
+		{ url: "artigos/troubleshooting-client-sccm.html", name: "Troubleshooting de SCCM para Service Desk", Keywords: "sccm, client, mecm, service desk, powershell, automação, infraestrutura, psexec, wmi, remediação" },
+		{ url: "artigos/guia-backup-3-2-1-residencial.html", name: "O guia descomplicado do Backup 3-2-1 para casa: Mantenha sua vida digital salva", Keywords: "backup, 3-2-1, ransomware, cobian reflector, norton 360, bitlocker, segurança residencial, proteção de dados" },
 
         { url: "legal/privacidade.html", name: "Política de Privacidade", keywords: "lgpd dados política" },
         { url: "legal/termo-de-uso.html", name: "Termos de Uso", keywords: "contrato legal site" }

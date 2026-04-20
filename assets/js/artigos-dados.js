@@ -17,6 +17,22 @@
 
 const listaArtigos = [
 	{ 
+	  data: "2026-04-20", 
+	  categoria: "Segurança da Informação",
+	  titulo: "O guia descomplicado do Backup 3-2-1 para casa", 
+	  resumo: "Proteja suas fotos e documentos contra ransomware e falhas de hardware usando o método 3-2-1 com Cobian Reflector e Norton 360.",
+	  img: "img/backup-3-2-1.webp",
+	  link: "artigos/guia-backup-3-2-1-residencial"
+	}
+	{ 
+	  data: "2026-03-30", 
+	  categoria: "Service Desk e Automação",
+	  titulo: "Troubleshooting de SCCM para Service Desk", 
+	  resumo: "Metodologia prática e scripts seguros para restabelecer a saúde do agente SCCM em estações de trabalho através de uma arquitetura híbrida (Batch + PowerShell).",
+	  img: "img/troubleshooting-client-sccm.webp",
+	  link: "artigos/troubleshooting-client-sccm"
+	},
+	{ 
 	  data: "2026-03-25", 
 	  categoria: "Inteligência Artificial",
 	  titulo: "Automatizar o caos não é a solução", 
