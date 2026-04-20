@@ -23,7 +23,7 @@ const listaArtigos = [
 	  resumo: "Proteja suas fotos e documentos contra ransomware e falhas de hardware usando o método 3-2-1 com Cobian Reflector e Norton 360.",
 	  img: "img/backup-3-2-1.webp",
 	  link: "artigos/guia-backup-3-2-1-residencial"
-	}
+	},
 	{ 
 	  data: "2026-03-30", 
 	  categoria: "Service Desk e Automação",
