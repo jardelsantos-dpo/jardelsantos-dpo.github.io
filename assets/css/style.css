@@ -2959,3 +2959,73 @@ ol {
 	border: 1px solid white;   /* borda branca */
 	border-collapse: collapse; /* evita bordas duplicadas */
 }
+
+/* --- Estilo Base da Tag --- */
+.cert-card {
+  position: relative; /* Necessário para posicionar a tag dentro do card */
+  /* mantenha os outros estilos que você já tem no .cert-card */
+}
+
+.cert-tag {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #ffffff; /* Texto branco padrão */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+/* --- Cores das Categorias --- */
+
+/* Privacidade (Azul escuro/Roxo) */
+.tag-privacy {
+  background-color: #4b0082; 
+}
+
+/* Cibersegurança (Vermelho/Laranja) */
+.tag-security {
+  background-color: #d32f2f; 
+}
+
+/* IA - Governança (Azul claro) */
+.tag-ai-gov {
+  background-color: #1976d2; 
+}
+
+/* IA - Prática (Verde Esmeralda) */
+.tag-ai-prac {
+  background-color: #00796b; 
+}
+
+/* IA - Segurança (Vermelho Escuro/Vinho) */
+.tag-ai-sec {
+  background-color: #880e4f; 
+}
+
+/* Cloud (Azul Microsoft/Azure) */
+.tag-cloud {
+  background-color: #0078d4; 
+}
+
+/* Automação (Amarelo/Mostarda - Texto Escuro) */
+.tag-auto {
+  background-color: #fbc02d; 
+  color: #333333; /* Texto escuro para contrastar com amarelo */
+}
+
+/* Dados (Amarelo/Ouro - Texto Escuro) */
+.tag-dados {
+  background-color: #f2c811; 
+  color: #333333;
+}
+
+/* Gestão Ágil (Cinza Escuro/Grafite) */
+.tag-gestao {
+  background-color: #424242; 
+}
