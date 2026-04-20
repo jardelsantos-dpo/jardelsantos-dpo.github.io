@@ -12,7 +12,7 @@
 
 <language>pt-BR</language>
 
-<lastBuildDate>Mon, 20 Apr 2026 10:05:45 GMT</lastBuildDate>
+<lastBuildDate>Mon, 20 Apr 2026 10:24:47 GMT</lastBuildDate>
 
 <generator>GitHub Actions SEO Generator</generator>
 
@@ -31,24 +31,6 @@
 <category>Segurança da Informação</category>
 
 <pubDate>Mon, 20 Apr 2026 00:00:00 GMT</pubDate>
-
-</item>
-
-
-
-<item>
-
-<title>Troubleshooting de SCCM para Service Desk</title>
-
-<link>https://jardelsantos-dpo.github.io/artigos/troubleshooting-client-sccm</link>
-
-<guid>https://jardelsantos-dpo.github.io/artigos/troubleshooting-client-sccm</guid>
-
-<description><![CDATA[Metodologia prática e scripts seguros para restabelecer a saúde do agente SCCM em estações de trabalho através de uma arquitetura híbrida (Batch + PowerShell).]]></description>
-
-<category>Service Desk e Automação</category>
-
-<pubDate>Mon, 30 Mar 2026 00:00:00 GMT</pubDate>
 
 </item>
 
@@ -373,6 +355,24 @@
 <category>Cibersegurança</category>
 
 <pubDate>Mon, 12 Jan 2026 00:00:00 GMT</pubDate>
+
+</item>
+
+
+
+<item>
+
+<title>Como reduzir custos e TMA com IA</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/automacao-service-desk.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/automacao-service-desk.html</guid>
+
+<description><![CDATA[Automatizar tarefas simples no Service Desk não é luxo, é estratégia. Estudos mostram que a automação pode reduzir custos operacionais em até 40%.]]></description>
+
+<category>Service Desk &amp; ITSM</category>
+
+<pubDate>Sun, 11 Jan 2026 00:00:00 GMT</pubDate>
 
 </item>
 
