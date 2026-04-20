@@ -25,14 +25,6 @@ const listaArtigos = [
 	  link: "artigos/guia-backup-3-2-1-residencial"
 	},
 	{ 
-	  data: "2026-03-30", 
-	  categoria: "Service Desk e Automação",
-	  titulo: "Troubleshooting de SCCM para Service Desk", 
-	  resumo: "Metodologia prática e scripts seguros para restabelecer a saúde do agente SCCM em estações de trabalho através de uma arquitetura híbrida (Batch + PowerShell).",
-	  img: "img/troubleshooting-client-sccm.webp",
-	  link: "artigos/troubleshooting-client-sccm"
-	},
-	{ 
 	  data: "2026-03-25", 
 	  categoria: "Inteligência Artificial",
 	  titulo: "Automatizar o caos não é a solução", 
