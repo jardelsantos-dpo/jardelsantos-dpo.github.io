@@ -65,6 +65,12 @@
   </url>
 
   <url>
+    <loc>https://jardelsantos-dpo.github.io/artigos/guia-backup-3-2-1-residencial</loc>
+    <lastmod>2026-04-20</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://jardelsantos-dpo.github.io/artigos/guia-engenharia-prompt-ia.html</loc>
     <lastmod>2026-01-26</lastmod>
     <priority>0.6</priority>
@@ -133,6 +139,12 @@
   <url>
     <loc>https://jardelsantos-dpo.github.io/artigos/tendencias-ciberseguranca-2026.html</loc>
     <lastmod>2026-01-30</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://jardelsantos-dpo.github.io/artigos/troubleshooting-client-sccm</loc>
+    <lastmod>2026-03-30</lastmod>
     <priority>0.6</priority>
   </url>
 
