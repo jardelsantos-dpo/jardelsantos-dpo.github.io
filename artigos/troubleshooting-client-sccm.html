@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Troubleshooting de Client SCCM: Remediação e Automação | Jardel Santos</title>
+  <meta name="description" content="Aprenda estratégias de remediação e automação para Service Desk focadas em troubleshooting do client SCCM (MECM).">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">  
+  <script id="article-data" type="application/json">
+  {
+    "headline": "Troubleshooting de Client SCCM: Estratégias de Remediação e Automação para Service Desk",
+    "description": "Metodologia de remediação padronizada para restabelecer a saúde das estações de forma pontual, segura e eficiente.",
+    "image": "https://jardelsantos-dpo.github.io/img/troubleshooting-client-sccm.webp",
+    "datePublished": "2026-03-30",
+    "dateModified": "2026-03-30",
+    "url": "https://jardelsantos-dpo.github.io/artigos/troubleshooting-client-sccm"
+  }
+  </script>
+</head>
+
+<body>
+
+<header></header>
+
+<main class="about-container" id="artigo">
+
+  <div class="about-header" style="text-align: left;">
+      <a href="../artigos.html" style="color: var(--accent-blue); font-size: 0.9rem;"><i class="fas fa-arrow-left"></i> Voltar para Artigos</a>
+      <h1 style="margin-top: 20px;">Troubleshooting de Client SCCM: Estratégias de Remediação e Automação para Service Desk </h1>
+      <div class="underline" style="margin: 20px 0;"></div>
+      <p style="color: var(--text-gray); font-size: 0.9rem;"><i class="far fa-calendar-alt"></i> Publicado em: 30 de Março de 2026 | <i class="far fa-clock"></i> 10 min de leitura</p>
+  </div>
+
+  <img src="../img/troubleshooting-client-sccm.webp" alt="Servidores de infraestrutura e códigos de automação representando o ecossistema de TI corporativa" class="article-banner">
+
+  <article class="article-body">
+		
+    <section class="article-section">
+      <p>Em ambientes corporativos que utilizam o <strong>Microsoft Endpoint Configuration Manager (MECM/SCCM)</strong>, a continuidade da gestão de endpoints é vital.  No entanto, é comum que equipes de Service Desk enfrentem cenários onde estações não recebem políticas ou o acesso remoto falha.  Na maioria dos cenários, a causa raiz do problema é uma falha de comunicação entre o <strong>client SCCM</strong> (instalado na máquina física) e a infraestrutura do servidor (como o Management Point, Distribution Point e Fallback Status Point).  Este artigo foca especificamente nas inconsistências originadas no lado do cliente, propondo uma metodologia de remediação padronizada para restabelecer a saúde das estações de forma pontual, segura e eficiente. </p>
+    </section>
+
+    <section class="article-section">
+      <h2>O Que Faz o Client SCCM? </h2>
+      <p>Para gerenciar um equipamento de forma remota, o SCCM exige que o client local (agente) esteja instalado e perfeitamente saudável.  Ele executa o serviço vital <strong>SMS Agent Host (CcmExec.exe)</strong>.  É ele quem se comunica ativamente com o Management Point (MP) para buscar políticas e reportar o status e inventários.  Ele viabiliza o acesso remoto ao iniciar o serviço complementar CmRcService.  Quando esse ecossistema de serviços falha, a máquina torna-se imediatamente invisível para a console e deixa de processar comandos. </p>
+    </section>
+
+    <section class="article-section">
+      <h2>Principais causas de inconsistência do client </h2>
+      <p>De acordo com os cenários mais comuns enfrentados no suporte corporativo e documentações oficiais da Microsoft, as falhas geralmente derivam de: </p>
+      <ul class="styled-list">
+        <li><strong>Corrupção de WMI e pós-imagem:</strong> Após manutenções em bancada, o processo de pós-instalação (reimagem) pode falhar.  Isso deixa o client ausente ou corrompe o Windows Management Instrumentation (WMI) local, do qual o SCCM depende exclusivamente para estruturar políticas, interrompendo a comunicação com o MP. </li>
+        <li><strong>Falhas de GPO e registros duplicados:</strong> Problemas de conectividade, tempo insuficiente de rede ou falhas na replicação do Active Directory impedem que a GPO faça o deploy correto do agente quando a máquina ingressa no domínio.  Adicionalmente, máquinas formatadas sem limpeza no SCCM podem gerar registros duplicados, gerando grandes conflitos de comunicação. </li>
+        <li><strong>Impacto do Home Office e VPN:</strong> Notebooks que passam longos períodos fora da rede física mudam de IP e dependem de túneis de VPN.  Se o equipamento demorar a se registrar nos Boundary Groups corretos, o acesso remoto e as políticas ficarão incompletos. </li>
+        <li><strong>Serviços Parados:</strong> O travamento do serviço base CcmExec ou do CmRcService é fatal para a ferramenta de controle remoto.  Nesses casos, reiniciar a instância desses processos é o primeiro passo do troubleshooting. </li>
+      </ul>
+    </section>
+
+    <section class="article-section">
+      <h2>Metodologia: A escolha pela eficiência híbrida </h2>
+      <p>Embora existam diversas metodologias para a remediação do client SCCM, este artigo aborda uma estratégia que identifiquei na prática como a de maior taxa de sucesso e menor incidência de falhas operacionais.  Por esse motivo, a solução apresentada utiliza uma <strong>arquitetura híbrida</strong>: uma mescla entre a robustez lógica do <strong>PowerShell</strong> (para orquestração) e a execução direta e previsível do <strong>Batch</strong> (para ações no endpoint). Essa combinação garante que os comandos sejam interpretados corretamente pelo sistema operacional de destino, independentemente de restrições locais de política de execução do PowerShell que o agente quebrado possa apresentar.</p>
+    </section>
+
+    <div class="content-box content-box--info">
+      <h4>O Papel Estratégico do PsExec </h4>
+      <p>Para viabilizar essa intervenção de forma simples, a solução utiliza o utilitário <strong>PsExec</strong>.  É fundamental destacar que esta é uma <strong>ferramenta oficial da Microsoft</strong>, integrante da suíte Sysinternals. O PsExec permite a execução de comandos remotos com privilégios de SYSTEM, tornando-se um aliado indispensável para intervenções em máquinas que, devido à falha do próprio agente, não podem mais ser gerenciadas via console. </p>
+    </div>
+
+    <div class="content-box content-box--alert">
+      <h4>Governança e Segurança: Regras de Ouro </h4>
+      <p>Como isso expõe o ambiente a riscos de comandos arbitrários, protocolos de governança são inegociáveis: </p>
+      <ul class="styled-list">
+        <li><strong>Aprovação formal:</strong> O processo e a ferramenta devem ser categoricamente aprovados pela equipe de Segurança da Informação. </li>
+        <li><strong>Validação rigorosa de destino:</strong> O operador de Service Desk deve confirmar o <em>hostname</em> manualmente antes do disparo.  O script de apoio utiliza DNS reverso (PTR) para garantir que o IP informado de fato corresponde à máquina que necessita de suporte. </li>
+        <li><strong>Propósito exclusivo e rastreabilidade:</strong> A ferramenta é de uso exclusivo para o escopo de suporte técnico e a operação deve prever retenção de logs e evidências da execução. </li>
+      </ul>
+    </div>
+
+    <section class="article-section">
+      <h2>Padronização via scripts: Solução Operacional </h2>
+      <p>Para tratar máquinas isoladas com agilidade e poupar tempo do nível N3, a adoção de scripts integrados permite uma intervenção controlada assim, uma arquitetura prática inclui: </p>
+      <ul class="styled-list">
+        <li><strong>1. O Launcher (script Batch):</strong> Age como um disparador inicial.  Ele garante que o script principal (em PowerShell) execute com elevação administrativa necessária, protegendo a operação de erros humanos básicos. </li>
+        <li><strong>2. O Orquestrador (script PowerShell):</strong> É o cérebro da rotina.  Ele valida os acessos do operador, pinga o IP e resolve o nome do host.  Se confirmado, cria a pasta C:\Temp na estação do colaborador (se ela não existir) e copia remotamente o instalador CCMSETUP.EXE junto do script final.  Em seguida, chama o PsExec silenciosamente e higieniza a máquina (apaga os arquivos temporários) após a conclusão. </li>
+        <li><strong>3. O Corretor de Client (script Batch final):</strong> Rodando invisível no destino, ele decide o que fazer.  Se o processo CcmExec.exe existir e estiver travado, ele mata a instância, define o status de início para automático e recomeça os serviços essenciais (CCMEXEC e CMRCSERVICE).  Se o client estiver profundamente danificado ou ausente, faz uma remoção forçada e executa a reinstalação apontando os caminhos oficiais de rede: </li>
+      </ul>
+    </section>
+
+	<div class="example-card">
+	  <h4>Comando de Reinstalação </h4>
+	  <p><code>ccmsetup.exe /ForceInstall /MP:SERVIDOR_MP.DOMINIO.LOCAL SMSSITECODE=ABC FSP=SERVIDOR_FSP.DOMINIO.LOCAL /Retry:1 /NoService</code></p>
+	</div>
+<br>
+    <div class="data-block">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Parâmetro</th>
+            <th>Função Técnica</th>
+            <th>Benefício para o Suporte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>/ForceInstall</td>
+            <td>Remove versões anteriores e vestígios corrompidos.</td>
+            <td>Garante uma instalação "limpa".</td>
+          </tr>
+          <tr>
+            <td>/MP:&lt;Server&gt;</td>
+            <td>Define o Management Point inicial.</td>
+            <td>Conecta o client à infraestrutura imediatamente.</td>
+          </tr>
+          <tr>
+            <td>SMSSITECODE=&lt;ABC&gt;</td>
+            <td>Atribui o código do Site estaticamente.</td>
+            <td>Evita falhas de auto-descoberta.</td>
+          </tr>
+          <tr>
+            <td>FSP=&lt;Server&gt;</td>
+            <td>Define o Fallback Status Point.</td>
+            <td>Permite reportar erros mesmo se o MP falhar.</td>
+          </tr>
+          <tr>
+            <td>/Retry:1</td>
+            <td>Define o intervalo de tentativa de download em 1 minuto caso ocorra falha.</td>
+            <td>Reduz o tempo de espera para novas tentativas em conexões instáveis.</td>
+          </tr>
+          <tr>
+            <td>/NoService</td>
+            <td>Executa o instalador no contexto do usuário logado, sem criar um serviço temporário.</td>
+            <td>Permite acessar recursos de rede restritos à conta do sistema (Local System).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <section class="article-section">
+      <h2>Abordagem avançada: Pure PowerShell & Auditoria </h2>
+      <p>Para administradores que buscam um controle de log superior e auditoria nativa, a solução pode ser adaptada para rodar integralmente em PowerShell via <strong>WinRM (Invoke-Command)</strong>. Esta abordagem oferece: </p>
+      <ul class="styled-list">
+        <li><strong>Rastreabilidade:</strong> Logs detalhados no <em>Event Viewer</em> (Event ID 4104). </li>
+        <li><strong>Tratamento de Erros:</strong> Uso de blocos Try/Catch para reportar falhas em tempo real ao console do administrador. </li>
+        <li><strong>Segurança:</strong> Integração nativa com protocolos de gestão do Windows, sem necessidade de ferramentas externas. </li>
+      </ul>
+    </section>
+
+	<div class="example-card">
+	  <h4>Exemplo de Script de Saúde (Padrão Microsoft Learn) </h4>
+	  <p>PowerShell</p>
+      <pre><code># Verificação de integridade e reparo do WMI 
+Stop-Service ccmexec, winmgmt -Force -ErrorAction SilentlyContinue 
+winmgmt /verifyrepository 
+if ($LASTEXITCODE -ne 0) { 
+winmgmt /salvagerepository 
+} 
+# Reinstalação apontando para o servidor do Site 
+Start-Process "ccmsetup.exe" -ArgumentList "/ForceInstall /MP:SERVIDOR_MP.DOMINIO.LOCAL SMSSITECODE=ABC FSP=SERVIDOR_FSP.DOMINIO.LOCAL /Retry:1 /NoService" -Wait </code></pre>
+	</div>
+
+    <section class="article-section">
+	  <h2>Validação pós-correção (checklist) </h2>
+	  <p>A adoção desta solução híbrida padroniza o atendimento do Service Desk e reduz drasticamente o tempo de indisponibilidade dos ativos. A correção pontual permite que o agente volte a responder à console, permitindo que as correções estruturais (GPOs e Deploy massivo) voltem a operar normalmente. </p>
+      <p><strong>Checklist de sucesso: </strong></p>
+	  <ul>
+		<li><strong>Análise de logs nativos:</strong> Aguarde pelo menos 10 minutos após a instalação e monitore o log C:\Windows\CCMSetup\Logs\CCMSetup.log na estação em que o script foi executado.  Procure pela indicação de "return code 0", que atesta que o agente subiu perfeitamente. </li>
+		<li><strong>Validação no console SCCM:</strong> Atualize as visualizações da console de administração.  O equipamento deve mudar o status e validar sua comunicação contínua com o Management Point (MP). </li>
+        <li><strong>Teste real de controle:</strong> Inicialize o acesso remoto na máquina do usuário para validar imediatamente a eficácia da chamada. </li>
+	  </ul>
+	</section>
+
+
+    <section class="article-section">
+      <h2>Conclusão </h2>
+      <p>Desafios com a disponibilidade do client SCCM são esperados diariamente em grandes redes, particularmente diante do aumento do modelo de trabalho via Home Office.  Empoderar o Service Desk com processos bem documentados e automatizados reduz o tempo de inatividade para o negócio e evita o escalonamento desnecessário de problemas.  É essencial reiterar, contudo, que essa abordagem com scripts tem caráter estritamente <strong>emergencial e pontual</strong>.  Problemas crônicos e generalizados no ambiente devem ser inevitavelmente tratados em nível de infraestrutura, com readequação de certificados PKI, Boundary Groups ou manutenção nas GPOs corporativas. </p>
+    </section>
+
+
+    <div class="source-list">
+    <strong>📚 Fontes: </strong>
+    <ul style="list-style:none; padding-left:0; margin-top:10px;">
+        <li>• <a href="https://learn.microsoft.com/" target="_blank" rel="noopener">Documentação de Instalação do Cliente - Microsoft Learn</a></li>
+        <li>• <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/psexec" target="_blank" rel="noopener">Download e Documentação PsExec - Microsoft Sysinternals </a></li>
+        <li>• <a href="https://velessoftware.com" target="_blank" rel="noopener">Veles Software </a></li>
+        <li>• <a href="https://www.prajwaldesai.com/sccm/" target="_blank" rel="noopener">Prajwal Desai </a></li>
+    </ul>
+    </div>
+  </article>
+
+</main>
+
+    <footer class="site-footer"></footer>
+    <script src="../assets/js/busca.js"></script>
+    <script src="../assets/js/artigos-dados.js"></script>
+	<script src="../assets/js/acesso-rapido.js"></script>
+    <script src="../assets/js/components.js"></script>
+    <script src="../assets/js/sharing.js"></script>
+    <script src="../assets/js/schema-article.js"></script>
+    <script src="../assets/js/image-lightbox.js"></script>
+</body>
+</html>

@@ -3029,3 +3029,68 @@ ol {
 .tag-gestao {
   background-color: #424242; 
 }
+
+/*TESTE RESUMO DE ARTIGO COM IA */
+.ai-summary-box {
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+   
+    margin-top: 40px;
+}
+
+.ai-buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+
+/* Estilo base dos botões (Fundo branco, texto colorido) */
+.ai-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    border: 2px solid #d1d5da;
+    border-radius: 8px;
+    background: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+    transition: all 0.3s ease; /* Transição suave para a inversão de cores */
+}
+
+/* ChatGPT */
+.chatgpt { border-color: #10a37f; color: #10a37f; }
+.chatgpt:hover { 
+    background-color: #10a37f; 
+    color: white !important; 
+}
+
+/* Perplexity */
+.perplexity { border-color: #00a9e0; color: #00a9e0; }
+.perplexity:hover { 
+    background-color: #00a9e0; 
+    color: white !important; 
+}
+
+/* Claude */
+.claude { border-color: #d97757; color: #d97757; }
+.claude:hover { 
+    background-color: #d97757; 
+    color: white !important; 
+}
+
+/* Grok */
+.grok { border-color: #000000; color: #000000; }
+.grok:hover { 
+    background-color: #000000; 
+    color: white !important; 
+}
+
+/* Ajuste de hover geral para o efeito de leve subida */
+.ai-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}

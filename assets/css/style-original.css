@@ -1,0 +1,3031 @@
+/* ==========================================================================
+   1. CONFIGURAÇÕES GERAIS E VARIÁVEIS
+   ========================================================================== */
+
+:root {
+    --bg-dark: #232732;
+    --bg-darker: #1a1d24;
+    --text-white: #ffffff;
+    --text-gray: #b0b0b0;
+    --accent-black: #000000;
+    --accent-blue: #007bff;
+    --nav-height: 50px;
+    --color-success: #28a745;
+    --color-warning: #f59e0b;
+	--color-info: #0ea5e9;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    overflow-x: hidden;
+    padding-top: var(--nav-height);
+}
+
+img {
+    max-width: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* ==========================================================================
+   2. HEADER E NAVEGAÇÃO
+   ========================================================================== */
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--nav-height);
+    background-color: #ffffff;
+    color: #333333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    gap: 10px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--accent-blue);
+}
+
+.hamburger {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   3. SEÇÃO HERO (HOME)
+   ========================================================================== */
+
+.hero {
+    display: grid;
+    grid-template-columns: 1.2fr 1.5fr 0.8fr; /* Layout de 3 colunas desktop */
+    gap: 20px;
+    padding: 40px 5%;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.hero-text h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.hero-text p {
+    color: var(--text-gray);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.hero-text strong {
+    color: var(--accent-blue);
+}
+
+.hero-image {
+    height: 90%;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding-left: 20px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contact-item h4 {
+    color: var(--text-gray);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.contact-item p {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.btn {
+    display: inline-block;
+    background-color: var(--accent-black);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity 0.3s;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+/* ==========================================================================
+   4. CARROSSEL DE DESTAQUES
+   ========================================================================== */
+
+.carousel-section {
+    position: relative;
+    padding: 0;
+    background-color: var(--bg-darker);
+    overflow: hidden;
+}
+
+.carousel-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Estilo Base (Desktop) */
+.slide {
+    min-width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 60px 10%;
+    gap: 40px;
+}
+
+.slide-content {
+    flex: 1;
+}
+
+.slide-content h2 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+.slide-image {
+    flex: 1;
+    display: flex;
+    justify-content: center; /* Garante centralização horizontal do container da imagem */
+}
+
+.slide-image img {
+    border-radius: 4px;
+    width: 100%; /* No desktop ocupa o espaço do flex:1 */
+    max-width: 500px; /* Evita que a imagem fique gigante em telas muito largas */
+    height: auto;
+}
+
+/* Ajustes para Mobile (Telas até 768px) */
+@media (max-width: 768px) {
+    .slide {
+        flex-direction: column; /* Empilha os elementos verticalmente */
+        text-align: center;      /* Centraliza o texto para um visual melhor no mobile */
+        padding: 40px 5%;       /* Reduz o padding lateral para ganhar espaço */
+        gap: 30px;
+    }
+
+    .slide-content {
+        order: 1; /* Garante que o texto venha primeiro */
+    }
+
+    .slide-image {
+        order: 2; /* Garante que a imagem venha abaixo do texto */
+        width: 100%;
+    }
+
+    .slide-image img {
+        width: 95%;  /* Aumenta o tamanho da imagem no mobile para destaque */
+        max-width: 350px; /* Limita o tamanho para não estourar */
+        margin: 0 auto;   /* Centraliza a imagem propriamente dita */
+    }
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10;
+    padding: 20px;
+}
+
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+
+.carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background-color: #555;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: white;
+	transform: scale(1.5);
+}
+
+/* ==========================================================================
+   5. SEÇÕES DE IMPACTO E SERVIÇOS
+   ========================================================================== */
+
+.impact-section {
+    padding: 20px 5%;
+}
+
+.impact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.impact-card {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 40px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+	transition: transform 0.3s ease;
+}
+
+.impact-card:hover {
+	transform: translateY(-5px);
+	border-color: #007bff;
+}
+
+.impact-card.highlight {
+    background: linear-gradient(145deg, #1a1d24, #2c313c);
+	box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.impact-icon {
+    font-size: 2.5rem;
+    color: var(--accent-blue);
+    margin-bottom: 20px;
+}
+
+.services {
+    padding: 40px 20%; /* Margem lateral maior para centralizar como nas imagens */
+}
+
+.services-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.services-header h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.service-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.service-item:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.service-img {
+    flex: 1;
+    max-width: 600px; /* Limita largura da imagem */
+}
+        
+.service-img img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+		
+.service-text {
+    flex: 1.5;
+}
+/* ==========================================================================
+   AJUSTE MOBILE – IMAGENS DOS SERVIÇOS
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+  .service-item {
+    flex-direction: column;
+  }
+
+  .service-img {
+    width: 100%;
+    max-height: 350px;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+
+  .service-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+
+/* ==========================================================================
+   6. PÁGINA SOBRE (SOBRE.HTML)
+   ========================================================================== */
+
+.about-container {
+    padding: 60px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-header {
+    text-align: center;
+    /*margin-bottom: 10px;*/
+}
+
+.underline {
+    width: 80px;
+    height: 4px;
+    background-color: var(--accent-blue);
+    margin: 0 auto 30px auto !important; /* O '0' no início reduz o espaço acima */
+}
+
+.about-text-full p {
+    font-size: 1.1rem;
+    color: var(--text-gray);
+    margin-bottom: 25px;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+.about-text-full strong { color: var(--accent-blue); }
+
+.certifications-section {
+    padding: 0px 5%;
+    background-color: transparent; /* Remove qualquer fundo escuro da seção */
+}
+
+.certifications-carousel-container {
+    overflow: hidden; /* Esconde os certificados que estão fora da tela */
+    width: 100%;
+}
+
+.certifications-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    gap: 20px;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 10px !important; /* Diminui a distância para o underline */
+    font-size: 2rem;
+}
+
+/* Grade de Certificações */
+.certifications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.cert-card {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.cert-card img {
+    width: 150px;
+    height: auto;
+    margin: 0 auto 20px auto;
+    filter: drop-shadow(0 0 5px rgba(0, 123, 255, 0.2));
+}
+
+.cert-card h3 {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    min-height: 50px;
+    width: 100%;
+}
+
+.cert-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent-blue);
+}
+
+.btn-verify {
+    background-color: var(--accent-blue);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.cert-dots {
+    display: none; /* Escondido por padrão no Desktop */
+    justify-content: center;
+    gap: 8px;
+    margin-top: 30px;
+}
+
+/* Configuração Padrão (Desktop) */
+.mobile-only {
+    display: none; /* Esconde a versão resumida no computador */
+}
+
+/* Configuração para Celular (Mobile) */
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none; /* Esconde a versão longa no celular */
+    }
+    
+    .mobile-only {
+        display: block; /* Mostra a versão resumida no celular */
+    }
+
+    .mobile-only p {
+        text-align: left; /* Opcional: alinhamento à esquerda costuma ler melhor no mobile */
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+	
+	.about-text-full p {
+	   text-align: left;
+	}
+}
+.certifications-track {
+    gap: 0; /* Remove gap para o cálculo de 100% ser exato */
+}
+
+.cert-card {
+    flex: 0 0 100% !important; /* Exibe exatamente um por vez */
+    min-width: 100%;
+    box-shadow: none; /* Opcional: simplifica o visual no mobile */
+}
+    
+.certifications-section .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* ==========================================================================
+   7. FOOTER (TODAS AS PÁGINAS)
+   ========================================================================== */
+
+.site-footer {
+    background-color: var(--bg-darker);
+    color: var(--text-gray);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-container {
+	width: 90%;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+		
+.footer-top {
+    background-color: rgba(255, 255, 255, 0.03);
+    padding: 20px 0;
+}
+
+.top-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.social-icons {
+    display: flex;
+    gap: 20px;
+}
+
+.social-icons a {
+    font-size: 1.2rem;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: var(--accent-blue);
+}
+
+.footer-main {
+    padding: 60px 0;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas desktop */
+    gap: 40px;
+}
+
+.footer-col h3 {
+    color: white;
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-col h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--accent-blue);
+}
+
+.contact-list li {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.contact-list i {
+    color: var(--accent-blue);
+    margin-top: 5px;
+}
+
+.footer-about {
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.footer-about strong {
+	color: var(--accent-blue); /* Usa o azul de destaque que definimos */
+	font-weight: 700;
+}
+
+.linkedin-btn {
+    display: inline-block;
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+
+.footer-bottom {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 20px 0;
+    font-size: 0.85rem;
+}
+
+.bottom-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.legal-links a {
+    margin-right: 20px;
+}
+
+.footer-col ul li a {
+	color: var(--text-gray);
+	transition: color 0.2s;
+}
+
+.footer-col ul li a:hover {
+	color: var(--text-white);
+	padding-left: 5px; /* Efeito visual sutil ao passar o mouse */
+}
+	
+@media (max-width: 768px) {
+	.main-grid {
+		grid-template-columns: 1fr; /* Uma coluna no mobile */
+		text-align: center;
+	}
+
+	.footer-col ul li {
+		justify-content: center; /* Centralizar itens no mobile */
+	}
+	.contact-list li {
+		justify-content: center;
+	}
+
+	.bottom-flex {
+		flex-direction: column;
+		text-align: center;
+		}
+}
+@media (max-width: 768px) {
+    /* Centraliza o título da coluna no footer */
+    .footer-col h3 {
+        display: inline-block; /* Permite que o ::after se baseie no texto e não na largura total */
+        text-align: center;
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Centraliza a underline azul abaixo do título */
+    .footer-col h3::after {
+        left: 50% !important;
+        transform: translateX(-50%);
+        width: 40px;
+    }
+
+    /* Garante que o contêiner do título no footer alinhe tudo ao centro */
+    .footer-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* Ajusta a lista de contatos para ficar centralizada no mobile */
+    .contact-list li {
+        justify-content: center;
+    }
+}
+
+/* ==========================================================================
+   8. RESPONSIVIDADE (MEDIA QUERIES)
+   ========================================================================== */
+
+@media (max-width: 960px) {
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: var(--nav-height);
+        left: 0;
+        width: 100%;
+        background-color: white;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        transform: translateY(-150%);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-links.active {
+        transform: translateY(0);
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding-top: 40px;
+    }
+
+    .hero-contact {
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-left: 0;
+        padding-top: 30px;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .main-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .slide {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .impact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-item, .service-item:nth-child(even) {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .top-flex, .bottom-flex {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .cert-dots {
+        display: flex;
+	
+    }
+}
+
+/* 1. O container precisa de um respiro interno para não cortar o efeito de hover e os dots */
+.certifications-container {
+    overflow: hidden !important; 
+    width: 100%;
+    position: relative;
+    display: block;
+    /* Adicionamos padding no topo e na base para o card e os dots 'respirarem' */
+    padding: 30px 0 60px 0 !important; 
+}
+
+/* 2. O trilho onde os cards deslizam */
+#certGrid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    /* Removemos margens que podem estar deslocando o grid */
+    margin: 0 !important; 
+}
+
+/* 3. Ajuste nos Dots para garantir que fiquem visíveis abaixo do card */
+.cert-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    position: absolute; /* Fixa os dots em relação ao container pai */
+    bottom: 20px;       /* Distância do fundo da seção */
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+/* 4. O Card no Mobile: precisa ser 100% da largura do pai e não encolher */
+@media (max-width: 992px) {
+    .cert-card {
+        flex: 0 0 100% !important; /* O primeiro 0 impede de crescer, o segundo 0 impede de encolher */
+        min-width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        box-sizing: border-box;
+    }
+    
+    #certGrid {
+        gap: 0 !important; /* No mobile, gap zero é vital para o cálculo de 100% */
+    }
+}
+
+/* ==========================================================
+   SOBRE.HTML – Certificações com 4 cards por linha (Desktop)
+   ========================================================== */
+@media (min-width: 993px) {
+
+  .about-layout-wide #certGrid {
+    flex-wrap: wrap !important;
+    gap: 20px;
+    transform: none !important;
+  }
+
+  .about-layout-wide .cert-card {
+    flex: 0 0 calc(25% - 15px) !important;
+    min-width: calc(25% - 15px) !important;
+  }
+}
+
+
+
+/* ==========================================================================
+   8. Estilos específicos para a Vitrine de Artigos
+   ========================================================================== */
+        
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            padding: 0px 0;
+        }
+
+        .article-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-blue);
+        }
+
+        .article-thumb {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .article-content {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .article-category {
+            color: var(--accent-blue);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .article-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            color: #fff;
+        }
+
+        .article-excerpt {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .btn-read-more {
+            margin-top: auto;
+            background: var(--accent-blue);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: opacity 0.3s;
+        }
+
+        .btn-read-more:hover {
+            opacity: 0.9;
+        }
+
+/* --- Estilos Isolados para o Corpo do Artigo --- */
+    
+/* 1. Usamos o prefixo .article-body em TUDO para não vazar para o footer */
+.article-body { 
+	line-height: 1.8; 
+	font-size: 1.1rem; 
+	color: var(--text-gray); 
+}
+
+/* Aqui está o segredo: especificamos que apenas o h2 DENTRO do artigo tem a borda lateral */
+.article-body h2 { 
+    color: #fff; 
+    margin: 30px 0 15px; 
+    font-size: 1.8rem; 
+    border-left: 4px solid var(--accent-blue) !important; /* Borda lateral apenas aqui */
+    padding-left: 15px; 
+    text-transform: none !important; /* Garante que não fique em caixa alta */
+}
+
+/* 3. Estilos de suporte do artigo */
+.article-body p { margin-bottom: 10px; text-align: justify; }
+.article-body strong { color: #fff; }
+    
+.stats-box { background: rgba(0, 123, 255, 0.1); border-radius: 12px; padding: 30px; margin: 30px 0; border: 1px dashed var(--accent-blue); }
+.stats-box h4 { color: var(--accent-blue); margin-bottom: 10px; text-transform: uppercase; font-size: 0.9rem; }
+    
+.cta-box { background: var(--bg-darker); padding: 40px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.1); margin: 60px 0; }
+.source-list { font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 40px; }
+.article-banner { width: 100%; height: 400px; object-fit: cover; border-radius: 12px; margin-bottom: 40px; }
+
+/* Checklist */
+.checklist-box { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--accent-blue); border-radius: 12px; padding: 30px; margin: 40px 0; }
+.checklist-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 20px; }
+.checklist-item i { color: var(--accent-blue); margin-top: 5px; }
+.checklist-item h5 { color: #000; margin-bottom: 5px; font-size: 1.1rem; text-transform: none !important; }
+
+/* Boxes de Impacto */
+.impact-table-box { background: rgba(255, 255, 255, 0.03); border-radius: 12px; padding: 25px; margin: 30px 0; border: 1px solid rgba(255,255,255,0.1); }
+.impact-table-box table { width: 100%; border-collapse: collapse; color: var(--text-gray); }
+.impact-table-box th { text-align: left; color: var(--accent-blue); padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.impact-table-box td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+/* Tabela IA / Guia Prático e Exemplos */
+.settings-table { width: 100%; border-collapse: collapse; margin: 20px 0; background: rgba(0,0,0,0.2); border-radius: 8px; overflow: hidden; }
+.settings-table th, .settings-table td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.95rem; }
+.settings-table th { background: rgba(40, 167, 69, 0.2); color: #fff; }
+.danger-box { background: rgba(220, 53, 69, 0.1); border-radius: 12px; padding: 25px; margin: 30px 0; border: 1px solid #dc3545; }
+.danger-box h4 { color: #dc3545; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+
+.guide-box { background: rgba(40, 167, 69, 0.05); border-radius: 12px; padding: 30px; margin: 40px 0; border: 1px solid #28a745; }
+.guide-box h3 { color: #28a745; border: none; padding: 0; margin-bottom: 20px; }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+.info-card { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+.info-card li { text-align: justify; text-justify: inter-word; /* reduz buracos */ hyphens: auto; /* permite hifenização */ }
+
+.info-card h5 { margin-bottom: 10px; font-size: 1rem; }
+.settings-table { width: 100%; border-collapse: collapse; margin: 20px 0; background: rgba(0,0,0,0.2); border-radius: 8px; overflow-x: auto; display: block; }
+.settings-table th, .settings-table td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.95rem; min-width: 150px; }
+.settings-table th { background: rgba(40, 167, 69, 0.2); color: #fff; }
+.example-card, .info-box { background: rgba(0, 123, 255, 0.1); border-left: 4px solid var(--accent-blue); padding: 20px; border-radius: 8px; margin-top: 10px; }
+.example-card {
+    text-align: justify;
+    text-justify: inter-word;
+}
+.example-card .danger-box p {
+    hyphens: auto;
+}
+.article-banner { width: 100%; height: 400px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; }
+.source-list { font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 40px; }
+
+
+
+/* --- Seção de Casos de Sucesso --- */
+.cases-section {
+    padding: 20px 0;
+    background-color: var(--bg-dark); /* Ajuste conforme sua variável de fundo */
+	/* Adiciona uma margem interna nas laterais para não colar no mobile */
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.cases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Cria 3 colunas iguais */
+    gap: 30px; /* Espaço entre os cards */
+    width: 100%;
+}
+
+.case-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 30px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.case-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent-blue);
+}
+
+.case-card.highlight {
+    border: 1px solid var(--accent-blue);
+    background: rgba(0, 123, 255, 0.05);
+}
+
+.case-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.company-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    letter-spacing: 1px;
+}
+
+.case-header i {
+    font-size: 1.5rem;
+    color: var(--accent-blue);
+}
+
+.case-card h3 {
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    color: #fff;
+}
+
+.case-results {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.case-results li {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-gray);
+}
+
+.case-results li i {
+    color: #28a745; /* Verde para resultados positivos */
+    font-size: 0.8rem;
+}
+
+/* --- Cards de Artigos --- */
+.blog-preview {
+    padding: 80px 0;
+}
+
+.article-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.article-card {
+    background: #1a1a1a;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.article-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.article-content {
+    padding: 25px;
+}
+
+.category {
+    font-size: 0.7rem;
+    color: var(--accent-blue);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.article-card h3 {
+    margin: 10px 0;
+    font-size: 1.4rem;
+    line-height: 1.3;
+}
+
+.read-more {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.read-more i {
+    margin-left: 5px;
+    transition: 0.3s;
+}
+
+.read-more:hover i {
+    transform: translateX(5px);
+}
+
+/* Organização da Grid Principal */
+.cases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    align-items: stretch; /* Garante que todos os cards tenham a mesma altura */
+}
+
+/* Estrutura Interna do Card */
+.case-card {
+    display: flex;
+    flex-direction: column; /* Organiza conteúdo em vertical */
+
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    height: 100%;
+}
+
+.case-body {
+    flex-grow: 1; /* Faz esta parte ocupar o espaço necessário para empurrar a lista */
+    margin-bottom: 20px;
+}
+
+.case-body h3 {
+    min-height: 3em; /* Alinha o início do texto abaixo do título */
+    margin-bottom: 10px;
+}
+
+/* Alinhamento da Lista como Tabela */
+.case-results {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid #eee; /* Linha sutil para separar */
+    padding-top: 20px;
+}
+
+.case-results li {
+    display: grid;
+    grid-template-columns: 25px 1fr; /* Coluna fixa para o ícone e outra para o texto */
+    align-items: flex-start;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.case-results i {
+    color: #28a745;
+    margin-top: 4px;
+}
+
+/* Ajuste Responsivo (Mobile) */
+@media (max-width: 992px) {
+    .cases-grid {
+        grid-template-columns: 1fr; /* Uma coluna por linha no mobile */
+        padding: 0 15px;
+    }
+    
+    .case-card {
+        max-width: 500px;
+        margin: 0 auto; /* Centraliza o card na tela */
+    }
+}
+
+/* ========================================================================== 
+   SEÇÃO SERVIÇOS – MICRO-BLOCOS DE PROVA (MODELO 1)
+   ========================================================================== */
+
+.services-section {
+    padding: 60px 5%;
+    background-color: var(--bg-dark);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Card de Serviço */
+.service-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent-blue);
+}
+
+/* Título do Serviço */
+.service-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+    color: var(--text-white);
+}
+
+/* Texto descritivo */
+.service-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-gray);
+    margin-bottom: 20px;
+}
+
+/* Micro-bloco de prova */
+.service-proof {
+    margin-top: auto;
+    padding: 16px 18px;
+    background: rgba(0, 123, 255, 0.08);
+    border-left: 4px solid var(--accent-blue);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-white);
+}
+
+.service-proof strong {
+    color: var(--text-white);
+    font-weight: 600;
+}
+
+/* Link do micro-bloco */
+.service-proof a {
+    display: inline-block;
+    margin-top: 8px;
+    font-weight: 600;
+    color: var(--accent-blue);
+    transition: opacity 0.2s ease;
+}
+
+.service-proof a:hover {
+    opacity: 0.85;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .services-section {
+        padding: 50px 20px;
+    }
+
+    .service-card {
+        padding: 25px;
+    }
+
+    .service-card h3 {
+        font-size: 1.15rem;
+    }
+}
+
+
+
+
+/* ========================================================================== 
+   SEÇÃO RESULTADOS E CASOS DE SUCESSO
+   ========================================================================== */
+.cases-carousel-container {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    padding: 20px 0;
+}
+
+.cases-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 20px; /* Gap fixo para o JS calcular corretamente */
+    will-change: transform;
+}
+
+/* Desktop: 3 cards visíveis */
+.cases-section .case-card {
+    flex: 0 0 calc(33.333% - 13.4px); /* (100% / 3) menos a compensação do gap */
+    min-width: calc(33.333% - 13.4px);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Mobile: 1 card visível */
+/* Ajuste na Seção de Casos para Mobile */
+@media (max-width: 992px) {
+    .cases-carousel-container {
+        padding: 10px 0; /* Ajuste sutil */
+    }
+
+    .cases-track {
+        gap: 0 !important; /* Remove o espaço entre cards para não vazar o próximo */
+        display: flex;
+    }
+
+    .cases-section .case-card {
+        flex: 0 0 100% !important; /* Força o card a ter 100% da largura do container */
+        min-width: 100% !important;
+        margin: 0;
+        box-sizing: border-box; /* Garante que o padding não aumente o tamanho do card */
+    }
+}
+
+/* --- ESTILO BASE PARA TODOS OS DOTS --- */
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* --- DOTS DO CARROSSEL PRINCIPAL (HERO) --- */
+/* Mantemos o seu original que usa position absolute */
+.hero .carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.hero .dot {
+    background-color: #555;
+}
+
+.hero .dot.active {
+    background-color: white;
+	
+}
+
+/* --- DOTS DA SEÇÃO DE CASOS DE SUCESSO --- */
+/* Aqui eles ficam abaixo dos cards, sem posição absoluta */
+.cases-section .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px; /* Espaço entre os cards e os pontos */
+    position: relative; /* Diferente do hero, ele não flutua sobre a imagem */
+}
+
+/* Estilo padrão do Dot */
+.cases-section .dot {
+    width: 12px;
+    height: 12px;
+    background-color: #555;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transição suave para a mudança de estado */
+    transform: scale(1); /* Tamanho normal */
+}
+
+/* Estilo do Dot ATIVO (Fixado) */
+.cases-section .dot.active {
+    background-color: white; /* branco de destaque */
+    transform: scale(1.5);    /* Fica permanentemente maior enquanto tiver a classe .active */
+    opacity: 1;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+    .case-card {
+        flex: 0 0 100%; /* 1 por vez no Mobile */
+        min-width: 100%;
+    }
+    .cases-track {
+        gap: 0;
+    }
+}
+
+
+
+
+/* ==========================================================================
+   AJUSTE MOBILE – SEÇÃO SOLUÇÕES
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+  /* Seção ocupa toda a largura */
+  .services {
+    width: 100%;
+    padding: 10px 25px;
+  }
+
+  /* Cabeçalho mais confortável no mobile */
+  .services-header {
+    max-width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .services-header h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  .services-header p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /* Cada item vira layout vertical */
+  .service-item {
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  /* Container da imagem com destaque real */
+  .service-img {
+    width: 100%;
+    height: 240px;
+    margin-bottom: 20px;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .service-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Texto ocupa toda a largura */
+  .service-text {
+    width: 100%;
+    padding: 0;
+    text-align: left;
+  }
+
+  .service-text h3 {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+
+  .service-text p {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+  .service-text {
+    order: 1;
+  }
+
+  .service-img {
+    order: 2;
+  }
+}
+
+/* Estilo Moderno para Serviços */
+.services-modern-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.service-card-modern {
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border-bottom: 4px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.service-card-modern:hover {
+    transform: translateY(-10px);
+    border-bottom: 4px gradient #110964;
+}
+
+.service-icon {
+    font-size: 40px;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.service-list-minimal {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.service-list-minimal li {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.service-list-minimal li::before {
+    content: "✓";
+    color: #28a745;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+/* Hero e CTA */
+.services-hero { text-align: center; padding: 60px 0; }
+.cta-section-simple { text-align: center; padding: 60px 0; background: #002d5b; color: #fff; }
+.btn-primary { 
+    display: inline-block; 
+    padding: 15px 30px; 
+    background: #007bff; 
+    color: #fff; 
+    border-radius: 5px; 
+    text-decoration: none; 
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+
+/* --- SERVICES PAGE REFRESH --- */
+
+.services-hero {
+    padding: 60px 0 70px;
+    text-align: center;
+}
+
+.badge {
+    background: #007bff;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.services-modern-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin: -50px 0 60px; /* Faz os cards "subirem" sobre o hero */
+}
+
+.service-card-modern {
+    padding: 45px 30px;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.07);
+    transition: transform 0.3s ease;
+    border-top: 5px solid #eee;
+}
+
+.service-card-modern.highlight {
+    border-top: 5px solid #007bff;
+}
+
+.service-card-modern:hover {
+    transform: translateY(-10px);
+}
+
+.service-icon {
+    font-size: 45px;
+    color: #007bff;
+    margin-bottom: 25px;
+}
+
+.service-list-minimal {
+    list-style: none;
+    padding: 0;
+    margin-top: 25px;
+    text-align: left;
+}
+
+.service-list-minimal li {
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f1f1;
+    font-size: 0.95rem;
+}
+
+.service-list-minimal li::before {
+    content: "→";
+    color: #007bff;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+/* Features e CTA */
+.features-section { padding: 0; text-align: center; }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-top: 40px; margin-bottom: 15px;}
+.feature-item i { font-size: 30px; color: #28a745; margin-bottom: 15px; }
+
+.cta-final { background: #002d5b; color: #fff; padding: 40px 0; text-align: center; }
+.cta-button { 
+    display: inline-block; 
+    background: #25d366; 
+    color: #fff; 
+    padding: 18px 35px; 
+    border-radius: 50px; 
+    font-weight: bold; 
+    text-decoration: none;
+    margin-top: 25px;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+}
+
+/* Se os textos dos cards de serviço ainda estiverem cinza e você quiser brancos: */
+.service-card-modern p, 
+.service-list-minimal li {
+    color: #ffffff;
+}
+/* Se as seções Hero ou CTA estiverem fora do container principal, adicione: */
+section {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+@media (min-width: 992px) {
+    section {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+
+/* Ajuste de Segurança para Mobile (Telas até 992px) */
+@media (max-width: 992px) {
+    
+    /* Força o respiro lateral em todas as seções do corpo do site */
+    .services-hero, 
+    .services-modern-section, 
+    .features-section, 
+    .cta-final {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+    }
+
+    /* Garante que o container não force uma largura maior que a tela */
+    .container {
+        width: 100% !important;
+        padding-left: 0 !important; /* Já demos o padding na section acima */
+        padding-right: 0 !important;
+        margin: 0 auto;
+    }
+
+    /* Centralização e ajuste do título no mobile */
+    .services-hero h1 {
+        font-size: 1.8rem; /* Diminui um pouco para não quebrar feio em telas pequenas */
+        line-height: 1.3;
+    }
+}
+
+
+/* ---------- Fonte: bloco de citação/atribuição ---------- */
+
+/* Ajuste geral: funciona tanto inline quanto em bloco */
+cite {
+  /* Tipografia */
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--text-gray, #555);
+  font-style: normal;            /* cite não precisa ser itálico aqui */
+  font-weight: 500;
+
+  /* Espaçamento */
+  display: inline-block;         /* inline por padrão; vira bloco com .cite--block */
+  margin: 0.25rem 0;
+}
+
+/* Prefixo visual “Fontes:” antes do conteúdo, quando desejar automatizar */
+cite[data-prefix="true"]::before {
+  content: "Fontes: ";
+  color: var(--accent-blue, #0b5cad);
+  font-weight: 600;
+}
+
+/* Links dentro do cite */
+cite a {
+  color: var(--accent-blue, #0b5cad);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(11, 92, 173, 0.25);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+cite a:hover,
+cite a:focus {
+  color: color-mix(in oklab, var(--accent-blue, #0b5cad) 80%, #000);
+  border-color: currentColor;
+  text-decoration: none;
+  outline: none;
+}
+
+/* Separador “ / ” entre fontes quando preferir automatizar via CSS */
+cite.cite--sep-slash a + a::before {
+  content: " / ";
+  color: var(--text-gray, #666);
+  margin: 0 0.25rem;
+}
+
+/* Variante em bloco (para pé de página do artigo) */
+.cite--block {
+  display: block;
+  padding: 0.75rem 1rem;
+  background: rgba(11, 92, 173, 0.06);            /* leve destaque */
+  border-left: 4px solid var(--accent-blue, #0b5cad);
+  border-radius: 6px;
+  margin: 1rem 0;
+}
+
+/* Ícone opcional à esquerda na variante em bloco */
+.cite--block.cite--icon::before {
+  content: "🔗";
+  margin-right: 0.5rem;
+}
+
+/* Modo escuro (se seu tema usar .dark ou [data-theme="dark"]) */
+@media (prefers-color-scheme: dark) {
+  cite {
+    color: #cfd8dc;
+  }
+  .cite--block {
+    background: rgba(11, 92, 173, 0.12);
+    border-left-color: var(--accent-blue, #6aa3ff);
+  }
+  cite a {
+    color: var(--accent-blue, #6aa3ff);
+    border-bottom-color: rgba(106, 163, 255, 0.35);
+  }
+}
+
+/* BOTÃO IMPRIMIR */
+@media print {
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+  /* Remove elementos que não devem aparecer */
+  header,
+  nav,
+  footer,
+  cta-box,
+  .menu,
+  .dropdown,
+  .navbar,
+  .btn-print {
+    display: none !important;
+  }
+
+  /* Garante que só o artigo seja impresso */
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  #artigo {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+}
+@media print {
+
+  .pilar-item {
+    border: none !important;
+    border-radius: 0 !important;
+  }
+  .cta-box {
+    display: none !important;
+  }
+  .btn-print-floating {
+    display: none !important;
+  }
+  a[href*="artigos.html"] {
+    display: none !important;
+  }
+}
+.btn-print-floating {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #0b5ed7;
+  color: #fff;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,.2);
+  z-index: 9999;
+}
+
+.btn-print-floating:hover {
+  background: #084298;
+}
+
+.btn-print {
+  background: #0b5ed7;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-print:hover {
+  background: #084298;
+}
+.btn-print-floating {
+  display: none;
+}
+@media (max-width: 768px) {
+
+  .btn-print-floating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+
+    background: #0b5ed7;
+    color: #fff;
+    border: none;
+
+    font-size: 22px;
+    cursor: pointer;
+
+    box-shadow: 0 6px 18px rgba(0,0,0,.2);
+    z-index: 9999;
+  }
+
+}
+@media print {
+
+  h2 {
+    page-break-after: avoid;
+  }
+
+  h2 + p,
+  h2 + div,
+  h2 + section {
+    page-break-before: avoid;
+  }
+
+}
+/* ===== Reset/Utilidades rápidas ===== */
+.desktop-only { display: block; }
+.mobile-only  { display: none; }
+
+.about-section {
+  display: flex;
+  align-items: stretch; /* CHAVE: mesma altura */
+  gap: clamp(1rem, 2.5vw, 2rem);
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(1rem, 2vw, 2rem);
+}
+
+/* TEXTO */
+.about-text-full {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.6;
+}
+
+/* CONTAINER DA IMAGEM */
+.about-photo {
+  flex: 0 0 340px;      /* largura fixa elegante */
+  overflow: hidden;    /* corta o excesso */
+  display: flex;
+}
+
+/* IMAGEM */
+.about-photo img {
+  width: 100%;
+  height: 100%;        /* ocupa a altura do texto */
+  object-fit: cover;   /* CROP real */
+  object-position: top;
+  display: block;
+}
+
+/* Desktop: texto à esquerda, foto à direita */
+@media (min-width: 769px) {
+  .about-text-full { order: 1; }  /* texto primeiro */
+  .about-photo     { order: 2; }  /* foto depois (à direita) */
+}
+
+@media (max-width: 768px) {
+  .about-section {
+    flex-direction: column;
+  }
+
+  .about-photo {
+    order: 2;
+    flex: none;
+    max-width: 220px;
+    margin: 1rem auto 0;
+  }
+
+  .about-photo img {
+    height: auto;
+    width: 100%;
+    object-fit: contain; /* sem crop no mobile */
+  }
+
+  .desktop-only { display: none; }
+  .mobile-only  { display: block; }
+}
+ul {
+  list-style-position: outside;
+  text-align: justify;
+}
+ol {
+  list-style-position: inside;
+  text-align: justify;
+}
+
+/* Estilização do Paginador */
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 50px;
+    padding: 20px;
+}
+
+.pag-btn {
+    background-color: #fff;
+    border: 1px solid #007bff;
+    color: #007bff;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.pag-btn.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.pag-btn:hover:not(.active) {
+    background-color: #e7f1ff;
+}
+
+/* Força todos os cards a terem a mesma altura na linha */
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    align-items: stretch; /* Garante que os cards da mesma linha tenham a mesma altura */
+}
+
+.article-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ocupa toda a altura disponível do grid */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Fixa a altura da imagem para não empurrar o texto */
+.article-thumb {
+    width: 100%;
+    height: 200px;
+    object-fit: cover; /* Corta a imagem sem distorcer */
+}
+
+/* Faz o conteúdo ocupar o espaço restante e alinha o botão ao rodapé */
+.article-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; 
+}
+
+/* Limita o Título a 2 linhas e o Exerpt a 3 linhas (Cria o "...") */
+.article-content h3 {
+    height: 3em; /* Altura fixa para títulos */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    margin-bottom: 10px;
+}
+
+.article-excerpt {
+    height: 4.5em; /* Altura fixa para o resumo */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    color: var(--text-gray);
+    margin-bottom: 10px;
+}
+
+.share-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 10px 0;
+    font-family: sans-serif;
+}
+
+.share-label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.share-btn:hover {
+    background: #f0f0f0;
+}
+
+/* Tamanho dos ícones */
+.share-btn img, .share-btn svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+}
+
+/* --- Cores Padrão dos Ícones (via Filter) --- */
+
+/* WhatsApp - Verde */
+#share-whatsapp img { filter: invert(59%) sepia(93%) saturate(347%) hue-rotate(85deg) brightness(96%) contrast(92%); }
+
+/* X - Branco/Cinza Claro */
+#share-x img { filter: invert(59%); }
+
+/* Facebook - Azul */
+#share-facebook img { filter: invert(35%) sepia(75%) saturate(2680%) hue-rotate(203deg) brightness(98%) contrast(105%); }
+
+/* LinkedIn - Azul LinkedIn */
+#share-linkedin img { filter: invert(32%) sepia(92%) saturate(1257%) hue-rotate(179deg) brightness(94%) contrast(101%); }
+
+/* Email - Vermelho/Cinza */
+#share-email img { filter: invert(36%) sepia(74%) saturate(2250%) hue-rotate(344deg) brightness(96%) contrast(93%); }
+
+/* Print - Mantendo o padrão que você tem */
+#btn-print { background: #f0f0f0; color: #000; }
+
+/* --- Efeito ao passar o mouse (Hover) --- */
+
+.share-btn:hover {
+    transform: translateY(-3px);
+    border-color: #666;
+    background: #25282e;
+}
+
+.share-btn:hover img {
+    transform: scale(1.1);
+    filter: brightness(1.2) !important; /* Deixa a cor original mais vibrante */
+}
+
+#btn-print:hover {
+    background: #fff;
+    box-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+/* Cores específicas no Hover */
+
+/* WhatsApp: Verde */
+#share-whatsapp:hover { background: #25D366; }
+#share-whatsapp:hover img { filter: brightness(0) invert(1); }
+
+/* X (Twitter): Preto/Branco */
+#share-x:hover { background: #808080; }
+#share-x:hover img { filter: brightness(0) invert(1); }
+
+/* Facebook: Azul */
+#share-facebook:hover { background: #1877F2; }
+#share-facebook:hover img { filter: brightness(0) invert(1); }
+
+/* LinkedIn: Azul Escuro */
+#share-linkedin:hover { background: #0077B5; }
+#share-linkedin:hover img { filter: brightness(0) invert(1); }
+
+/* Email: Cinza/Vermelho */
+#share-email:hover { background: #EA4335; }
+#share-email:hover img { filter: brightness(0) invert(1); }
+
+/* Imprimir: Branco (como na sua imagem) */
+#btn-print { background: #f0f0f0; color: #333; }
+#btn-print:hover { background: #000; color: #fff; }
+
+
+.article-body {
+    display: flex;
+    flex-direction: column; /* Garante que o conteúdo continue empilhado verticalmente */
+}
+
+#share-bar-location {
+    display: flex;
+    justify-content: flex-end; /* Alinha o conteúdo da barra à direita */
+    width: 100%;
+}
+
+.article-body p {
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+
+    word-break: normal;
+    overflow-wrap: break-word;
+}
+
+.guide-box-yellow {
+  background-color: #fff9db;
+  border-left: 5px solid #f0c36d;
+  padding: 18px 20px;
+  border-radius: 8px;
+  margin: 15px 0;
+  color: #5f4b00;
+  line-height: 1.6;
+}
+.guide-box-yellow strong {
+  color: #000;
+  font-weight: 700;
+}
+
+.checklist-box {
+  background: #fff3cd;
+  border: #fff3cd; 
+  border-radius: 12px;
+}
+.checklist strong {
+  color: #000;
+}
+
+.content-box--alert {
+  border-color: var(--color-danger);
+  background: rgba(220, 53, 69, 0.1);
+  border-radius: 12px;
+  border: 1px solid #dc3545;
+  border-left: 5px solid #d9534f;
+  padding: 20px;
+  margin: 10px 0;
+}
+
+.content-box h4 { color: #fff; }
+
+.content-box--info {
+  background: rgba(0, 123, 255, 0.1);
+  border-left: 4px solid var(--accent-blue);
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+
+/* Desktop pode continuar menor, mas no mobile deixa maior */
+.report-img{
+  width:50%;
+  height:auto;
+  display:block;
+  margin:0 auto;
+  border-radius:8px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.15);
+  cursor: zoom-in;
+}
+
+.mdt-fog-opsi-img{
+  width:80%;
+  height:auto;
+  display:block;
+  margin:0 auto;
+  border-radius:8px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.15);
+  cursor: zoom-in;
+}
+
+
+/* No mobile: ocupa quase toda a largura para leitura */
+@media (max-width: 768px){
+  .report-img .mdt-fog-opsi-img{ width: 100%; }
+}
+
+/* Para mobile e telas pequenas */
+@media (max-width: 768px) {
+  .info-card,
+  .info-card p,
+  .info-card li {
+    text-align: left !important;
+  }
+}
+
+/* 1. Garante que todos os cards tenham a mesma altura no grid */
+.cert-grid {
+    display: grid;
+    /* Suas configurações de colunas atuais */
+}
+
+/* 2. Configura o card para distribuir o espaço internamente */
+.cert-card {
+    display: flex;
+    flex-direction: column; /* Alinha os itens em coluna */
+    align-items: center;    /* Centraliza horizontalmente */
+    height: 100%;           /* Força o card a ocupar toda a altura da linha */
+    padding: 20px;          /* Espaçamento interno */
+    text-align: center;
+}
+
+/* 3. O "pulo do gato": empurra o botão para o final do card */
+.cert-card .btn-verify {
+    margin-top: auto;       /* Preenche todo o espaço vazio acima do botão */
+}
+
+/* 4. Opcional: Garante que as imagens/badges fiquem em uma área de altura fixa 
+      para evitar que títulos muito grandes "comam" o espaço */
+.cert-card img {
+    height: 140px;          /* Ajuste conforme o tamanho dos seus badges */
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+/* 5. Estabiliza o espaço do título */
+.cert-card h3 {
+    margin-bottom: 20px;
+    min-height: 3em;        /* Reserva espaço para até 2 ou 3 linhas de texto */
+    display: flex;
+    align-items: center;    /* Centraliza o texto verticalmente se for só 1 linha */
+    justify-content: center;
+}
+
+.highlight-card {
+    border: 2px solid #d4af37; /* Um tom dourado discreto */
+
+}
+
+
+/* Termo com tooltip */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  border-bottom: 2px dotted var(--accent-blue);
+  color: var(--accent-blue);
+  font-weight: 600;
+}
+
+/* Caixa do tooltip */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  opacity: 0;
+
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 260px;
+  max-width: calc(100vw - 40px);
+
+  background-color: #1a1a1a;
+  color: #fff;
+
+  padding: 12px;
+  border-radius: 8px;
+
+  font-size: 0.85rem;
+  line-height: 1.4;
+  font-weight: 400;
+  text-align: justify;
+
+  border: 1px solid var(--accent-blue);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.45);
+
+  transition: opacity 0.25s ease;
+
+  z-index: 999;
+}
+
+/* Exibir tooltip */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Seta */
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--accent-blue) transparent transparent transparent;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+
+.tooltip .tooltiptext{
+  bottom: auto;
+  top: calc(100% + 10px);   /* aparece abaixo da palavra */
+
+  left: 0%;
+  transform: translateX(-50%);
+
+  width: 240px;
+  max-width: calc(100vw - 30px);
+}
+
+.tooltip .tooltiptext::after{
+  top: -6px;
+  border-color: transparent transparent var(--accent-blue) transparent;
+}
+
+}
+
+.related-articles {
+  margin: 30px 0;
+  padding: 16px;
+  border-left: 4px solid #2563eb;
+  background: #f8fafc;
+  border-radius: 6px;
+}
+
+.related-articles a:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para os botões de Prompts IA */
+.prompt-tabs {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.prompt-btn {
+  padding: 8px 16px;
+  border: 2px solid var(--accent-blue, #0056b3);
+  background-color: transparent;
+  color: var(--accent-blue, #0056b3);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.prompt-btn:hover {
+  background-color: var(--accent-blue, #0056b3);
+  color: #ffffff;
+  opacity: 0.8;
+}
+
+.prompt-btn.active {
+  background-color: var(--accent-blue, #0056b3);
+  color: #ffffff;
+}
+
+/* Esconde os prompts por padrão e adiciona animação suave ao abrir */
+.prompt-content {
+  display: none; 
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.prompt-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* No Desktop, esconde os cards a partir do 7º por padrão */
+@media (min-width: 769px) {
+    .cert-card.hidden {
+        display: none;
+    }
+}
+
+/* Estilo do botão Ver Mais */
+.btn-load-more-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn-load-more {
+    background-color: var(--primary-color, #007bff);
+    color: #fff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-load-more:hover {
+    filter: brightness(1.2);
+}
+
+/* ==========================================================================
+   NOVA SEÇÃO: SOFT SKILLS (ESTILO SIMILAR AO CERT-CARD)
+   ========================================================================== */
+
+.soft-skills-section {
+    padding: 0px 5% 0px 5%; /* Ajuste de padding para alinhar com o layout */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.skills-grid {
+    display: grid;
+    /* Usa auto-fit para responsividade nativa no desktop */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
+}
+
+.skill-card {
+    /* --- ESTILO IDÊNTICO AO .cert-card --- */
+    background: rgba(255, 255, 255, 0.03); /* Fundo escuro sutil */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Borda fina cinza */
+    /* -------------------------------------- */
+    
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+	height: 100%;
+}
+
+
+/* Empurra o botão para a base do card */
+.skill-card .btn-verify {
+  margin-top: auto;
+}
+
+
+.skill-card:hover {
+    /* --- EFEITO IDÊNTICO AO .cert-card:hover --- */
+    transform: translateY(-10px);
+    border-color: var(--accent-blue); /* Borda azul no hover */
+    /* ------------------------------------------- */
+}
+
+.skill-icon {
+    font-size: 2.5rem;
+    color: var(--accent-blue); /* Usa a variável de azul do seu tema */
+    margin-bottom: 20px;
+    /* Adiciona um brilho leve similar ao das imagens dos certificados */
+    filter: drop-shadow(0 0 5px rgba(0, 123, 255, 0.2));
+}
+
+.skill-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: var(--text-white); /* Garante texto branco no título */
+}
+
+.skill-card h3 {
+  min-height: 3em;        /* estabiliza títulos */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skill-card p {
+  min-height: 4.5em;      /* estabiliza textos */
+}
+
+
+.skill-card p {
+    font-size: 0.95rem;
+    color: var(--text-gray); /* Usa o cinza padrão para o texto descritivo */
+    line-height: 1.6;
+    text-align: center;
+}
+
+.skills-container {
+    position: relative;
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+@media (max-width: 768px) {
+    .skills-grid {
+        display: flex; /* Transforma em linha para o carrossel */
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 20px;
+        padding-bottom: 20px;
+        scrollbar-width: none; /* Esconde scrollbar no Firefox */
+    }
+
+    .skills-grid::-webkit-scrollbar {
+        display: none; /* Esconde scrollbar no Chrome/Safari */
+    }
+
+    .skill-card {
+        min-width: 85%; /* Card quase tela cheia no mobile */
+        scroll-snap-align: center;
+    }
+}
+
+
+
+
+/* Container Principal */
+.skills-carousel-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+#skillsGrid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    width: 100%;
+}
+
+.skill-card {
+    flex: 0 0 100%; /* Força 1 card por vez no mobile */
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+    .skill-card {
+        flex: 0 0 calc((100% - 60px) / 4); /* 3 cards no desktop */
+        min-width: calc((100% - 60px) / 4);
+    }
+}
+
+/* Área de Navegação Inferior */
+.skills-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.nav-btn {
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s;
+}
+
+.nav-btn:disabled {
+    background: #555;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.skills-dots {
+    display: flex;
+    gap: 10px;
+}
+
+.skills-dots .dot {
+    width: 10px;
+    height: 10px;
+    background: #555;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.skills-dots .dot.active {
+    background: white;
+    transform: scale(1.2);
+}
+
+/* FIX Soft Skills – não misturar scroll-snap (CSS) com translateX (JS) */
+@media (max-width: 768px) {
+  .skills-grid {
+    /* cancela o layout antigo baseado em rolagem */
+    overflow-x: visible !important;
+    scroll-snap-type: none !important;
+  }
+  .skills-grid::-webkit-scrollbar { 
+    display: initial !important; /* só para remover o "display:none" anterior */
+  }
+  .skill-card {
+    min-width: 100% !important;     /* 1 por vez no mobile */
+    scroll-snap-align: none !important;
+  }
+}
+
+/* ==========================================================
+   LAYOUT EXCLUSIVO – SOBRE.HTML (DESKTOP)
+   ========================================================== */
+
+.about-layout-wide {
+  max-width: 100%;
+}
+
+/* Centraliza conteúdo interno, mas permite seções full-width */
+.about-layout-wide > section {
+  max-width: 1440px;           /* ou 1600px se preferir */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Seções que DEVEM ocupar quase a tela toda */
+.about-layout-wide .soft-skills-section,
+.about-layout-wide .certifications-section {
+  max-width: none;
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+/* SOBRE – Soft Skills ocupando largura maior no desktop */
+@media (min-width: 1024px) {
+  .about-layout-wide .skills-grid {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+}
+
+/* SOBRE – Certificações ocupando quase full width */
+.about-layout-wide .certifications-grid {
+  max-width: 1600px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+/* ==========================================================
+   SOFT SKILLS – ALTURA UNIFORME DOS CARDS (DESKTOP)
+   ========================================================== */
+@media (min-width: 769px) {
+
+  /* trilho vira grid no desktop */
+  #skillsGrid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    align-items: stretch; /* CHAVE */
+  }
+
+  .skill-card {
+    height: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  #skillsGrid {
+    display: flex !important;
+    flex-wrap: nowrap;
+  }
+
+  .skill-card {
+    min-width: 100%;
+  }
+}
+
+/* ==========================================================
+   SOFT SKILLS – mostrar apenas 4 no desktop
+   ========================================================== */
+@media (max-width: 768px) {
+  #skillsGrid {
+    display: flex;
+  }
+}
+
+/* ==========================================================
+   SOFT SKILLS – REGRA VER MAIS / VER MENOS (DESKTOP)
+   ========================================================== */
+@media (min-width: 769px) {
+
+  /* esconde soft skills a partir da 5ª */
+  .skill-card.hidden {
+    display: none;
+  }
+}
+
+/* ==========================================================
+   SOFT SKILLS – DESKTOP
+   ========================================================== */
+@media (min-width: 769px) {
+
+  #skillsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    transform: none !important;
+  }
+
+  .skill-card {
+    height: 100%;
+  }
+
+  /* regra usada pelo botão Ver mais */
+  .skill-card.hidden {
+    display: none;
+  }
+}
+
+/* ==========================================================
+   SOFT SKILLS – MOBILE (CARROSSEL)
+   ========================================================== */
+@media (max-width: 768px) {
+
+  #skillsGrid {
+    display: flex !important;
+    flex-wrap: nowrap;
+    gap: 20px;
+    transition: transform 0.5s ease;
+  }
+
+  .skill-card {
+    min-width: 100%;
+    flex: 0 0 100%;
+  }
+
+  /* IMPORTANTE:
+     nunca esconder cards no mobile */
+  .skill-card.hidden {
+    display: flex !important;
+  }
+}
+
+/* ==========================================================
+   SOFT SKILLS – DOTS VISÍVEIS NO MOBILE
+   ========================================================== */
+@media (max-width: 768px) {
+
+  .skills-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .skills-dots .dot {
+    width: 10px;
+    height: 10px;
+    background-color: #555;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+
+  .skills-dots .dot.active {
+    background-color: #ffffff;
+    transform: scale(1.3);
+  }
+}
+
+/* ==========================================================
+   SOFT SKILLS – DOTS CENTRALIZADOS NO MOBILE
+   ========================================================== */
+@media (max-width: 768px) {
+
+  .skills-controls {
+    display: grid;
+    grid-template-columns: 0px 1fr 20px;
+    align-items: center;
+  }
+
+  .skills-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+}
+/* ==========================================================
+   SOFT SKILLS – ALTURA UNIFORME DOS CARDS (MOBILE)
+   ========================================================== */
+@media (max-width: 768px) {
+
+  /* Carrossel continua em flex */
+  #skillsGrid {
+    display: flex;
+    align-items: stretch; /* CHAVE: força mesma altura visual */
+  }
+
+  .skill-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 360px; /* ajuste fino visual */
+  }
+
+  /* Texto ocupa o espaço disponível */
+  .skill-card p {
+    flex-grow: 1;
+  }
+
+  /* Botão sempre no fundo */
+  .skill-card .btn-verify {
+    margin-top: auto;
+  }
+}
+
+/* ==========================================================
+   SOFT SKILLS – CONTROLES COMPACTOS (MOBILE)
+   ========================================================== */
+@media (max-width: 768px) {
+
+  .skills-controls {
+    display: flex;
+    justify-content: center;   /* centraliza o conjunto inteiro */
+    align-items: center;
+    gap: 14px;                 /* distância entre ❮ dots ❯ */
+    margin-top: 20px;
+  }
+
+  .skills-controls .nav-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+    flex-shrink: 0;            /* impede o botão de “escapar” */
+  }
+
+  .skills-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+/* ==========================================================
+   SOFT SKILLS – ANIMAÇÃO SUAVE DOS BOTÕES DE NAVEGAÇÃO
+   ========================================================== */
+
+.skills-controls .nav-btn {
+  transition:
+    transform 0.2s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
+}
+
+/* Hover (desktop ou mobile com ponteiro) */
+.skills-controls .nav-btn:hover:not(:disabled) {
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.35);
+}
+
+/* Active (tap / click) */
+.skills-controls .nav-btn:active:not(:disabled) {
+  transform: scale(0.95);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Estado desativado */
+.skills-controls .nav-btn:disabled {
+  opacity: 0.35;
+  box-shadow: none;
+  transform: none;
+  pointer-events: none;
+}
+
+/* ==========================================================
+   SOFT SKILLS – ESCONDER BOTÕES NO DESKTOP
+   ========================================================== */
+@media (min-width: 769px) {
+
+  .soft-skills-section .skills-controls {
+    display: none;
+  }
+}
+
+.example-card pre code {
+    white-space: pre-wrap;   /* permite quebra de linha */
+    word-wrap: break-word;   /* força quebra se a linha for muito longa */
+}
+
+.data-table, 
+.data-table th, 
+.data-table td {
+	border: 1px solid white;   /* borda branca */
+	border-collapse: collapse; /* evita bordas duplicadas */
+}
+
+/* --- Estilo Base da Tag --- */
+.cert-card {
+  position: relative; /* Necessário para posicionar a tag dentro do card */
+  /* mantenha os outros estilos que você já tem no .cert-card */
+}
+
+.cert-tag {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #ffffff; /* Texto branco padrão */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+/* --- Cores das Categorias --- */
+
+/* Privacidade (Azul escuro/Roxo) */
+.tag-privacy {
+  background-color: #4b0082; 
+}
+
+/* Cibersegurança (Vermelho/Laranja) */
+.tag-security {
+  background-color: #d32f2f; 
+}
+
+/* IA - Governança (Azul claro) */
+.tag-ai-gov {
+  background-color: #1976d2; 
+}
+
+/* IA - Prática (Verde Esmeralda) */
+.tag-ai-prac {
+  background-color: #00796b; 
+}
+
+/* IA - Segurança (Vermelho Escuro/Vinho) */
+.tag-ai-sec {
+  background-color: #880e4f; 
+}
+
+/* Cloud (Azul Microsoft/Azure) */
+.tag-cloud {
+  background-color: #0078d4; 
+}
+
+/* Automação (Amarelo/Mostarda - Texto Escuro) */
+.tag-auto {
+  background-color: #fbc02d; 
+  color: #333333; /* Texto escuro para contrastar com amarelo */
+}
+
+/* Dados (Amarelo/Ouro - Texto Escuro) */
+.tag-dados {
+  background-color: #f2c811; 
+  color: #333333;
+}
+
+/* Gestão Ágil (Cinza Escuro/Grafite) */
+.tag-gestao {
+  background-color: #424242; 
+}
