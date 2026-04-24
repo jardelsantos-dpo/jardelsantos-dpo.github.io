@@ -17,6 +17,14 @@
 
 const listaArtigos = [
 	{ 
+	  data: "2026-04-24", 
+	  categoria: "Segurança da Informação",
+	  titulo: "Crie sua nuvem pessoal em casa gastando pouco", 
+	  resumo: "Transforme tecnologia esquecida em uma fortaleza digital. Aprenda a montar seu próprio NAS para centralizar arquivos e garantir backups automáticos.",
+	  img: "img/nas-caseiro.webp",
+	  link: "artigos/como-criar-nuvem-pessoal-nas-casa"
+	},
+	{ 
 	  data: "2026-04-20", 
 	  categoria: "Segurança da Informação",
 	  titulo: "O guia descomplicado do Backup 3-2-1 para casa", 

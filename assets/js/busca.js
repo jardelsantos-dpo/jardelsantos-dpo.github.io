@@ -47,6 +47,7 @@
 		{ url: "artigos/ciberseguranca-ofensiva-brasil.html", name: "Cibersegurança Ofensiva no Brasil: Como as empresas nacionais protegem o seu negócio atacando-o", Keywords: "cibersegurança ofensiva, hacker ético, red team, pentest, teste de intrusão, segurança da informação, lgpd, empresas de segurança brasil" },
 		{ url: "artigos/troubleshooting-client-sccm.html", name: "Troubleshooting de SCCM para Service Desk", Keywords: "sccm, client, mecm, service desk, powershell, automação, infraestrutura, psexec, wmi, remediação" },
 		{ url: "artigos/guia-backup-3-2-1-residencial.html", name: "O guia descomplicado do Backup 3-2-1 para casa: Mantenha sua vida digital salva", Keywords: "backup, 3-2-1, ransomware, cobian reflector, norton 360, bitlocker, segurança residencial, proteção de dados" },
+		{ url: "artigos/como-criar-nuvem-pessoal-nas-casa.html", name: "Crie sua nuvem pessoal em casa gastando pouco", Keywords: "nuvem pessoal, NAS, backup, OpenMediaVault, TrueNAS, Cobian Reflector, privacidade, VPN" },
 
         { url: "legal/privacidade.html", name: "Política de Privacidade", keywords: "lgpd dados política" },
         { url: "legal/termo-de-uso.html", name: "Termos de Uso", keywords: "contrato legal site" }

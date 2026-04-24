@@ -3094,3 +3094,78 @@ ol {
     transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
+
+/* TABELA RESPONSIVA - ARTIGO NAS CASEIRO */
+/* Container responsivo */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Tabela principal */
+.responsive-table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* Melhor distribuição das colunas */
+.responsive-table th,
+.responsive-table td {
+  padding: 14px 16px;
+  text-align: left;
+  vertical-align: top;
+  word-break: break-word;
+  white-space: normal;
+  line-height: 1.6;
+}
+
+/* Mobile elegante */
+@media (max-width: 768px) {
+  .responsive-table {
+    min-width: 100%;
+    border: 0;
+  }
+
+  .responsive-table thead {
+    display: none;
+  }
+
+  .responsive-table,
+  .responsive-table tbody,
+  .responsive-table tr,
+  .responsive-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .responsive-table tr {
+    margin-bottom: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 12px;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .responsive-table td {
+    border: none;
+    position: relative;
+    padding-left: 45%;
+    text-align: left;
+    min-height: 48px;
+  }
+
+  .responsive-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    width: 40%;
+    font-weight: 600;
+    color: var(--accent-blue);
+    white-space: normal;
+    line-height: 1.4;
+  }
+}
