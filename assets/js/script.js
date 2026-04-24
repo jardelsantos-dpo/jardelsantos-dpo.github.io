@@ -429,3 +429,13 @@ document.addEventListener('DOMContentLoaded', function () {
   /* ===== Init ===== */
   move();
 });
+
+/* Impede a exibição do pop-up de instalação (PWA) 
+   ao acessar o site pelo celular.
+*/
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Intercepta o evento de instalação automática
+    e.preventDefault();
+    // Log opcional para confirmar que o bloqueio funcionou
+    console.log('Sugestão de instalação bloqueada pelo sistema.');
+});
