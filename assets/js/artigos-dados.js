@@ -16,6 +16,14 @@
  */
 
 const listaArtigos = [
+	{
+	  data: "2026-04-27",
+	  categoria: "Inteligência Artificial",
+	  titulo: "Claude AI vale a pena em 2026?",
+	  resumo: "Análise do Claude AI com foco em segurança da informação e comparativo com outras IAs do mercado.",
+	  img: "img/claude-ai.webp",
+	  link: "artigos/claude-ai-vale-a-pena-2026"  
+	},
 	{ 
 	  data: "2026-04-24", 
 	  categoria: "Segurança da Informação",
