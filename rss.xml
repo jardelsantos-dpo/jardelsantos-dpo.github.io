@@ -12,9 +12,27 @@
 
 <language>pt-BR</language>
 
-<lastBuildDate>Mon, 27 Apr 2026 11:24:19 GMT</lastBuildDate>
+<lastBuildDate>Mon, 27 Apr 2026 21:20:03 GMT</lastBuildDate>
 
 <generator>GitHub Actions SEO Generator</generator>
+
+
+
+<item>
+
+<title>Claude AI vale a pena em 2026?</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/claude-ai-vale-a-pena-2026</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/claude-ai-vale-a-pena-2026</guid>
+
+<description><![CDATA[Análise do Claude AI com foco em segurança da informação e comparativo com outras IAs do mercado.]]></description>
+
+<category>Inteligência Artificial</category>
+
+<pubDate>Mon, 27 Apr 2026 00:00:00 GMT</pubDate>
+
+</item>
 
 
 
@@ -355,24 +373,6 @@
 <category>Cibersegurança</category>
 
 <pubDate>Sun, 18 Jan 2026 00:00:00 GMT</pubDate>
-
-</item>
-
-
-
-<item>
-
-<title>CVE-2026-21858: Falha no n8n</title>
-
-<link>https://jardelsantos-dpo.github.io/artigos/n8n-vulnerabilidade.html</link>
-
-<guid>https://jardelsantos-dpo.github.io/artigos/n8n-vulnerabilidade.html</guid>
-
-<description><![CDATA[Uma falha crítica no n8n permitiu execução remota de código sem autenticação. Entenda o impacto real e as ações urgentes.]]></description>
-
-<category>Cibersegurança</category>
-
-<pubDate>Mon, 12 Jan 2026 00:00:00 GMT</pubDate>
 
 </item>
 
