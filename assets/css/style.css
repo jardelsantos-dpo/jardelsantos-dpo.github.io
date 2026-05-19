@@ -2362,17 +2362,24 @@ ol {
 
 .tooltip .tooltiptext{
   bottom: auto;
-  top: calc(100% + 10px);   /* aparece abaixo da palavra */
+  top: calc(100% + 10px);
 
-  left: 0%;
-  transform: translateX(-50%);
+  left: 0;
+  transform: none;
 
   width: 240px;
   max-width: calc(100vw - 30px);
+
+  word-break: break-word;
 }
 
 .tooltip .tooltiptext::after{
-  top: -6px;
+  top: -12px;
+  left: 20px;
+  transform: none;
+
+  border-width: 6px;
+  border-style: solid;
   border-color: transparent transparent var(--accent-blue) transparent;
 }
 

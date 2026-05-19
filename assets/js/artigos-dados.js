@@ -17,6 +17,14 @@
 
 const listaArtigos = [
 	{
+		titulo: "Estamos ficando mais burros por causa do uso de IA?",
+		resumo: "Entenda como a dependência excessiva de IA gera atrofia cognitiva e cria riscos graves de segurança e conformidade (LGPD) no ambiente corporativo",
+		categoria: "Inteligência Artificial",
+		data: "2026-05-19",
+		img: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?auto=format&fit=crop&q=80&w=1200",
+		link: "artigos/ia-esta-deixando-humano-mais-burro.html"
+	},
+	{
 	  data: "2026-04-27",
 	  categoria: "Inteligência Artificial",
 	  titulo: "Claude AI vale a pena em 2026?",
