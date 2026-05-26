@@ -1,16 +1,27 @@
-<div class="logo">
-    <i class="fas fa-user-shield" style="color:#007bff; font-size: 30px;"></i>
-    <span>Jardel Santos</span>
-</div>
-<nav>
-	<ul class="nav-links" id="navLinks">
-		<li><a href="index.html">Início</a></li>
-		<li><a href="servicos.html">Serviços</a></li>
-		<li><a href="sobre.html">Sobre</a></li>
-		<li><a href="artigos.html">Artigos</a></li>
-		<li><a href="#" id="openSearch"><i class="fas fa-search"></i></a></li>
-	</ul>
-</nav>
-<div class="hamburger" id="hamburger">
-    <i class="fas fa-bars"></i>
-</div>
+<header class="main-header">
+    <!-- Logo agora é um link clicável para a Home, melhorando a navegabilidade -->
+    <a href="index.html" class="logo" aria-label="Jardel Santos - Página Inicial">
+        <i class="fas fa-user-shield" style="color:#007bff; font-size: 30px;" aria-hidden="true"></i>
+        <span>Jardel Santos</span>
+    </a>
+
+    <nav aria-label="Navegação principal">
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="atuacao.html">Atuação</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="artigos.html">Artigos</a></li>
+            <!-- Modificado de link para <button> para evitar o salto de página do href="#" -->
+            <li>
+                <button type="button" id="openSearch" class="nav-btn" aria-label="Abrir barra de busca">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                </button>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Menu hambúrguer encapsulado em botão com identificação de acessibilidade -->
+    <button type="button" class="hamburger" id="hamburger" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="navLinks">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+    </button>
+</header>

@@ -30,8 +30,8 @@
       mobileStartAfterArticleTop: false,
 
       // Layout
-      gap: 20, // aproxima a barra do conteúdo (ajuste aqui se quiser mais perto ainda)
-      minViewportPadding: 12,
+      gap: 30, // aproxima a barra do conteúdo (ajuste aqui se quiser mais perto ainda)
+      minViewportPadding: 20,
 
       // Animações
       animateIn: true,
