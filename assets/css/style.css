@@ -514,7 +514,7 @@ header {
 .read-more i { margin-left: 5px; transition: 0.3s; }
 .read-more:hover i { transform: translateX(5px); }
 /* Estilização do Paginador */
-.pagination-wrapper { display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 50px; padding: 20px; }
+.pagination-wrapper { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 50px; padding: 20px; }
 .pag-btn { background-color: #fff; border: 1px solid #007bff; color: #007bff; padding: 8px 16px; cursor: pointer; border-radius: 4px; font-weight: 600; transition: all 0.3s ease; }
 .pag-btn.active { background-color: #007bff; color: #fff; }
 .pag-btn:hover:not(.active) { background-color: #e7f1ff; }
