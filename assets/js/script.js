@@ -488,11 +488,20 @@ function filtrarCards(filtro) {
 
     const cards = certGrid.querySelectorAll('.cert-card');
 
+	// Transforma a string do data-filter em um array (separando pelas vírgulas)
+    const filtrosArray = filtro.split(',');
+
     cards.forEach(card => {
         const categoria = card.dataset.category;
-        const possuiTag = card.querySelector(`.${filtro}`);
+        
+        // Verifica se o card atende a pelo menos uma das tags listadas no botão
+        const atendeFiltro = filtrosArray.some(f => {
+            const tagLimpa = f.trim(); // Remove espaços acidentais
+            const possuiTag = card.querySelector(`.${tagLimpa}`);
+            return categoria === tagLimpa || possuiTag;
+        });
 
-        if (filtro === 'all' || categoria === filtro || possuiTag) {
+        if (filtro === 'all' || atendeFiltro) {
             card.style.display = 'flex';
         } else {
             card.style.display = 'none';
@@ -611,22 +620,38 @@ function aplicarFiltroPadrao() {
     if (defaultButton) defaultButton.click();
 }
 
+/* =========================
+   ATUALIZAR CONTADORES DOS FILTROS
+========================= */
 function atualizarContadoresFiltros(lista) {
-    const contagens = { 'all': lista.length, 'dpo': 0 };
-    
-    lista.forEach(cert => {
-        if (cert.categoria === 'dpo') contagens['dpo']++;
-        if (cert.tag) contagens[cert.tag] = (contagens[cert.tag] || 0) + 1;
-    });
-
     const filterButtons = document.querySelectorAll('.filter-btn');
+    
     filterButtons.forEach(btn => {
         const filter = btn.dataset.filter;
-        const count = contagens[filter] || 0;
+        let count = 0;
+
+        if (filter === 'all') {
+            count = lista.length;
+        } else {
+            // Divide o filtro por vírgulas (caso seja um botão múltiplo)
+            const filtrosArray = filter.split(',');
+            
+            // Conta quantos certificados batem com qualquer uma das tags do botão
+            count = lista.filter(cert => {
+                return filtrosArray.some(f => {
+                    const tagLimpa = f.trim();
+                    // Verifica se a categoria do JSON ou a Tag do JSON correspondem
+                    return cert.categoria === tagLimpa || cert.tag === tagLimpa;
+                });
+            }).length;
+        }
+
+        // Limpa o texto original removendo números antigos para evitar duplicações
         const textoLimpo = btn.textContent.replace(/[0-9]+/, '').trim();
         btn.innerHTML = `${textoLimpo} <span class="filter-count">${count}</span>`;
     });
 }
+
 
 function updateTiExamesBanner(listaCompleta) {
     const el = document.getElementById('tiExamesCount');
