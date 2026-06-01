@@ -446,5 +446,65 @@
     "tipoLink": "Certificado",
     "highlight": false,
 	"tiExames": true
+  },
+  {
+    "id": 37,
+    "titulo": "Boas Práticas de Cibersegurança na era da IA",
+    "ano": "2026",
+    "categoria": "ai-seguranca",
+    "tag": "tag-ai-sec",
+    "tagLabel": "Segurança IA",
+    "imagem": "img/ic-sec-1784-ibsec.webp",
+    "link": "https://certs.ibsec.com.br?cert_hash=9781b0b282c89152",
+    "tipoLink": "Validar",
+    "highlight": false
+  },
+  {
+    "id": 38,
+    "titulo": "Hacker Ético na Era da IA",
+    "ano": "2026",
+    "categoria": "ai-seguranca",
+    "tag": "tag-ai-sec",
+    "tagLabel": "Segurança IA",
+    "imagem": "img/ic-eh-1480-ibsec.webp",
+    "link": "https://certs.ibsec.com.br?cert_hash=697a658b79a21464",
+    "tipoLink": "Validar",
+    "highlight": false
+  },
+  {
+    "id": 39,
+    "titulo": "Analista SOC na Era da IA",
+    "ano": "2026",
+    "categoria": "ai-seguranca",
+    "tag": "tag-ai-sec",
+    "tagLabel": "Segurança IA",
+    "imagem": "img/ic-soc-383-ibsec.webp",
+    "link": "https://certs.ibsec.com.br?cert_hash=d85c011e1677ebb0",
+    "tipoLink": "Validar",
+    "highlight": false
+  },
+  {
+    "id": 40,
+    "titulo": "Fundamentos em Cibersegurança",
+    "ano": "2023",
+    "categoria": "security",
+    "tag": "tag-security",
+    "tagLabel": "Cibersegurança",
+    "imagem": "img/ic-sec-1770-ibsec.webp",
+    "link": "https://certs.ibsec.com.br?cert_hash=d3e85a1a8621daed",
+    "tipoLink": "Validar",
+    "highlight": false
+  },
+  {
+    "id": 41,
+    "titulo": "Fundamentos em Redes",
+    "ano": "2023",
+    "categoria": "security",
+    "tag": "tag-security",
+    "tagLabel": "Cibersegurança",
+    "imagem": "img/ic-red-1870-ibsec.webp",
+    "link": "https://certs.ibsec.com.br?cert_hash=c14457ca70768e22",
+    "tipoLink": "Validar",
+    "highlight": false
   }
 ]
