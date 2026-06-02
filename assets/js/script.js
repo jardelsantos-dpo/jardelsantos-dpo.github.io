@@ -508,7 +508,7 @@ function filtrarCards(filtro) {
         }
     });
 
-    // Lógica do Botão "Fechar / Voltar para DPO" (Desktop UX)
+// 2. Lógica do Botão "Fechar / Voltar para DPO" (Desktop UX)
     let btnVoltar = document.getElementById('btnVoltarDpoContainer');
     if (!btnVoltar) {
         btnVoltar = document.createElement('div');
@@ -527,7 +527,17 @@ function filtrarCards(filtro) {
         if (certDots) certDots.after(btnVoltar);
     }
     
-    btnVoltar.style.display = (filtro === 'all') ? 'block' : 'none';
+    // --- NOVA LOGICA DE EXIBIÇÃO POR LINHAS ---
+    // Conta quantos cards estão visíveis após a filtragem atual
+    const cardsVisiveis = Array.from(cards).filter(card => card.style.display === 'flex').length;
+
+    // Se o layout tiver 4 cards por linha, a partir de 5 cards já temos 2 linhas ocupadas.
+    // (Se o seu layout for de 3 cards por linha, mude o número abaixo para >= 4)
+    if (cardsVisiveis >= 5) {
+        btnVoltar.style.display = 'block';
+    } else {
+        btnVoltar.style.display = 'none';
+    }
 
     // Reinicia o Carrossel Mobile adaptado para os cards visíveis
     iniciarCarrosselCertificadosMobile();
