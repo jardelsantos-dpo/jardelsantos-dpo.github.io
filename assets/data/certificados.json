@@ -506,5 +506,17 @@
     "link": "https://certs.ibsec.com.br?cert_hash=c14457ca70768e22",
     "tipoLink": "Validar",
     "highlight": false
+  },
+  {
+    "id": 42,
+    "titulo": "Pentester na Era da IA",
+    "ano": "2026",
+    "categoria": "ai-seguranca",
+    "tag": "tag-ai-sec",
+    "tagLabel": "Segurança IA",
+    "imagem": "img/ic-pen-1580-ibsec.webp",
+    "link": "https://certs.ibsec.com.br?cert_hash=7dca109333fad2da",
+    "tipoLink": "Validar",
+    "highlight": false
   }
 ]
