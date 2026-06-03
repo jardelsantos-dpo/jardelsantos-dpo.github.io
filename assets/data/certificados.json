@@ -518,5 +518,18 @@
     "link": "https://certs.ibsec.com.br?cert_hash=7dca109333fad2da",
     "tipoLink": "Validar",
     "highlight": false
+  },
+  {
+	"id": 43,
+	"titulo": "Mapeamento de processos para criação de procedimentos operacionais",
+	"ano": "2026",
+	"categoria": "gestao",
+	"tag": "tag-gestao",
+	"tagLabel": "Gestão & Processos",
+	"imagem": "img/badge-mapeamento-processos-tiexames.webp",
+	"link": "assets/certificados/mapeamento-pop-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"tiExames": true
   }
 ]
