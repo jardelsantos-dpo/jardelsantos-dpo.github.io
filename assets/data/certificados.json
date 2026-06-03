@@ -531,5 +531,17 @@
 	"tipoLink": "Certificado",
 	"highlight": false,
 	"tiExames": true
+  },
+  {
+    "id": 44,
+    "titulo": "Modelagem de Processos com o Bizagi (BPMN)",
+    "ano": "2024",
+    "categoria": "automacao",
+    "tag": "tag-auto",
+    "tagLabel": "BPMN & Automação",
+    "imagem": "img/badge-bizagi-bpmn-ufv.webp",
+    "link": "https://siadoc.ufv.br/documento/detalhes.jsf?codigo=XB56661L9AJ2",
+    "tipoLink": "Validar",
+    "highlight": false
   }
 ]
