@@ -17,6 +17,14 @@
 
 const listaArtigos = [
 	{
+	  titulo: "O DPO e a equipe de TI: Quem faz o quê?",
+	  resumo: "Entenda por que o DPO não é analista de TI, não é advogado e não é cargo decorativo e como cada área da empresa atua na proteção de dados.",
+	  categoria: "LGPD & Compliance",
+	  data: "2026-06-03",
+	  img: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=600",
+	  link: "artigos/dpo-equipe-ti-quem-faz-o-que.html"
+	},
+	{
 		titulo: "Estamos ficando mais burros por causa do uso de IA?",
 		resumo: "Entenda como a dependência excessiva de IA gera atrofia cognitiva e cria riscos graves de segurança e conformidade (LGPD) no ambiente corporativo",
 		categoria: "Inteligência Artificial",

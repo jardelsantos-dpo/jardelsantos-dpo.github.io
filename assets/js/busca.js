@@ -50,7 +50,8 @@
 		{ url: "artigos/como-criar-nuvem-pessoal-nas-casa.html", name: "Crie sua nuvem pessoal em casa gastando pouco", Keywords: "nuvem pessoal, NAS, backup, OpenMediaVault, TrueNAS, Cobian Reflector, privacidade, VPN" },
 		{ url: "artigos/claude-ai-vale-a-pena-2026.html", name: "Claude AI: Um guia honesto para empresas e profissionais", Keywords: "claude ai, inteligência artificial, ia corporativa, lgpd, anthropic, chatgpt, segurança da informação" },
 		{ url: "artigos/ia-esta-deixando-humano-mais-burro.html", name: "Estamos ficando mais burros por causa do uso excessivo da IA?", keywords: "inteligência artificial, cognição, pensamento crítico, lgpd, cognitive offloading, MIT, governança de IA, vazamento de dados, corporativo, riscos digitais" },
-
+		{ url: "artigos/dpo-equipe-ti-quem-faz-o-que.html", name: "O DPO e a equipe de TI: Quem faz o quê?", keywords: "DPO, LGPD, encarregado, TI, segurança da informação, RH, jurídico, compliance, ANPD, proteção de dados" },
+		
         { url: "legal/privacidade.html", name: "Política de Privacidade", keywords: "lgpd dados política" },
         { url: "legal/termo-de-uso.html", name: "Termos de Uso", keywords: "contrato legal site" }
     ];
