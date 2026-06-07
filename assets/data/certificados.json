@@ -543,5 +543,18 @@
     "link": "https://siadoc.ufv.br/documento/detalhes.jsf?codigo=XB56661L9AJ2",
     "tipoLink": "Validar",
     "highlight": false
+  },
+  {
+    "id": 45,
+    "titulo": "Sistema de Gestão Integrada (SGI)",
+    "ano": "2026",
+	"categoria": "gestao",
+	"tag": "tag-gestao",
+    "tagLabel": "Gestão & Riscos",
+    "imagem": "img/badge-sgi-tiexames.webp",
+	"link": "assets/certificados/sgi-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"tiExames": true
   }
 ]

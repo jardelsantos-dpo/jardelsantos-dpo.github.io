@@ -17,6 +17,14 @@
 
 const listaArtigos = [
 	{
+	  titulo: "LGPD e a gestão de caixas de correio de ex-colaboradores",
+	  resumo: "Estudo de caso real: como converter UserMailbox para SharedMailbox com conformidade à LGPD e quais bases legais amparam a empresa nesse processo.",
+	  categoria: "LGPD & Compliance",
+	  data: "2026-06-07",
+	  img: "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&q=80&w=600",
+	  link: "artigos/lgpd-gestao-caixas-correio-ex-colaboradores.html"
+	},
+	{
 	  titulo: "O DPO e a equipe de TI: Quem faz o quê?",
 	  resumo: "Entenda por que o DPO não é analista de TI, não é advogado e não é cargo decorativo e como cada área da empresa atua na proteção de dados.",
 	  categoria: "LGPD & Compliance",

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>LGPD e a gestão de caixas de correio de ex-colaboradores</title>
+  <meta name="description" content="Estudo de caso real sobre como converter UserMailbox para SharedMailbox em conformidade com a LGPD. Análise técnica e jurídica com guia prático para profissionais de TI.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" type="image/png" href="../img/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="../img/favicon.svg" />
+  <link rel="shortcut icon" href="../img/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png" />
+  <link rel="manifest" href="../img/site.webmanifest" />
+
+  <!-- Schema Article será injetado via JS -->
+  <script id="article-data" type="application/json">
+  {
+    "headline": "LGPD e a gestão de caixas de correio de ex-colaboradores",
+    "description": "Estudo de caso real sobre como converter UserMailbox para SharedMailbox em conformidade com a LGPD. Análise técnica e jurídica com guia prático para profissionais de TI.",
+    "image": "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&q=80&w=1200",
+    "datePublished": "2026-06-07",
+    "dateModified": "2026-06-07",
+    "url": "artigos/lgpd-gestao-caixas-correio-ex-colaboradores.html"
+  }
+  </script>
+</head>
+
+<body>
+
+<header></header>
+
+<main class="about-container" id="artigo">
+
+  <!-- Cabeçalho do artigo -->
+  <div class="about-header" style="text-align: left;">
+    <a href="../artigos.html" style="color: var(--accent-blue); font-size: 0.9rem;"><i class="fas fa-arrow-left"></i> Voltar para Artigos</a>
+    <h1 style="margin-top: 20px;">LGPD e a gestão de caixas de correio de ex-colaboradores</h1>
+    <div class="underline" style="margin: 20px 0;"></div>
+    <p style="color: var(--text-gray); font-size: 0.9rem;"><i class="far fa-calendar-alt"></i> Publicado em: 07 de junho de 2026 | <i class="far fa-clock"></i> 15 min de leitura</p>
+  </div>
+
+  <!-- Imagem principal -->
+  <img src="https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&q=80&w=1200" alt="Tela de gerenciamento de e-mails corporativos em ambiente Microsoft 365, representando a gestão de caixas de correio após desligamento de colaboradores" class="article-banner">
+
+  <!-- Corpo do artigo -->
+  <article class="article-body">
+
+    <!-- Resumo Executivo -->
+    <section class="article-section">
+      <h2>Uma experiência na prática</h2>
+      <p>Decidi escrever este artigo com base em uma experiência real que tive em um ambiente corporativo, envolvendo uma troca de comunicações internas entre as áreas de TI, Governança e Proteção de Dados de uma empresa. À época, eu atuava na equipe de TI e interagi diretamente com o DPO da organização. O caso retrata uma situação bastante comum nas empresas:<strong> o que fazer com a caixa de e-mail corporativo de um colaborador após seu desligamento?</p></strong>
+      <p>A discussão gerada no caso real revela duas visões distintas: uma técnica e outra jurídica, ambas parcialmente corretas, mas nenhuma completa isoladamente. O objetivo deste artigo é analisar tecnicamente a proposta de conversão de UserMailbox para SharedMailbox, contextualizá-la sob a ótica da LGPD e oferecer um guia prático para profissionais de TI que lidam com esse cenário.</p>
+    </section>
+
+    <div class="content-box content-box--info">
+      <strong><h4>Spoiler do estudo de caso</h4></strong>
+      <p>A resposta correta não é nem "precisa de consentimento" nem "a empresa pode tudo". Está no meio e depende de uma política interna bem estruturada.</p>
+    </div>
+
+    <!-- Seção 1: Contexto -->
+    <section class="article-section">
+      <h2>1. Contexto do caso</h2>
+      <p>A situação envolveu uma solicitação para criar um arquivo PST da caixa de e-mail de um ex-colaborador (vamos chamá-lo de colaborador X) para disponibilizá-lo a dois colaboradores ativos que precisavam acessar comunicações e dados relacionados às operações anteriores.</p>
+    </section>
+
+    <section class="article-section">
+      <h3>1.1 O problema identificado</h3>
+      <p>Ao executar a exportação PST que gerou um arquivo de aproximadamente 16 GB, percebi que esse processo apresentava diversas ineficiências o que propiciou uma discussão sobre conformidade:</p>
+      <ul class="styled-list">
+        <li>• Impacto significativo na rede durante a exportação</li>
+        <li>• Risco de corrupção do arquivo gerado</li>
+        <li>• Lentidão na execução para caixas de grande volume</li>
+        <li>• Necessidade de distribuição manual do arquivo aos colaboradores</li>
+        <li>• Questionamentos sobre a conformidade com a LGPD</li>
+      </ul>
+    </section>
+
+    <section class="article-section">
+      <h3>1.2 A proposta técnica</h3>
+      <p>Como alternativa, foi proposta a conversão da UserMailbox para SharedMailbox diretamente no servidor Microsoft 365, com delegação de acesso aos colaboradores desejados. O processo envolveria quatro etapas principais:</p>
+      <ul class="styled-list">
+        <li>• Converter a UserMailbox para SharedMailbox no Admin Center do Microsoft 365</li>
+        <li>• Delegar acesso (Full Access) aos colaboradores que precisavam acessá-la</li>
+        <li>• Remover a licença Microsoft do ex-colaborador (economia de custo)</li>
+        <li>• Redefinir a senha da conta para impedir qualquer acesso não autorizado</li>
+      </ul>
+    </section>
+
+    <div class="content-box content-box--info">
+      <strong><h4>Vantagem técnica</h4></strong>
+      <p>Caixas compartilhadas com até 50 GB não exigem licença Microsoft ativa, eliminando o custo de manter a conta do ex-colaborador licenciada apenas para preservação de dados.</p>
+    </div>
+
+    <!-- Seção 2: O Debate sobre a LGPD -->
+    <section class="article-section">
+      <h2>2. O debate sobre a LGPD</h2>
+      <p>A troca de mensagens registrou duas posições distintas sobre a legalidade da conversão sob a ótica da LGPD. Ambas merecem análise técnica cuidadosa.</p>
+    </section>
+
+    <div class="info-grid">
+      <div class="info-card info-card--allowed">
+        <h5><strong>Meu posicionamento — "A empresa tem direito sobre o conteúdo"</h5></strong>
+        <ul>
+          <li>• Argumentei que, por se tratar de e-mail corporativo vinculado à imagem e operações da empresa, esta teria direito pleno sobre o conteúdo.</li>
+          <li>• Essa visão tem fundamento parcial, pois reconhece a natureza corporativa do ativo.</li>
+          <li>• É juridicamente incompleta por desconsiderar que e-mails podem conter dados pessoais de terceiros e do próprio colaborador, todos sujeitos à LGPD.</li>
+        </ul>
+      </div>
+
+      <div class="info-card info-card--restricted">
+        <h5><strong>Posicionamento do DPO — "Precisa de consentimento por escrito"</h5></strong>
+        <ul>
+          <li>• A área de Governança e Proteção de Dados respondeu que a ação só poderia ser realizada com consentimento do ex-colaborador.</li>
+          <li>• Essa posição, embora cuidadosa, também apresenta imprecisões do ponto de vista da LGPD.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-box content-box--alert">
+      <strong><h4>Atenção: fragilidade do consentimento</h4></strong>
+      <p>O consentimento é a base legal mais frágil na relação empresa-empregado. A ANPD e a doutrina reconhecem desequilíbrio de poder nessa relação, tornando consentimentos potencialmente viciados e contestáveis.</p>
+    </div>
+
+    <!-- Seção 3: O Que a LGPD Efetivamente Estabelece -->
+    <section class="article-section">
+      <h2>3. O que a LGPD efetivamente estabelece</h2>
+      <p>A Lei nº 13.709/2018 exige que todo tratamento de dados pessoais tenha uma base legal (art. 7º). O acesso ao conteúdo de e-mails corporativos de ex-colaboradores configura tratamento de dados pessoais e, portanto, precisa estar amparado por uma das hipóteses previstas na lei.</p>
+    </section>
+
+    <section class="article-section">
+      <h3>3.1 Bases legais aplicáveis</h3>
+    </section>
+
+    <div class="data-block table-responsive">
+      <table class="data-table responsive-table">
+        <thead>
+          <tr>
+            <th>Base legal</th>
+            <th>Descrição</th>
+            <th>Aplicabilidade ao caso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Base Legal">Legítimo Interesse (art. 7º, IX)</td>
+            <td data-label="Descrição">Interesse legítimo do controlador, desde que não sobreponha direitos do titular</td>
+            <td data-label="Aplicabilidade ao Caso">ALTA — continuidade operacional, mediante teste de balanceamento</td>
+          </tr>
+          <tr>
+            <td data-label="Base Legal">Obrigação Legal (art. 7º, II)</td>
+            <td data-label="Descrição">Cumprimento de obrigação legal ou regulatória</td>
+            <td data-label="Aplicabilidade ao Caso">VARIÁVEL — depende do setor e de exigências específicas</td>
+          </tr>
+          <tr>
+            <td data-label="Base Legal">Execução de Contrato (art. 7º, V)</td>
+            <td data-label="Descrição">Tratamento necessário para execução do contrato</td>
+            <td data-label="Aplicabilidade ao Caso">MÉDIA — válida durante e, em alguns casos, após o vínculo</td>
+          </tr>
+          <tr>
+            <td data-label="Base Legal">Consentimento (art. 7º, I)</td>
+            <td data-label="Descrição">Manifestação livre, informada e inequívoca</td>
+            <td data-label="Aplicabilidade ao Caso">BAIXA — geralmente inadequada na relação trabalhista</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="data-source">Fonte: Lei nº 13.709/2018 — LGPD</p>
+    </div>
+
+    <section class="article-section">
+      <h3>3.2 Princípios da LGPD relevantes</h3>
+      <p>Além da base legal, o tratamento deve observar os princípios do art. 6º:</p>
+      <ul class="styled-list">
+        <li>• <strong>Finalidade:</strong> o acesso deve ter propósito legítimo, específico e informado ao titular</li>
+        <li>• <strong>Adequação:</strong> deve ser compatível com as finalidades informadas</li>
+        <li>• <strong>Necessidade:</strong> limitado ao mínimo necessário para a finalidade</li>
+        <li>• <strong>Transparência:</strong> garantir informações claras ao titular sobre o tratamento</li>
+        <li>• <strong>Segurança:</strong> medidas técnicas e administrativas para proteger os dados</li>
+      </ul>
+    </section>
+
+    <!-- Seção 4: A Lacuna Normativa -->
+    <section class="article-section">
+      <h2>4. O ponto central: a lacuna normativa interna</h2>
+      <p>O maior problema identificado no caso e o mais recorrente nas empresas não é a ausência de base legal na LGPD, mas sim a falta de um normativo interno que formalize a política de uso dos ativos de TI e informe os colaboradores sobre como seus dados serão tratados após o desligamento.</p>
+	  <p>Caso esteja se perguntando como seria esse tipo de termo, <strong><a href="docs/termo-ciencia-concordancia.pdf" target="_blank" rel="noopener noreferrer">veja um modelo de referência</a>.</strong>
+    </section>
+
+    <div class="content-box content-box--alert">
+      <strong><h4>Risco real sem política interna</h4></strong>
+      <p>Sem uma política interna clara, qualquer ação, mesmo tecnicamente correta, fica juridicamente exposta. A existência do normativo é o que transforma o legítimo interesse em argumento robusto.</p>
+    </div>
+
+    <section class="article-section">
+      <h3>4.1 Estrutura mínima dos normativos internos</h3>
+		<p>Para mitigar riscos, não basta um único documento isolado. É recomendável que a organização tenha um <strong>conjunto coerente de políticas e procedimentos</strong>, entre os quais se destacam:</p>
+		<ul class="styled-list">
+		  <li>• <strong><a href="docs/politica-uso-ti.pdf" target="_blank" rel="noopener noreferrer">Política de Uso dos Recursos de Tecnologia da Informação (documento principal)</a></strong></li>
+		  <li>• <strong><a href="docs/procedimento-contas-desligamento.pdf" target="_blank" rel="noopener noreferrer">Procedimento de Gestão de Contas Corporativas e Desligamento</a></strong></li>
+		  <li>• <strong><a href="docs/politica-seguranca-informacao.pdf" target="_blank" rel="noopener noreferrer">Política de Segurança da Informação</a></strong></li>
+		</ul>
+		<p></p>
+		<p><strong>Importante:</strong> os documentos acima são exemplos utilizados para ilustrar o caso. Na prática, cada organização deve estruturar e adaptar suas políticas e procedimentos de acordo com sua realidade operacional, infraestrutura tecnológica e nível de maturidade em governança e segurança da informação.</p>
+		<p>Esses documentos devem, de forma integrada, contemplar:</p>
+      <ul class="styled-list">
+        <li>• Definição clara de que o e-mail corporativo é ativo da empresa</li>
+        <li>• Informação ao colaborador de que o conteúdo pode ser acessado após desligamento para fins operacionais</li>
+        <li>• Prazo de retenção da caixa de correio após desligamento</li>
+        <li>• Procedimento padrão de tratamento: conversão para SharedMailbox ou exportação PST</li>
+        <li>• Controles de acesso: quem pode solicitar e quem pode executar a delegação</li>
+        <li>• Registro das operações no ROPA (Registro de Atividades de Tratamento)</li>
+      </ul>
+    </section>
+
+    <!-- Seção 5: Comparativo Técnico -->
+    <section class="article-section">
+      <h2>5. Comparativo técnico: PST vs SharedMailbox</h2>
+      <p>Do ponto de vista estritamente técnico, a proposta de conversão para SharedMailbox é superior ao processo de exportação PST em praticamente todos os critérios relevantes:</p>
+    </section>
+
+    <div class="data-block table-responsive">
+      <table class="data-table responsive-table">
+        <thead>
+          <tr>
+            <th>Critério</th>
+            <th>Exportação PST</th>
+            <th>SharedMailbox</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Critério">Impacto na rede</td>
+            <td data-label="Exportação PST">Alto (transferência do volume total)</td>
+            <td data-label="SharedMailbox">Nenhum</td>
+          </tr>
+          <tr>
+            <td data-label="Critério">Risco de perda de dados</td>
+            <td data-label="Exportação PST">Alto (arquivo pode corromper)</td>
+            <td data-label="SharedMailbox">Baixo</td>
+          </tr>
+          <tr>
+            <td data-label="Critério">Velocidade de acesso</td>
+            <td data-label="Exportação PST">Lenta (importação local)</td>
+            <td data-label="SharedMailbox">Imediata</td>
+          </tr>
+          <tr>
+            <td data-label="Critério">Custo de licença</td>
+            <td data-label="Exportação PST">Licença ativa necessária</td>
+            <td data-label="SharedMailbox">Gratuito até 50 GB</td>
+          </tr>
+          <tr>
+            <td data-label="Critério">Auditabilidade</td>
+            <td data-label="Exportação PST">Difícil rastrear acessos</td>
+            <td data-label="SharedMailbox">Log nativo no Microsoft 365</td>
+          </tr>
+          <tr>
+            <td data-label="Critério">Conformidade LGPD</td>
+            <td data-label="Exportação PST">Difícil controlar acesso</td>
+            <td data-label="SharedMailbox">Acesso controlado e auditável</td>
+          </tr>
+          <tr>
+            <td data-label="Critério">Complexidade de execução</td>
+            <td data-label="Exportação PST">Alta</td>
+            <td data-label="SharedMailbox">Baixa (poucos cliques)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="data-source">Fonte: Análise técnica baseada no caso real</p>
+    </div>
+
+    <div class="content-box content-box--info">
+      <strong><h4>Conformidade como vantagem técnica</h4></strong>
+      <p>Do ponto de vista de segurança da informação e conformidade, a SharedMailbox também é preferível: o acesso é rastreado nos logs do Microsoft 365, enquanto um arquivo PST distribuído localmente é praticamente impossível de auditar.</p>
+    </div>
+
+    <!-- Seção 6: Aplicabilidade por Grupo -->
+    <section class="article-section">
+      <h2>6. Aplicabilidade por grupo de colaboradores</h2>
+      <p>Uma dúvida frequente é: se a empresa decidir implementar a política agora, ela se aplica imediatamente a todos? A resposta varia de acordo com o grupo:</p>
+    </section>
+
+    <div class="data-block table-responsive">
+      <table class="data-table responsive-table">
+        <thead>
+          <tr>
+            <th>Grupo</th>
+            <th>Solução recomendada</th>
+            <th>Nível de risco LGPD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Grupo">Novos contratados</td>
+            <td data-label="Solução Recomendada">Termo de ciência na admissão (onboarding)</td>
+            <td data-label="Nível de Risco LGPD">Baixo</td>
+          </tr>
+          <tr>
+            <td data-label="Grupo">Funcionários ativos sem ciência prévia</td>
+            <td data-label="Solução Recomendada">Aditivo contratual + notificação formal</td>
+            <td data-label="Nível de Risco LGPD">Médio</td>
+          </tr>
+          <tr>
+            <td data-label="Grupo">Ex-colaboradores já desligados</td>
+            <td data-label="Solução Recomendada">Legítimo interesse documentado + acesso proporcional</td>
+            <td data-label="Nível de Risco LGPD">Alto</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="data-source">Fonte: Análise baseada nos arts. 6º e 7º da Lei nº 13.709/2018</p>
+    </div>
+
+    <div class="example-card">
+      <strong><h4>6.1 Novos contratados</h4></strong>
+      <p>Para quem ainda será contratado, a solução é simples: incluir na documentação de admissão um termo de ciência de uso de ativos de TI, informando que e-mails corporativos são propriedade da empresa e podem ser acessados após o desligamento para fins operacionais. Isso estabelece a base legal de forma transparente desde o início da relação.</p>
+    </div>
+
+    <div class="example-card">
+      <strong><h4>6.2 Funcionários ativos sem ciência prévia</h4></strong>
+      <p>Para colaboradores ativos que não foram informados previamente, recomenda-se: publicar a política interna de uso de TI, comunicar formalmente a todos os funcionários através de canal oficial (e-mail, sistema de RH, quadro de avisos etc), dar prazo razoável para ciência e, onde possível, coletar assinatura de aceite. Isso não elimina riscos completamente, mas demonstra boa-fé e transparência.</p>
+    </div>
+
+    <div class="example-card">
+      <strong><h4>6.3 Ex-colaboradores já desligados</h4></strong>
+      <p>Este é o cenário mais delicado. Sem vínculo ativo, o consentimento posterior é inviável. A empresa deve se apoiar no legítimo interesse (art. 7º, IX), documentando formalmente a justificativa de negócio, limitando o acesso ao estritamente necessário, registrando a operação no ROPA e mantendo logs de acesso. A proporcionalidade é essencial: acesso para continuar contratos é diferente de acesso indiscriminado a toda a caixa.</p>
+    </div>
+
+    <!-- Seção 7: Guia Prático -->
+    <section class="article-section">
+      <h2>7. Guia prático: implementação em conformidade</h2>
+      <p>Com base na análise desse caso, reuni um roteiro simples e prático para ajudar a área de TI a implementar o processo com segurança e em conformidade com a LGPD:</p>
+    </section>
+
+    <div class="stats-box">
+      <strong><h4>Fase 1 — Documentação e Governança</h4></strong>
+      <ul>
+        <li>• Elaborar ou atualizar a Política de Uso de Ativos de TI</li>
+        <li>• Incluir cláusula específica sobre tratamento de e-mail corporativo pós-desligamento</li>
+        <li>• Submeter à área Jurídica e ao DPO (Encarregado de Dados) para validação</li>
+        <li>• Registrar a atividade de tratamento no ROPA</li>
+      </ul>
+    </div>
+
+    <div class="stats-box">
+      <strong><h4>Fase 2 — Comunicação interna</h4></strong>
+      <ul>
+        <li>• Publicar a política nos canais oficiais da empresa (intranet, e-mail, manual do funcionário)</li>
+        <li>• Coletar ciência formal dos colaboradores ativos (assinatura eletrônica ou física)</li>
+        <li>• Incluir o termo de ciência no kit de admissão de novos colaboradores</li>
+      </ul>
+    </div>
+
+    <div class="stats-box">
+      <strong><h4>Fase 3 — Processo Operacional Padronizado</h4></strong>
+      <ul>
+        <li>• Criar procedimento padrão (POP) para conversão de UserMailbox em desligamentos</li>
+        <li>• Definir responsáveis: quem solicita (RH/Gestor) e quem executa (TI/Infra)</li>
+        <li>• Estabelecer prazo máximo após desligamento para execução</li>
+        <li>• Documentar cada ocorrência com justificativa de negócio</li>
+      </ul>
+    </div>
+
+    <div class="stats-box">
+      <strong><h4>Fase 4 — Controles técnicos</h4></strong>
+      <ul>
+        <li>• Converter a UserMailbox para SharedMailbox no Microsoft 365 Admin Center</li>
+        <li>• Aplicar delegação de acesso apenas aos colaboradores com necessidade justificada</li>
+        <li>• Remover a licença Microsoft da conta do ex-colaborador</li>
+        <li>• <strong>Redefinir a senha da conta para impedir acesso não autorizado</strong></li>
+        <li>• Configurar resposta automática informando o novo contato (opcional)</li>
+        <li>• Manter logs de acesso habilitados no Microsoft 365 para auditoria</li>
+      </ul>
+    </div>
+
+    <div class="guide-box-yellow">
+      💡 <strong>Ação extra de segurança:</strong> além da redefinição de senha, é recomendável bloquear o acesso interativo da conta no Azure AD/Entra ID, garantindo que nenhum login seja possível, mesmo que credenciais anteriores sejam conhecidas ou válidas.
+    </div>
+	
+	
+	<section class="guia-pratico">
+		<p>As quatro fases funcionam como uma cadeia de proteção:<br>
+		  - Primeiro a empresa define as regras<br>
+		  - Depois comunica aos colaboradores<br>
+		  - Em seguida cria um processo padrão<br>
+		  - E, por fim, aplica tudo com segurança nos sistemas</p>
+
+		<p><strong>Sem essas quatro etapas, a empresa pode até estar tecnicamente certa, mas fica exposta. Com elas, o processo passa a ser claro, justificável e seguro.</strong></p>
+	</section>
+
+    <!-- Checklist -->
+    <div class="checklist-box">
+      <h4><i class="fas fa-check-double"></i> Checklist de conformidade no desligamento</h4>
+      <p>Utilize este checklist para garantir que cada desligamento seja tratado com conformidade técnica e jurídica:</p>
+      <ul class="checklist">
+        <li>• <input type="checkbox"> Política interna de uso de TI formalizada e publicada</li>
+        <li>• <input type="checkbox"> Solicitação de conversão registrada com justificativa de negócio</li>
+        <li>• <input type="checkbox"> Aprovação do gestor responsável e do DPO obtida</li>
+        <li>• <input type="checkbox"> UserMailbox convertida para SharedMailbox no Admin Center</li>
+        <li>• <input type="checkbox"> Delegação de acesso aplicada apenas a quem possui necessidade justificada</li>
+        <li>• <input type="checkbox"> Licença Microsoft removida da conta do ex-colaborador</li>
+        <li>• <input type="checkbox"> Senha redefinida e acesso interativo bloqueado no Azure AD/Entra ID</li>
+        <li>• <input type="checkbox"> Logs de acesso habilitados no Microsoft 365</li>
+        <li>• <input type="checkbox"> Operação registrada no ROPA</li>
+        <li>• <input type="checkbox"> Prazo de retenção definido e documentado</li>
+      </ul>
+    </div>
+
+    <!-- Seção 8: Conclusão -->
+    <section class="article-section">
+      <h2>Conclusão</h2>
+      <p>Esse estudo de caso é um <em>exemplo de uma lacuna organizacional comum</em>: a TI sabe o que fazer tecnicamente, o jurídico/compliance sabe os riscos, mas falta o instrumento que una os dois: uma política interna formalizada.</p>
+      <p>A proposta de conversão para SharedMailbox é tecnicamente superior ao PST e, quando acompanhada da governança adequada, é também juridicamente mais robusta. A LGPD não proíbe que a empresa acesse e-mails corporativos de ex-colaboradores, ela exige que esse acesso tenha base legal, finalidade definida, proporcionalidade e transparência.</p>
+      <p>O consentimento do ex-colaborador, sugerido no caso não é a melhor solução, pois: é impraticável em desligamentos conflituosos e juridicamente frágil. A combinação de política interna clara + legítimo interesse documentado + controles técnicos adequados é o caminho mais sólido.</p>
+    </section>
+
+    <div class="content-box content-box--info">
+      <strong><h4>Aos profissionais de TI</h4></strong>
+      <p>A conformidade com a LGPD não começa no desligamento, mas na admissão, quando o colaborador é informado sobre o tratamento de seus dados. Estruturar essa política o quanto antes garante segurança jurídica e prepara a empresa para os próximos desligamentos.</p>
+    </div>
+
+    <!-- Aviso Legal -->
+    <div class="content-box content-box--alert">
+      <strong><h4>Aviso legal</h4></strong>
+      <p>Este artigo é baseado em uma experiência real vivenciada pelo autor, com todos os dados devidamente anonimizados. Não constitui assessoria jurídica. Para situações específicas, consulte o DPO e a área jurídica da sua organização.</p>
+    </div>
+    <!-- Info sobre o autor -->
+    <div class="content-box content-box--info">
+      <h4>Sobre o autor</h4>
+      <p>Jardel Santos é DPO certificado EXIN, especialista em Segurança da Informação, LGPD e Governança de TI, com mais de 15 anos de experiência em ambientes corporativos. Atuou na gestão de Active Directory, Microsoft 365, Azure AD e suporte técnico estratégico. Para saber mais, clique <strong><a href="../sobre.html">aqui</strong></a>.</p>
+    </div>
+
+
+    <!-- Fontes -->
+    <div class="source-list">
+      <strong>📚 Fontes:</strong>
+      <ul style="list-style:none; padding-left:0; margin-top:10px;">
+        <li>• <a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank" rel="noopener">Brasil. Lei nº 13.709, de 14 de agosto de 2018. Lei Geral de Proteção de Dados Pessoais (LGPD)</a></li>
+        <li>• <a href="https://www.gov.br/anpd/pt-br/documentos-e-publicacoes/documentos-de-publicacoes/guia-bases-legais.pdf" target="_blank" rel="noopener">ANPD. Guia Orientativo: Bases Legais para Tratamento de Dados Pessoais. 2022</a></li>
+        <li>• <a href="https://learn.microsoft.com/pt-br/microsoft-365/admin/email/convert-user-mailbox-to-shared-mailbox" target="_blank" rel="noopener">Microsoft. Convert a user mailbox to a shared mailbox. Microsoft 365 Documentation</a></li>
+        <li>• Pinheiro, Patrícia Peck. Proteção de Dados Pessoais: Comentários à Lei n. 13.709/2018 (LGPD). 3. ed. São Paulo: Saraiva, 2021.</li>
+      </ul>
+    </div>
+
+  </article>
+
+</main>
+
+<footer class="site-footer"></footer>
+<script src="../assets/js/busca.js"></script>
+<script src="../assets/js/artigos-dados.js"></script>
+<script src="../assets/js/acesso-rapido.js"></script>
+<script src="../assets/js/components.js"></script>
+<script src="../assets/js/sharing.js"></script>
+<script src="../assets/js/schema-article.js"></script>
+<script src="../assets/js/image-lightbox.js"></script>
+
+</body>
+</html>

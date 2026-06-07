@@ -19,10 +19,10 @@
     //------------------------------------------------
     const pages = [
 
-        { url: "index.html", name: "Página Inicial", keywords: "home tecnologia ti segurança" },
-        { url: "servicos.html", name: "Serviços de TI e Segurança", keywords: "consultoria segurança infraestrutura" },
-        { url: "sobre.html", name: "Sobre Jardel Santos", keywords: "especialista arquiteto segurança" },
-        { url: "artigos.html", name: "Biblioteca de Artigos", keywords: "blog tecnologia engenharia prompt ia" },
+        { url: "index.html", name: "Página Principal", keywords: "home tecnologia ti segurança dpo" },
+        { url: "atuacao.html", name: "Áreas de Atuação e Estudo", keywords: "atuação estudo consultoria segurança infraestrutura" },
+        { url: "sobre.html", name: "Sobre Jardel Santos", keywords: "especialista arquiteto segurança 15+ lgpd suporte service desk" },
+        { url: "artigos.html", name: "Artigos & Insights", keywords: "blog tecnologia engenharia prompt ia" },
 
         { url: "artigos/ciberseguranca-para-pmes.html", name: "Cibersegurança para PMEs", keywords: "ransomware proteção empresas" },
         { url: "artigos/lgpd-pme-rj.html", name: "LGPD no Rio de Janeiro", keywords: "privacidade compliance dados" },
@@ -51,6 +51,7 @@
 		{ url: "artigos/claude-ai-vale-a-pena-2026.html", name: "Claude AI: Um guia honesto para empresas e profissionais", Keywords: "claude ai, inteligência artificial, ia corporativa, lgpd, anthropic, chatgpt, segurança da informação" },
 		{ url: "artigos/ia-esta-deixando-humano-mais-burro.html", name: "Estamos ficando mais burros por causa do uso excessivo da IA?", keywords: "inteligência artificial, cognição, pensamento crítico, lgpd, cognitive offloading, MIT, governança de IA, vazamento de dados, corporativo, riscos digitais" },
 		{ url: "artigos/dpo-equipe-ti-quem-faz-o-que.html", name: "O DPO e a equipe de TI: Quem faz o quê?", keywords: "DPO, LGPD, encarregado, TI, segurança da informação, RH, jurídico, compliance, ANPD, proteção de dados" },
+		{ url: "artigos/lgpd-gestao-caixas-correio-ex-colaboradores.html", name: "LGPD e a gestão de caixas de correio de ex-colaboradores", keywords: "LGPD, caixa de correio, e-mail corporativo, ex-colaborador, desligamento, SharedMailbox, UserMailbox, Microsoft 365, PST, base legal, legítimo interesse, consentimento, ROPA, DPO, encarregado, política de TI, privacidade, proteção de dados, Azure AD, Entra ID, conformidade, segurança da informação, compliance trabalhista, tratamento de dados" },
 		
         { url: "legal/privacidade.html", name: "Política de Privacidade", keywords: "lgpd dados política" },
         { url: "legal/termo-de-uso.html", name: "Termos de Uso", keywords: "contrato legal site" }
