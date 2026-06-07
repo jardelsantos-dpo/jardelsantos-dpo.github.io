@@ -12,9 +12,27 @@
 
 <language>pt-BR</language>
 
-<lastBuildDate>Wed, 03 Jun 2026 22:14:46 GMT</lastBuildDate>
+<lastBuildDate>Sun, 07 Jun 2026 16:47:38 GMT</lastBuildDate>
 
 <generator>GitHub Actions SEO Generator</generator>
+
+
+
+<item>
+
+<title>LGPD e a gestão de caixas de correio de ex-colaboradores</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/lgpd-gestao-caixas-correio-ex-colaboradores.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/lgpd-gestao-caixas-correio-ex-colaboradores.html</guid>
+
+<description><![CDATA[Estudo de caso real: como converter UserMailbox para SharedMailbox com conformidade à LGPD e quais bases legais amparam a empresa nesse processo.]]></description>
+
+<category>LGPD &amp; Compliance</category>
+
+<pubDate>Sun, 07 Jun 2026 00:00:00 GMT</pubDate>
+
+</item>
 
 
 
@@ -355,24 +373,6 @@
 <category>Service Desk &amp; ITSM, Inteligência Artificial</category>
 
 <pubDate>Sun, 25 Jan 2026 00:00:00 GMT</pubDate>
-
-</item>
-
-
-
-<item>
-
-<title>IA Generativa: Desafios de Segurança e Governança</title>
-
-<link>https://jardelsantos-dpo.github.io/artigos/ia-seguranca-corporativa.html</link>
-
-<guid>https://jardelsantos-dpo.github.io/artigos/ia-seguranca-corporativa.html</guid>
-
-<description><![CDATA[Uma análise técnica sobre Shadow AI, proteção de dados e como implementar o uso do Copilot com segurança...]]></description>
-
-<category>LGPD &amp; Compliance</category>
-
-<pubDate>Thu, 22 Jan 2026 00:00:00 GMT</pubDate>
 
 </item>
 
