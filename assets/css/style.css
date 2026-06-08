@@ -262,7 +262,7 @@ header {
 .tag-ai-gov { background-color: #1976d2; }
 .tag-ai-master { background-color: #00796b; }
 .tag-ai-sec { background-color: #880e4f; }
-.tag-cloud { background-color: #0078d4; }
+.tag-cloud { background-color: #d32f2f; }
 .tag-auto { background-color: #fbc02d; color: #333333; }
 .tag-dados { background-color: #f2c811; color: #333333; }
 .tag-gestao { background-color: #424242; }
@@ -271,18 +271,28 @@ header {
    BOTÃO DE IA COM DEGRADÊ PERSONALIZADO (MÚLTIPLOS FILTROS)
    ========================================================================== */
 
-/* Quando o botão de IA estiver Ativo (Clicado) - Versão Ultra Vibrante */
+.filter-btn[data-filter="tag-security,tag-cloud"].active {
+    /* Transição moderna entre Magenta Elétrico e Ciano Neon */
+    background: linear-gradient(#d32f2f) !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+
+}
+
+.filter-btn[data-filter="is-hashtag"].active {
+    /* Transição moderna entre Magenta Elétrico e Ciano Neon */
+    background: linear-gradient(#0078d4) !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+
+}
+
+
 .filter-btn[data-filter="tag-ai-master,tag-ai-sec"].active {
     /* Transição moderna entre Magenta Elétrico e Ciano Neon */
     background: linear-gradient(135deg, #ff007f, #00f5d4) !important;
     color: #ffffff !important;
     border-color: transparent !important;
-    
-    /* Brilho (Glow) expandido acompanhando as novas cores vivas 
-    box-shadow: 0 0 18px rgba(255, 0, 127, 0.6), 0 0 18px rgba(0, 245, 212, 0.6);
-    
-    /* Suaviza as letras sobre o fundo vibrante 
-    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3); */
 }
 
 /* Dots dos Certificados */

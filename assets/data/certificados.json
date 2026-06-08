@@ -261,7 +261,8 @@
     "imagem": "img/badge-claude.webp",
     "link": "https://portalhashtag.com/validacao-certificado/1779484833657x471336533503508500",
     "tipoLink": "Validar",
-    "highlight": false
+    "highlight": false,
+	"hashtag": true
   },
   {
     "id": 22,
@@ -273,7 +274,8 @@
     "imagem": "img/badge-agentes-n8n.webp",
     "link": "https://portalhashtag.com/validacao-certificado/1770059357144x691658390160604800",
     "tipoLink": "Validar",
-    "highlight": false
+    "highlight": false,
+	"hashtag": true
   },
   {
     "id": 23,
@@ -297,7 +299,8 @@
     "imagem": "img/badge-apis-ia.webp",
     "link": "https://portalhashtag.com/validacao-certificado/1773176469411x248623244950563200",
     "tipoLink": "Validar",
-    "highlight": false
+    "highlight": false,
+	"hashtag": true
   },
   {
     "id": 25,
@@ -333,7 +336,8 @@
     "imagem": "img/badge-ia.webp",
     "link": "https://portalhashtag.com/validacao-certificado/1733929642062x898200692667336300",
     "tipoLink": "Validar",
-    "highlight": false
+    "highlight": false,
+	"hashtag": true
   },
   {
     "id": 28,
@@ -345,7 +349,8 @@
     "imagem": "img/badge-lovable.webp",
     "link": "https://portalhashtag.com/validacao-certificado/1777058099524x459023568425929860",
     "tipoLink": "Validar",
-    "highlight": false
+    "highlight": false,
+	"hashtag": true
   },
   {
     "id": 29,
@@ -357,7 +362,8 @@
     "imagem": "img/badge-power-automate.webp",
     "link": "https://portalhashtag.com/validacao-certificado/1739559543046x451384796879519740",
     "tipoLink": "Validar",
-    "highlight": false
+    "highlight": false,
+	"hashtag": true
   },
   {
     "id": 30,
@@ -369,7 +375,8 @@
     "imagem": "img/badge-power-apps.webp",
     "link": "https://portalhashtag.com/validacao-certificado/1735926943548x245935675747005920",
     "tipoLink": "Validar",
-    "highlight": false
+    "highlight": false,
+	"hashtag": true
   },
   {
     "id": 31,
@@ -381,7 +388,8 @@
     "imagem": "img/badge-power-bi.webp",
     "link": "https://portalhashtag.com/validacao-certificado/1745612722694x606586988553802000",
     "tipoLink": "Validar",
-    "highlight": false
+    "highlight": false,
+	"hashtag": true
   },
   {
     "id": 32,
@@ -389,7 +397,7 @@
 	"ano": "2025",
     "categoria": "cloud",
     "tag": "tag-cloud",
-    "tagLabel": "Cloud",
+    "tagLabel": "Cibersegurança & Cloud",
     "imagem": "img/badge-az-104.webp",
     "link": "https://www.dio.me/certificate/YEZ2LUIY/share",
     "tipoLink": "Validar",

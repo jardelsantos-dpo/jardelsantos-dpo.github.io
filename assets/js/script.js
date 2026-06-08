@@ -1,9 +1,10 @@
 /**
  * Script Principal - Jardel Santos
  * Integração Completa: Carrosséis (Home, Casos de Sucesso, Soft Skills, Certificados) + Filtros
+ * Versão Otimizada: Filtro corporativo resiliente para a HashTag Treinamentos.
  */
 
-// Variáveis globais para o Carrossel de Certificados (Mobile)
+// Estado Global de Controle (Certificados Dinâmicos)
 let certCarouselInterval;
 let currentCertIndex = 0;
 let certTouchStartX = 0;
@@ -11,414 +12,340 @@ let certTouchEndX = 0;
 let certificados = [];
 
 document.addEventListener('DOMContentLoaded', () => {
-    
-    /* ==========================================================================
-       1. CARROSSEL DE DESTAQUES (index.html)
-       ========================================================================== */
+    inicializarCarrosselDestaques();
+    inicializarCarrosselCasosSucesso();
+    inicializarToggleCertificadosEstaticos();
+    inicializarToggleSoftSkills();
+    inicializarCarrosselSoftSkillsMobile();
+    inicializarCertificadosDinamicos();
+    inicializarArtigosHome();
+});
+
+/* ==========================================================================
+   1. CARROSSEL DE DESTAQUES (index.html)
+   ========================================================================== */
+function inicializarCarrosselDestaques() {
     const track = document.getElementById('carouselTrack');
-    if (track) {
-        const slides = Array.from(track.children);
-        const dotsContainer = document.getElementById('carouselDots');
-        const nextButton = document.getElementById('nextBtn');
-        const prevButton = document.getElementById('prevBtn');
-        let currentSlideIndex = 0;
-        let autoPlayInterval;
-        let touchStartX = 0;
-        let touchEndX = 0;
+    const dotsContainer = document.getElementById('carouselDots');
+    const nextButton = document.getElementById('nextBtn');
+    const prevButton = document.getElementById('prevBtn');
+    
+    if (!track) return;
 
-        function setupDots() {
-            if (!dotsContainer) return;
-            dotsContainer.innerHTML = '';
-            slides.forEach((_, index) => {
-                const dot = document.createElement('div');
-                dot.classList.add('dot');
-                if (index === 0) dot.classList.add('active');
-                dot.addEventListener('click', () => moveToSlide(index));
-                dotsContainer.appendChild(dot);
-            });
-        }
+    const slides = Array.from(track.children);
+    let currentSlideIndex = 0;
+    let autoPlayInterval;
+    let touchStartX = 0;
 
-        function updateDots(index) {
-            const dots = dotsContainer?.querySelectorAll('.dot');
-            dots?.forEach((d, i) => d.classList.toggle('active', i === index));
-        }
+    const setupDots = () => {
+        if (!dotsContainer) return;
+        dotsContainer.innerHTML = '';
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => moveToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+    };
 
-        function moveToSlide(index) {
-            if (index < 0) index = slides.length - 1;
-            if (index >= slides.length) index = 0;
-            track.style.transform = `translateX(-${index * 100}%)`;
-            currentSlideIndex = index;
-            updateDots(index);
-        }
+    const updateDots = (index) => {
+        const dots = dotsContainer?.querySelectorAll('.dot');
+        dots?.forEach((d, i) => d.classList.toggle('active', i === index));
+    };
 
-        function startAutoPlay() {
-            stopAutoPlay();
-            autoPlayInterval = setInterval(() => moveToSlide(currentSlideIndex + 1), 5000);
-        }
+    const moveToSlide = (index) => {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+        track.style.transform = `translateX(-${index * 100}%)`;
+        currentSlideIndex = index;
+        updateDots(index);
+    };
 
-        function stopAutoPlay() { if (autoPlayInterval) clearInterval(autoPlayInterval); }
+    const startAutoPlay = () => {
+        stopAutoPlay();
+        autoPlayInterval = setInterval(() => moveToSlide(currentSlideIndex + 1), 5000);
+    };
 
-        setupDots();
+    const stopAutoPlay = () => {
+        if (autoPlayInterval) clearInterval(autoPlayInterval);
+    };
+
+    setupDots();
+    startAutoPlay();
+
+    nextButton?.addEventListener('click', () => { moveToSlide(currentSlideIndex + 1); startAutoPlay(); });
+    prevButton?.addEventListener('click', () => { moveToSlide(currentSlideIndex - 1); startAutoPlay(); });
+
+    track.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; stopAutoPlay(); }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const swipeDistance = touchStartX - touchEndX;
+        if (swipeDistance > 50) moveToSlide(currentSlideIndex + 1);
+        else if (swipeDistance < -50) moveToSlide(currentSlideIndex - 1);
         startAutoPlay();
+    }, { passive: true });
+}
 
-        nextButton?.addEventListener('click', () => { moveToSlide(currentSlideIndex + 1); startAutoPlay(); });
-        prevButton?.addEventListener('click', () => { moveToSlide(currentSlideIndex - 1); startAutoPlay(); });
-
-        track.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; stopAutoPlay(); }, { passive: true });
-        track.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].clientX;
-            const swipeDistance = touchStartX - touchEndX;
-            if (swipeDistance > 50) moveToSlide(currentSlideIndex + 1);
-            else if (swipeDistance < -50) moveToSlide(currentSlideIndex - 1);
-            startAutoPlay();
-        }, { passive: true });
-    }
-
-	/* ==========================================================================
-       2. CARROSSEL DE CASOS DE SUCESSO (index.html)
-       ========================================================================== */
+/* ==========================================================================
+   2. CARROSSEL DE CASOS DE SUCESSO (index.html)
+   ========================================================================== */
+function inicializarCarrosselCasosSucesso() {
     const casesTrack = document.getElementById('casesTrack');
     const casesDotsContainer = document.getElementById('casesDots');
 
-    if (casesTrack && casesDotsContainer) {
-        const cards = Array.from(casesTrack.children);
-        let currentIndex = 0;
-        let isPaused = false;
-        let tStartX = 0;
-        let tEndX = 0;
+    if (!casesTrack || !casesDotsContainer) return;
 
-        // Breakpoint alinhado com o padrão de layout de 992px
-        const getItemsPerView = () => window.innerWidth <= 992 ? 1 : 3;
+    const cards = Array.from(casesTrack.children);
+    let currentIndex = 0;
+    let isPaused = false;
+    let tStartX = 0;
+
+    const getItemsPerView = () => window.innerWidth <= 992 ? 1 : 3;
+    const getMaxSteps = () => Math.max(1, cards.length - getItemsPerView() + 1);
+
+    const setupCasesDots = () => {
+        casesDotsContainer.innerHTML = '';
+        casesDotsContainer.removeAttribute('style');
         
-        // Define o limite máximo que o índice pode alcançar de forma segura
-        const getMaxSteps = () => Math.max(1, cards.length - getItemsPerView() + 1);
-
-		function setupCasesDots() {
-            if (!casesDotsContainer) return;
-            
-            casesDotsContainer.innerHTML = '';
-            
-            // Força o contêiner de bolinhas a ficar visível como flex no JS
-            casesDotsContainer.style.display = 'flex';
-            casesDotsContainer.style.justifyContent = 'center';
-            casesDotsContainer.style.gap = '8px';
-            casesDotsContainer.style.marginTop = '20px';
-
-            const totalSteps = Math.max(1, cards.length - getItemsPerView() + 1);
-            
-            // Se não houver necessidade de paginação (ex: poucos cards), oculta
-            if (totalSteps <= 1) {
-                casesDotsContainer.style.display = 'none';
-                return;
-            }
-
-            for (let i = 0; i < totalSteps; i++) {
-                const dot = document.createElement('div');
-                // Adicionamos uma classe específica para evitar conflitos globais do CSS
-                dot.className = i === 0 ? 'dot case-dot active' : 'dot case-dot';
-                
-                // Estilização direta de segurança para garantir a exibição física da bolinha
-                dot.style.width = '12px';
-                dot.style.height = '12px';
-                dot.style.borderRadius = '50%';
-                dot.style.cursor = 'pointer';
-                dot.style.transition = 'all 0.3s ease';
-                
-                dot.addEventListener('click', () => { 
-                    currentIndex = i; 
-                    updateCasesCarousel(); 
-                    isPaused = true; 
-                });
-                casesDotsContainer.appendChild(dot);
-            }
+        const totalSteps = getMaxSteps();
+        if (totalSteps <= 1) {
+            casesDotsContainer.style.display = 'none';
+            return;
         }
 
-		function updateCasesCarousel() {
-            if (cards.length === 0) return;
-
-            const isMobile = window.innerWidth <= 992;
-            const parentWidth = casesTrack.parentElement.clientWidth;
-            
-            let offset = 0;
-
-            if (isMobile) {
-                // No mobile, move exatamente a largura de um contêiner por vez (1 card por tela)
-                offset = currentIndex * parentWidth;
-            } else {
-                // No desktop (3 itens por tela), calcula dinamicamente baseado na largura do card + gap real lido do CSS
-                const cardWidth = cards[0].getBoundingClientRect().width;
-                const computedStyles = window.getComputedStyle(casesTrack);
-                const gap = parseFloat(computedStyles.gap || computedStyles.columnGap || 0) || 0;
-                
-                offset = currentIndex * (cardWidth + gap);
-            }
-
-            casesTrack.style.transform = `translateX(-${offset}px)`;
-            
-            // Seleção atualizada com a classe específica .case-dot para evitar conflitos globais
-            const dots = casesDotsContainer.querySelectorAll('.case-dot');
-            dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+        casesDotsContainer.style.display = 'flex';
+        for (let i = 0; i < totalSteps; i++) {
+            const dot = document.createElement('div');
+            dot.className = i === 0 ? 'dot case-dot active' : 'dot case-dot';
+            dot.addEventListener('click', () => { 
+                currentIndex = i; 
+                updateCasesCarousel(); 
+                isPaused = true; 
+            });
+            casesDotsContainer.appendChild(dot);
         }
-		
-        // Eventos de Toque (Swipe Mobile)
-        casesTrack.addEventListener('touchstart', e => { 
-            tStartX = e.changedTouches[0].screenX; 
-            isPaused = true; 
-        }, { passive: true });
+    };
 
-        casesTrack.addEventListener('touchend', e => {
-            tEndX = e.changedTouches[0].screenX;
-            const swipeThreshold = 50;
-            const steps = getMaxSteps();
+    const updateCasesCarousel = () => {
+        if (cards.length === 0) return;
 
-            if (tStartX - tEndX > swipeThreshold && currentIndex < steps - 1) {
-                currentIndex++; // Swipe para a esquerda (Avança)
-            } else if (tEndX - tStartX > swipeThreshold && currentIndex > 0) {
-                currentIndex--; // Swipe para a direita (Volta)
-            }
-            updateCasesCarousel();
-        }, { passive: true });
+        const isMobile = window.innerWidth <= 992;
+        const parentWidth = casesTrack.parentElement.clientWidth;
+        let offset = 0;
 
-        // Loop de Autoplay corrigido (impede estouro do índice máximo)
-        setInterval(() => {
-            if (!isPaused && cards.length > getItemsPerView()) {
-                const steps = getMaxSteps();
-                currentIndex = (currentIndex + 1) % steps;
-                updateCasesCarousel();
-            }
-        }, 6000);
+        if (isMobile) {
+            offset = currentIndex * parentWidth;
+        } else {
+            const cardWidth = cards[0].getBoundingClientRect().width;
+            const computedStyles = window.getComputedStyle(casesTrack);
+            const gap = parseFloat(computedStyles.gap || computedStyles.columnGap || 0) || 0;
+            offset = currentIndex * (cardWidth + gap);
+        }
 
-        // Controles de Pausa por Interação do Usuário
-        casesTrack.addEventListener('mouseenter', () => isPaused = true);
-        casesTrack.addEventListener('mouseleave', () => isPaused = false);
+        casesTrack.style.transform = `translateX(-${offset}px)`;
+        const dots = casesDotsContainer.querySelectorAll('.case-dot');
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+    };
+
+    casesTrack.addEventListener('touchstart', e => { 
+        tStartX = e.changedTouches[0].screenX; 
+        isPaused = true; 
+    }, { passive: true });
+
+    casesTrack.addEventListener('touchend', e => {
+        const tEndX = e.changedTouches[0].screenX;
+        const swipeThreshold = 50;
+        const steps = getMaxSteps();
+
+        if (tStartX - tEndX > swipeThreshold && currentIndex < steps - 1) currentIndex++;
+        else if (tEndX - tStartX > swipeThreshold && currentIndex > 0) currentIndex--;
         
-        // Ajuste dinâmico responsivo
-        window.addEventListener('resize', () => { 
-            currentIndex = 0; 
-            setupCasesDots(); 
-            updateCasesCarousel(); 
-        });
-
-        // Inicialização primária da seção
-        setupCasesDots();
         updateCasesCarousel();
-    }
+    }, { passive: true });
 
-    /* ==========================================================================
-       3. CERTIFICAÇÕES: VER MAIS / VER MENOS (Desktop - Opcional se usar os botões de filtro)
-       ========================================================================== */
+    setInterval(() => {
+        if (!isPaused && cards.length > getItemsPerView()) {
+            currentIndex = (currentIndex + 1) % getMaxSteps();
+            updateCasesCarousel();
+        }
+    }, 6000);
+
+    casesTrack.addEventListener('mouseenter', () => isPaused = true);
+    casesTrack.addEventListener('mouseleave', () => isPaused = false);
+    
+    window.addEventListener('resize', () => { 
+        currentIndex = 0; 
+        setupCasesDots(); 
+        updateCasesCarousel(); 
+    });
+
+    setupCasesDots();
+    updateCasesCarousel();
+}
+
+/* ==========================================================================
+   3. CERTIFICAÇÕES: VER MAIS / VER MENOS (Desktop Estático)
+   ========================================================================== */
+function inicializarToggleCertificadosEstaticos() {
     const certCardsList = document.querySelectorAll('.cert-card');
     const btnLoadMore = document.getElementById('btnLoadMore');
     const containerLoadMore = document.getElementById('loadMoreContainer');
 
-    if (certCardsList.length && btnLoadMore && containerLoadMore) {
-        const DESKTOP_BREAKPOINT = 768;
-        const INITIAL_VISIBLE = 4;
-        let expanded = false;
+    if (!certCardsList.length || !btnLoadMore || !containerLoadMore) return;
 
-        function applyDesktopView() {
+    const DESKTOP_BREAKPOINT = 768;
+    const INITIAL_VISIBLE = 4;
+    let expanded = false;
+
+    const renderCertView = () => {
+        if (window.innerWidth > DESKTOP_BREAKPOINT) {
             certCardsList.forEach((card, index) => {
-                if (!expanded && index >= INITIAL_VISIBLE) card.classList.add('hidden');
-                else card.classList.remove('hidden');
+                card.classList.toggle('hidden', !expanded && index >= INITIAL_VISIBLE);
             });
             btnLoadMore.textContent = expanded ? 'Ver menos' : 'Ver mais';
-            btnLoadMore.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+            btnLoadMore.setAttribute('aria-expanded', expanded);
             containerLoadMore.style.display = certCardsList.length > INITIAL_VISIBLE ? 'block' : 'none';
-        }
-
-        function applyMobileView() {
+        } else {
             certCardsList.forEach(card => card.classList.remove('hidden'));
             containerLoadMore.style.display = 'none';
-            expanded = true;
-            btnLoadMore.setAttribute('aria-expanded', 'true');
         }
+    };
 
-        function renderCertView() {
-            if (window.innerWidth > DESKTOP_BREAKPOINT) {
-                if (typeof expanded !== 'boolean') expanded = false;
-                applyDesktopView();
-            } else applyMobileView();
+    btnLoadMore.addEventListener('click', () => {
+        if (window.innerWidth > DESKTOP_BREAKPOINT) {
+            expanded = !expanded;
+            renderCertView();
+            if (!expanded) document.querySelector('.certifications-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
+    });
 
-        btnLoadMore.addEventListener('click', function() {
-            if (window.innerWidth > DESKTOP_BREAKPOINT) {
-                expanded = !expanded;
-                applyDesktopView();
-                if (!expanded) document.querySelector('.certifications-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
+    window.addEventListener('resize', renderCertView);
+    renderCertView();
+}
 
-        window.addEventListener('resize', renderCertView);
-        renderCertView();
-    }
-
-    /* ==========================================================================
-       4. SOFT SKILLS: VER MAIS / VER MENOS (Desktop)
-       ========================================================================== */
+/* ==========================================================================
+   4. SOFT SKILLS: VER MAIS / VER MENOS (Desktop)
+   ========================================================================== */
+function inicializarToggleSoftSkills() {
     const skillsCards = document.querySelectorAll('#skillsGrid .skill-card');
     const btnSkills = document.getElementById('btnSkillsLoadMore');
     const containerSkills = document.getElementById('skillsLoadMoreContainer');
 
-    if (skillsCards.length && btnSkills && containerSkills) {
-        const DESKTOP_BREAKPOINT = 768;
-        const INITIAL_VISIBLE = 4;
-        let expandedSkills = false;
+    if (!skillsCards.length || !btnSkills || !containerSkills) return;
 
-        function applyDesktopSkills() {
+    const DESKTOP_BREAKPOINT = 768;
+    const INITIAL_VISIBLE = 4;
+    let expandedSkills = false;
+
+    const renderSkillsView = () => {
+        if (window.innerWidth > DESKTOP_BREAKPOINT) {
             skillsCards.forEach((card, index) => {
-                if (!expandedSkills && index >= INITIAL_VISIBLE) card.classList.add('hidden');
-                else card.classList.remove('hidden');
+                card.classList.toggle('hidden', !expandedSkills && index >= INITIAL_VISIBLE);
             });
             btnSkills.textContent = expandedSkills ? 'Ver menos' : 'Ver mais';
             btnSkills.setAttribute('aria-expanded', expandedSkills);
             containerSkills.style.display = skillsCards.length > INITIAL_VISIBLE ? 'block' : 'none';
-        }
-
-        function applyMobileSkills() {
+        } else {
             skillsCards.forEach(card => card.classList.remove('hidden'));
             containerSkills.style.display = 'none';
-            expandedSkills = true;
         }
+    };
 
-        function renderSkillsView() {
-            if (window.innerWidth > DESKTOP_BREAKPOINT) applyDesktopSkills();
-            else applyMobileSkills();
+    btnSkills.addEventListener('click', () => {
+        if (window.innerWidth > DESKTOP_BREAKPOINT) {
+            expandedSkills = !expandedSkills;
+            renderSkillsView();
+            if (!expandedSkills) document.querySelector('.soft-skills-section')?.scrollIntoView({ behavior: 'smooth' });
         }
+    });
 
-        btnSkills.addEventListener('click', () => {
-            if (window.innerWidth > DESKTOP_BREAKPOINT) {
-                expandedSkills = !expandedSkills;
-                applyDesktopSkills();
-                if (!expandedSkills) document.querySelector('.soft-skills-section')?.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
+    window.addEventListener('resize', renderSkillsView);
+    renderSkillsView();
+}
 
-        window.addEventListener('resize', renderSkillsView);
-        renderSkillsView();
-    }
-
-    /* ==========================================================================
-       5. SOFT SKILLS: CARROSSEL MANUAL (Mobile)
-       ========================================================================== */
+/* ==========================================================================
+   5. SOFT SKILLS: CARROSSEL MANUAL (Mobile)
+   ========================================================================== */
+function inicializarCarrosselSoftSkillsMobile() {
     const skillsTrack = document.getElementById('skillsGrid');
     const skillsDotsContainer = document.getElementById('skillsDots');
     const btnPrevSkill = document.getElementById('prevSkill');
     const btnNextSkill = document.getElementById('nextSkill');
 
-    if (skillsTrack) {
-        let currentSkillIndex = 0;
-        let skillTouchStartX = 0;
-        let skillTouchEndX = 0;
+    if (!skillsTrack) return;
 
-        function isMobile() { return window.innerWidth <= 768; }
-        function getGapPx() {
-            const styles = window.getComputedStyle(skillsTrack);
-            return parseFloat(styles.gap || styles.columnGap || 0) || 0;
+    let currentSkillIndex = 0;
+    let skillTouchStartX = 0;
+
+    const isMobile = () => window.innerWidth <= 768;
+    const getGapPx = () => parseFloat(window.getComputedStyle(skillsTrack).gap) || 0;
+    const getCardWidth = () => skillsTrack.children[0]?.getBoundingClientRect().width || 0;
+    const getMaxIndex = () => Math.max(0, skillsTrack.children.length - 1);
+
+    const updateControls = () => {
+        if (btnPrevSkill) btnPrevSkill.disabled = currentSkillIndex === 0;
+        if (btnNextSkill) btnNextSkill.disabled = currentSkillIndex === getMaxIndex();
+        
+        if (!skillsDotsContainer) return;
+        skillsDotsContainer.innerHTML = '';
+        for (let i = 0; i <= getMaxIndex(); i++) {
+            const dot = document.createElement('div');
+            dot.className = i === currentSkillIndex ? 'dot active' : 'dot';
+            dot.addEventListener('click', () => { currentSkillIndex = i; moveSkills(); });
+            skillsDotsContainer.appendChild(dot);
         }
-        function getCardWidth() {
-            const first = skillsTrack.children[0];
-            return first ? first.getBoundingClientRect().width : 0;
+    };
+
+    const moveSkills = () => {
+        if (!isMobile()) {
+            skillsTrack.style.transform = 'none';
+            return;
         }
-        function getMaxIndex() { return Math.max(0, skillsTrack.children.length - 1); }
+        const offset = currentSkillIndex * (getCardWidth() + getGapPx());
+        skillsTrack.style.transform = `translateX(-${offset}px)`;
+        updateControls();
+    };
 
-        function updateNavButtons() {
-            if (!btnPrevSkill || !btnNextSkill) return;
-            btnPrevSkill.disabled = currentSkillIndex === 0;
-            btnNextSkill.disabled = currentSkillIndex === getMaxIndex();
-        }
+    btnPrevSkill?.addEventListener('click', () => { if (currentSkillIndex > 0) { currentSkillIndex--; moveSkills(); } });
+    btnNextSkill?.addEventListener('click', () => { if (currentSkillIndex < getMaxIndex()) { currentSkillIndex++; moveSkills(); } });
 
-        function updateSkillDots() {
-            if (!skillsDotsContainer) return;
-            skillsDotsContainer.innerHTML = '';
-            const max = getMaxIndex();
-            for (let i = 0; i <= max; i++) {
-                const dot = document.createElement('div');
-                dot.classList.add('dot');
-                if (i === currentSkillIndex) dot.classList.add('active');
-                dot.addEventListener('click', () => { currentSkillIndex = i; moveSkills(); });
-                skillsDotsContainer.appendChild(dot);
-            }
-        }
-
-        function moveSkills() {
-            if (!isMobile()) {
-                skillsTrack.style.transform = 'none';
-                return;
-            }
-            const offset = currentSkillIndex * (getCardWidth() + getGapPx());
-            skillsTrack.style.transform = `translateX(-${offset}px)`;
-            updateSkillDots();
-            updateNavButtons();
-        }
-
-        btnPrevSkill?.addEventListener('click', () => {
-            if (!isMobile() || currentSkillIndex === 0) return;
-            currentSkillIndex--;
-            moveSkills();
-        });
-
-        btnNextSkill?.addEventListener('click', () => {
-            if (!isMobile() || currentSkillIndex === getMaxIndex()) return;
-            currentSkillIndex++;
-            moveSkills();
-        });
-
-        skillsTrack.addEventListener('touchstart', e => { skillTouchStartX = e.changedTouches[0].screenX; }, { passive: true });
-        skillsTrack.addEventListener('touchend', e => {
-            skillTouchEndX = e.changedTouches[0].screenX;
-            const threshold = 50;
-            if (skillTouchStartX - skillTouchEndX > threshold && currentSkillIndex < getMaxIndex()) currentSkillIndex++;
-            else if (skillTouchEndX - skillTouchStartX > threshold && currentSkillIndex > 0) currentSkillIndex--;
-            moveSkills();
-        }, { passive: true });
-
-        window.addEventListener('resize', () => { currentSkillIndex = 0; moveSkills(); });
+    skillsTrack.addEventListener('touchstart', e => { skillTouchStartX = e.changedTouches[0].screenX; }, { passive: true });
+    skillsTrack.addEventListener('touchend', e => {
+        const skillTouchEndX = e.changedTouches[0].screenX;
+        const threshold = 50;
+        if (skillTouchStartX - skillTouchEndX > threshold && currentSkillIndex < getMaxIndex()) currentSkillIndex++;
+        else if (skillTouchEndX - skillTouchStartX > threshold && currentSkillIndex > 0) currentSkillIndex--;
         moveSkills();
-    }
+    }, { passive: true });
 
-    /* ==========================================================================
-       6. INICIALIZAÇÃO DA SEÇÃO DE CERTIFICADOS DINÂMICOS (sobre.html)
-       ========================================================================== */
-    const certGridObj = document.getElementById('certGrid');
-    if (certGridObj) {
-        carregarCertificados();
-    }
-
-}); // FIM DO DOMContentLoaded
+    window.addEventListener('resize', () => { currentSkillIndex = 0; moveSkills(); });
+    moveSkills();
+}
 
 /* ==========================================================================
-   FUNÇÕES GLOBAIS DA SEÇÃO DE CERTIFICADOS
+   6. SEÇÃO DE CERTIFICADOS DINÂMICOS & FILTROS (sobre.html)
    ========================================================================== */
+function inicializarCertificadosDinamicos() {
+    if (document.getElementById('certGrid')) {
+        carregarCertificados();
+    }
+}
 
 async function carregarCertificados() {
     try {
         const response = await fetch('assets/data/certificados.json');
         certificados = await response.json();
 
-        // FILTRO CRUCIAL: Remove os itens da TI Exames para não irem para a Grid principal!
         const certificadosGridPrincipal = certificados.filter(cert => !cert.tiExames);
 
-        // 1. Ordena os dados que vão para a grid
         ordenarCertificados(certificadosGridPrincipal);
-
-        // 2. Renderiza APENAS os certificados oficiais na grid
         renderCards(certificadosGridPrincipal);
-
-        // 3. Atualiza os contadores (conta apenas os da Grid)
         atualizarContadoresFiltros(certificadosGridPrincipal);
-
-        // 4. Atualiza o banner da TI Exames (passando a lista COMPLETA para contar os 14+)
         updateTiExamesBanner(certificados);
-
-        // 5. Ativa os eventos de clique nos filtros
         iniciarFiltros();
-
-        // 6. Executa o filtro padrão inicial ("dpo")
         aplicarFiltroPadrao();
-		
-		// 7. Inicia a interativade do bloco TI Exames
         iniciarFiltrosTiExames();
-
     } catch (error) {
         console.error('Erro ao carregar certificados:', error);
     }
@@ -437,9 +364,7 @@ function ordenarCertificados(lista) {
         const anoB = parseInt(b.ano) || 0;
         if (anoA !== anoB) return anoB - anoA; 
 
-        const tituloA = (a.titulo || '').toLowerCase();
-        const tituloB = (b.titulo || '').toLowerCase();
-        return tituloA.localeCompare(tituloB);
+        return (a.titulo || '').toLowerCase().localeCompare((b.titulo || '').toLowerCase());
     });
 }
 
@@ -451,8 +376,23 @@ function renderCards(lista) {
 
     lista.forEach(cert => {
         const card = document.createElement('div');
-        card.className = cert.highlight ? 'cert-card highlight-card' : 'cert-card';
+        
+        const classes = ['cert-card'];
+        if (cert.highlight) classes.push('highlight-card');
+        
+        // CORREÇÃO UX BLINDADA: Injeta ambas as classes possíveis para evitar falhas de digitação no HTML
+        if (cert.hashtag) {
+            classes.push('is-hashtag');
+            classes.push('tag-hashtag');
+        }
+        
+        card.className = classes.join(' ');
         card.dataset.category = cert.categoria;
+        
+        // Guarda o estado original do JSON diretamente no DOM do card
+        if (cert.hashtag) {
+            card.dataset.hashtag = "true";
+        }
 
         card.innerHTML = `
             <span class="cert-year">${cert.ano}</span>        
@@ -463,21 +403,17 @@ function renderCards(lista) {
                 ${cert.tipoLink}
             </a>
         `;
-
         certGrid.appendChild(card);
     });
 }
 
 function iniciarFiltros() {
     const filterButtons = document.querySelectorAll('.filter-btn');
-
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
             filterButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
-
-            const filtro = button.dataset.filter;
-            filtrarCards(filtro);
+            filtrarCards(button.dataset.filter);
         });
     });
 }
@@ -487,28 +423,34 @@ function filtrarCards(filtro) {
     if (!certGrid) return;
 
     const cards = certGrid.querySelectorAll('.cert-card');
-
-	// Transforma a string do data-filter em um array (separando pelas vírgulas)
     const filtrosArray = filtro.split(',');
 
     cards.forEach(card => {
         const categoria = card.dataset.category;
-        
-        // Verifica se o card atende a pelo menos uma das tags listadas no botão
+        const ehCardDaHashtag = card.dataset.hashtag === "true";
+
         const atendeFiltro = filtrosArray.some(f => {
-            const tagLimpa = f.trim(); // Remove espaços acidentais
-            const possuiTag = card.querySelector(`.${tagLimpa}`);
-            return categoria === tagLimpa || possuiTag;
+            const tagLimpa = f.trim();
+            
+            // BLINDAGEM DA FILTRAGEM: Se a string do botão contiver 'hashtag', valida via dataset direto
+            if (tagLimpa.includes('hashtag')) {
+                return ehCardDaHashtag;
+            }
+            
+            // Lógica legada/padrão para as outras tags
+            const possuiTagInterna = card.querySelector(`.${tagLimpa}`);
+            const possuiClasseCard = card.classList.contains(tagLimpa);
+            return categoria === tagLimpa || possuiTagInterna || possuiClasseCard;
         });
 
-        if (filtro === 'all' || atendeFiltro) {
-            card.style.display = 'flex';
-        } else {
-            card.style.display = 'none';
-        }
+        card.style.display = (filtro === 'all' || atendeFiltro) ? 'flex' : 'none';
     });
 
-// 2. Lógica do Botão "Fechar / Voltar para DPO" (Desktop UX)
+    gerenciarBotaoVoltarDpo(cards);
+    iniciarCarrosselCertificadosMobile();
+}
+
+function gerenciarBotaoVoltarDpo(cards) {
     let btnVoltar = document.getElementById('btnVoltarDpoContainer');
     if (!btnVoltar) {
         btnVoltar = document.createElement('div');
@@ -519,28 +461,15 @@ function filtrarCards(filtro) {
         
         btnVoltar.querySelector('button').addEventListener('click', () => {
             const btnDpo = document.querySelector('[data-filter="dpo"]');
-            if (btnDpo) btnDpo.click();
-            document.getElementById('certFilters').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            btnDpo?.click();
+            document.getElementById('certFilters')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
         
-        const certDots = document.getElementById('certDots');
-        if (certDots) certDots.after(btnVoltar);
+        document.getElementById('certDots')?.after(btnVoltar);
     }
     
-    // --- NOVA LOGICA DE EXIBIÇÃO POR LINHAS ---
-    // Conta quantos cards estão visíveis após a filtragem atual
     const cardsVisiveis = Array.from(cards).filter(card => card.style.display === 'flex').length;
-
-    // Se o layout tiver 4 cards por linha, a partir de 5 cards já temos 2 linhas ocupadas.
-    // (Se o seu layout for de 3 cards por linha, mude o número abaixo para >= 4)
-    if (cardsVisiveis >= 5) {
-        btnVoltar.style.display = 'block';
-    } else {
-        btnVoltar.style.display = 'none';
-    }
-
-    // Reinicia o Carrossel Mobile adaptado para os cards visíveis
-    iniciarCarrosselCertificadosMobile();
+    btnVoltar.style.display = cardsVisiveis >= 5 ? 'block' : 'none';
 }
 
 function iniciarCarrosselCertificadosMobile() {
@@ -549,7 +478,6 @@ function iniciarCarrosselCertificadosMobile() {
     if (!track) return;
 
     const parentSection = track.parentElement; 
-    
     if (certCarouselInterval) clearInterval(certCarouselInterval);
     
     if (window.innerWidth > 992) {
@@ -560,7 +488,6 @@ function iniciarCarrosselCertificadosMobile() {
     }
 
     if (parentSection) parentSection.style.overflow = 'hidden';
-
     const visibleCards = Array.from(track.querySelectorAll('.cert-card')).filter(c => c.style.display !== 'none');
 
     currentCertIndex = 0;
@@ -582,18 +509,13 @@ function iniciarCarrosselCertificadosMobile() {
         }
     }
 
-    function atualizarPosicaoCarrossel() {
+    const atualizarPosicaoCarrossel = () => {
         if (visibleCards.length === 0) return;
         track.style.transform = `translateX(-${currentCertIndex * 100}%)`;
-        
-        if (dotsContainer) {
-            dotsContainer.querySelectorAll('.dot').forEach((d, i) => {
-                d.classList.toggle('active', i === currentCertIndex);
-            });
-        }
-    }
+        dotsContainer?.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentCertIndex));
+    };
 
-    function reiniciarAutoPlay() {
+    const reiniciarAutoPlay = () => {
         if (certCarouselInterval) clearInterval(certCarouselInterval);
         if (visibleCards.length > 1) {
             certCarouselInterval = setInterval(() => {
@@ -601,7 +523,7 @@ function iniciarCarrosselCertificadosMobile() {
                 atualizarPosicaoCarrossel();
             }, 4000); 
         }
-    }
+    };
 
     track.ontouchstart = e => {
         certTouchStartX = e.changedTouches[0].screenX;
@@ -611,12 +533,8 @@ function iniciarCarrosselCertificadosMobile() {
     track.ontouchend = e => {
         certTouchEndX = e.changedTouches[0].screenX;
         const threshold = 40;
-        
-        if (certTouchStartX - certTouchEndX > threshold && currentCertIndex < visibleCards.length - 1) {
-            currentCertIndex++; 
-        } else if (certTouchEndX - certTouchStartX > threshold && currentCertIndex > 0) {
-            currentCertIndex--; 
-        }
+        if (certTouchStartX - certTouchEndX > threshold && currentCertIndex < visibleCards.length - 1) currentCertIndex++; 
+        else if (certTouchEndX - certTouchStartX > threshold && currentCertIndex > 0) currentCertIndex--; 
         
         atualizarPosicaoCarrossel();
         reiniciarAutoPlay();
@@ -626,68 +544,46 @@ function iniciarCarrosselCertificadosMobile() {
 }
 
 function aplicarFiltroPadrao() {
-    const defaultButton = document.querySelector('[data-filter="dpo"]');
-    if (defaultButton) defaultButton.click();
+    document.querySelector('[data-filter="dpo"]')?.click();
 }
 
-/* =========================
-   ATUALIZAR CONTADORES DOS FILTROS
-========================= */
 function atualizarContadoresFiltros(lista) {
     const filterButtons = document.querySelectorAll('.filter-btn');
     
     filterButtons.forEach(btn => {
         const filter = btn.dataset.filter;
+        if (!filter) return;
+        
         let count = 0;
 
         if (filter === 'all') {
             count = lista.length;
         } else {
-            // Divide o filtro por vírgulas (caso seja um botão múltiplo)
             const filtrosArray = filter.split(',');
-            
-            // Conta quantos certificados batem com qualquer uma das tags do botão
             count = lista.filter(cert => {
                 return filtrosArray.some(f => {
                     const tagLimpa = f.trim();
-                    // Verifica se a categoria do JSON ou a Tag do JSON correspondem
+                    // BLINDAGEM DO CONTADOR: Se contiver 'hashtag', lê direto a flag bool do objeto JSON
+                    if (tagLimpa.includes('hashtag')) {
+                        return !!cert.hashtag;
+                    }
                     return cert.categoria === tagLimpa || cert.tag === tagLimpa;
                 });
             }).length;
         }
 
-        // Limpa o texto original removendo números antigos para evitar duplicações
         const textoLimpo = btn.textContent.replace(/[0-9]+/, '').trim();
         btn.innerHTML = `${textoLimpo} <span class="filter-count">${count}</span>`;
     });
 }
 
-
 function updateTiExamesBanner(listaCompleta) {
     const el = document.getElementById('tiExamesCount');
-    if (!el) return;
-    const count = listaCompleta.filter(c => c.tiExames === true).length;
-    el.textContent = count + '+';
+    if (el) el.textContent = listaCompleta.filter(c => c.tiExames === true).length + '+';
 }
 
 /* ==========================================================================
-   UTILITÁRIOS GLOBAIS
-   ========================================================================== */
-
-// Recalcula o carrossel mobile caso mude o tamanho da tela (ex: rotacionar celular)
-window.addEventListener('resize', () => {
-    const filtroAtivo = document.querySelector('#certFilters .filter-btn.active');
-    if (filtroAtivo) filtrarCards(filtroAtivo.dataset.filter);
-});
-
-// Bloqueio do Pop-up nativo de Instalação PWA
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    console.log('Sugestão de instalação bloqueada pelo sistema.');
-});
-
-/* ==========================================================================
-   LÓGICA DE EXPANSÃO E FILTRO: TI EXAMES (MOTOR DE ORDENAÇÃO MATRIZ BLINDADO)
+   7. LÓGICA DE TRILHAS DA TI EXAMES
    ========================================================================== */
 function iniciarFiltrosTiExames() {
     const botoesTrilha = document.querySelectorAll('.ti-tag-btn');
@@ -704,51 +600,27 @@ function iniciarFiltrosTiExames() {
             botao.classList.add('active');
 
             const tagAlvo = botao.dataset.tiFilter;
-            const nomeTrilha = botao.textContent;
-            
-            if (tituloTrilha) tituloTrilha.textContent = `Certificados: ${nomeTrilha}`;
+            if (tituloTrilha) tituloTrilha.textContent = `Certificados: ${botao.textContent}`;
 
-            // 1. Coleta e filtra os dados do array global
-            let certificadosFiltrados = certificados.filter(cert => 
-                cert.tiExames === true && cert.tag === tagAlvo
-            );
+            const certificadosFiltrados = certificados.filter(cert => cert.tiExames === true && cert.tag === tagAlvo);
 
-            // 2. APLICAÇÃO DA MATRIZ DE ORDENAÇÃO SEM FALHAS (Conversão Explícita)
             certificadosFiltrados.sort((a, b) => {
-                // Força a conversão para booleano puro (true ou false), mesmo se for undefined no JSON
                 const isHighA = !!a.highlight;
                 const isHighB = !!b.highlight;
+                if (isHighA !== isHighB) return isHighB - isHighA; 
 
-                // 1ª Regra: Se os status de Highlight forem diferentes, o true (1) subtrai o false (0)
-                // Invertemos a ordem (b - a) para que o true (1) fique no topo (índice menor)
-                if (isHighA !== isHighB) {
-                    return isHighB - isHighA; 
-                }
-
-                // 2ª Regra: Empate no Highlight? Ordena por Ano (Mais recente primeiro)
                 const anoA = parseInt(a.ano) || 0;
                 const anoB = parseInt(b.ano) || 0;
-                if (anoA !== anoB) {
-                    return anoB - anoA;
-                }
+                if (anoA !== anoB) return anoB - anoA;
 
-                // 3ª Regra: Empate no Ano? Ordena por Título (Ordem Alfabética estrita A-Z)
-                const tituloA = (a.titulo || '').trim().toLowerCase();
-                const tituloB = (b.titulo || '').trim().toLowerCase();
-                return tituloA.localeCompare(tituloB, 'pt-BR');
+                return (a.titulo || '').trim().toLowerCase().localeCompare((b.titulo || '').trim().toLowerCase(), 'pt-BR');
             });
 
-            // 3. Renderiza os cards na tela na ordem exata calculada
             renderizarCardsTiExames(certificadosFiltrados, gridExames);
-			
-			// ---> ADICIONE ESTA LINHA AQUI <---
             iniciarCarrosselTiExamesMobile();
 
-            // 4. Exibe e rola a tela suavemente
             containerExpansao.style.display = 'block';
-            setTimeout(() => {
-                containerExpansao.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 100);
+            setTimeout(() => containerExpansao.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
         });
     });
 
@@ -759,6 +631,7 @@ function iniciarFiltrosTiExames() {
 }
 
 function renderizarCardsTiExames(lista, elementoDestino) {
+    if (!elementoDestino) return;
     elementoDestino.innerHTML = '';
 
     if (lista.length === 0) {
@@ -768,9 +641,7 @@ function renderizarCardsTiExames(lista, elementoDestino) {
 
     lista.forEach(cert => {
         const card = document.createElement('div');
-        // Injeta a classe correta baseada no highlight para aplicar a borda luminosa/destaque do seu CSS
         card.className = cert.highlight ? 'cert-card highlight-card' : 'cert-card'; 
-        
         card.innerHTML = `
             <span class="cert-year">${cert.ano}</span>        
             <span class="cert-tag ${cert.tag}">${cert.tagLabel}</span>
@@ -784,12 +655,8 @@ function renderizarCardsTiExames(lista, elementoDestino) {
     });
 }
 
-/* ==========================================================================
-   CARROSSEL MOBILE - ÁREA DE TI EXAMES
-   ========================================================================== */
 let currentTiIndex = 0;
 let tiTouchStartX = 0;
-let tiTouchEndX = 0;
 
 function iniciarCarrosselTiExamesMobile() {
     const track = document.getElementById('tiExamesGrid');
@@ -801,7 +668,6 @@ function iniciarCarrosselTiExamesMobile() {
 
     if (!track) return;
 
-    // Se for Desktop, reseta os estilos e oculta as dicas de swipe
     if (window.innerWidth > 768) {
         track.style.transform = 'none';
         if (swipeHint) swipeHint.style.display = 'none';
@@ -814,25 +680,35 @@ function iniciarCarrosselTiExamesMobile() {
     currentTiIndex = 0;
     track.style.transform = 'translateX(0)';
 
-    // Só ativa o carrossel se tiver mais de 1 card
+    const moverTiCarrossel = () => {
+        if (cards.length === 0) return;
+        const larguraExata = track.parentElement.clientWidth; 
+        track.style.transform = `translateX(-${currentTiIndex * larguraExata}px)`;
+        atualizarBotoesNavegacao();
+        dotsContainer?.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentTiIndex));
+    };
+
+    const atualizarBotoesNavegacao = () => {
+        if (!btnPrev || !btnNext) return;
+        btnPrev.disabled = currentTiIndex === 0;
+        btnPrev.style.opacity = currentTiIndex === 0 ? '0.3' : '1';
+        btnNext.disabled = currentTiIndex === cards.length - 1;
+        btnNext.style.opacity = currentTiIndex === cards.length - 1 ? '0.3' : '1';
+    };
+
     if (cards.length > 1) {
         if (swipeHint) swipeHint.style.display = 'flex';
         if (controls) controls.style.display = 'flex';
         
-        // Cria os Dots (bolinhas)
         if (dotsContainer) {
             dotsContainer.innerHTML = '';
             cards.forEach((_, i) => {
                 const dot = document.createElement('div');
                 dot.className = i === 0 ? 'dot active' : 'dot';
-                dot.addEventListener('click', () => {
-                    currentTiIndex = i;
-                    moverTiCarrossel();
-                });
+                dot.addEventListener('click', () => { currentTiIndex = i; moverTiCarrossel(); });
                 dotsContainer.appendChild(dot);
             });
         }
-        
         atualizarBotoesNavegacao();
     } else {
         if (swipeHint) swipeHint.style.display = 'none';
@@ -840,97 +716,40 @@ function iniciarCarrosselTiExamesMobile() {
         if (dotsContainer) dotsContainer.innerHTML = '';
     }
 
-  	// Função de Movimento Corrigida (Pixel Perfect)
-    function moverTiCarrossel() {
-        if (cards.length === 0) return;
-        
-        // Mede a largura exata do container na tela do usuário naquele momento
-        const larguraExata = track.parentElement.clientWidth; 
-        
-        // Move usando pixels exatos, ignorando conflitos de porcentagem
-        track.style.transform = `translateX(-${currentTiIndex * larguraExata}px)`;
-        
-        atualizarBotoesNavegacao();
+    if (btnPrev) btnPrev.onclick = () => { if (currentTiIndex > 0) { currentTiIndex--; moverTiCarrossel(); } };
+    if (btnNext) btnNext.onclick = () => { if (currentTiIndex < cards.length - 1) { currentTiIndex++; moverTiCarrossel(); } };
 
-        // Atualiza as bolinhas (dots)
-        if (dotsContainer) {
-            dotsContainer.querySelectorAll('.dot').forEach((d, i) => {
-                d.classList.toggle('active', i === currentTiIndex);
-            });
-        }
-    }
-
-    // Gerencia o estado "desabilitado" das setas
-    function atualizarBotoesNavegacao() {
-        if (!btnPrev || !btnNext) return;
-        btnPrev.disabled = currentTiIndex === 0;
-        btnPrev.style.opacity = currentTiIndex === 0 ? '0.3' : '1';
-        
-        btnNext.disabled = currentTiIndex === cards.length - 1;
-        btnNext.style.opacity = currentTiIndex === cards.length - 1 ? '0.3' : '1';
-    }
-
-    // Eventos dos Botões ❮ ❯
-    if (btnPrev) {
-        btnPrev.onclick = () => {
-            if (currentTiIndex > 0) {
-                currentTiIndex--;
-                moverTiCarrossel();
-            }
-        };
-    }
-    if (btnNext) {
-        btnNext.onclick = () => {
-            if (currentTiIndex < cards.length - 1) {
-                currentTiIndex++;
-                moverTiCarrossel();
-            }
-        };
-    }
-
-    // Eventos de Swipe (Toque na Tela)
-    track.ontouchstart = (e) => {
-        tiTouchStartX = e.changedTouches[0].screenX;
-    };
-
+    track.ontouchstart = (e) => { tiTouchStartX = e.changedTouches[0].screenX; };
     track.ontouchend = (e) => {
-        tiTouchEndX = e.changedTouches[0].screenX;
-        const threshold = 40; // Sensibilidade do arraste
-
-        if (tiTouchStartX - tiTouchEndX > threshold && currentTiIndex < cards.length - 1) {
-            currentTiIndex++; // Arrasta para esquerda
-        } else if (tiTouchEndX - tiTouchStartX > threshold && currentTiIndex > 0) {
-            currentTiIndex--; // Arrasta para direita
-        }
+        const tiTouchEndX = e.changedTouches[0].screenX;
+        const threshold = 40;
+        // CORREÇÃO DE DIGITAÇÃO: Altera a variável global errada anterior para manipular o slider correto
+        if (tiTouchStartX - tiTouchEndX > threshold && currentTiIndex < cards.length - 1) currentTiIndex++; 
+        else if (tiTouchEndX - tiTouchStartX > threshold && currentTiIndex > 0) currentTiIndex--;
         moverTiCarrossel();
     };
 }
 
-// Escuta a rotação da tela para recalcular se deve ou não exibir o carrossel
-window.addEventListener('resize', iniciarCarrosselTiExamesMobile);
-
 /* ==========================================================================
-   RENDERIZAÇÃO DINÂMICA DE ARTIGOS (ALEATÓRIA)
+   8. RENDERIZAÇÃO DINÂMICA DE ARTIGOS (Home)
    ========================================================================== */
+function inicializarArtigosHome() {
+    renderizarArtigosNaHome();
+}
 
 function renderizarArtigosNaHome() {
     const gridArtigos = document.getElementById('dynamicArticlesGrid');
     if (!gridArtigos || typeof listaArtigos === 'undefined') return;
 
     gridArtigos.innerHTML = '';
-
-    // Filtra artigos publicados
     const artigosPublicados = listaArtigos.filter(a => a.status !== 'em-breve');
-    
-    // Embaralha
     const artigosEmbaralhados = [...artigosPublicados].sort(() => 0.5 - Math.random());
 
-    // Define a quantidade: 1 se for mobile (menor que 768px), 3 se for desktop
     const quantidade = window.innerWidth < 768 ? 1 : 3;
     const artigosSelecionados = artigosEmbaralhados.slice(0, quantidade);
 
     artigosSelecionados.forEach(artigo => {
-        const cardHTML = `
+        gridArtigos.innerHTML += `
             <article class="article-card">
                 <div class="article-image">
                     <img src="${artigo.img}" alt="${artigo.titulo}" loading="lazy">
@@ -943,14 +762,19 @@ function renderizarArtigosNaHome() {
                 </div>
             </article>
         `;
-        gridArtigos.innerHTML += cardHTML;
     });
 }
 
-// Dispara na carga e recarrega caso o usuário rotacione o celular
-document.addEventListener('DOMContentLoaded', renderizarArtigosNaHome);
-window.addEventListener('resize', renderizarArtigosNaHome);
+/* ==========================================================================
+   LISTENERS GLOBAIS DE REDIMENSIONAMENTO
+   ========================================================================== */
+window.addEventListener('resize', () => {
+    const filtroAtivo = document.querySelector('#certFilters .filter-btn.active');
+    if (filtroAtivo) filtrarCards(filtroAtivo.dataset.filter);
+    iniciarCarrosselTiExamesMobile();
+    renderizarArtigosNaHome();
+});
 
-
-
-
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+});
