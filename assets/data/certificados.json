@@ -563,6 +563,7 @@
 	"link": "assets/certificados/sgi-ti-exames.pdf",
 	"tipoLink": "Certificado",
 	"highlight": false,
+	"textoBadge": "SGI TESTANDO",
 	"tiExames": true
   }
 ]
