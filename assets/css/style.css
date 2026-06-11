@@ -1210,33 +1210,36 @@ cite.cite--sep-slash a + a::before { content: " / "; color: var(--text-gray); ma
 /* 2. Aplica a tipografia adaptativa baseada no tamanho do próprio badge */
 .badge-overlay-text {
     position: absolute;
-    top: 52%; /* Ajuste fino para alinhar verticalmente no centro do escudo */
+    /* Alinhamento estratégico baseado na faixa preta do badge da TI Exames */
+    top: 48%; 
     left: 50%;
     transform: translate(-50%, -50%);
     
-    /* TAMANHO ADAPTATIVO: A fonte agora responde diretamente à largura do badge */
-    font-size: 8.5cqw; 
+    /* Área útil máxima estrita para a faixa preta central */
+    width: 68%; 
+    height: 32%; /* Garante que o texto fique preso estritamente na altura da faixa preta */
+    
+    /* Configura o container para centralizar o texto vertical e horizontalmente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+    /* TAMANHO ADAPTATIVO INTELIGENTE */
+    /* Se o texto for curto, ele usa até 8cqw. Se for longo, o navegador reduz automaticamente até o limite de 11px para caber na caixa */
+    font-size: clamp(11px, 7.5cqw, 15px); 
     color: #ffffff; 
     font-family: var(--font-primary, sans-serif);
     font-weight: bold;
-    text-align: center;
-    
-    /* Caixa de contenção interna restrita para não vazar as bordas do escudo */
-    width: 65%; /* Estreitado para o texto ficar estritamente dentro do miolo azul */
-    max-height: 45%; /* Limita a altura para não colidir com o topo/base do badge */
-    overflow: hidden;
-    
-    /* Regras de quebra e espaçamento */
     line-height: 1.1;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-    
-    /* Trava de segurança para textos longos */
-    display: -webkit-box;
-    -webkit-line-clamp: 3; /* No máximo 3 linhas para o miolo central */
-    -webkit-box-orient: vertical;
 
-    text-shadow: 1.5px 1.5px 4px rgba(0, 0, 0, 0.9), -1.5px -1.5px 4px rgba(0, 0, 0, 0.9);
+    /* CONTROLE CONTRA QUEBRA DE PALAVRAS */
+    white-space: normal;
+    word-break: keep-all; /* Impede que palavras como CIBERSEGURANÇA sejam fatiadas */
+    overflow-wrap: normal;
+    overflow: hidden; /* Se o texto for absurdamente gigante, ele corta em vez de vazar */
+    
+    /* Sombra para leitura */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
     pointer-events: none;
 }
