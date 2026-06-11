@@ -645,7 +645,12 @@ function renderizarCardsTiExames(lista, elementoDestino) {
         card.innerHTML = `
             <span class="cert-year">${cert.ano}</span>        
             <span class="cert-tag ${cert.tag}">${cert.tagLabel}</span>
-            <img src="${cert.imagem}" alt="${cert.titulo}" loading="lazy" width="180" height="180">
+            
+            <div class="badge-wrapper">
+                <img src="${cert.imagem}" alt="${cert.titulo}" loading="lazy" width="180" height="180">
+                <div class="badge-overlay-text">${cert.textoBadge || ''}</div>
+            </div>
+            
             <h3>${cert.titulo}</h3>
             <a href="${cert.link}" target="_blank" rel="noopener noreferrer" class="btn-verify">
                 ${cert.tipoLink}
