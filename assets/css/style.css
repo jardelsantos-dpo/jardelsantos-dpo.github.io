@@ -1197,45 +1197,46 @@ cite.cite--sep-slash a + a::before { content: " / "; color: var(--text-gray); ma
 
 /* 11-06-2026 - TESTE DE BADGE DINÂMICO */
 /* Container relativo para limitar o posicionamento absoluto do texto */
+/* 1. Informa ao navegador que o wrapper é o container de referência */
 .badge-wrapper {
     position: relative;
     display: inline-block;
-    width: 180px;  /* Mantém a consistência com o width do seu atributo HTML */
-    height: 180px; /* Mantém a consistência com o height do seu atributo HTML */
-    margin: 0 auto; /* Centraliza o bloco no meio do card, se necessário */
+    width: 180px;  
+    height: 180px; 
+    margin: 0 auto;
+    container-type: inline-size; /* ESSENCIAL: Cria a referência para a fonte adaptativa */
 }
 
-/* Garante que a imagem se comporte bem dentro do wrapper */
+/* 2. Aplica a tipografia adaptativa baseada no tamanho do próprio badge */
 .badge-overlay-text {
     position: absolute;
-    top: 50%;
+    top: 52%; /* Ajuste fino para alinhar verticalmente no centro do escudo */
     left: 50%;
     transform: translate(-50%, -50%);
     
-    /* Fontes maiores e legíveis */
+    /* TAMANHO ADAPTATIVO: A fonte agora responde diretamente à largura do badge */
+    font-size: 8.5cqw; 
     color: #ffffff; 
     font-family: var(--font-primary, sans-serif);
-    font-size: 16px; /* Aumentado de 14px para 16px */
     font-weight: bold;
     text-align: center;
     
-    /* Controle de espaço e Quebra Automática */
-    width: 85%; /* Área máxima de segurança horizontal dentro do círculo */
-    max-height: 80%; /* Área máxima vertical para evitar vazamento */
-    overflow: hidden; /* Esconde o texto caso ele ultrapasse o limite do badge */
+    /* Caixa de contenção interna restrita para não vazar as bordas do escudo */
+    width: 65%; /* Estreitado para o texto ficar estritamente dentro do miolo azul */
+    max-height: 45%; /* Limita a altura para não colidir com o topo/base do badge */
+    overflow: hidden;
     
-    /* Força a quebra automática de palavras longas ou links */
+    /* Regras de quebra e espaçamento */
+    line-height: 1.1;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    white-space: normal; /* Garante que o texto use múltiplas linhas se necessário */
+    white-space: normal;
     
-    /* Efeito de corte com reticências (...) caso o texto seja exageradamente longo */
+    /* Trava de segurança para textos longos */
     display: -webkit-box;
-    -webkit-line-clamp: 4; /* Limita o texto em no máximo 4 linhas */
+    -webkit-line-clamp: 3; /* No máximo 3 linhas para o miolo central */
     -webkit-box-orient: vertical;
 
-    /* Sombra para contraste perfeito em fundos claros ou escuros */
     text-shadow: 1.5px 1.5px 4px rgba(0, 0, 0, 0.9), -1.5px -1.5px 4px rgba(0, 0, 0, 0.9);
     pointer-events: none;
-    line-height: 1.2; /* Ajuste fino de espaçamento entre as linhas */
 }
