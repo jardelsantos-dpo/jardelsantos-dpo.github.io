@@ -1194,3 +1194,48 @@ cite.cite--sep-slash a + a::before { content: " / "; color: var(--text-gray); ma
     cursor: pointer;
     color: inherit; /* Mantém a cor original do texto/ícone */
 }
+
+/* 11-06-2026 - TESTE DE BADGE DINÂMICO */
+/* Container relativo para limitar o posicionamento absoluto do texto */
+.badge-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 180px;  /* Mantém a consistência com o width do seu atributo HTML */
+    height: 180px; /* Mantém a consistência com o height do seu atributo HTML */
+    margin: 0 auto; /* Centraliza o bloco no meio do card, se necessário */
+}
+
+/* Garante que a imagem se comporte bem dentro do wrapper */
+.badge-overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Fontes maiores e legíveis */
+    color: #ffffff; 
+    font-family: var(--font-primary, sans-serif);
+    font-size: 16px; /* Aumentado de 14px para 16px */
+    font-weight: bold;
+    text-align: center;
+    
+    /* Controle de espaço e Quebra Automática */
+    width: 85%; /* Área máxima de segurança horizontal dentro do círculo */
+    max-height: 80%; /* Área máxima vertical para evitar vazamento */
+    overflow: hidden; /* Esconde o texto caso ele ultrapasse o limite do badge */
+    
+    /* Força a quebra automática de palavras longas ou links */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal; /* Garante que o texto use múltiplas linhas se necessário */
+    
+    /* Efeito de corte com reticências (...) caso o texto seja exageradamente longo */
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Limita o texto em no máximo 4 linhas */
+    -webkit-box-orient: vertical;
+
+    /* Sombra para contraste perfeito em fundos claros ou escuros */
+    text-shadow: 1.5px 1.5px 4px rgba(0, 0, 0, 0.9), -1.5px -1.5px 4px rgba(0, 0, 0, 0.9);
+    pointer-events: none;
+    line-height: 1.2; /* Ajuste fino de espaçamento entre as linhas */
+}
