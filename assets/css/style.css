@@ -1,6 +1,8 @@
 /* ==========================================================================
    1. CONFIGURAÇÕES GERAIS E VARIÁVEIS
    ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
 :root {
     --bg-dark: #232732;
     --bg-darker: #1a1d24;
@@ -1193,4 +1195,84 @@ cite.cite--sep-slash a + a::before { content: " / "; color: var(--text-gray); ma
     padding: 10px; /* Aumenta a área de toque no mobile */
     cursor: pointer;
     color: inherit; /* Mantém a cor original do texto/ícone */
+}
+
+/* 11-06-2026 - TESTE DE BADGE DINÂMICO */
+/* ==========================================================================
+   CONFIGURAÇÃO DOS BADGES (TI EXAMES) - LIMPO E OTIMIZADO
+   ========================================================================== */
+
+/* Centraliza o bloco do badge dentro do card e define tamanho */
+.badge-wrapper {
+    position: relative;
+    display: block !important;
+    width: 180px !important;  
+    height: 180px !important; 
+    margin: 0 auto 30px auto !important; /* Afastamento de 30px na base para o título */
+    container-type: inline-size; /* Mantido como referência de escopo */
+}
+
+/* Garante que a imagem ocupe o espaço correto dentro do wrapper */
+.badge-wrapper img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Caixa invisível posicionada sobre a faixa preta do badge */
+.badge-overlay-container {
+    position: absolute !important;
+    top: 42% !important; /* Alinhamento vertical ajustado */
+    left: 9% !important; /* Margem esquerda de segurança */
+    width: 83% !important; /* Largura da faixa preta */
+    height: 34% !important; /* Altura da faixa preta */
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Estilo do texto interno do SVG */
+.badge-overlay-container text {
+    font-family: var(--font-primary, sans-serif);
+    letter-spacing: 0.5px;
+    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.9));
+}
+
+/* Camada legada de texto HTML (Opcional se você estiver usando apenas SVG agora) */
+.badge-overlay-text {
+    position: absolute;
+    top: 50%; 
+    left: 45%;
+    transform: translate(-50%, -50%);
+    width: 65%; 
+    height: 28%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #ffffff; 
+    font-family: var(--font-primary, sans-serif);
+    font-weight: bold;
+    font-size: 15px; 
+    line-height: 1.05;
+    white-space: normal;
+    word-break: keep-all; 
+    overflow-wrap: normal;
+    overflow: hidden; 
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+    pointer-events: none;
+}
+
+.badge-overlay-container svg {
+    /* Garante que o texto não "vaze" para fora do badge */
+    overflow: visible; 
+}
+
+.badge-overlay-container text {
+    /* Permite que o texto se ajuste caso o navegador suporte */
+    paint-order: stroke;
+    stroke: rgba(0,0,0,0.2);
+    stroke-width: 1px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }

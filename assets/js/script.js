@@ -634,28 +634,196 @@ function renderizarCardsTiExames(lista, elementoDestino) {
     if (!elementoDestino) return;
     elementoDestino.innerHTML = '';
 
-    if (lista.length === 0) {
-        elementoDestino.innerHTML = `<p style="color: #a0a0a0; padding: 20px; grid-column: 1 / -1; text-align: center;">Nenhuma evidência localizada para esta trilha.</p>`;
-        return;
+    // ✅ Função avançada de geração de texto SVG
+    function gerarTextoBadgeSVG(texto, fontFamily = 'sans-serif') {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const maxWidth = 150;
+        // let fontSize = 24;
+		let fontSize;
+		// 🔥 escala baseada no conteúdo (design system)
+		if (texto.length <= 12) {
+			fontSize = 24;
+		} else if (texto.length <= 24) {
+			fontSize = 22;
+		} else {
+			fontSize = 20;
+		}
+        const minFontSize = 12;
+
+        let linhas = [];
+
+        const quebrarLinhas = (txt, size) => {
+            ctx.font = `bold ${size}px ${fontFamily}`;
+
+            const palavras = txt.split(' ');
+            let linhas = [];
+            let linhaAtual = '';
+
+            palavras.forEach(palavra => {
+                const teste = linhaAtual ? linhaAtual + ' ' + palavra : palavra;
+                const largura = ctx.measureText(teste).width;
+
+                if (largura <= maxWidth) {
+                    linhaAtual = teste;
+                } else {
+                    if (linhaAtual) linhas.push(linhaAtual);
+                    linhaAtual = palavra;
+                }
+            });
+
+            if (linhaAtual) linhas.push(linhaAtual);
+
+            return linhas;
+        };
+
+		while (fontSize >= minFontSize) {
+			linhas = quebrarLinhas(texto, fontSize);
+
+			const larguras = linhas.map(l => ctx.measureText(l).width);
+
+			const maiorLinha = Math.max(...larguras);
+
+			const todasCabem = maiorLinha <= maxWidth;
+
+			if (linhas.length <= 3 && todasCabem) {
+				break;
+			}
+
+			fontSize -= 0.5; // 🔥 redução mais suave (ANTES era 1)
+		}
+		// 🔥 clamp final estilo Material
+		if (linhas.length === 1) {
+			fontSize = Math.min(fontSize, 24);
+		}
+
+		if (linhas.length === 2) {
+			fontSize = Math.min(fontSize, 22);
+		}
+
+		if (linhas.length === 3) {
+			fontSize = Math.min(fontSize, 18);
+		}
+
+
+		// 🔥 Ajuste óptico (preenche melhor o espaço)
+		const maiorLinha = Math.max(...linhas.map(l => ctx.measureText(l).width));
+
+		// quanto sobra de espaço horizontal
+		const folga = maxWidth - maiorLinha;
+
+		// se sobrar muito espaço → pode aumentar a fonte um pouco
+		if (folga > 20 && fontSize < 24) {
+			fontSize += 1;
+		}
+
+		// ajuste fino para 2 linhas
+
+		if (linhas.length === 2) {
+			const proporcaoOcupacao = Math.max(...linhas.map(l => ctx.measureText(l).width)) / maxWidth;
+
+			// 🔥 só reduz se estiver realmente "esticado"
+			if (proporcaoOcupacao > 0.92) {
+				fontSize -= 1;
+			}
+
+			// 🔥 se estiver pequeno demais → aumenta levemente
+			if (proporcaoOcupacao < 0.75) {
+				fontSize += 1;
+			}
+		}
+
+
+
+
+        // ✅ Centralização vertical
+		const lineHeight =
+			linhas.length === 1 ? fontSize * 1.1 :
+			linhas.length === 2 ? fontSize * 1.15 :
+			fontSize * 1.25;
+
+		// 🔥 peso visual da linha (quantidade de caracteres)
+		const pesos = linhas.map(l => l.length);
+		const pesoTotal = pesos.reduce((a, b) => a + b, 0);
+
+		// 🔥 deslocamento óptico
+		const ajusteOptico = pesos.map(p => p / pesoTotal);
+
+		// 🔥 altura total real
+		const totalHeight = linhas.length * lineHeight;
+
+		// centro base
+		let startY = 30 - (totalHeight / 2) + (lineHeight / 2);
+
+		// 🔥 micro ajuste vertical (óptico)
+		const fatorOptico = 6; // ajuste fino (pode calibrar)
+
+		startY += (ajusteOptico[0] - 0.5) * fatorOptico;
+
+        // ✅ Montar SVG
+        return linhas.map((linha, i) => {
+            const y = startY + (i * lineHeight);
+
+            return `
+                <text 
+                    x="100" 
+                    y="${y}" 
+                    text-anchor="middle"
+                    dominant-baseline="middle"
+                    fill="#ffffff"
+                    font-weight="bold"
+                    font-family="${fontFamily}"
+                    font-size="${fontSize}px">
+                    ${linha.trim()}
+                </text>
+            `;
+        }).join('');
     }
 
+    // ✅ Renderização dos cards
     lista.forEach(cert => {
         const card = document.createElement('div');
-        card.className = cert.highlight ? 'cert-card highlight-card' : 'cert-card'; 
+
+        const caminhoImagem = cert.imagem || 'img/badge-template.webp';
+        card.className = cert.highlight ? 'cert-card highlight-card' : 'cert-card';
+
+        const texto = (cert.textoBadge || '').trim().toUpperCase();
+        const fontFamily = "'Roboto', sans-serif";
+
+        const conteudoSvg = gerarTextoBadgeSVG(texto, fontFamily);
+
         card.innerHTML = `
             <span class="cert-year">${cert.ano}</span>        
             <span class="cert-tag ${cert.tag}">${cert.tagLabel}</span>
-            
+
             <div class="badge-wrapper">
-                <img src="${cert.imagem}" alt="${cert.titulo}" loading="lazy" width="180" height="180">
-                <div class="badge-overlay-text">${cert.textoBadge || ''}</div>
+                <img src="${caminhoImagem}" 
+                     alt="${cert.titulo}" 
+                     loading="lazy" 
+                     width="180" 
+                     height="180">
+
+                <div class="badge-overlay-container">
+                    <svg viewBox="0 0 200 60" 
+                         preserveAspectRatio="xMidYMid meet" 
+                         width="100%" 
+                         height="100%">
+                        ${conteudoSvg}
+                    </svg>
+                </div>
             </div>
-            
+
             <h3>${cert.titulo}</h3>
-            <a href="${cert.link}" target="_blank" rel="noopener noreferrer" class="btn-verify">
-                ${cert.tipoLink}
+
+            <a href="${cert.link}" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="btn-verify">
+               ${cert.tipoLink}
             </a>
         `;
+
         elementoDestino.appendChild(card);
     });
 }
