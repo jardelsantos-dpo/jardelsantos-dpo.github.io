@@ -565,5 +565,19 @@
 	"highlight": false,
 	"textoBadge": "SGI TESTANDO",
 	"tiExames": true
+  },
+    {
+    "id": 46,
+    "titulo": "Cibersegurança na era da IA",
+    "ano": "2026",
+    "categoria": "security",
+    "tag": "tag-security",
+    "tagLabel": "Cibersegurança",
+    "imagem": "img/badge-template.png",
+	"link": "assets/certificados/ciberseguranca-ia-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"textoBadge": "CIBERSEGURANÇA NA ERA DA IA",
+	"tiExames": true
   }
 ]
