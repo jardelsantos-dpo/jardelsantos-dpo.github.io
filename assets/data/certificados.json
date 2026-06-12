@@ -590,5 +590,18 @@
 	"highlight": false,
 	"textoBadge": "Desenvolvimento de Software com IA",
 	"tiExames": true
+  },
+    {
+    "id": 48,
+    "titulo": "IA Generativa e Mundo dos Agentes de IA",
+    "ano": "2026",
+    "categoria": "ai-governanca",
+    "tag": "tag-ai-gov",
+    "tagLabel": "Governança IA",
+    "link": "assets/certificados/mundo-agentes-ia-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"textoBadge": "IA Generativa e Mundo dos Agentes de IA",
+	"tiExames": true
   }
 ]
