@@ -17,6 +17,14 @@
 
 const listaArtigos = [
 	{
+	  titulo: "O dia em que percebemos que o maior risco de segurança não era um hacker, mas as permissões esquecidas",
+	  resumo: "Saiba como contas inativas e permissões acumuladas no Active Directory e Microsoft 365 podem se tornar um incidente real de segurança e violar a LGPD.",
+	  categoria: "Segurança da Informação",
+	  data: "2026-06-12",
+	  img: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&q=80&w=600",
+	  link: "artigos/permissoes-esquecidas-risco-gestao-identidades.html"
+	},
+	{
 	  titulo: "LGPD e a gestão de caixas de correio de ex-colaboradores",
 	  resumo: "Estudo de caso real: como converter UserMailbox para SharedMailbox com conformidade à LGPD e quais bases legais amparam a empresa nesse processo.",
 	  categoria: "LGPD & Compliance",
