@@ -17,7 +17,7 @@
 
 const listaArtigos = [
 	{
-	  titulo: "O dia em que percebemos que o maior risco de segurança não era um hacker, mas as permissões esquecidas",
+	  titulo: "O risco invisível das permissões",
 	  resumo: "Saiba como contas inativas e permissões acumuladas no Active Directory e Microsoft 365 podem se tornar um incidente real de segurança e violar a LGPD.",
 	  categoria: "Segurança da Informação",
 	  data: "2026-06-12",
