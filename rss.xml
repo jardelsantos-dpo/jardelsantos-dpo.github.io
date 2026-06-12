@@ -12,9 +12,27 @@
 
 <language>pt-BR</language>
 
-<lastBuildDate>Fri, 12 Jun 2026 00:13:23 GMT</lastBuildDate>
+<lastBuildDate>Fri, 12 Jun 2026 10:11:12 GMT</lastBuildDate>
 
 <generator>GitHub Actions SEO Generator</generator>
+
+
+
+<item>
+
+<title>O dia em que percebemos que o maior risco de segurança não era um hacker, mas as permissões esquecidas</title>
+
+<link>https://jardelsantos-dpo.github.io/artigos/permissoes-esquecidas-risco-gestao-identidades.html</link>
+
+<guid>https://jardelsantos-dpo.github.io/artigos/permissoes-esquecidas-risco-gestao-identidades.html</guid>
+
+<description><![CDATA[Saiba como contas inativas e permissões acumuladas no Active Directory e Microsoft 365 podem se tornar um incidente real de segurança e violar a LGPD.]]></description>
+
+<category>Segurança da Informação</category>
+
+<pubDate>Fri, 12 Jun 2026 00:00:00 GMT</pubDate>
+
+</item>
 
 
 
@@ -355,24 +373,6 @@
 <category>Inteligência Artificial</category>
 
 <pubDate>Mon, 26 Jan 2026 00:00:00 GMT</pubDate>
-
-</item>
-
-
-
-<item>
-
-<title>10 Prompts de IA para potencializar o Service Desk</title>
-
-<link>https://jardelsantos-dpo.github.io/artigos/prompts-ia-service-desk-seguranca.html</link>
-
-<guid>https://jardelsantos-dpo.github.io/artigos/prompts-ia-service-desk-seguranca.html</guid>
-
-<description><![CDATA[Aprenda a usar a IA Generativa para transformar o suporte técnico da sua MPE com segurança, eficiência e foco na LGPD.]]></description>
-
-<category>Service Desk &amp; ITSM, Inteligência Artificial</category>
-
-<pubDate>Sun, 25 Jan 2026 00:00:00 GMT</pubDate>
 
 </item>
 
