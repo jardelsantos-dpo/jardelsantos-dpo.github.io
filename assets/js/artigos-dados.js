@@ -17,7 +17,7 @@
 
 const listaArtigos = [
 	{
-	  titulo: "O risco invisível das permissões",
+	  titulo: "O risco invisível das permissões esquecidas",
 	  resumo: "Saiba como contas inativas e permissões acumuladas no Active Directory e Microsoft 365 podem se tornar um incidente real de segurança e violar a LGPD.",
 	  categoria: "Segurança da Informação",
 	  data: "2026-06-12",
