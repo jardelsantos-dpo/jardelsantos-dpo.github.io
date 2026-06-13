@@ -603,5 +603,18 @@
 	"highlight": false,
 	"textoBadge": "IA Generativa e Mundo dos Agentes de IA",
 	"tiExames": true
+  },
+    {
+    "id": 49,
+    "titulo": "Segurança aplicada ao Vibecoding",
+    "ano": "2026",
+    "categoria": "ai-seguranca",
+    "tag": "tag-ai-sec",
+    "tagLabel": "Segurança IA",
+    "link": "assets/certificados/seguranca-vibecoding-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"textoBadge": "Segurança aplicada ao Vibecoding",
+	"tiExames": true
   }
 ]
