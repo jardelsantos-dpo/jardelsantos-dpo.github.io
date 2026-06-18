@@ -365,7 +365,7 @@ function ordenarCertificados(lista) {
         if (anoA !== anoB) return anoB - anoA; 
 
         return (a.titulo || '').toLowerCase().localeCompare((b.titulo || '').toLowerCase());
-    });
+    });7
 }
 
 function renderCards(lista) {
@@ -376,22 +376,31 @@ function renderCards(lista) {
 
     lista.forEach(cert => {
         const card = document.createElement('div');
-        
         const classes = ['cert-card'];
         if (cert.highlight) classes.push('highlight-card');
         
-        // CORREÇÃO UX BLINDADA: Injeta ambas as classes possíveis para evitar falhas de digitação no HTML
-        if (cert.hashtag) {
-            classes.push('is-hashtag');
-            classes.push('tag-hashtag');
-        }
+        // Injeção de flags de plataforma para os filtros funcionarem isolados
+        if (cert.hashtag) { classes.push('is-hashtag'); card.dataset.hashtag = "true"; }
+        if (cert.dio) { classes.push('is-dio'); card.dataset.dio = "true"; }
         
         card.className = classes.join(' ');
         card.dataset.category = cert.categoria;
-        
-        // Guarda o estado original do JSON diretamente no DOM do card
-        if (cert.hashtag) {
-            card.dataset.hashtag = "true";
+
+        // LÓGICA DO BOTÃO DE VALIDAÇÃO (String vs Array)
+        let botaoValidaHtml = '';
+        if (Array.isArray(cert.link)) {
+            // Se for Array, transforma em string segura e chama a função global
+            const linksEscapados = JSON.stringify(cert.link).replace(/"/g, '&quot;');
+            botaoValidaHtml = `
+                <button onclick="abrirMultiplosLinks(${linksEscapados})" class="btn-verify" style="cursor:pointer; border:none; width:100%; font-family:inherit;">
+                    ${cert.tipoLink}
+                </button>`;
+        } else {
+            // Se for string comum, mantém o comportamento padrão de link
+            botaoValidaHtml = `
+                <a href="${cert.link}" target="_blank" rel="noopener noreferrer" class="btn-verify">
+                    ${cert.tipoLink}
+                </a>`;
         }
 
         card.innerHTML = `
@@ -399,13 +408,20 @@ function renderCards(lista) {
             <span class="cert-tag ${cert.tag}">${cert.tagLabel}</span>
             <img src="${cert.imagem}" alt="${cert.titulo}" loading="lazy" width="180" height="180">
             <h3>${cert.titulo}</h3>
-            <a href="${cert.link}" target="_blank" rel="noopener noreferrer" class="btn-verify">
-                ${cert.tipoLink}
-            </a>
+            ${botaoValidaHtml}
         `;
         certGrid.appendChild(card);
     });
 }
+
+// FUNÇÃO GLOBAL AUXILIAR: Executa a abertura em lote das abas
+window.abrirMultiplosLinks = function(urls) {
+    if (Array.isArray(urls)) {
+        urls.forEach(url => {
+            window.open(url, '_blank');
+        });
+    }
+};
 
 function iniciarFiltros() {
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -428,16 +444,14 @@ function filtrarCards(filtro) {
     cards.forEach(card => {
         const categoria = card.dataset.category;
         const ehCardDaHashtag = card.dataset.hashtag === "true";
+        const ehCardDaDio = card.dataset.dio === "true";
 
         const atendeFiltro = filtrosArray.some(f => {
-            const tagLimpa = f.trim();
+            const tagLimpa = f.trim().toLowerCase();
             
-            // BLINDAGEM DA FILTRAGEM: Se a string do botão contiver 'hashtag', valida via dataset direto
-            if (tagLimpa.includes('hashtag')) {
-                return ehCardDaHashtag;
-            }
+            if (tagLimpa.includes('hashtag')) return ehCardDaHashtag;
+            if (tagLimpa.includes('dio')) return ehCardDaDio; // Ativação do filtro DIO.me
             
-            // Lógica legada/padrão para as outras tags
             const possuiTagInterna = card.querySelector(`.${tagLimpa}`);
             const possuiClasseCard = card.classList.contains(tagLimpa);
             return categoria === tagLimpa || possuiTagInterna || possuiClasseCard;
@@ -562,11 +576,9 @@ function atualizarContadoresFiltros(lista) {
             const filtrosArray = filter.split(',');
             count = lista.filter(cert => {
                 return filtrosArray.some(f => {
-                    const tagLimpa = f.trim();
-                    // BLINDAGEM DO CONTADOR: Se contiver 'hashtag', lê direto a flag bool do objeto JSON
-                    if (tagLimpa.includes('hashtag')) {
-                        return !!cert.hashtag;
-                    }
+                    const tagLimpa = f.trim().toLowerCase();
+                    if (tagLimpa.includes('hashtag')) return !!cert.hashtag;
+                    if (tagLimpa.includes('dio')) return !!cert.dio; // Contagem correta da DIO
                     return cert.categoria === tagLimpa || cert.tag === tagLimpa;
                 });
             }).length;
@@ -599,10 +611,18 @@ function iniciarFiltrosTiExames() {
             botoesTrilha.forEach(b => b.classList.remove('active'));
             botao.classList.add('active');
 
-            const tagAlvo = botao.dataset.tiFilter;
-            if (tituloTrilha) tituloTrilha.textContent = `Certificados: ${botao.textContent}`;
+            const tagAlvo = botao.dataset.tiFilter || '';
+            
+            // 🔥 ADAPTAÇÃO: Transforma "tag-privacy,tag-lgpd" em um array: ['tag-privacy', 'tag-lgpd']
+            // Também remove espaços extras caso digite "tag-privacy, tag-lgpd" por engano
+            const listaTagsAlvo = tagAlvo.split(',').map(tag => tag.trim());
 
-            const certificadosFiltrados = certificados.filter(cert => cert.tiExames === true && cert.tag === tagAlvo);
+            if (tituloTrilha) tituloTrilha.textContent = `Certificados: ${botao.textContent.trim()}`;
+
+            // 🔥 ADAPTAÇÃO: Verifica se a tag OU plataforma do certificado está inclusa no array de alvos
+            const certificadosFiltrados = certificados.filter(cert => 
+                cert.tiExames === true && (listaTagsAlvo.includes(cert.tag) || listaTagsAlvo.includes(cert.plataforma))
+            );
 
             certificadosFiltrados.sort((a, b) => {
                 const isHighA = !!a.highlight;
@@ -634,35 +654,32 @@ function renderizarCardsTiExames(lista, elementoDestino) {
     if (!elementoDestino) return;
     elementoDestino.innerHTML = '';
 
-    // ✅ Função avançada de geração de texto SVG
+    // ✅ Função avançada de geração de texto SVG (Mantida 100% Intacta)
     function gerarTextoBadgeSVG(texto, fontFamily = 'sans-serif') {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
 
         const maxWidth = 150;
-        // let fontSize = 24;
-		let fontSize;
-		// 🔥 escala baseada no conteúdo (design system)
-		if (texto.length <= 12) {
-			fontSize = 24;
-		} else if (texto.length <= 24) {
-			fontSize = 22;
-		} else {
-			fontSize = 20;
-		}
+        let fontSize;
+        if (texto.length <= 12) {
+            fontSize = 24;
+        } else if (texto.length <= 24) {
+            fontSize = 22;
+        } else {
+            fontSize = 20;
+        }
         const minFontSize = 12;
 
         let linhas = [];
 
         const quebrarLinhas = (txt, size) => {
             ctx.font = `bold ${size}px ${fontFamily}`;
-
             const palavras = txt.split(' ');
             let linhas = [];
             let linhaAtual = '';
 
             palavras.forEach(palavra => {
-                const teste = linhaAtual ? linhaAtual + ' ' + palavra : palavra;
+                const teste = inlineAtual = linhaAtual ? linhaAtual + ' ' + palavra : palavra;
                 const largura = ctx.measureText(teste).width;
 
                 if (largura <= maxWidth) {
@@ -674,97 +691,54 @@ function renderizarCardsTiExames(lista, elementoDestino) {
             });
 
             if (linhaAtual) linhas.push(linhaAtual);
-
             return linhas;
         };
 
-		while (fontSize >= minFontSize) {
-			linhas = quebrarLinhas(texto, fontSize);
+        while (fontSize >= minFontSize) {
+            linhas = quebrarLinhas(texto, fontSize);
+            const larguras = linhas.map(l => ctx.measureText(l).width);
+            const maiorLinha = Math.max(...larguras);
+            const todasCabem = maiorLinha <= maxWidth;
 
-			const larguras = linhas.map(l => ctx.measureText(l).width);
+            if (linhas.length <= 3 && todasCabem) {
+                break;
+            }
+            fontSize -= 0.5;
+        }
 
-			const maiorLinha = Math.max(...larguras);
+        if (linhas.length === 1) fontSize = Math.min(fontSize, 24);
+        if (linhas.length === 2) fontSize = Math.min(fontSize, 22);
+        if (linhas.length === 3) fontSize = Math.min(fontSize, 18);
 
-			const todasCabem = maiorLinha <= maxWidth;
+        const maiorLinha = Math.max(...linhas.map(l => ctx.measureText(l).width));
+        const folga = maxWidth - maiorLinha;
 
-			if (linhas.length <= 3 && todasCabem) {
-				break;
-			}
+        if (folga > 20 && fontSize < 24) {
+            fontSize += 1;
+        }
 
-			fontSize -= 0.5; // 🔥 redução mais suave (ANTES era 1)
-		}
-		// 🔥 clamp final estilo Material
-		if (linhas.length === 1) {
-			fontSize = Math.min(fontSize, 24);
-		}
+        if (linhas.length === 2) {
+            const proporcaoOcupacao = Math.max(...linhas.map(l => ctx.measureText(l).width)) / maxWidth;
+            if (proporcaoOcupacao > 0.92) fontSize -= 1;
+            if (proporcaoOcupacao < 0.75) fontSize += 1;
+        }
 
-		if (linhas.length === 2) {
-			fontSize = Math.min(fontSize, 22);
-		}
+        const lineHeight =
+            linhas.length === 1 ? fontSize * 1.1 :
+            linhas.length === 2 ? fontSize * 1.15 :
+            fontSize * 1.25;
 
-		if (linhas.length === 3) {
-			fontSize = Math.min(fontSize, 18);
-		}
+        const pesos = lines = linhas.map(l => l.length);
+        const pesoTotal = pesos.reduce((a, b) => a + b, 0);
+        const ajusteOptico = pesos.map(p => p / pesoTotal);
+        const totalHeight = linhas.length * lineHeight;
 
+        let startY = 30 - (totalHeight / 2) + (lineHeight / 2);
+        const fatorOptico = 6;
+        startY += (ajusteOptico[0] - 0.5) * fatorOptico;
 
-		// 🔥 Ajuste óptico (preenche melhor o espaço)
-		const maiorLinha = Math.max(...linhas.map(l => ctx.measureText(l).width));
-
-		// quanto sobra de espaço horizontal
-		const folga = maxWidth - maiorLinha;
-
-		// se sobrar muito espaço → pode aumentar a fonte um pouco
-		if (folga > 20 && fontSize < 24) {
-			fontSize += 1;
-		}
-
-		// ajuste fino para 2 linhas
-
-		if (linhas.length === 2) {
-			const proporcaoOcupacao = Math.max(...linhas.map(l => ctx.measureText(l).width)) / maxWidth;
-
-			// 🔥 só reduz se estiver realmente "esticado"
-			if (proporcaoOcupacao > 0.92) {
-				fontSize -= 1;
-			}
-
-			// 🔥 se estiver pequeno demais → aumenta levemente
-			if (proporcaoOcupacao < 0.75) {
-				fontSize += 1;
-			}
-		}
-
-
-
-
-        // ✅ Centralização vertical
-		const lineHeight =
-			linhas.length === 1 ? fontSize * 1.1 :
-			linhas.length === 2 ? fontSize * 1.15 :
-			fontSize * 1.25;
-
-		// 🔥 peso visual da linha (quantidade de caracteres)
-		const pesos = linhas.map(l => l.length);
-		const pesoTotal = pesos.reduce((a, b) => a + b, 0);
-
-		// 🔥 deslocamento óptico
-		const ajusteOptico = pesos.map(p => p / pesoTotal);
-
-		// 🔥 altura total real
-		const totalHeight = linhas.length * lineHeight;
-
-		// centro base
-		let startY = 30 - (totalHeight / 2) + (lineHeight / 2);
-
-		// 🔥 micro ajuste vertical (óptico)
-		const fatorOptico = 6; // ajuste fino (pode calibrar)
-
-		startY += (ajusteOptico[0] - 0.5) * fatorOptico;
-
-        // ✅ Montar SVG
         return linhas.map((linha, i) => {
             const y = startY + (i * lineHeight);
-
             return `
                 <text 
                     x="100" 
@@ -790,8 +764,36 @@ function renderizarCardsTiExames(lista, elementoDestino) {
 
         const texto = (cert.textoBadge || '').trim().toUpperCase();
         const fontFamily = "'Roboto', sans-serif";
-
         const conteudoSvg = gerarTextoBadgeSVG(texto, fontFamily);
+
+        // Otimização dos botões: Identifica se é único ou múltiplos
+        let botaoValidaHtml = '';
+        if (Array.isArray(cert.link)) {
+            botaoValidaHtml = cert.link.map((item) => {
+                const url = typeof item === 'object' ? item.url : item;
+                const label = typeof item === 'object' ? item.label : cert.tipoLink;
+                
+                // Estilização inline para forçar a divisão cirúrgica do espaço lado a lado
+                return `
+                    <a href="${url}" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="btn-verify"
+                       style="flex: 1; text-align: center; padding: 10px 4px; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                       ${label}
+                    </a>`;
+            }).join('');
+        } else {
+            // Mantém a estrutura padrão caso o card só tenha um link
+            botaoValidaHtml = `
+                <a href="${cert.link}" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="btn-verify"
+                   style="margin: 0;">
+                   ${cert.tipoLink}
+                </a>`;
+        }
 
         card.innerHTML = `
             <span class="cert-year">${cert.ano}</span>        
@@ -815,13 +817,11 @@ function renderizarCardsTiExames(lista, elementoDestino) {
             </div>
 
             <h3>${cert.titulo}</h3>
-
-            <a href="${cert.link}" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="btn-verify">
-               ${cert.tipoLink}
-            </a>
+            
+            <!-- Container com Flexbox para gerenciar o alinhamento horizontal perfeito -->
+            <div class="cert-buttons-container" style="display: flex; gap: 8px; width: 100%; justify-content: center; margin-top: auto; padding: 0 5px;">
+                ${botaoValidaHtml}
+            </div>
         `;
 
         elementoDestino.appendChild(card);

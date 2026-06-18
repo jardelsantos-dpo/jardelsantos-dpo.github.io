@@ -268,6 +268,9 @@ header {
 .tag-auto { background-color: #fbc02d; color: #333333; }
 .tag-dados { background-color: #f2c811; color: #333333; }
 .tag-gestao { background-color: #424242; }
+.dio-me { background-color: #9400D3; }
+.tag-lgpd { background-color: #00B1C3; }
+
 
 /* ==========================================================================
    BOTÃO DE IA COM DEGRADÊ PERSONALIZADO (MÚLTIPLOS FILTROS)
@@ -319,6 +322,7 @@ header {
 
 .learning-content h3 { font-size: 1.3rem; color: #fff; margin-bottom: 10px; }
 .learning-content p { color: #d0d0d0; line-height: 1.6; font-size: 0.95rem; }
+.learning-content strong { color: #ffffff; }
 .learning-footer { color: #9ecfff; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
 .learning-tags { display: flex; flex-wrap: wrap; gap: 12px; margin: 25px 0; }
 

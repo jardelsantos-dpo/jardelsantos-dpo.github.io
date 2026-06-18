@@ -434,12 +434,12 @@
     "titulo": "Treinamento LGPD Fundamentos",
     "ano": "2024",
     "categoria": "privacy",
-    "tag": "tag-privacy",
-    "tagLabel": "Privacidade",
+    "tag": "tag-lgpd",
+    "tagLabel": "LGPD Compliance",
     "textoBadge": "LGPD FUNDAMENTOS",
     "link": "assets/certificados/lgpd-fundamentos-ti-exames.pdf",
     "tipoLink": "Certificado",
-    "highlight": true,
+    "highlight": false,
     "tiExames": true
   },
   {
@@ -616,5 +616,62 @@
 	"highlight": false,
 	"textoBadge": "Segurança aplicada ao Vibecoding",
 	"tiExames": true
+  },
+  {
+    "id": 50,
+    "titulo": "Aceleração Microsoft",
+    "ano": "2026",
+    "categoria": "ai",
+    "tag": "dio-me", 
+    "tagLabel": "Agentes de IA",
+	"imagem": "img/badge-azure-ai-agents.webp",
+    "link": "https://www.dio.me/certificate/BTLVZCHF/share",
+    "tipoLink": "Validar",
+    "highlight": false,
+	"tiExames": true,
+    "plataforma": "dio-me"
+  },
+  {
+    "id": 51,
+    "titulo": "AI Reports com Excel, GPT Agents e Claude Code",
+    "ano": "2026",
+    "categoria": "ai",
+    "tag": "tag-ai-master",
+    "tagLabel": "Prática IA",
+    "imagem": "img/badge-santander-excel.webp",
+	"link": [
+    { "label": "Santander", "url": "https://www.dio.me/certificate/CCB1YY0W/share" },
+    { "label": "DIO.me", "url": "https://www.dio.me/certificate/INGGWKUW/share" }
+  ],
+    "tipoLink": "Validar",
+    "highlight": false,
+	"tiExames": true,
+    "plataforma": "dio-me"
+  },
+    {
+    "id": 52,
+    "titulo": "Como implementar a LGPD: bases, mecanismos e processos",
+    "ano": "2026",
+    "categoria": "privacy",
+    "tag": "tag-lgpd",
+    "tagLabel": "LGPD Compliance",
+	"imagem": "img/badge-evg-teste.webp",
+    "link": "https://www.escolavirtual.gov.br/documentos/validacao/certificadocheck/b6b51136-f50d-46f5-80e6-43ea4f90af33",
+    "tipoLink": "Validar",
+    "highlight": false,
+    "tiExames": true
+  },
+    {
+    "id": 53,
+    "titulo": "Introdução à Lei Brasileira de Proteção de Dados Pessoais",
+    "ano": "2019",
+    "categoria": "privacy",
+    "tag": "tag-lgpd",
+    "tagLabel": "LGPD Compliance",
+	"imagem": "img/badge-evg.webp",
+    "link": "https://www.escolavirtual.gov.br/documentos/validacao/certificadocheck/7upH9548243zoX",
+    "tipoLink": "Validar",
+    "highlight": false,
+    "tiExames": true
   }
 ]
