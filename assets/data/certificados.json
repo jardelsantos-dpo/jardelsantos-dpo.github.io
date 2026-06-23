@@ -673,5 +673,22 @@
     "tipoLink": "Validar",
     "highlight": false,
     "tiExames": true
-  }
+  },
+  {
+    "id": 54,
+    "titulo": "N8N e Workflows",
+    "ano": "2026",
+    "categoria": "ai",
+    "tag": "tag-ai-master",
+    "tagLabel": "Prática IA",
+    "imagem": "img/badge-santander-n8n.webp",
+	"link": [
+    { "label": "Santander", "url": "https://www.dio.me/certificate/ULSNCYZB/share" },
+    { "label": "DIO.me", "url": "https://www.dio.me/certificate/28UGXKLU/share" }
+  ],
+    "tipoLink": "Validar",
+    "highlight": false,
+	"tiExames": true,
+    "plataforma": "dio-me"
+  },
 ]
