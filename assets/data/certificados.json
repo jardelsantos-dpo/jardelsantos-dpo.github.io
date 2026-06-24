@@ -690,5 +690,18 @@
     "highlight": false,
 	"tiExames": true,
     "plataforma": "dio-me"
+  },
+   {
+    "id": 55,
+    "titulo": "Operacionalizando a Segurança da Informação através ISO/IEC 27002",
+    "ano": "2026",
+    "categoria": "security",
+    "tag": "tag-security",
+    "tagLabel": "Cibersegurança",
+    "link": "assets/certificados/iso-27002-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"textoBadge": "Segurança da Informação ISO/IEC 27002",
+	"tiExames": true
   }
 ]

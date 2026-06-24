@@ -1280,3 +1280,13 @@ cite.cite--sep-slash a + a::before { content: " / "; color: var(--text-gray); ma
     stroke-linecap: round;
     stroke-linejoin: round;
 }
+
+
+.nav-links i {
+  color: inherit;
+}
+
+.nav-links a:hover i,
+.nav-links button:hover i {
+  color: #ffffff; /* ajuste conforme seu tema */
+}

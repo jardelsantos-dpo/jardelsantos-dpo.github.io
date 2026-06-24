@@ -37,19 +37,19 @@
 
 <header></header>
 
-    <main>
-        <section class="about-container">
-            <div class="about-header">
+	<main>
+        <!-- AJUSTADO: Seção modificada para adotar a mesma classe hero e espaçamento das páginas Atuação e Projetos -->
+        <section class="services-hero">
+            <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 5%;">
+                <span class="badge">Conhecimento Compartilhado</span>
                 <h1>Artigos & Insights</h1>
                 <div class="underline"></div>
-                <p style="margin-top: 25px; color: var(--text-gray); font-size: 1.1rem; max-width: 800px; margin-left: auto; margin-right: auto;">
-                    Explore insights estratégicos sobre IA, Segurança da Informação, LGPD e Governança de TI para impulsionar o desenvolvimento do seu negócio.
-                </p>
+                <p style="color: var(--text-gray); margin-top: 15px;">Explore insights estratégicos sobre IA, Segurança da Informação, LGPD e Governança de TI para impulsionar a tecnologia do seu negócio.</p>
             </div>
         </section>
 		
-
-		<section style="padding: 0 5% 80px 5%;">
+        <!-- AJUSTADO: Adicionada uma margem superior para evitar que os artigos dinâmicos fiquem prensados ou sobrepostos devido ao comportamento do CSS do hero -->
+		<section style="padding: 0 5% 40px 5%; position: relative; z-index: 10;">
 			<div class="footer-container">
 				<div class="articles-grid" id="container-artigos-dinamico"></div>
 				

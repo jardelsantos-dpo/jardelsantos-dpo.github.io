@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "categoria": "ia",
+    "icone": "fas fa-robot",
+    "titulo": "Engenharia de Prompt: Diagnóstico de Incidentes",
+    "descricao": "Estrutura de prompt pronta para uso voltada para analistas de Service Desk N1/N2 realizarem triagem rápida, isolamento de falhas sistêmicas e sugestões de contornos de forma padronizada.",
+    "link_codigo": "#"
+  },
+  {
+    "id": 2,
+    "categoria": "powershell",
+    "icone": "fab fa-windows",
+    "titulo": "Deploy Pós-Imagem Automatizado",
+    "descricao": "Script modularizado em PowerShell focado na rotina diária do Service Desk para instalação silenciosa e dinâmica de ferramentas e aplicativos corporativos pós-imagem.",
+    "link_codigo": "#"
+  },
+  {
+    "id": 3,
+    "categoria": "powershell",
+    "icone": "fas fa-microchip",
+    "titulo": "Inventário de Hardware via PowerShell",
+    "descricao": "Utilitário automatizado para coleta minuciosa de informações de componentes físicos e detalhes do equipamento (CPU, RAM, S/N) locais ou remotos via rede interna.",
+    "link_codigo": "#"
+  },
+  {
+    "id": 4,
+    "categoria": "deploy",
+    "icone": "fas fa-server",
+    "titulo": "Custom Task Sequence: MDT / SCCM",
+    "descricao": "Soluções e scripts integrados prontos para uso na Task Sequence do MDT e SCCM, otimizando o deployment de sistemas operacionais com validações e injeções dinâmicas de drivers.",
+    "link_codigo": "#"
+  }
+]

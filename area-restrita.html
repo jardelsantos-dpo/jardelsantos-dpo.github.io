@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Área Restrita | Jardel Santos</title>
+	<meta name="description" content="Área de acesso restrito para gerenciamento de automações e configurações seguras.">
+	<meta name="author" content="Jardel Santos">
+	<meta name="robots" content="noindex, nofollow">
+    
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+	
+	<link rel="icon" type="image/png" href="/img/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+	<link rel="shortcut icon" href="/img/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+</head>
+<body>
+
+<header></header>
+
+<main>
+    <section class="services-hero" style="padding-bottom: 80px;">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 5%;">
+            <span class="badge"><i class="fas fa-lock" style="margin-right: 5px;"></i> Acesso Seguro</span>
+            <h1>Área Restrita</h1>
+			<div class="underline"></div>
+            <p style="color: var(--text-gray); margin-top: 15px;">Autenticação integrada com 2FA Authenticator.</p>
+        </div>
+    </section>
+
+    <section style="padding: 0 5% 80px 5%; margin-top: -30px; position: relative; z-index: 10;">
+        <div style="max-width: 420px; margin: 0 auto; background: #1e222b; border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 35px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+            
+            <div style="text-align: center; margin-bottom: 25px;">
+                <div style="width: 60px; height: 60px; background: rgba(0, 180, 216, 0.1); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+                    <i class="fas fa-shield-alt" style="color: #00b4d8; font-size: 1.8rem;"></i>
+                </div>
+                <h2 style="color: var(--text-white); font-size: 1.4rem; margin-bottom: 5px;">Identificação</h2>
+                <p style="color: var(--text-gray); font-size: 0.85rem;">Insira suas credenciais para continuar</p>
+            </div>
+
+            <div id="mensagem-alerta" style="display: none; padding: 12px; border-radius: 4px; font-size: 0.85rem; margin-bottom: 20px; text-align: center;"></div>
+
+            <form id="form-login" onsubmit="executarLogin(event)">
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; color: var(--text-white); font-size: 0.85rem; margin-bottom: 8px; font-weight: 600;">E-mail Corporativo</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-envelope" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-gray); font-size: 0.9rem;"></i>
+                        <input type="email" id="usuario" required style="width: 100%; background: #13161c; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 10px 12px 10px 38px; color: var(--text-white); font-family: 'Poppins', sans-serif; font-size: 0.9rem; box-sizing: border-box;" placeholder="nome@empresa.com">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 25px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <label style="color: var(--text-white); font-size: 0.85rem; font-weight: 600;">Senha</label>
+                        <a href="#" onclick="esqueciSenha()" style="color: #00b4d8; font-size: 0.8rem; text-decoration: none;">Esqueceu sua senha?</a>
+                    </div>
+                    <div style="position: relative;">
+                        <i class="fas fa-key" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-gray); font-size: 0.9rem;"></i>
+                        <input type="password" id="senha" required style="width: 100%; background: #13161c; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 10px 12px 10px 38px; color: var(--text-white); font-family: 'Poppins', sans-serif; font-size: 0.9rem; box-sizing: border-box;" placeholder="••••••••">
+                    </div>
+                </div>
+
+                <div id="campo-confirmar-senha" style="display: none; margin-bottom: 25px;">
+                    <label style="display: block; color: var(--text-white); font-size: 0.85rem; margin-bottom: 8px; font-weight: 600;">Confirme a Nova Senha</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-key" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-gray); font-size: 0.9rem;"></i>
+                        <input type="password" id="confirmar-senha" style="width: 100%; background: #13161c; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 10px 12px 10px 38px; color: var(--text-white); font-family: 'Poppins', sans-serif; font-size: 0.9rem; box-sizing: border-box;" placeholder="••••••••">
+                    </div>
+                </div>
+
+                <div id="campo-mfa" style="display: none; margin-bottom: 25px;">
+                    <label style="display: block; color: #00b4d8; font-size: 0.85rem; margin-bottom: 8px; font-weight: 600;">Código Authenticator (2FA)</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-mobile-alt" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #00b4d8; font-size: 1rem;"></i>
+                        <input type="text" id="token-mfa" maxlength="6" style="width: 100%; background: #13161c; border: 1px solid #00b4d8; border-radius: 4px; padding: 10px 12px 10px 38px; color: var(--text-white); font-family: 'Poppins', sans-serif; font-size: 1.1rem; letter-spacing: 4px; box-sizing: border-box;" placeholder="000000">
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-entrar" class="btn-primary" style="width: 100%; border: none; padding: 12px; font-size: 0.95rem; cursor: pointer; border-radius: 4px; justify-content: center; font-weight: 600;">
+                    Entrar <i class="fas fa-sign-in-alt" style="margin-left: 8px;"></i>
+                </button>
+            </form>
+
+            <div style="margin-top: 25px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+                <p style="color: var(--text-gray); font-size: 0.82rem; margin: 0;">
+                    Não tem conta? <a href="#" onclick="solicitarAcesso()" style="color: #00b4d8; text-decoration: none; font-weight: 600;">Clique aqui e solicite acesso</a>
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Modal: Esqueci minha senha -->
+    <div id="modal-esqueci-senha" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 100; align-items: center; justify-content: center;">
+        <div style="max-width: 380px; width: 90%; background: #1e222b; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.4);">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="width: 50px; height: 50px; background: rgba(0, 180, 216, 0.1); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                    <i class="fas fa-unlock-alt" style="color: #00b4d8; font-size: 1.5rem;"></i>
+                </div>
+                <h3 style="color: var(--text-white); font-size: 1.2rem; margin-bottom: 5px;">Recuperar Acesso</h3>
+                <p style="color: var(--text-gray); font-size: 0.82rem; margin: 0;">Informe seu e-mail corporativo cadastrado.</p>
+            </div>
+
+            <div id="mensagem-alerta-modal" style="display: none; padding: 10px; border-radius: 4px; font-size: 0.82rem; margin-bottom: 15px; text-align: center;"></div>
+
+            <div style="margin-bottom: 20px;">
+                <div style="position: relative;">
+                    <i class="fas fa-envelope" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-gray); font-size: 0.9rem;"></i>
+                    <input type="email" id="email-recuperacao" style="width: 100%; background: #13161c; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 10px 12px 10px 38px; color: var(--text-white); font-family: 'Poppins', sans-serif; font-size: 0.9rem; box-sizing: border-box;" placeholder="nome@empresa.com">
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button type="button" onclick="fecharModalEsqueciSenha()" style="flex: 1; background: transparent; border: 1px solid rgba(255,255,255,0.15); color: var(--text-gray); padding: 10px; border-radius: 4px; cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 0.88rem;">
+                    Cancelar
+                </button>
+                <button type="button" id="btn-enviar-recuperacao" onclick="enviarRecuperacaoSenha()" class="btn-primary" style="flex: 1; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.88rem; justify-content: center;">
+                    Enviar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Solicitar Acesso -->
+    <div id="modal-solicitar-acesso" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 100; align-items: center; justify-content: center;">
+        <div style="max-width: 400px; width: 90%; background: #1e222b; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); max-height: 90vh; overflow-y: auto;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="width: 50px; height: 50px; background: rgba(0, 180, 216, 0.1); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                    <i class="fas fa-user-plus" style="color: #00b4d8; font-size: 1.5rem;"></i>
+                </div>
+                <h3 style="color: var(--text-white); font-size: 1.2rem; margin-bottom: 5px;">Solicitar Acesso</h3>
+                <p style="color: var(--text-gray); font-size: 0.82rem; margin: 0;">Preencha os dados para análise do administrador.</p>
+            </div>
+
+            <div id="mensagem-alerta-solicitacao" style="display: none; padding: 10px; border-radius: 4px; font-size: 0.82rem; margin-bottom: 15px; text-align: center;"></div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; color: var(--text-white); font-size: 0.82rem; margin-bottom: 6px; font-weight: 600;">Nome Completo</label>
+                <div style="position: relative;">
+                    <i class="fas fa-user" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-gray); font-size: 0.9rem;"></i>
+                    <input type="text" id="solicitacao-nome" style="width: 100%; background: #13161c; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 10px 12px 10px 38px; color: var(--text-white); font-family: 'Poppins', sans-serif; font-size: 0.9rem; box-sizing: border-box;" placeholder="Seu nome completo">
+                </div>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; color: var(--text-white); font-size: 0.82rem; margin-bottom: 6px; font-weight: 600;">E-mail Corporativo</label>
+                <div style="position: relative;">
+                    <i class="fas fa-envelope" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-gray); font-size: 0.9rem;"></i>
+                    <input type="email" id="solicitacao-email" style="width: 100%; background: #13161c; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 10px 12px 10px 38px; color: var(--text-white); font-family: 'Poppins', sans-serif; font-size: 0.9rem; box-sizing: border-box;" placeholder="nome@empresa.com">
+                </div>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; color: var(--text-white); font-size: 0.82rem; margin-bottom: 6px; font-weight: 600;">Tipo de Acesso</label>
+                <div style="position: relative;">
+                    <i class="fas fa-user-tag" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-gray); font-size: 0.9rem; z-index: 1;"></i>
+                    <select id="solicitacao-tipo" style="width: 100%; background: #13161c; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 10px 12px 10px 38px; color: var(--text-white); font-family: 'Poppins', sans-serif; font-size: 0.9rem; box-sizing: border-box; appearance: none; cursor: pointer;">
+                        <option value="Leitor">Leitor (somente visualização)</option>
+                        <option value="Editor">Editor (pode editar dados)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; color: var(--text-white); font-size: 0.82rem; margin-bottom: 6px; font-weight: 600;">Motivo do Acesso</label>
+                <textarea id="solicitacao-motivo" rows="3" style="width: 100%; background: #13161c; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 10px 12px; color: var(--text-white); font-family: 'Poppins', sans-serif; font-size: 0.9rem; box-sizing: border-box; resize: vertical;" placeholder="Explique brevemente por que você precisa de acesso..."></textarea>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button type="button" onclick="fecharModalSolicitarAcesso()" style="flex: 1; background: transparent; border: 1px solid rgba(255,255,255,0.15); color: var(--text-gray); padding: 10px; border-radius: 4px; cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 0.88rem;">
+                    Cancelar
+                </button>
+                <button type="button" id="btn-enviar-solicitacao" onclick="enviarSolicitacaoAcesso()" class="btn-primary" style="flex: 1; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.88rem; justify-content: center;">
+                    Enviar Solicitação
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="site-footer"></footer>
+
+<script src="assets/js/busca.js"></script>
+<script src="assets/js/components.js"></script>
+<script src="assets/js/script.js"></script>
+<script>
+// Insira aqui a URL gerada após publicar o seu script como "Aplicativo da Web"
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxdbi7MyAHY8i5rrhjhZ_OpL8NP498E5hqZYlQEvCVvJzoM2CCR4LMb592aCRDoqbmr/exec"; 
+
+// Estados de controle baseados nas regras de negócio do seu arquivo GS
+let loginEtapa = "CREDENCIAIS"; // Pode mudar para "MFA" ou "ALTERAR_SENHA"
+
+function exibirAlerta(texto, tipo) {
+    const alerta = document.getElementById('mensagem-alerta');
+    alerta.innerText = texto;
+    alerta.style.display = 'block';
+    if (tipo === 'erro') {
+        alerta.style.background = 'rgba(239, 71, 111, 0.1)';
+        alerta.style.color = '#ef476f';
+        alerta.style.border = '1px solid rgba(239, 71, 111, 0.2)';
+    } else {
+        alerta.style.background = 'rgba(6, 214, 160, 0.1)';
+        alerta.style.color = '#06d6a0';
+        alerta.style.border = '1px solid rgba(6, 214, 160, 0.2)';
+    }
+}
+
+// Função principal de submissão do formulário
+async function executarLogin(e) {
+    e.preventDefault();
+
+    const usuario = document.getElementById('usuario').value.trim();
+    const senha = document.getElementById('senha').value;
+    const confirmarSenha = document.getElementById('confirmar-senha').value;
+    const tokenMfa = document.getElementById('token-mfa').value.trim();
+    const btn = document.getElementById('btn-entrar');
+
+    // Validação inicial do lado do cliente
+    if (!usuario || !senha) {
+        exibirAlerta("Por favor, preencha todos os campos obrigatórios.", "erro");
+        return;
+    }
+
+    // Validações específicas da etapa de troca de senha (primeiro acesso)
+    if (loginEtapa === "ALTERAR_SENHA") {
+        if (senha.length < 8) {
+            exibirAlerta("A nova senha deve ter ao menos 8 caracteres.", "erro");
+            return;
+        }
+        if (senha !== confirmarSenha) {
+            exibirAlerta("As senhas não coincidem. Digite novamente.", "erro");
+            return;
+        }
+    }
+
+    // Validação específica da etapa de MFA
+    if (loginEtapa === "MFA" && (!tokenMfa || tokenMfa.length !== 6)) {
+        exibirAlerta("Informe o código de 6 dígitos do Authenticator.", "erro");
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerText = "Autenticando...";
+
+    // Montagem do payload idêntico ao esperado pelas funções do CODIGO.GS
+    const dadosPayload = {
+        acao: "login",
+        etapa: loginEtapa,
+        usuario: usuario,
+        senha: senha,
+        tokenMfa: tokenMfa
+    };
+
+    try {
+        // Sem o header 'Content-Type: application/json' o navegador trata como
+        // um formulário simples e não exige o OPTIONS (CORS pre-flight).
+        const resposta = await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(dadosPayload)
+        });
+        const resultado = await resposta.json();
+
+        // Tratamento dos retornos de segurança do back-end
+        if (resultado.sucesso) {
+            exibirAlerta("Acesso autorizado! Redirecionando...", "sucesso");
+
+            // Armazena temporariamente o token de sessão gerado pelo CacheService do GAS
+            sessionStorage.setItem("portalToken", resultado.tokenSession);
+            sessionStorage.setItem("usuarioLogado", usuario);
+            if (resultado.tipo) {
+                sessionStorage.setItem("tipoUsuario", resultado.tipo);
+            }
+
+            setTimeout(() => {
+                window.location.href = "dashboard-projetos.html";
+            }, 1500);
+        }
+        // Tratamento da regra: Conta Bloqueada por Força Bruta (5 tentativas falhas)
+        else if (resultado.bloqueado) {
+            exibirAlerta("Conta bloqueada temporariamente devido a sucessivas falhas de login. Tente novamente em 15 minutos. Um e-mail de alerta foi enviado ao DPO.", "erro");
+            btn.disabled = true;
+            btn.innerText = "Acesso Bloqueado";
+        }
+        // Tratamento da regra: Primeiro Acesso (Exige alteração de senha)
+        else if (resultado.primeiroAcesso) {
+            loginEtapa = "ALTERAR_SENHA";
+            exibirAlerta("Este é o seu primeiro acesso. Para sua segurança, você deve definir uma nova senha forte (mínimo 8 caracteres).", "sucesso");
+
+            // Transforma o campo de senha em "Nova Senha" visualmente
+            document.getElementById('senha').value = "";
+            document.getElementById('senha').placeholder = "Digite sua nova senha forte";
+            document.getElementById('confirmar-senha').value = "";
+            document.getElementById('campo-confirmar-senha').style.display = 'block';
+
+            btn.disabled = false;
+            btn.innerText = "Gravar Nova Senha";
+        }
+        // Tratamento da regra: Validação Multifator Pendente
+        else if (resultado.exigeMFA) {
+            loginEtapa = "MFA";
+            document.getElementById('campo-mfa').style.display = 'block';
+            document.getElementById('usuario').disabled = true;
+            document.getElementById('senha').disabled = true;
+
+            exibirAlerta("E-mail e senha validados. Insira o código de verificação do Authenticator.", "sucesso");
+            btn.disabled = false;
+            btn.innerText = "Validar Token";
+        }
+        // Erros comuns de credenciais incorretas
+        else {
+            exibirAlerta(resultado.msg || "Usuário ou senha inválidos.", "erro");
+            btn.disabled = false;
+            btn.innerText = loginEtapa === "ALTERAR_SENHA" ? "Gravar Nova Senha" : "Entrar";
+        }
+
+    } catch (erro) {
+        console.error("Erro na comunicação da API:", erro);
+        exibirAlerta("Falha ao estabelecer conexão segura com o servidor de autenticação.", "erro");
+        btn.disabled = false;
+        btn.innerText = "Entrar";
+    }
+}
+
+// Vinculação com a rotina de Solicitação de Acesso do CODIGO.GS
+function solicitarAcesso() {
+    // Limpa o formulário e o alerta a cada abertura
+    document.getElementById('solicitacao-nome').value = "";
+    document.getElementById('solicitacao-email').value = "";
+    document.getElementById('solicitacao-tipo').value = "Leitor";
+    document.getElementById('solicitacao-motivo').value = "";
+
+    const alertaSolicitacao = document.getElementById('mensagem-alerta-solicitacao');
+    alertaSolicitacao.style.display = 'none';
+
+    document.getElementById('modal-solicitar-acesso').style.display = 'flex';
+}
+
+function fecharModalSolicitarAcesso() {
+    document.getElementById('modal-solicitar-acesso').style.display = 'none';
+}
+
+function exibirAlertaSolicitacao(texto, tipo) {
+    const alertaSolicitacao = document.getElementById('mensagem-alerta-solicitacao');
+    alertaSolicitacao.innerText = texto;
+    alertaSolicitacao.style.display = 'block';
+    if (tipo === 'erro') {
+        alertaSolicitacao.style.background = 'rgba(239, 71, 111, 0.1)';
+        alertaSolicitacao.style.color = '#ef476f';
+        alertaSolicitacao.style.border = '1px solid rgba(239, 71, 111, 0.2)';
+    } else {
+        alertaSolicitacao.style.background = 'rgba(6, 214, 160, 0.1)';
+        alertaSolicitacao.style.color = '#06d6a0';
+        alertaSolicitacao.style.border = '1px solid rgba(6, 214, 160, 0.2)';
+    }
+}
+
+async function enviarSolicitacaoAcesso() {
+    const nome = document.getElementById('solicitacao-nome').value.trim();
+    const email = document.getElementById('solicitacao-email').value.trim();
+    const tipo = document.getElementById('solicitacao-tipo').value;
+    const motivo = document.getElementById('solicitacao-motivo').value.trim();
+    const btn = document.getElementById('btn-enviar-solicitacao');
+
+    if (!nome || !email || !motivo) {
+        exibirAlertaSolicitacao("Preencha todos os campos antes de enviar.", "erro");
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerText = "Enviando...";
+
+    try {
+        const resposta = await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                acao: "solicitarAcesso",
+                nome: nome,
+                email: email,
+                motivo: motivo,
+                tipo: tipo
+            })
+        });
+        const resultado = await resposta.json();
+
+        if (resultado.sucesso) {
+            exibirAlertaSolicitacao("Solicitação enviada com sucesso! O administrador foi notificado para análise.", "sucesso");
+            btn.innerText = "Enviado";
+
+            setTimeout(() => {
+                fecharModalSolicitarAcesso();
+                btn.disabled = false;
+                btn.innerText = "Enviar Solicitação";
+            }, 3000);
+        } else {
+            exibirAlertaSolicitacao(resultado.msg || "Erro ao registrar a solicitação.", "erro");
+            btn.disabled = false;
+            btn.innerText = "Enviar Solicitação";
+        }
+    } catch (erro) {
+        console.error("Erro na solicitação de acesso:", erro);
+        exibirAlertaSolicitacao("Não foi possível processar a solicitação no momento.", "erro");
+        btn.disabled = false;
+        btn.innerText = "Enviar Solicitação";
+    }
+}
+
+// ---------------------------------------------------------------------
+// Fluxo: Esqueci minha senha
+// ---------------------------------------------------------------------
+
+function esqueciSenha() {
+    // Pré-preenche com o e-mail já digitado no formulário de login, se houver
+    const emailJaDigitado = document.getElementById('usuario').value.trim();
+    document.getElementById('email-recuperacao').value = emailJaDigitado;
+
+    const alertaModal = document.getElementById('mensagem-alerta-modal');
+    alertaModal.style.display = 'none';
+
+    document.getElementById('modal-esqueci-senha').style.display = 'flex';
+}
+
+function fecharModalEsqueciSenha() {
+    document.getElementById('modal-esqueci-senha').style.display = 'none';
+}
+
+function exibirAlertaModal(texto, tipo) {
+    const alertaModal = document.getElementById('mensagem-alerta-modal');
+    alertaModal.innerText = texto;
+    alertaModal.style.display = 'block';
+    if (tipo === 'erro') {
+        alertaModal.style.background = 'rgba(239, 71, 111, 0.1)';
+        alertaModal.style.color = '#ef476f';
+        alertaModal.style.border = '1px solid rgba(239, 71, 111, 0.2)';
+    } else {
+        alertaModal.style.background = 'rgba(6, 214, 160, 0.1)';
+        alertaModal.style.color = '#06d6a0';
+        alertaModal.style.border = '1px solid rgba(6, 214, 160, 0.2)';
+    }
+}
+
+async function enviarRecuperacaoSenha() {
+    const email = document.getElementById('email-recuperacao').value.trim();
+    const btn = document.getElementById('btn-enviar-recuperacao');
+
+    if (!email) {
+        exibirAlertaModal("Informe seu e-mail corporativo.", "erro");
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerText = "Enviando...";
+
+    try {
+        const resposta = await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                acao: "esqueciSenha",
+                usuario: email
+            })
+        });
+        const resultado = await resposta.json();
+
+        if (resultado.sucesso) {
+            exibirAlertaModal(
+                "Se o e-mail estiver cadastrado, você receberá uma senha temporária em poucos minutos. Verifique sua caixa de entrada (e o spam).",
+                "sucesso"
+            );
+            btn.innerText = "Enviado";
+
+            setTimeout(() => {
+                fecharModalEsqueciSenha();
+                btn.disabled = false;
+                btn.innerText = "Enviar";
+            }, 3500);
+        } else {
+            exibirAlertaModal(resultado.msg || "Não foi possível processar a solicitação.", "erro");
+            btn.disabled = false;
+            btn.innerText = "Enviar";
+        }
+    } catch (erro) {
+        console.error("Erro na recuperação de senha:", erro);
+        exibirAlertaModal("Falha ao estabelecer conexão com o servidor.", "erro");
+        btn.disabled = false;
+        btn.innerText = "Enviar";
+    }
+}
+</script>
+</body>
+</html>
