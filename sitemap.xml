@@ -6,13 +6,13 @@
 
   <url>
     <loc>https://jardelsantos-dpo.github.io/</loc>
-    <lastmod>2026-06-08</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://jardelsantos-dpo.github.io/artigos.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
 
@@ -186,20 +186,32 @@
 
   <url>
     <loc>https://jardelsantos-dpo.github.io/atuacao.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-06-26</lastmod>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://jardelsantos-dpo.github.io/login.html</loc>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://jardelsantos-dpo.github.io/projetos.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://jardelsantos-dpo.github.io/sobre.html</loc>
-    <lastmod>2026-06-18</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://jardelsantos-dpo.github.io/visualizador.html</loc>
+    <lastmod>2026-06-26</lastmod>
+    <priority>0.5</priority>
   </url>
 
 </urlset>
