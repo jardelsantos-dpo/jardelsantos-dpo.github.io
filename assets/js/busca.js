@@ -37,23 +37,23 @@
         { url: "artigos/tendencias-ciberseguranca-2026.html", name: "Tendências de Cibersegurança", keywords: "previsões ataques" },
         { url: "artigos/mdt-opsi-fog.html", name: "MDT descontinuado", keywords: "deploy imagem windows" },
         { url: "artigos/20-prompts-ia-service-desk-seguranca.html", name: "20 Prompts de IA", keywords: "prompts avançados" },
-		{ url: "artigos/zero-trust-na-pratica.html", name: "Zero Trust na Prática", Keywords: "Zero Trust ZTNA SSE segurança cibernética LGPD controle acesso autenticação multifator" },
-		{ url: "artigos/shadow-ai.html", name: "Shadow AI: O perigo das inteligências artificiais não homologadas", Keywords: "Shadow AI Segurança da Informação LGPD Inteligência Artificial Governança Cibersegurança" },
-		{ url: "artigos/microsoft-intune-gerenciamento-seguranca-mpe.html", name: "Gerenciamento Moderno com Microsoft Intune: O guia definitivo para Micro e Pequenas Empresas", Keywords: "Microsoft Intune, Segurança da Informação, LGPD, Gerenciamento de Dispositivos, Cloud Computing, Pequenas Empresas, LibreOffice, Google Workspace" },
-		{ url: "artigos/cinco-politicas-essenciais-para-intune.html", name: "5 políticas essenciais do Microsoft Intune", Keywords: "Intune, Microsoft, Conformidade, MDM, MAM, Acesso Condicional, Segurança" },
-		{ url: "artigos/poder-das-duas-linhas-micro-prompts-ia.html", name: "O Poder das Duas Linhas: Como Micro‑Prompts Transformam a Profundidade das Respostas na IA Generativa", Keywords: "inteligência artificial, ia generativa, chatgpt, copilot, gemini, engenharia de prompt, shadow ai, lgpd, segurança da informação, privacidade" },
-		{ url: "artigos/ia-generativa-direito.html", name: "Inteligência Artificial Generativa no Direito: Oportunidades, Riscos e a nova realidade Jurídica", Keywords: "inteligência artificial, ia generativa, gemini, copilot, chatgpt, direito, jurídico, lgpd, privacidade, alucinação, stj, cnj, compliance" },
-		{ url: "artigos/automatizar-caos-ia.html", name: "Automatizar o caos não é a solução: Como a IA e dados unificados podem ser o diferencial da sua empresa", Keywords: "inteligência artificial, automação, dados unificados, governança de dados, shadow AI, nist, lgpd, processos, power automate, produtividade" },
-		{ url: "artigos/ciberseguranca-ofensiva-brasil.html", name: "Cibersegurança Ofensiva no Brasil: Como as empresas nacionais protegem o seu negócio atacando-o", Keywords: "cibersegurança ofensiva, hacker ético, red team, pentest, teste de intrusão, segurança da informação, lgpd, empresas de segurança brasil" },
-		{ url: "artigos/troubleshooting-client-sccm.html", name: "Troubleshooting de SCCM para Service Desk", Keywords: "sccm, client, mecm, service desk, powershell, automação, infraestrutura, psexec, wmi, remediação" },
-		{ url: "artigos/guia-backup-3-2-1-residencial.html", name: "O guia descomplicado do Backup 3-2-1 para casa: Mantenha sua vida digital salva", Keywords: "backup, 3-2-1, ransomware, cobian reflector, norton 360, bitlocker, segurança residencial, proteção de dados" },
-		{ url: "artigos/como-criar-nuvem-pessoal-nas-casa.html", name: "Crie sua nuvem pessoal em casa gastando pouco", Keywords: "nuvem pessoal, NAS, backup, OpenMediaVault, TrueNAS, Cobian Reflector, privacidade, VPN" },
-		{ url: "artigos/claude-ai-vale-a-pena-2026.html", name: "Claude AI: Um guia honesto para empresas e profissionais", Keywords: "claude ai, inteligência artificial, ia corporativa, lgpd, anthropic, chatgpt, segurança da informação" },
-		{ url: "artigos/ia-esta-deixando-humano-mais-burro.html", name: "Estamos ficando mais burros por causa do uso excessivo da IA?", keywords: "inteligência artificial, cognição, pensamento crítico, lgpd, cognitive offloading, MIT, governança de IA, vazamento de dados, corporativo, riscos digitais" },
-		{ url: "artigos/dpo-equipe-ti-quem-faz-o-que.html", name: "O DPO e a equipe de TI: Quem faz o quê?", keywords: "DPO, LGPD, encarregado, TI, segurança da informação, RH, jurídico, compliance, ANPD, proteção de dados" },
-		{ url: "artigos/lgpd-gestao-caixas-correio-ex-colaboradores.html", name: "LGPD e a gestão de caixas de correio de ex-colaboradores", keywords: "LGPD, caixa de correio, e-mail corporativo, ex-colaborador, desligamento, SharedMailbox, UserMailbox, Microsoft 365, PST, base legal, legítimo interesse, consentimento, ROPA, DPO, encarregado, política de TI, privacidade, proteção de dados, Azure AD, Entra ID, conformidade, segurança da informação, compliance trabalhista, tratamento de dados" },
-		{ url: "artigos/permissoes-esquecidas-risco-gestao-identidades.html", name: "O dia em que percebemos que o maior risco de segurança não era um hacker, mas as permissões esquecidas", keywords: "gestão de identidades, Active Directory, Azure AD, Microsoft Entra ID, Microsoft 365, IAM, permissões excessivas, contas inativas, offboarding, onboarding, LGPD, segurança da informação, acesso indevido, ex-funcionários, permission creep, menor privilégio, PIM, Access Reviews, RBAC, grupos de segurança, incidente de segurança, conformidade, governança de TI, cibersegurança" },
-		
+        { url: "artigos/zero-trust-na-pratica.html", name: "Zero Trust na Prática", Keywords: "Zero Trust ZTNA SSE segurança cibernética LGPD controle acesso autenticação multifator" },
+        { url: "artigos/shadow-ai.html", name: "Shadow AI: O perigo das inteligências artificiais não homologadas", Keywords: "Shadow AI Segurança da Informação LGPD Inteligência Artificial Governança Cibersegurança" },
+        { url: "artigos/microsoft-intune-gerenciamento-seguranca-mpe.html", name: "Gerenciamento Moderno com Microsoft Intune: O guia definitivo para Micro e Pequenas Empresas", Keywords: "Microsoft Intune, Segurança da Informação, LGPD, Gerenciamento de Dispositivos, Cloud Computing, Pequenas Empresas, LibreOffice, Google Workspace" },
+        { url: "artigos/cinco-politicas-essenciais-para-intune.html", name: "5 políticas essenciais do Microsoft Intune", Keywords: "Intune, Microsoft, Conformidade, MDM, MAM, Acesso Condicional, Segurança" },
+        { url: "artigos/poder-das-duas-linhas-micro-prompts-ia.html", name: "O Poder das Duas Linhas: Como Micro‑Prompts Transformam a Profundidade das Respostas na IA Generativa", Keywords: "inteligência artificial, ia generativa, chatgpt, copilot, gemini, engenharia de prompt, shadow ai, lgpd, segurança da informação, privacidade" },
+        { url: "artigos/ia-generativa-direito.html", name: "Inteligência Artificial Generativa no Direito: Oportunidades, Riscos e a nova realidade Jurídica", Keywords: "inteligência artificial, ia generativa, gemini, copilot, chatgpt, direito, jurídico, lgpd, privacidade, alucinação, stj, cnj, compliance" },
+        { url: "artigos/automatizar-caos-ia.html", name: "Automatizar o caos não é a solução: Como a IA e dados unificados podem ser o diferencial da sua empresa", Keywords: "inteligência artificial, automação, dados unificados, governança de dados, shadow AI, nist, lgpd, processos, power automate, produtividade" },
+        { url: "artigos/ciberseguranca-ofensiva-brasil.html", name: "Cibersegurança Ofensiva no Brasil: Como as empresas nacionais protegem o seu negócio atacando-o", Keywords: "cibersegurança ofensiva, hacker ético, red team, pentest, teste de intrusão, segurança da informação, lgpd, empresas de segurança brasil" },
+        { url: "artigos/troubleshooting-client-sccm.html", name: "Troubleshooting de SCCM para Service Desk", Keywords: "sccm, client, mecm, service desk, powershell, automação, infraestrutura, psexec, wmi, remediação" },
+        { url: "artigos/guia-backup-3-2-1-residencial.html", name: "O guia descomplicado do Backup 3-2-1 para casa: Mantenha sua vida digital salva", Keywords: "backup, 3-2-1, ransomware, cobian reflector, norton 360, bitlocker, segurança residencial, proteção de dados" },
+        { url: "artigos/como-criar-nuvem-pessoal-nas-casa.html", name: "Crie sua nuvem pessoal em casa gastando pouco", Keywords: "nuvem pessoal, NAS, backup, OpenMediaVault, TrueNAS, Cobian Reflector, privacidade, VPN" },
+        { url: "artigos/claude-ai-vale-a-pena-2026.html", name: "Claude AI: Um guia honesto para empresas e profissionais", Keywords: "claude ai, inteligência artificial, ia corporativa, lgpd, anthropic, chatgpt, segurança da informação" },
+        { url: "artigos/ia-esta-deixando-humano-mais-burro.html", name: "Estamos ficando mais burros por causa do uso excessivo da IA?", keywords: "inteligência artificial, cognição, pensamento crítico, lgpd, cognitive offloading, MIT, governança de IA, vazamento de dados, corporativo, riscos digitais" },
+        { url: "artigos/dpo-equipe-ti-quem-faz-o-que.html", name: "O DPO e a equipe de TI: Quem faz o quê?", keywords: "DPO, LGPD, encarregado, TI, segurança da informação, RH, jurídico, compliance, ANPD, proteção de dados" },
+        { url: "artigos/lgpd-gestao-caixas-correio-ex-colaboradores.html", name: "LGPD e a gestão de caixas de correio de ex-colaboradores", keywords: "LGPD, caixa de correio, e-mail corporativo, ex-colaborador, desligamento, SharedMailbox, UserMailbox, Microsoft 365, PST, base legal, legítimo interesse, consentimento, ROPA, DPO, encarregado, política de TI, privacidade, proteção de dados, Azure AD, Entra ID, conformidade, segurança da informação, compliance trabalhista, tratamento de dados" },
+        { url: "artigos/permissoes-esquecidas-risco-gestao-identidades.html", name: "O dia em que percebemos que o maior risco de segurança não era um hacker, mas as permissões esquecidas", keywords: "invisível, gestão de identidades, Active Directory, Azure AD, Microsoft Entra ID, Microsoft 365, IAM, permissões excessivas, contas inativas, offboarding, onboarding, LGPD, segurança da informação, acesso indevido, ex-funcionários, permission creep, menor privilégio, PIM, Access Reviews, RBAC, grupos de segurança, incidente de segurança, conformidade, governança de TI, cibersegurança" },
+        
         { url: "legal/privacidade.html", name: "Política de Privacidade", keywords: "lgpd dados política" },
         { url: "legal/termo-de-uso.html", name: "Termos de Uso", keywords: "contrato legal site" }
     ];
@@ -202,9 +202,10 @@
     //------------------------------------------------
     function init() {
 
-        const btn = document.getElementById("openSearch");
+        const btnDesktop = document.getElementById("openSearch");
+        const btnMobile = document.getElementById("openSearchMobile");
 
-        if (!btn) {
+        if (!btnDesktop && !btnMobile) {
             requestAnimationFrame(init);
             return;
         }
@@ -216,11 +217,14 @@
         const results = document.getElementById("searchResults");
         const close = document.getElementById("closeSearch");
 
-        btn.onclick = e => {
+        const openModal = e => {
             e.preventDefault();
             modal.style.display = "flex";
             input.focus();
         };
+
+        if (btnDesktop) btnDesktop.onclick = openModal;
+        if (btnMobile) btnMobile.onclick = openModal;
 
         close.onclick = () => {
             modal.style.display = "none";

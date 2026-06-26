@@ -1,7 +1,6 @@
 <header class="main-header">
-    <!-- Logo agora é um link clicável para a Home, melhorando a navegabilidade -->
     <a href="index.html" class="logo" aria-label="Jardel Santos - Página Inicial">
-        <i class="fas fa-user-shield" style="color:#007bff; font-size: 30px;" aria-hidden="true"></i>
+        <i class="fas fa-user-shield" style="color: var(--color-primary); font-size: 30px;" aria-hidden="true"></i>
         <span>Jardel Santos</span>
     </a>
 
@@ -9,19 +8,40 @@
         <ul class="nav-links" id="navLinks">
             <li><a href="index.html">Início</a></li>
             <li><a href="atuacao.html">Atuação</a></li>
-            <li><a href="sobre.html">Sobre</a></li>
             <li><a href="artigos.html">Artigos</a></li>
-            <!-- Modificado de link para <button> para evitar o salto de página do href="#" -->
-            <li>
-                <button type="button" id="openSearch" class="nav-btn" aria-label="Abrir barra de busca">
+            <li><a href="projetos.html">Projetos</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            
+            <li class="nav-whatsapp-wrapper">
+                <a href="https://wa.me/5521995498872" target="_blank" class="nav-btn btn-whatsapp" aria-label="Falar no WhatsApp">
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                </a>
+                <div class="whatsapp-tooltip-box" role="tooltip">
+                    <strong>Entre em contato</strong>
+                    <span>Seg à Sex, das 8h às 20h; Sab das 9h às 12h</span>
+                </div>
+            </li>
+
+            <li class="tooltip-left" data-tooltip="Clique para pesquisar artigos e conteúdos no site">
+                <button type="button" id="openSearch" class="nav-btn btn-action" aria-label="Abrir barra de busca">
                     <i class="fas fa-search" aria-hidden="true"></i>
                 </button>
+            </li>
+            
+            <li class="nav-login-desktop tooltip-left" data-tooltip="Área restrita destinada a usuários cadastrados">
+                <a href="login.html" class="nav-btn btn-action" aria-label="Área restrita">
+                    <i class="fa-solid fa-user-lock" aria-hidden="true"></i>
+                </a>
             </li>
         </ul>
     </nav>
 
-    <!-- Menu hambúrguer encapsulado em botão com identificação de acessibilidade -->
-    <button type="button" class="hamburger" id="hamburger" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="navLinks">
-        <i class="fas fa-bars" aria-hidden="true"></i>
-    </button>
+    <div class="mobile-actions">
+		<button type="button" id="openSearchMobile" class="nav-btn btn-action nav-search-mobile" aria-label="Abrir barra de busca">
+            <i class="fas fa-search" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="hamburger" id="hamburger" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="navLinks">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+        </button>
+    </div>
 </header>

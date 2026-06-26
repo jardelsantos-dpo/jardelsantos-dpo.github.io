@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Definitivo: Como Automatizar a Formatação de Computadores com FOG Project | Jardel Santos</title>
+    <meta name="description" content="Guia completo sobre o FOG Project: aprenda a automatizar a formatação e clonagem de computadores via rede com foco em padronização e segurança da informação.">
+    
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+	<link rel="icon" type="image/png" href="../img/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="../img/favicon.svg" />
+	<link rel="shortcut icon" href="../img/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png" />
+	<link rel="manifest" href="../img/site.webmanifest" />
+</head>
+<body>
+
+    <header></header>
+
+    <main class="about-container" id="artigo">
+        <div class="about-header" style="text-align: left;">
+            <a href="../artigos.html" style="color: var(--accent-blue); font-size: 0.9rem;"><i class="fas fa-arrow-left"></i> Voltar para Artigos</a>
+            
+            <h1 style="margin-top: 20px;">Como automatizar a formatação com FOG Project (passo a passo)</h1>
+            
+            <img src="../img/deploy-image.webp"
+                 alt="Servidores em um data center representando infraestrutura de rede e automação de TI"
+                 class="article-banner">
+  
+  <article class="article-body">
+            <section id="article-section">
+                <p>Se você trabalha com TI em uma pequena ou média empresa, provavelmente conhece o pesadelo logístico que é preparar computadores novos ou recuperar máquinas com problemas. O processo manual — baixar a ISO do Windows ou Linux, criar um pen drive bootável, instalar o sistema, baixar drivers, instalar atualizações, configurar os aplicativos e as políticas de segurança — consome, em média, de 2 a 3 horas <strong>por equipamento</strong>.</p>
+                <p>Multiplique isso por 10 máquinas novas e você perdeu pelo menos metade de uma semana de trabalho produtivo.</p>
+                <p>Com a "aposentadoria" do MDT, uma das soluções para realizar <strong>deploy de sistemas operacionais via rede</strong> de forma simples e econômica (<em>open source</em>) é o <strong>FOG Project</strong>.</p>
+                <p>Neste guia, baseado nas melhores práticas, apresentamos como transformar um PC simples ou uma máquina virtual em um servidor de imagens capaz de preparar diversos equipamentos simultaneamente, garantindo que todas as máquinas da sua empresa tenham exatamente o mesmo padrão de segurança e configuração.</p>
+            </section>
+
+            <section id="article-section">
+                <h1>O que é o FOG Project e por que sua empresa precisa dele?</h1>
+                <p>O FOG Project é uma solução de clonagem e gerenciamento de imagens de computadores baseada em Linux e código aberto (gratuito).</p>
+
+                <h3>Benefícios Estratégicos:</h3>
+                <ul>
+                    <li><strong>1. Padronização e Hardening do SO:</strong> Ao criar uma imagem base focada nas configurações do Sistema Operacional (Hardening), você garante que o Windows ou Linux já nasça com as políticas de segurança, GPOs locais e ajustes de rede corretos, eliminando o erro humano. Softwares de segurança que exigem atualizações frequentes (como EDR e Antivírus) são instalados automaticamente logo após a formatação (via scripts ou Snapins), garantindo que a máquina sempre receba a versão mais recente da proteção.</li>
+                    <li><strong>2. Velocidade de Recuperação (Disaster Recovery):</strong> Se um computador for infectado por ransomware ou tiver falha no disco, você pode restaurar a imagem original limpa em menos de 15 minutos via rede.</li>
+                    <li><strong>3. Economia:</strong> Como é uma ferrame3nta com licença GPL (gratuito) não há necessidade de gastos com licenças de softwares proprietários de clonagem.</li>
+                    <li><strong>4. Gestão de Inventário:</strong> O FOG também coleta dados de hardware das máquinas, ajudando no inventário de ativos, mas como o foco da ferramenta não é esse, essa coleta é mínima.</li>
+                </ul>
+            </section>
+
+            <section id="article-section">
+                <h2>Pré-requisitos e Preparação do Ambiente</h2>
+                <p>Você não precisa de máquinas caras para aplicar esta solução: até um computador antigo ou uma Máquina Virtual (VM) já dão conta de gerenciar redes com até 100 equipamentos.</p>
+                <p><strong>Requisitos recomendados para o servidor FOG:</strong></p>
+                <ul>
+                    <li><strong>Processador:</strong> Dual Core ou superior.</li>
+                    <li><strong>Memória RAM:</strong> 4GB (8GB recomendado).</li>
+                    <li><strong>Disco:</strong> O uso de SSD é altamente recomendado para garantir maior velocidade. A capacidade necessária dependerá da quantidade de imagens que serão armazenadas — 250GB é um bom ponto de partida. No entanto, considerando boas práticas de governança e gestão, o ideal é manter apenas a imagem base do sistema operacional. Quanto menos imagens forem mantidas, mais rápido e fácil será administrar e atualizar o sistema.</li>
+                    <li><strong>Sistema Operacional:</strong> Ubuntu Server 24.04 LTS ou versões posteriores, reconhecido pela estabilidade e amplo suporte, ou Debian 13 ou versões posteriores.</li>
+                    <li><strong>Rede:</strong> Conexão cabeada (Ethernet) Gigabit. <strong>Não use Wi-Fi para o servidor.</strong></li>
+                </ul>
+                <p><em>Nota: Para este artigo utilizaremos como referência o Ubuntu instalado em uma máquina virtual com acesso à internet.</em></p>
+            </section>
+
+            <section id="article-section">
+                <h2>Passo 1: Preparando o Sistema Operacional</h2>
+                <p>Antes de instalar qualquer ferramenta complexa, a regra de ouro da segurança e estabilidade é atualizar o sistema base. Acesse o terminal do seu servidor Ubuntu e execute:</p>
+                <p><strong>1. Torne-se superusuário (root) para facilitar a execução dos scripts:</strong></p>
+                <pre><code>sudo -i</code></pre>
+                <p><strong>2. Atualize os repositórios e os pacotes instalados:</strong></p>
+                <pre><code>apt-get update && apt-get upgrade -y</code></pre>
+                <p><strong>3. Instale o Git (necessário para baixar o FOG):</strong></p>
+                <pre><code>apt-get install git -y</code></pre>
+            </section>
+
+            <section id="article-section">
+                <h2>Passo 2: Baixando e Instalando o FOG Project</h2>
+                <p>Diferente de programas do Windows onde você baixa um <code>.exe</code>, no Linux baixamos o código fonte direto do repositório oficial. Isso garante que você tenha a versão mais recente e segura.</p>
+                <p><strong>1. Navegue até a pasta de arquivos temporários:</strong></p>
+                <pre><code>cd /opt</code></pre>
+                <p><strong>2. Clone o repositório do FOG Project:</strong></p>
+                <pre><code>git clone https://github.com/FOGProject/fogproject.git</code></pre>
+                <p><em>Este comando cria uma cópia completa dos arquivos de instalação na sua máquina.</em></p>
+                <p><strong>3. Entre na pasta do instalador:</strong></p>
+                <pre><code>cd fogproject/bin</code></pre>
+                <p><strong>4. Inicie o script de instalação:</strong></p>
+                <pre><code>./installfog.sh</code></pre>
+            </section>
+
+            <section id="article-section">
+                <h2>Passo 3: O Assistente de Instalação</h2>
+                <p>Ao rodar o script, o FOG fará uma série de perguntas sobre como você deseja configurar o servidor. Abaixo, detalho as respostas ideais para uma instalação padrão em uma pequena ou média empresa.</p>
+                <ol>
+                    <li><strong>OS Selection:</strong> O instalador detectará automaticamente que é um Debian/Ubuntu. Pressione <code>Enter</code>.</li>
+                    <li><strong>Installation Type (Normal vs Storage):</strong> Digite <code>N</code> para <strong>Normal</strong>. <em>Explicação: "Normal" instala o servidor completo (interface web + armazenamento). "Storage" seria apenas para adicionar mais espaço em disco em outro servidor secundário.</em></li>
+                    <li><strong>Interface de Rede:</strong> O sistema sugerirá a placa de rede padrão (ex: <code>eth0</code> ou <code>ens33</code>). Verifique se é a correta e pressione <code>Enter</code>.</li>
+                    <li><strong>Change Default Network Settings?</strong> Digite <code>N</code> (Não), a menos que você precise fixar um IP diferente do que a máquina já pegou. <em>Recomendação: É vital que o servidor FOG tenha um IP Fixo.</em></li>
+                    <li><strong>Setup Router Address for DHCP?</strong> Digite <code>Y</code> (Sim) e confirme o IP do seu roteador (Gateway).</li>
+                    <li><strong>Setup DNS?</strong> Digite <code>Y</code> (Sim) e confirme o IP do DNS (geralmente o mesmo do roteador ou 8.8.8.8).</li>
+                    <li><strong>Would you like to use the FOG server for DHCP service?</strong>
+                        <br><strong>Atenção Crítica:</strong> Se você já tem um servidor DHCP na rede (como um Windows Server ou o próprio roteador da internet), digite <code>N</code>. Dois servidores DHCP na mesma rede causam conflito e derrubam a internet. Se esta for uma rede isolada/laboratório apenas para formatação, digite <code>Y</code>. <em>Para este guia, assumiremos que você já tem um DHCP (roteador) e digitaremos <code>N</code>.</em>
+                    </li>
+                    <li><strong>Internationalization Support?</strong> Digite <code>N</code> (Opcional).</li>
+                    <li><strong>HTTPS Support?</strong> Digite <code>N</code> para facilitar a configuração inicial em rede interna.</li>
+                    <li><strong>Confirm inputs?</strong> Revise os dados e digite <code>Y</code>.</li>
+                </ol>
+                <p>O instalador começará a baixar e configurar todos os serviços (Apache, PHP, MySQL, TFTP, NFS). Isso pode levar alguns minutos.</p>
+                <p><strong>O Passo "Pulo do Gato": Atualização do Banco de Dados</strong><br>
+                Quase no final da instalação, o terminal vai <strong>pausar</strong> e mostrar uma mensagem grande pedindo para você acessar uma URL via navegador. <strong>Não pressione Enter ainda!</strong></p>
+                <ol>
+                    <li>Abra o navegador no seu computador.</li>
+                    <li>Digite o endereço IP do servidor FOG conforme mostrado na tela (ex: <code>http://192.168.1.50/fog/management</code>).</li>
+                    <li>Você verá uma tela pedindo para instalar/atualizar o banco de dados. Clique no botão azul <strong>"Install/Update Now"</strong>.</li>
+                    <li>Aguarde a barra de progresso finalizar.</li>
+                    <li>Volte ao terminal do servidor Linux e, agora sim, pressione <code>Enter</code> para finalizar a instalação.</li>
+                </ol>
+                <p>O instalador fornecerá o usuário padrão (<code>fog</code>) e a senha (<code>password</code>).</p>
+            </section>
+
+            <section id="article-section">
+                <h2>Passo 4: Configurando a Rede para o Boot PXE (DHCP)</h2>
+                <p>Se você optou por <strong>não</strong> usar o FOG como DHCP (o cenário mais comum em empresas), você precisa "ensinar" o seu roteador ou Windows Server a redirecionar computadores novos para o FOG. Você deve acessar as configurações do seu servidor DHCP atual e configurar duas opções:</p>
+                <ul>
+                    <li><strong>Option 66 (Boot Server Host Name):</strong> Insira o <strong>IP do servidor FOG</strong>.</li>
+                    <li><strong>Option 67 (Bootfile Name):</strong>
+                        <ul>
+                            <li>Para computadores modernos (UEFI): digite <code>ipxe.efi</code></li>
+                            <li>Para computadores antigos (Legacy/BIOS): digite <code>undionly.kpxe</code></li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><em>Dica de Especialista:</em> Se você tem um ambiente misto, configurar isso no roteador simples pode ser difícil. A melhor prática é configurar todas as máquinas novas para UEFI e usar <code>ipxe.efi</code>.</p>
+            </section>
+
+            <section id="article-section">
+                <h2>Passo 5: Criando sua Primeira Imagem (Captura)</h2>
+                <p>Agora que o servidor está pronto, vamos criar a "Imagem Mestra".</p>
+                <ol>
+                    <li><strong>Prepare o Computador Modelo:</strong>
+                        <ul>
+                            <li>Pegue um computador, formate-o do zero com Windows 10/11 ou Linux.</li>
+                            <li>Instale as atualizações do Windows/Linux e softwares "estáticos" ou grandes (como Pacote Office e Runtimes C++).</li>
+                            <li><strong>Dica de Segurança:</strong> Evite instalar o Antivírus/EDR ou ferramentas de VPN na imagem base, pois eles desatualizam rápido e podem gerar conflitos de ID. A melhor prática é usar os <strong>Snapins do FOG</strong> (ou scripts de logon) para instalar esses agentes silenciosamente no primeiro boot após a clonagem.</li>
+                            <li><strong>Importante (Windows):</strong> Antes de desligar, execute o <strong>Sysprep</strong> (<code>C:\Windows\System32\Sysprep\sysprep.exe</code>). Marque a opção "Generalize" e escolha "Shutdown". Isso remove identificadores únicos (GUIDs), garantindo que, ao clonar, as máquinas não tenham conflito de identidade na rede.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Cadastre o Host no FOG:</strong>
+                        <ul>
+                            <li>Ligue esse computador e configure a ordem de Boot para iniciar pela <strong>Rede (PXE/Network)</strong>.</li>
+                            <li>Ao iniciar, você verá o menu do FOG. Escolha a opção <strong>"Quick Registration and Inventory"</strong>.</li>
+                            <li>O computador vai reiniciar. Desligue-o.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Crie a Definição de Imagem na Web:</strong>
+                        <ul>
+                            <li>Acesse o painel web do FOG. Vá em <strong>Images</strong> > <strong>Create New Image</strong>.</li>
+                            <li>Dê um nome (ex: "Win11_Padrao_RH_2026").</li>
+                            <li>Em "Operating System", escolha Windows 10/11 e em "Image Type", escolha <strong>"Single Disk - Resizable"</strong>.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Associe e Capture:</strong>
+                        <ul>
+                            <li>Vá em <strong>Hosts</strong>, ache o computador registrado e associe a imagem criada.</li>
+                            <li>Vá na aba <strong>Basic Tasks</strong> e clique em <strong>Capture</strong>. Agende a tarefa.</li>
+                            <li>Ligue o computador modelo novamente (com boot pela rede) e a cópia para o servidor começará automaticamente.</li>
+                        </ul>
+                    </li>
+                </ol>
+            </section>
+
+            <section id="article-section">
+                <h2>Passo 6: Implantando a Imagem (Deploy)</h2>
+                <p>A mágica acontece agora:</p>
+                <ol>
+                    <li>Pegue os computadores novos e configure o boot pela rede.</li>
+                    <li>No menu do FOG, faça o <strong>"Quick Registration"</strong>.</li>
+                    <li>No painel web, selecione os novos computadores em <strong>Hosts</strong>.</li>
+                    <li>Defina a imagem "Win11_Padrao_RH_2026" para eles.</li>
+                    <li>Clique em <strong>Task</strong> > <strong>Deploy</strong>.</li>
+                </ol>
+                <p>Os computadores irão reiniciar e baixar o sistema pronto simultaneamente. Em minutos, você terá sua frota pronta para uso e idêntica ao original.</p>
+            </section>
+
+            <section id="article-section">
+                <h2>Segurança e LGPD: O que você precisa saber</h2>
+                <p>O uso do FOG Project toca diretamente em pontos cruciais da Segurança da Informação e LGPD:</p>
+                <ol>
+                    <li><strong>Descomissionamento Seguro (Wipe):</strong> O FOG possui funções de "Wipe" (limpeza de disco). Antes de doar ou descartar computadores antigos da empresa, use o FOG para sobrescrever os dados, garantindo que informações de clientes ou segredos de negócio não vazem em lixões eletrônicos.</li>
+                    <li><strong>Segurança do Servidor:</strong> Como o FOG armazena cópias completas dos sistemas da sua empresa, ele é um ativo crítico. Altere a senha padrão do usuário <code>fog</code> imediatamente e não exponha a interface web para a internet.</li>
+                </ol>
+            </section>
+
+            <section id="article-section">
+                <h2>Conclusão</h2>
+                <p>Implementar o FOG Project é um divisor de águas na maturidade de TI de uma pequena empresa. Você deixa de ser um "formatador de máquinas" e passa a ser um gestor de infraestrutura. O tempo ganho na automação deve ser reinvestido em tarefas mais nobres, como a análise de vulnerabilidades, treinamento de usuários e melhoria dos processos de segurança. A automação não custa caro; ela custa apenas a vontade de aprender e implementar.</p>
+            </section>
+
+            <div class="source-list">
+                <strong>📚 Fontes:</strong>
+                <ul style="list-style:none; padding-left:0; margin-top:10px;">
+                    <li>• <a href="https://fogproject.org" target="_blank" rel="noopener">FOG Project — Documentação Oficial e Wiki</a></li>
+                    <li>• <a href="https://hackmd.io/@FOGProject" target="_blank" rel="noopener">HackMD — Guias da Comunidade FOG Project</a></li>
+                    <li>• <a href="https://www.nist.gov" target="_blank" rel="noopener">NIST — Frameworks e boas práticas de deployment de sistemas</a></li>
+                    <li>• <a href="https://ubuntu.com/server/docs" target="_blank" rel="noopener">Ubuntu Server — Documentação oficial do SO recomendado</a></li>
+                </ul>
+            </div>
+
+	  </article>
+</main>
+
+    <footer class="site-footer"></footer>
+    <script src="../assets/js/busca.js"></script>
+    <script src="../assets/js/artigos-dados.js"></script>
+	<script src="../assets/js/acesso-rapido.js"></script>
+    <script src="../assets/js/components.js"></script>
+    <script src="../assets/js/sharing.js"></script>
+    <script src="../assets/js/schema-article.js"></script>
+    <script src="../assets/js/image-lightbox.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>{{TITULO_DA_PAGINA}}</title>
+  <meta name="description" content="{{DESCRICAO_SEO}}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+	<link rel="icon" type="image/png" href="../img/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="../img/favicon.svg" />
+	<link rel="shortcut icon" href="../img/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png" />
+	<link rel="manifest" href="../img/site.webmanifest" />
+  
+  <!-- Schema Article será injetado via JS -->
+  <script id="article-data" type="application/json">
+  {
+    "headline": "{{HEADLINE}}",
+    "description": "{{DESCRICAO}}",
+    "image": "{{URL_IMAGEM_PRINCIPAL}}",
+    "datePublished": "{{DATA_PUBLICACAO}}",
+    "dateModified": "{{DATA_MODIFICACAO}}",
+    "url": "{{URL_ARTIGO}}"
+  }
+  </script>
+
+ 
+</head>
+
+<body>
+
+<header></header>
+
+<main class="about-container" id="artigo">
+
+  <!-- Cabeçalho do artigo -->
+
+      <div class="about-header" style="text-align: left;">
+          <a href="../artigos.html" style="color: var(--accent-blue); font-size: 0.9rem;"><i class="fas fa-arrow-left"></i> Voltar para Artigos</a>
+          <h1 style="margin-top: 20px;">{{TITULO}}</h1>
+          <div class="underline" style="margin: 20px 0;"></div>
+          <p style="color: var(--text-gray); font-size: 0.9rem;"><i class="far fa-calendar-alt"></i> Publicado em: {{DATA_PUBLICACAO_EXTENSO}} | <i class="far fa-clock"></i> {{TEMPO_LEITURA}}</p>
+      </div>
+
+
+  <!-- Imagem principal -->
+  <img src="{{URL_IMAGEM_PRINCIPAL}}" alt="{{ALT_IMAGEM}}" class="article-banner">
+
+  <!-- Corpo do artigo -->
+  <article class="article-body">
+		
+		
+    <!-- Seção padrão -->
+    <section class="article-section">
+      <h2>{{TITULO_SECAO}}</h2>
+      <p>{{TEXTO}}</p>
+    </section>
+	
+    <!-- Bloco de exemplo visual (relatórios / evidência) -->	
+	<section class="example-report">
+	  <figure class="media-block media-block--center">
+		<img src="{{IMG_EXEMPLO_1}}" alt="{{ALT_EXEMPLO_1}}" class="report-img">
+		<img src="{{IMG_EXEMPLO_2}}" alt="{{ALT_EXEMPLO_2}}" class="report-img">
+		<figcaption style="font-size: 0.85rem; color: var(--text-gray); margin-top: 10px;">
+		  {{LEGENDA_EXEMPLO}}
+		</figcaption>
+	  </figure>
+	</section>
+
+
+    <!-- Caixa informativa -->
+    <div class="content-box content-box--info">
+      <h4>{{TITULO_INFO}}</h4>
+      <p>{{TEXTO_INFO}}</p>
+    </div>
+
+    <!-- Caixa de alerta -->
+    <div class="content-box content-box--alert">
+      <h4>{{TITULO_ALERTA}}</h4>
+      <p>{{TEXTO_ALERTA}}</p>
+    </div>
+	
+    <!-- Caixa de dica (amarela) -->
+	<div class="guide-box-yellow">
+	  💡 <strong>Dica:</strong> {{TEXTO_DICA}}
+	</div>
+
+	<!-- Caixa de estatísticas / cenário -->
+	<div class="stats-box">
+	  <h4>{{TITULO_STATS}}</h4>
+	  <ul>
+		<li>{{DADO}}</li>
+		<li>{{DADO}}</li>
+		<li>{{DADO}}</li>
+	  </ul>
+	</div>
+
+	<!-- Card de exemplo prático -->
+	<div class="example-card">
+	  <h4>{{TITULO_EXEMPLO}}</h4>
+	  <p>{{TEXTO_EXEMPLO}}</p>
+	</div>
+
+    <!-- Grid comparativo (permitido x proibido) -->
+	<div class="info-grid">
+	  <div class="info-card info-card--allowed">
+		<h5>{{TITULO_PERMITIDO}}</h5>
+		<ul>
+		  <li>{{ITEM}}</li>
+		</ul>
+	  </div>
+
+	  <div class="info-card info-card--restricted">
+		<h5>{{TITULO_RESTRITO}}</h5>
+		<ul>
+		  <li>{{ITEM}}</li>
+		</ul>
+	  </div>
+	</div>
+
+	<!-- Checklist visual -->
+	<div class="checklist-box">
+	  <h4><i class="fas fa-check-double"></i> {{TITULO_CHECKLIST}}</h4>
+	  <p>{{INTRO_CHECKLIST}}</p>
+	  <ul class="checklist">
+		<li><input type="checkbox"> {{ITEM}}</li>
+		<li><input type="checkbox"> {{ITEM}}</li>
+	  </ul>
+	</div>
+
+    <!-- Lista -->
+    <section class="article-section">
+      <h3>{{TITULO_LISTA}}</h3>
+      <ul class="styled-list">
+        <li>{{ITEM}}</li>
+        <li>{{ITEM}}</li>
+      </ul>
+    </section>
+
+    <!-- Tabela de dados -->
+    <div class="data-block">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>{{COLUNA}}</th>
+            <th>{{COLUNA}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{DADO}}</td>
+            <td>{{DADO}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="data-source">Fonte: {{FONTE}}</p>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-box">
+        <h3>{{TITULO_CTA}}</h3>
+        <p>{{TEXTO_CTA}}</p>
+        <a href="https://wa.me/5521995498872" class="btn" style="background: var(--accent-blue);">Entre em contato</a>
+    </div>
+
+
+    <!-- Fontes -->
+		  <div class="source-list">
+			<strong>📚 Fontes:</strong>
+			<ul style="list-style:none; padding-left:0; margin-top:10px;">
+			  <li>• <a href="{{URL_FONTE}}" target="_blank" rel="noopener">{{NOME_FONTE}}</a></li>
+			</ul>
+		  </div>
+  </article>
+
+</main>
+
+    <footer class="site-footer"></footer>
+    <script src="../assets/js/busca.js"></script>
+    <script src="../assets/js/artigos-dados.js"></script>
+	<script src="../assets/js/acesso-rapido.js"></script>
+    <script src="../assets/js/components.js"></script>
+    <script src="../assets/js/sharing.js"></script>
+    <script src="../assets/js/schema-article.js"></script>
+    <script src="../assets/js/image-lightbox.js"></script>
+
+</body>
+</html>

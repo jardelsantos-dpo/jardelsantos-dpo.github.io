@@ -1,0 +1,301 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.dash { padding: 1rem 0; font-family: var(--font-sans); }
+.section-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-tertiary); margin: 1.5rem 0 0.75rem; }
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.kpi { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 14px 16px; }
+.kpi-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 6px; }
+.kpi-value { font-size: 20px; font-weight: 500; color: var(--color-text-primary); line-height: 1.2; font-variant-numeric: tabular-nums; }
+.kpi-sub { font-size: 11px; color: var(--color-text-tertiary); margin-top: 3px; }
+.kpi.danger .kpi-value { color: #A32D2D; }
+.kpi.warn .kpi-value { color: #854F0B; }
+.kpi.ok .kpi-value { color: #3B6D11; }
+.kpi.info .kpi-value { color: #185FA5; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; }
+.card-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 12px; }
+.badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: var(--border-radius-md); }
+.badge-crit { background: #FCEBEB; color: #791F1F; }
+.badge-alto { background: #FAEEDA; color: #633806; }
+.badge-med { background: #E6F1FB; color: #0C447C; }
+.badge-ok { background: #EAF3DE; color: #27500A; }
+.item-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 7px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.item-row:last-child { border-bottom: none; }
+.item-name { font-size: 12px; color: var(--color-text-primary); flex: 1; line-height: 1.4; }
+.item-sub { font-size: 11px; color: var(--color-text-tertiary); margin-top: 1px; }
+.item-val { font-size: 12px; color: var(--color-text-secondary); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.full-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-top: 12px; }
+.stat-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 12px; }
+.stat-row:last-child { border-bottom: none; }
+.stat-name { color: var(--color-text-secondary); }
+.stat-val { font-weight: 500; color: var(--color-text-primary); }
+.progress-bar { height: 8px; border-radius: 4px; background: var(--color-background-secondary); overflow: hidden; margin-top: 6px; }
+.progress-fill { height: 100%; border-radius: 4px; }
+.conduct-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
+.conduct-item { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 12px; }
+.ci-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; }
+.note { font-size: 11px; color: var(--color-text-tertiary); font-style: italic; padding: 6px 0 0; }
+.highlight-box { background: var(--color-background-danger); border: 0.5px solid var(--color-border-danger); border-radius: var(--border-radius-md); padding: 10px 14px; margin-bottom: 10px; }
+.highlight-box p { font-size: 12px; color: var(--color-text-danger); line-height: 1.5; }
+.pensao-counter { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 16px; margin-bottom: 10px; }
+.pensao-row { display: flex; justify-content: space-between; align-items: baseline; padding: 4px 0; font-size: 12px; }
+.pensao-row .pm { color: var(--color-text-secondary); }
+.pensao-row .pv { font-variant-numeric: tabular-nums; font-weight: 500; color: var(--color-text-primary); }
+.pensao-total { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0 0; margin-top: 6px; border-top: 0.5px solid var(--color-border-secondary); font-size: 13px; }
+.pensao-total .pm { color: var(--color-text-secondary); font-weight: 500; }
+.pensao-total .pv { font-variant-numeric: tabular-nums; font-weight: 500; color: #A32D2D; font-size: 15px; }
+</style>
+
+<div class="dash">
+  <h2 style="font-size:18px; font-weight:500; color:var(--color-text-primary); margin-bottom:4px;">Dashboard — Parecer Técnico-Jurídico</h2>
+  <p style="font-size:12px; color:var(--color-text-tertiary); margin-bottom:0.5rem;">Proc. 0837422-80.2025.8.19.0038 · 3ª Vara de Família · Nova Iguaçu · TJERJ</p>
+
+  <p class="section-title">Visão geral</p>
+  <div class="kpi-grid">
+    <div class="kpi danger">
+      <div class="kpi-label">Meses sem pensão</div>
+      <div class="kpi-value" id="kpi-meses">—</div>
+      <div class="kpi-sub">desde 23/06/2025</div>
+    </div>
+    <div class="kpi danger">
+      <div class="kpi-label">Pensão acumulada</div>
+      <div class="kpi-value" id="kpi-pensao">—</div>
+      <div class="kpi-sub" id="kpi-pensao-sub">R$ 1.327,11/mês</div>
+    </div>
+    <div class="kpi warn">
+      <div class="kpi-label">Meação bancária corrigida</div>
+      <div class="kpi-value">R$ 27.136</div>
+      <div class="kpi-sub">50% de R$ 54.271 (IPCA/jun-25)</div>
+    </div>
+    <div class="kpi warn">
+      <div class="kpi-label">Imóvel Vila Kennedy (seu)</div>
+      <div class="kpi-value">R$ 95.649</div>
+      <div class="kpi-sub">bloqueado pelo litígio</div>
+    </div>
+    <div class="kpi ok">
+      <div class="kpi-label">Índice indenizatório</div>
+      <div class="kpi-value">72/100</div>
+      <div class="kpi-sub">potencial estimado</div>
+    </div>
+    <div class="kpi ok">
+      <div class="kpi-label">Prob. de êxito</div>
+      <div class="kpi-value">Alta</div>
+      <div class="kpi-sub">provas nos próprios autos</div>
+    </div>
+  </div>
+
+  <p class="section-title">Pensão por morte — acumulado mês a mês</p>
+  <div class="card">
+    <div class="card-title">Marinha do Brasil · R$ 1.327,11/mês · bloqueada desde 23/06/2025 por certidão de óbito incorreta</div>
+    <div class="pensao-counter" id="pensao-counter"></div>
+    <p class="note">O cálculo atualiza automaticamente conforme o mês atual. A suspensão do inventário não interfere na retificação da certidão de óbito — o desbloqueio da pensão depende exclusivamente do Proc. 0906334-46.2025.8.19.0001.</p>
+  </div>
+
+  <p class="section-title">Meação bancária — correção monetária desde nov/2006</p>
+  <div class="row2">
+    <div class="card">
+      <div class="card-title">Base do cálculo (processo de separação)</div>
+      <div class="item-row">
+        <span class="item-name">Saldo CC ag. 0296-8 / 17.926-4 (nov/2006)</span>
+        <span class="item-val">R$ 2.463,28</span>
+      </div>
+      <div class="item-row">
+        <span class="item-name">Aplicação resgate automático (nov/2006)</span>
+        <span class="item-val">R$ 16.389,20</span>
+      </div>
+      <div class="item-row" style="padding-top:8px;">
+        <span class="item-name" style="font-weight:500;">Total partilhável (base original)</span>
+        <span class="item-val" style="font-weight:500;">R$ 18.852,48</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Valor atualizado até o óbito (jun/2025) — IPCA</div>
+      <div class="item-row">
+        <span class="item-name">Fator IPCA nov/2006 → jun/2025</span>
+        <span class="item-val">≈ 2,879×</span>
+      </div>
+      <div class="item-row">
+        <span class="item-name">Total corrigido</span>
+        <span class="item-val">≈ R$ 54.271</span>
+      </div>
+      <div class="item-row" style="padding-top:8px;">
+        <span class="item-name" style="font-weight:500;">Meação de Iolanda (50%)</span>
+        <span class="item-val" style="font-weight:500; color:#A32D2D;">≈ R$ 27.136</span>
+      </div>
+      <p class="note">Valor preciso calculado pela Calculadora de Meação (nov/2006 → data escolhida). Índice recomendado: IPCA (padrão TJERJ para processos de família).</p>
+    </div>
+  </div>
+
+  <p class="section-title">Conduta de Eliane — uso abusivo do sistema criminal</p>
+  <div class="highlight-box">
+    <p>Eliane registrou B.O. contra Iolanda e não apresentou testemunhas no prazo determinado (28/05/2026 a 08/06/2026), o que resultou no arquivamento do processo criminal. A conduta evidencia utilização do instrumento penal para fins patrimoniais, não para proteção legítima — reforça a tese de litigância de má-fé e abuso de direito (art. 187 CC / art. 80 CPC).</p>
+  </div>
+  <div class="full-card">
+    <div class="card-title">B.O. 056-04092/2025 — linha do tempo do processo criminal</div>
+    <div class="item-row">
+      <div class="item-name">B.O. registrado por Eliane contra Iolanda<div class="item-sub">ID 274216830 · origem: confronto de 21/06/2025</div></div>
+      <div class="item-val"><span class="badge badge-crit">Ato inicial</span></div>
+    </div>
+    <div class="item-row">
+      <div class="item-name">Audiência de conciliação / prazo para testemunhas<div class="item-sub">Prazo inicial: 28/05/2026</div></div>
+      <div class="item-val"><span class="badge badge-alto">Prazo aberto</span></div>
+    </div>
+    <div class="item-row">
+      <div class="item-name">Vencimento do prazo para apresentação de testemunhas<div class="item-sub">08/06/2026 — Eliane não apresentou nenhuma testemunha</div></div>
+      <div class="item-val"><span class="badge badge-crit">Prazo expirado</span></div>
+    </div>
+    <div class="item-row">
+      <div class="item-name">Consequência jurídica<div class="item-sub">Falta de testemunhas = ausência de substrato probatório para a acusação</div></div>
+      <div class="item-val"><span class="badge badge-ok">Arquivamento</span></div>
+    </div>
+    <div class="item-row">
+      <div class="item-name">Interpretação jurídica</div>
+      <div class="item-val" style="text-align:right; max-width:200px; white-space:normal; font-size:11px; color:var(--color-text-tertiary);">Uso do sistema penal como instrumento de pressão patrimonial — art. 187 CC</div>
+    </div>
+    <p class="note">Honorários da defesa criminal de Iolanda: R$ 2.500 — custo indenizável diretamente imputável à conduta de Eliane.</p>
+  </div>
+
+  <p class="section-title">Danos materiais — composição consolidada</p>
+  <div class="full-card">
+    <div class="card-title">Bens de Iolanda bloqueados pelo litígio</div>
+    <div class="item-row">
+      <div class="item-name">Imóvel — Vila Kennedy (adjudicado a Iolanda em 2008)<div class="item-sub">bloqueado enquanto inventário não definir a separação formal</div></div>
+      <div class="item-val">R$ 95.649 (venal)</div>
+    </div>
+    <div class="item-row">
+      <div class="item-name">Meação bancária corrigida — BB ag. 0296-8 / 17.926-4<div class="item-sub">base: R$ 18.852,48 (nov/2006) corrigida pelo IPCA até a data do óbito</div></div>
+      <div class="item-val">≈ R$ 27.136</div>
+    </div>
+    <div class="item-row">
+      <div class="item-name">VW Karman Ghia 1969 — 50% de Iolanda<div class="item-sub">deteriorado sob posse de Eliane · laudo pericial necessário</div></div>
+      <div class="item-val">a avaliar</div>
+    </div>
+    <div class="item-row">
+      <div class="item-name">VW Quantum 1998/1999 — 50% de Iolanda<div class="item-sub">FIPE total R$ 9.433</div></div>
+      <div class="item-val">R$ 4.717</div>
+    </div>
+  </div>
+
+  <div class="full-card" style="margin-top:12px;">
+    <div class="card-title">Danos indenizatórios (contra Eliane)</div>
+    <div class="item-row">
+      <div class="item-name">Pensão por morte bloqueada (Marinha)<div class="item-sub">R$ 1.327,11/mês desde 23/06/2025 — acumulado automático acima</div></div>
+      <div class="item-val" id="tabela-pensao">calculando...</div>
+    </div>
+    <div class="item-row">
+      <div class="item-name">Fruição indevida dos apartamentos por Eliane<div class="item-sub">Aptos 102 e 203/204 · ~R$ 500–900/mês × 11 meses</div></div>
+      <div class="item-val">R$ 9.000–16.200</div>
+    </div>
+    <div class="item-row">
+      <div class="item-name">Tentativa de receber R$ 19.570 da M.A. Lajes<div class="item-sub">frustrada pela advogada da empresa · ID 274216840</div></div>
+      <div class="item-val">R$ 19.570 (risco)</div>
+    </div>
+    <div class="item-row">
+      <div class="item-name">Deterioração do Karman Ghia (50% Iolanda)<div class="item-sub">laudo pericial necessário</div></div>
+      <div class="item-val">a avaliar</div>
+    </div>
+    <div class="item-row">
+      <div class="item-name">Adv. criminal — defesa de Iolanda (B.O. de Eliane)<div class="item-sub">processo arquivado por falta de testemunhas em 08/06/2026</div></div>
+      <div class="item-val">R$ 2.500</div>
+    </div>
+    <div class="item-row">
+      <div class="item-name">Adv. criminal — defesa de Jardel (medida protetiva infundada)<div class="item-sub">Proc. 0014415 · indeferido em 22/01/2026</div></div>
+      <div class="item-val">R$ 3.500</div>
+    </div>
+    <div class="item-row">
+      <div class="item-name">Honorários advocatícios extras (3 advogados · peças de 20 e 50 págs.)<div class="item-sub">litígio artificialmente complexo gerado por Eliane</div></div>
+      <div class="item-val">R$ 15.000–50.000</div>
+    </div>
+    <div class="item-row">
+      <div class="item-name">Multas do T-Cross geradas por Eliane<div class="item-sub">uso pós-vedação judicial · ID 274216839</div></div>
+      <div class="item-val">R$ 1.171</div>
+    </div>
+  </div>
+
+  <p class="section-title">Danos morais (3 ocorrências)</p>
+  <div class="row2">
+    <div class="card">
+      <div class="item-row"><span class="item-name">Insegurança financeira prolongada — 71 anos, 11+ meses</span><span class="item-val">R$ 20k–60k</span></div>
+      <div class="item-row"><span class="item-name">Violação de dignidade — escritura post mortem fraudulenta</span><span class="item-val">R$ 10k–30k</span></div>
+      <div class="item-row"><span class="item-name">Litígio artificial negando status de ex-esposa com direitos</span><span class="item-val">cumulável</span></div>
+    </div>
+    <div class="card">
+      <div class="stat-row"><span class="stat-name">Faixa mínima</span><span class="stat-val">R$ 30.000</span></div>
+      <div class="stat-row"><span class="stat-name">Faixa máxima</span><span class="stat-val">R$ 90.000</span></div>
+      <div class="stat-row"><span class="stat-name">Gravidade</span><span class="stat-val" style="color:#A32D2D;">Elevada</span></div>
+      <div class="stat-row"><span class="stat-name">Vulnerabilidade etária</span><span class="stat-val">71 anos</span></div>
+    </div>
+  </div>
+
+  <p class="section-title">Condutas identificadas de Eliane</p>
+  <div class="conduct-grid">
+    <div class="conduct-item"><div class="ci-label">Escritura post mortem fraudulenta</div><span class="badge badge-crit">Crítico</span></div>
+    <div class="conduct-item"><div class="ci-label">Retenção indevida dos bens do espólio</div><span class="badge badge-crit">Crítico</span></div>
+    <div class="conduct-item"><div class="ci-label">Uso do T-Cross após vedação judicial</div><span class="badge badge-crit">Crítico</span></div>
+    <div class="conduct-item"><div class="ci-label">Foto com data impossível (pós-óbito)</div><span class="badge badge-crit">Crítico</span></div>
+    <div class="conduct-item"><div class="ci-label">B.O. criminal sem substrato — arquivado por falta de testemunhas</div><span class="badge badge-crit">Crítico</span></div>
+    <div class="conduct-item"><div class="ci-label">Locação irregular dos apartamentos</div><span class="badge badge-alto">Alto</span></div>
+    <div class="conduct-item"><div class="ci-label">Tentativa de receber R$ 19.570 da M.A. Lajes</div><span class="badge badge-alto">Alto</span></div>
+    <div class="conduct-item"><div class="ci-label">Inconsistência na duração da união (10–15 anos)</div><span class="badge badge-alto">Alto</span></div>
+    <div class="conduct-item"><div class="ci-label">Medidas protetivas infundadas contra Jardel</div><span class="badge badge-med">Moderado</span></div>
+  </div>
+
+  <p class="section-title">Estratégia processual recomendada</p>
+  <div class="conduct-grid">
+    <div class="conduct-item"><div class="ci-label" style="font-weight:500; color:var(--color-text-primary); margin-bottom:5px;">1. Habilitação imediata no inventário</div><div class="ci-label">Art. 1.001 CPC</div></div>
+    <div class="conduct-item"><div class="ci-label" style="font-weight:500; color:var(--color-text-primary); margin-bottom:5px;">2. Retificação urgente da certidão</div><div class="ci-label">Proc. 0906334-46 · liberar pensão</div></div>
+    <div class="conduct-item"><div class="ci-label" style="font-weight:500; color:var(--color-text-primary); margin-bottom:5px;">3. Ação indenizatória vs. Eliane</div><div class="ci-label">Morais + materiais · provas nos autos</div></div>
+    <div class="conduct-item"><div class="ci-label" style="font-weight:500; color:var(--color-text-primary); margin-bottom:5px;">4. Restituição de frutos</div><div class="ci-label">Aluguéis indevidos · art. 1.997 CC</div></div>
+    <div class="conduct-item"><div class="ci-label" style="font-weight:500; color:var(--color-text-primary); margin-bottom:5px;">5. Notícia-crime</div><div class="ci-label">Falsidade ideológica · art. 299 CP</div></div>
+  </div>
+</div>
+
+<script>
+function calcMeses() {
+  const obito = new Date(2025, 5, 23);
+  const hoje = new Date();
+  let meses = (hoje.getFullYear() - obito.getFullYear()) * 12 + (hoje.getMonth() - obito.getMonth());
+  if (hoje.getDate() < obito.getDate()) meses--;
+  if (meses < 0) meses = 0;
+  return meses;
+}
+
+function fmt(v) {
+  return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+function nomesMes() {
+  const nomes = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  const obito = new Date(2025, 5, 23);
+  const meses = calcMeses();
+  const rows = [];
+  for (let i = 1; i <= meses; i++) {
+    const d = new Date(obito.getFullYear(), obito.getMonth() + i, 1);
+    rows.push(nomes[d.getMonth()] + '/' + String(d.getFullYear()).slice(2));
+  }
+  return rows;
+}
+
+const PENSAO = 1327.11;
+
+function renderPensao() {
+  const meses = calcMeses();
+  const total = meses * PENSAO;
+  const nomes = nomesMes();
+  const container = document.getElementById('pensao-counter');
+  let html = '';
+  nomes.forEach((nm, i) => {
+    html += `<div class="pensao-row"><span class="pm">${nm}</span><span class="pv">${fmt(PENSAO)}</span></div>`;
+  });
+  html += `<div class="pensao-total"><span class="pm">${meses} ${meses === 1 ? 'mês' : 'meses'} acumulados</span><span class="pv">${fmt(total)}</span></div>`;
+  container.innerHTML = html;
+
+  document.getElementById('kpi-meses').textContent = meses + ' ' + (meses === 1 ? 'mês' : 'meses');
+  document.getElementById('kpi-pensao').textContent = fmt(total).replace('R$\u00a0','R$ ');
+  document.getElementById('kpi-pensao-sub').textContent = meses + ' × R$ 1.327,11';
+  document.getElementById('tabela-pensao').textContent = fmt(total);
+}
+
+renderPensao();
+</script>

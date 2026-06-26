@@ -1,0 +1,871 @@
+// CODIGO GS
+
+// Configurações Globais
+const SPREADSHEET_ID = '1AWvwdTSlARWnJvrmE_kwn-ONEbewwbQgr2X8maKoZFs';
+const FOLDER_ID = '1VInJFLyE9GCqP9hj2gP4w6pRKZj2JPzv';
+
+function doGet(e) {
+  return HtmlService.createHtmlOutputFromFile('Index')
+    .setTitle('ProcDocs Seguro')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+// Função para gerar Hash SHA-256
+function gerarHash(texto) {
+  const rawHash = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, texto, Utilities.Charset.UTF_8);
+  let hashStr = '';
+  for (let i = 0; i < rawHash.length; i++) {
+    let byteVal = rawHash[i];
+    if (byteVal < 0) byteVal += 256;
+    let byteString = byteVal.toString(16);
+    if (byteString.length == 1) byteString = '0' + byteString;
+    hashStr += byteString;
+  }
+  return hashStr;
+}
+
+// Registrar Logs de Acesso (Blindado para não derrubar a função principal)
+function registrarLog(usuario, acao, detalhes) {
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheetLogs = ss.getSheetByName('Logs') || ss.insertSheet('Logs');
+    sheetLogs.appendRow([new Date(), usuario, acao, detalhes]);
+  } catch (e) {
+    console.error("Erro ao registrar log: " + e.message);
+  }
+}
+
+// Função Auxiliar: Alerta de Brute-Force
+function enviarEmailAlertaSeguranca(emailAlvo) {
+  const emailDPO = "jardelsantos-dpo@outlook.com.br";
+  const assunto = "⚠️ ALERTA DE SEGURANÇA: Tentativa de Brute-Force Detectada — ProcDocs Seguro";
+  
+  const dataHora = new Date().toLocaleString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    day: "2-digit", month: "2-digit", year: "numeric",
+    hour: "2-digit", minute: "2-digit", second: "2-digit"
+  });
+
+ const corpoHtml = `
+  <table width="100%" cellpadding="0" cellspacing="0" border="0"
+    style="font-family: Arial, sans-serif; background-color: #f0f2f5; padding: 40px 20px;">
+    <tr>
+      <td align="center">
+
+        <!-- WRAPPER COM SOMBRA SIMULADA E CANTOS ARREDONDADOS -->
+        <table width="560" cellpadding="0" cellspacing="0" border="0"
+          style="max-width: 560px; width: 100%; background-color: #ffffff;
+                 border: 1px solid #d1d5db; border-radius: 12px;
+                 -webkit-border-radius: 12px; mso-border-radius: 12px;
+                 border-collapse: separate; overflow: hidden;">
+
+          <!-- CABEÇALHO -->
+          <tr>
+            <td style="background-color: #1d3557; padding: 22px 28px; border-radius: 12px 12px 0 0;
+                       -webkit-border-radius: 12px 12px 0 0;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td width="44" valign="middle" style="font-size: 28px; padding-right: 14px;">&#9878;&#65039;</td>
+                  <td valign="middle">
+                    <p style="margin: 0; color: #ffffff; font-size: 17px; font-weight: bold; font-family: Arial, sans-serif;">ProcDocs Seguro</p>
+                    <p style="margin: 4px 0 0 0; color: #a8dadc; font-size: 12px; font-family: Arial, sans-serif;">Alerta Automático de Segurança</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- TÍTULO DO INCIDENTE -->
+          <tr>
+            <td style="padding: 24px 28px 20px 28px; border-bottom: 1px solid #e5e7eb;">
+              <p style="margin: 0 0 10px 0; font-size: 15px; font-weight: bold; color: #1e293b; font-family: Arial, sans-serif;">
+                &#128680; Múltiplas falhas de login detectadas
+              </p>
+              <p style="margin: 0; font-size: 14px; color: #374151; line-height: 1.7; font-family: Arial, sans-serif;">
+                O sistema identificou <strong style="color: #111827;">5 tentativas consecutivas de acesso inválido</strong>
+                e bloqueou a conta automaticamente como medida de proteção.
+              </p>
+            </td>
+          </tr>
+
+          <!-- LABEL DETALHES -->
+          <tr>
+            <td style="padding: 18px 28px 6px 28px;">
+              <p style="margin: 0; font-size: 11px; font-weight: bold; color: #9ca3af; letter-spacing: 1px; font-family: Arial, sans-serif; text-transform: uppercase;">
+                Detalhes do Incidente
+              </p>
+            </td>
+          </tr>
+
+          <!-- LINHA: CONTA ALVO -->
+          <tr>
+            <td style="padding: 0 28px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                style="border-top: 1px solid #f1f5f9;">
+                <tr>
+                  <td style="padding: 11px 0; font-size: 14px; color: #6b7280; font-family: Arial, sans-serif; width: 40%;">Conta alvo</td>
+                  <td style="padding: 11px 0; font-size: 14px; color: #111827; font-weight: bold; font-family: Arial, sans-serif;">${emailAlvo}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- LINHA: DATA / HORA -->
+          <tr>
+            <td style="padding: 0 28px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                style="border-top: 1px solid #f1f5f9;">
+                <tr>
+                  <td style="padding: 11px 0; font-size: 14px; color: #6b7280; font-family: Arial, sans-serif; width: 40%;">Data / Hora</td>
+                  <td style="padding: 11px 0; font-size: 14px; color: #111827; font-weight: bold; font-family: Arial, sans-serif;">${dataHora}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- LINHA: TENTATIVAS -->
+          <tr>
+            <td style="padding: 0 28px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                style="border-top: 1px solid #f1f5f9;">
+                <tr>
+                  <td style="padding: 11px 0; font-size: 14px; color: #6b7280; font-family: Arial, sans-serif; width: 40%;">Tentativas</td>
+                  <td style="padding: 11px 0; font-size: 14px; color: #111827; font-weight: bold; font-family: Arial, sans-serif;">5 de 5</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- LINHA: STATUS -->
+          <tr>
+            <td style="padding: 0 28px 18px 28px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                style="border-top: 1px solid #f1f5f9;">
+                <tr>
+                  <td style="padding: 11px 0; font-size: 14px; color: #6b7280; font-family: Arial, sans-serif; width: 40%;">Status da conta</td>
+                  <td style="padding: 11px 0;">
+                    <span style="display: inline-block; background-color: #fee2e2; color: #991b1b;
+                                 font-size: 12px; font-weight: bold; padding: 4px 14px;
+                                 border-radius: 20px; font-family: Arial, sans-serif;">
+                      &#128274; Bloqueada por 15 minutos
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- AVISO DE AÇÃO -->
+          <tr>
+            <td style="padding: 16px 28px; background-color: #fff7ed; border-top: 1px solid #fed7aa; border-bottom: 1px solid #fed7aa;">
+              <p style="margin: 0; font-size: 13px; color: #9a3412; line-height: 1.7; font-family: Arial, sans-serif;">
+                &#9888;&#65039; <strong>Ação recomendada:</strong> Se esta atividade for suspeita, redefina a senha
+                da conta e verifique os logs de acesso no painel administrativo.
+              </p>
+            </td>
+          </tr>
+
+          <!-- RODAPÉ -->
+          <tr>
+            <td style="padding: 18px 28px; background-color: #f8fafc; border-radius: 0 0 12px 12px;
+                       -webkit-border-radius: 0 0 12px 12px;">
+              <p style="margin: 0; font-size: 12px; color: #9ca3af; line-height: 1.6; font-family: Arial, sans-serif;">
+                Este é um alerta automático gerado pelo <strong style="color: #6b7280;">ProcDocs Seguro</strong>.
+                Não responda a esta mensagem. Para suporte, contate a governança de TI.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>`;
+
+  try {
+    MailApp.sendEmail({
+      to: emailDPO,
+      subject: assunto,
+      htmlBody: corpoHtml
+    });
+  } catch(e) {
+    console.error("Falha ao enviar e-mail de alerta: " + e.message);
+  }
+}
+
+// Autenticação de Login (BLINDADO CONTRA FALHAS DE COMUNICAÇÃO DE PLANILHA)
+function loginUsuario(usuario, senha) {
+  // Inicialização de variáveis de controle para uso fora do bloco try interno
+  let usuarioLimpo = "";
+  let chaveTentativas = "";
+  let chaveBloqueio = "";
+  //const userProps = PropertiesService.getUserProperties();
+  const userProps = PropertiesService.getScriptProperties();
+  const agora = new Date().getTime();
+
+  try {
+    if (!usuario || !senha) {
+      return { sucesso: false, mensagem: "Preencha todos os campos." };
+    }
+
+    usuarioLimpo = String(usuario).trim().toLowerCase();
+    chaveTentativas = "tentativas_" + usuarioLimpo;
+    chaveBloqueio = "bloqueado_ate_" + usuarioLimpo;
+    
+    const bloqueadoAte = userProps.getProperty(chaveBloqueio);
+    
+    if (bloqueadoAte && agora < parseInt(bloqueadoAte)) {
+      const minutosRestantes = Math.ceil((parseInt(bloqueadoAte) - agora) / 60000);
+      return { sucesso: false, mensagem: "Bloqueado. Tente em " + minutosRestantes + " min." };
+    }
+
+    let loginSucesso = false;
+    let perfilUsuario = "";
+    let precisaTrocarSenha = false;
+    let dados = [];
+
+    // Tenta ler os dados da planilha de forma isolada
+    try {
+      const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+      const sheet = ss.getSheetByName('Usuarios');
+      dados = sheet.getDataRange().getValues();
+    } catch (errPlanilha) {
+      console.error("Erro ao ler tabela de usuários: " + errPlanilha.message);
+      return { sucesso: false, mensagem: "Erro interno ao conectar ao banco de credenciais." };
+    }
+
+    const senhaFornecidaHash = gerarHash(String(senha).trim());
+
+    // Busca o usuário na tabela carregada em memória
+    for (let i = 1; i < dados.length; i++) {
+      if (dados[i][0] && String(dados[i][0]).trim().toLowerCase() === usuarioLimpo) {
+        const senhaBanco = String(dados[i][1]).trim();
+        const perfil = String(dados[i][2]).trim();
+        const primeiroAcesso = String(dados[i][3]).trim().toUpperCase();
+
+        if ((primeiroAcesso === 'SIM' && String(senha).trim() === senhaBanco) || 
+            (primeiroAcesso === 'NÃO' && senhaFornecidaHash === senhaBanco)) {
+          loginSucesso = true;
+          perfilUsuario = perfil;
+          precisaTrocarSenha = (primeiroAcesso === 'SIM');
+          break;
+        }
+      }
+    }
+
+    if (loginSucesso) {
+      userProps.deleteProperty(chaveTentativas);
+      userProps.deleteProperty(chaveBloqueio);
+      
+      if (precisaTrocarSenha) {
+        registrarLog(usuarioLimpo, 'Login Provisório', 'Primeiro acesso detectado');
+        return { 
+          sucesso: true, 
+          precisaTrocarSenha: true, 
+          usuario: usuarioLimpo, 
+          token: null 
+        };
+      }
+
+      const codigoMFA = Math.floor(100000 + Math.random() * 900000).toString();
+      const cache = CacheService.getUserCache();
+      cache.put("mfa_" + usuarioLimpo, codigoMFA + "|" + perfilUsuario, 300);
+      
+      try {
+        MailApp.sendEmail({
+        to: usuarioLimpo,
+        subject: "🛡️ Código de Verificação — ProcDocs Seguro",
+        htmlBody: `
+        <table width="100%" cellpadding="0" cellspacing="0" border="0"
+          style="font-family:Arial,sans-serif; background-color:#f0f2f5; padding:40px 20px;">
+          <tr><td align="center">
+            <table width="560" cellpadding="0" cellspacing="0" border="0"
+              style="max-width:560px; width:100%; background:#ffffff; border:1px solid #d1d5db;
+                    border-radius:12px; border-collapse:separate; overflow:hidden;">
+
+              <tr>
+                <td style="background-color:#1d3557; padding:22px 28px; border-radius:12px 12px 0 0;">
+                  <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+                    <td width="44" valign="middle" style="font-size:28px; padding-right:14px;">&#9878;&#65039;</td>
+                    <td valign="middle">
+                      <p style="margin:0; color:#ffffff; font-size:17px; font-weight:bold; font-family:Arial,sans-serif;">ProcDocs Seguro</p>
+                      <p style="margin:4px 0 0 0; color:#a8dadc; font-size:12px; font-family:Arial,sans-serif;">Verificação de Identidade (MFA)</p>
+                    </td>
+                  </tr></table>
+                </td>
+              </tr>
+
+              <tr>
+                <td style="padding:24px 28px 20px 28px; border-bottom:1px solid #e5e7eb;">
+                  <p style="margin:0 0 10px 0; font-size:15px; font-weight:bold; color:#1e293b; font-family:Arial,sans-serif;">
+                    &#128737;&#65039; Autenticação em dois fatores
+                  </p>
+                  <p style="margin:0; font-size:14px; color:#374151; line-height:1.7; font-family:Arial,sans-serif;">
+                    Foi solicitado um acesso ao portal <strong style="color:#111827;">ProcDocs Seguro</strong>.
+                    Utilize o código abaixo para autenticar sua sessão. Ele é válido por <strong>5 minutos</strong>.
+                  </p>
+                </td>
+              </tr>
+
+              <tr>
+                <td style="padding:28px; text-align:center; border-bottom:1px solid #e5e7eb;">
+                  <p style="margin:0 0 12px 0; font-size:12px; font-weight:bold; color:#9ca3af;
+                            letter-spacing:1px; font-family:Arial,sans-serif; text-transform:uppercase;">
+                    Código de verificação
+                  </p>
+                  <div style="display:inline-block; background-color:#f1faee; border:2px solid #a8dadc;
+                              padding:16px 36px; border-radius:8px; font-size:32px; font-weight:bold;
+                              letter-spacing:8px; color:#1d3557; font-family:'Courier New',monospace;">
+                    ${codigoMFA}
+                  </div>
+                  <p style="margin:16px 0 0 0; font-size:13px; color:#6b7280; font-family:Arial,sans-serif;">
+                    Este código expira em <strong style="color:#111827;">5 minutos</strong> e é válido para uso único.
+                  </p>
+                </td>
+              </tr>
+
+              <tr>
+                <td style="padding:16px 28px; background-color:#fff7ed; border-bottom:1px solid #fed7aa;">
+                  <p style="margin:0; font-size:13px; color:#9a3412; line-height:1.7; font-family:Arial,sans-serif;">
+                    &#9888;&#65039; Se você não tentou realizar esta autenticação, modifique sua senha imediatamente ou contate a governança de TI.
+                  </p>
+                </td>
+              </tr>
+
+              <tr>
+                <td style="padding:18px 28px; background-color:#f8fafc; border-radius:0 0 12px 12px;">
+                  <p style="margin:0; font-size:12px; color:#9ca3af; line-height:1.6; font-family:Arial,sans-serif;">
+                    Este é um e-mail automático do <strong style="color:#6b7280;">ProcDocs Seguro</strong>. Não responda a esta mensagem.
+                  </p>
+                </td>
+              </tr>
+
+            </table>
+          </td></tr>
+        </table>`
+      });
+        registrarLog(usuarioLimpo, 'MFA Enviado', 'Código temporário disparado com sucesso');
+      } catch (e) {
+        console.error("Falha ao enviar e-mail de MFA: " + e.message);
+        return { sucesso: false, mensagem: "Erro ao despachar código de segurança por e-mail." };
+      }
+
+      return { 
+        sucesso: true, 
+        mfaRequerido: true, 
+        usuario: usuarioLimpo 
+      };
+
+    } else {
+      // FALHA DE LOGIN: Incrementa o contador local de propriedades (Não depende da planilha para contar)
+      let tentativas = parseInt(userProps.getProperty(chaveTentativas)) || 0;
+      tentativas++;
+      //userProps.setProperty(chaveTentativas, tentativas);
+      userProps.setProperty(chaveTentativas, tentativas.toString());
+      
+      if (tentativas >= 5) {
+        userProps.setProperty(chaveBloqueio, (agora + (15 * 60 * 1000)).toString());
+        userProps.deleteProperty(chaveTentativas);
+        
+        // Disparos externos envelopados para não travar o retorno em caso de falha de privilégio
+        try { enviarEmailAlertaSeguranca(usuarioLimpo); } catch(e){}
+        try { registrarLog(usuarioLimpo, 'Bloqueio', '5 falhas atingidas'); } catch(e){}
+        
+        return { sucesso: false, mensagem: "Tentativas excedidas. Conta bloqueada por 15min." };
+      }
+
+      try { registrarLog(usuarioLimpo, 'Falha de Login', 'Senha/Usuário incorretos'); } catch(e){}
+      return { sucesso: false, mensagem: "Usuário ou senha incorretos. (" + (5 - tentativas) + " rest.)" };
+    }
+
+  } catch (globalError) {
+    console.error("Erro Crítico no loginUsuario: " + globalError.message);
+    // Caso aconteça um erro bizarro não mapeado, garante uma mensagem limpa e diferente de falha de conexão do framework
+    return { sucesso: false, mensagem: "Falha na validação cadastral. Contate o suporte." };
+  }
+}
+
+/**
+ * Valida o token numérico inserido na tela de MFA e gera a credencial Base64 legítima
+ */
+function verificarMFA(email, codigoDigitado) {
+  try {
+    if (!email || !codigoDigitado) {
+      return { sucesso: false, mensagem: "Código inválido." };
+    }
+
+    const usuarioLimpo = String(email).trim().toLowerCase();
+    const cache = CacheService.getUserCache();
+    const metadadosSalvos = cache.get("mfa_" + usuarioLimpo);
+
+    if (!metadadosSalvos) {
+      return { sucesso: false, mensagem: "O código expirou ou não foi solicitado. Refaça o login." };
+    }
+
+    const partesMFA = metadadosSalvos.split('|');
+    const codigoSalvo = partesMFA[0];
+    const perfilUsuario = partesMFA[1];
+
+    if (String(codigoDigitado).trim() === codigoSalvo) {
+      // Remove o código do cache para evitar ataques de replay (reutilização de token)
+      cache.remove("mfa_" + usuarioLimpo);
+      
+      const agora = new Date().getTime();
+      // Emite o token definitivo criptografado que as funções de arquivos exigem
+      const tokenDefinitivo = Utilities.base64Encode(usuarioLimpo + "|" + perfilUsuario + "|" + agora);
+      
+      registrarLog(usuarioLimpo, 'MFA Validado', 'Login concluído via MFA');
+      return { 
+        sucesso: true, 
+        token: tokenDefinitivo 
+      };
+    } else {
+      registrarLog(usuarioLimpo, 'MFA Falha', 'Tentativa com código incorreto');
+      return { sucesso: false, mensagem: "Código de verificação incorreto." };
+    }
+
+  } catch (e) {
+    console.error("Erro em verificarMFA: " + e.message);
+    return { sucesso: false, mensagem: "Falha interna no processamento de segundo fator." };
+  }
+}
+
+// Atualizado em conformidade com as novas diretrizes da Política de Complexidade de Senha (8+ caracteres)
+function atualizarSenha(usuario, novaSenha) {
+  try {
+    if (!usuario || !novaSenha || novaSenha.trim().length < 8) {
+      return { sucesso: false, mensagem: "A senha precisa conter no mínimo 8 caracteres." };
+    }
+
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName('Usuarios');
+    const dados = sheet.getDataRange().getValues();
+    const usuarioAlvo = usuario.trim().toLowerCase();
+
+    for (let i = 1; i < dados.length; i++) {
+      if (dados[i][0] && String(dados[i][0]).trim().toLowerCase() === usuarioAlvo) {
+        const novaSenhaHash = gerarHash(novaSenha.trim());
+        const perfil = String(dados[i][2]).trim();
+        
+        sheet.getRange(i + 1, 2).setValue(novaSenhaHash); 
+        sheet.getRange(i + 1, 4).setValue('NÃO');         
+        
+        registrarLog(usuarioAlvo, 'Troca de Senha', 'Sucesso');
+        
+        // Após a troca, gera o token de entrada direta do portal para o usuário não ter que fazer login duas vezes
+        const token = Utilities.base64Encode(usuarioAlvo + "|" + perfil + "|" + new Date().getTime());
+        return { sucesso: true, token: token };
+      }
+    }
+    return { sucesso: false, mensagem: "Usuário não localizado." };
+  } catch (e) {
+    return { sucesso: false, mensagem: "Erro ao salvar nova senha." };
+  }
+}
+
+function listarDocumentos(token) {
+  try {
+    if (!token) return { sucesso: false, arquivos: [] };
+    
+    const stringDecodificada = Utilities.newBlob(Utilities.base64Decode(token)).getDataAsString();
+    const partes = stringDecodificada.split('|');
+    const usuario = partes[0];
+    const perfil = partes[1];
+
+    const pasta = DriveApp.getFolderById(FOLDER_ID);
+    const arquivos = pasta.getFiles();
+    let listaDeArquivos = [];
+
+    while (arquivos.hasNext()) {
+      const arquivo = arquivos.next();
+      listaDeArquivos.push({
+        nome: arquivo.getName(),
+        id: arquivo.getId(),
+        downloadUrl: (perfil === 'Advogado') ? arquivo.getDownloadUrl() : null
+      });
+    }
+
+    listaDeArquivos.sort((a, b) => a.nome.toLowerCase().localeCompare(b.nome.toLowerCase()));
+    return { sucesso: true, arquivos: listaDeArquivos, perfil: perfil };
+  } catch (e) {
+    return { sucesso: false, arquivos: [], mensagem: "Erro ao listar arquivos." };
+  }
+}
+
+function registrarAcaoDocumento(token, acao, nomeArquivo) {
+  try {
+    if (!token) return;
+    const stringDecodificada = Utilities.newBlob(Utilities.base64Decode(token)).getDataAsString();
+    const usuario = stringDecodificada.split('|')[0]; 
+    registrarLog(usuario, acao, 'Arquivo: ' + nomeArquivo);
+  } catch(e) {}
+}
+
+function obterLinkVisualizacao(idArquivo) {
+  try {
+    return { sucesso: true, url: "https://drive.google.com/file/d/" + idArquivo + "/preview" };
+  } catch (e) {
+    return { sucesso: false, mensagem: "Erro ao abrir arquivo." };
+  }
+}
+
+function registrarLogVisualizacao(token, nomeArquivo) {
+  try {
+    if (!token) return false;
+    const stringDecodificada = Utilities.newBlob(Utilities.base64Decode(token)).getDataAsString();
+    const partes = stringDecodificada.split('|');
+    const usuario = partes[0]; 
+    
+    if (!usuario) return false;
+    registrarLog(usuario, 'Visualização', 'Visualizou: ' + nomeArquivo);
+    return true;
+  } catch (e) {
+    console.error("Erro ao registrar log de visualização: " + e.message);
+    return false;
+  }
+}
+
+function registrarLogDownload(token, nomeArquivo) {
+  try {
+    if (!token) return false;
+    const stringDecodificada = Utilities.newBlob(Utilities.base64Decode(token)).getDataAsString();
+    const partes = stringDecodificada.split('|');
+    const usuario = partes[0];
+    
+    if (!usuario) return false;
+    registrarLog(usuario, 'Download', 'Baixou: ' + nomeArquivo);
+    return true;
+  } catch (e) {
+    console.error("Erro ao registrar log de download: " + e.message);
+    return false;
+  }
+}
+
+function desbloquearUsuario(emailUsuario) {
+  const props = PropertiesService.getScriptProperties();
+  const agora = new Date().getTime();
+  let relatorio = [];
+
+  // Se um e-mail específico for passado, desbloqueia apenas ele
+  // Se chamado sem argumento (ou vazio), varre TODAS as contas bloqueadas
+  if (emailUsuario && emailUsuario.trim() !== "") {
+    const usuarioLimpo = String(emailUsuario).trim().toLowerCase();
+    const chaveTentativas = "tentativas_" + usuarioLimpo;
+    const chaveBloqueio   = "bloqueado_ate_" + usuarioLimpo;
+
+    const bloqueadoAte = props.getProperty(chaveBloqueio);
+
+    if (bloqueadoAte) {
+      props.deleteProperty(chaveTentativas);
+      props.deleteProperty(chaveBloqueio);
+      registrarLog(usuarioLimpo, 'Desbloqueio Manual', 'Conta desbloqueada pelo administrador');
+      relatorio.push("✅ Desbloqueada: " + usuarioLimpo);
+    } else {
+      relatorio.push("ℹ️ Sem bloqueio ativo: " + usuarioLimpo);
+    }
+
+  } else {
+    // Modo varredura: percorre todas as propriedades e encontra bloqueios ativos
+    const todasProps = props.getProperties();
+
+    for (const chave in todasProps) {
+      if (chave.startsWith("bloqueado_ate_")) {
+        const usuarioLimpo = chave.replace("bloqueado_ate_", "");
+        const bloqueadoAte = parseInt(todasProps[chave]);
+
+        if (agora < bloqueadoAte) {
+          // Bloqueio ainda ativo — desbloqueia
+          props.deleteProperty("tentativas_" + usuarioLimpo);
+          props.deleteProperty(chave);
+          registrarLog(usuarioLimpo, 'Desbloqueio Manual', 'Conta desbloqueada pelo administrador (varredura)');
+          relatorio.push("✅ Desbloqueada: " + usuarioLimpo);
+        } else {
+          // Bloqueio já expirado — limpa o lixo residual
+          props.deleteProperty("tentativas_" + usuarioLimpo);
+          props.deleteProperty(chave);
+          relatorio.push("🧹 Expirado removido: " + usuarioLimpo);
+        }
+      }
+    }
+
+    if (relatorio.length === 0) {
+      relatorio.push("ℹ️ Nenhuma conta bloqueada encontrada.");
+    }
+  }
+
+  // Exibe o relatório completo no Logger do Apps Script
+  Logger.log("=== RELATÓRIO DE DESBLOQUEIO ===");
+  relatorio.forEach(linha => Logger.log(linha));
+  Logger.log("================================");
+}
+
+function solicitarRecuperacaoSenha(emailSolicitado) {
+  try {
+    if (!emailSolicitado || emailSolicitado.trim() === "") {
+      return { sucesso: false, mensagem: "Informe um e-mail válido." };
+    }
+
+    const emailLimpo = emailSolicitado.trim().toLowerCase();
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName('Usuarios');
+    const dados = sheet.getDataRange().getValues();
+
+    let linhaUsuario = -1;
+    for (let i = 1; i < dados.length; i++) {
+      if (dados[i][0] && String(dados[i][0]).trim().toLowerCase() === emailLimpo) {
+        linhaUsuario = i;
+        break;
+      }
+    }
+
+    // Mensagem neutra em ambos os casos (não revela se o e-mail existe)
+    if (linhaUsuario === -1) {
+      registrarLog(emailLimpo, 'Recuperação Negada', 'E-mail não encontrado');
+      return { sucesso: true, mensagem: "Se o e-mail estiver cadastrado, você receberá a senha provisória em breve." };
+    }
+
+    // Gera senha provisória aleatória: 2 letras maiúsculas + 4 números + 2 caracteres especiais
+    const maiusculas  = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+    const numeros     = "23456789";
+    const especiais   = "@$!%*?&";
+    const minusculas  = "abcdefghjkmnpqrstuvwxyz";
+
+    const senha = [
+      maiusculas[Math.floor(Math.random() * maiusculas.length)],
+      maiusculas[Math.floor(Math.random() * maiusculas.length)],
+      minusculas[Math.floor(Math.random() * minusculas.length)],
+      minusculas[Math.floor(Math.random() * minusculas.length)],
+      numeros[Math.floor(Math.random() * numeros.length)],
+      numeros[Math.floor(Math.random() * numeros.length)],
+      numeros[Math.floor(Math.random() * numeros.length)],
+      especiais[Math.floor(Math.random() * especiais.length)],
+    ].sort(() => Math.random() - 0.5).join(''); // embaralha os caracteres
+
+    // Salva a senha em texto puro e marca primeiroAcesso = SIM
+    // (o loginUsuario já trata primeiroAcesso = SIM comparando texto puro)
+    sheet.getRange(linhaUsuario + 1, 2).setValue(senha);
+    sheet.getRange(linhaUsuario + 1, 4).setValue('SIM');
+
+    const dataHora = new Date().toLocaleString("pt-BR", {
+      timeZone: "America/Sao_Paulo",
+      day: "2-digit", month: "2-digit", year: "numeric",
+      hour: "2-digit", minute: "2-digit"
+    });
+
+    const corpoHtml = `
+    <table width="100%" cellpadding="0" cellspacing="0" border="0"
+      style="font-family:Arial,sans-serif; background-color:#f0f2f5; padding:40px 20px;">
+      <tr><td align="center">
+        <table width="560" cellpadding="0" cellspacing="0" border="0"
+          style="max-width:560px; width:100%; background:#ffffff; border:1px solid #d1d5db;
+                 border-radius:12px; border-collapse:separate; overflow:hidden;">
+
+          <tr>
+            <td style="background-color:#1d3557; padding:22px 28px; border-radius:12px 12px 0 0;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+                <td width="44" valign="middle" style="font-size:28px; padding-right:14px;">&#9878;&#65039;</td>
+                <td valign="middle">
+                  <p style="margin:0; color:#ffffff; font-size:17px; font-weight:bold; font-family:Arial,sans-serif;">ProcDocs Seguro</p>
+                  <p style="margin:4px 0 0 0; color:#a8dadc; font-size:12px; font-family:Arial,sans-serif;">Recuperação de Acesso</p>
+                </td>
+              </tr></table>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:24px 28px 20px 28px; border-bottom:1px solid #e5e7eb;">
+              <p style="margin:0 0 10px 0; font-size:15px; font-weight:bold; color:#1e293b; font-family:Arial,sans-serif;">
+                &#128273; Sua senha provisória foi gerada
+              </p>
+              <p style="margin:0; font-size:14px; color:#374151; line-height:1.7; font-family:Arial,sans-serif;">
+                Recebemos uma solicitação de recuperação de acesso para <strong>${emailLimpo}</strong> em ${dataHora}.
+                Use a senha abaixo para fazer login. Você será solicitado a criar uma nova senha imediatamente após o acesso.
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:28px; text-align:center;">
+              <p style="margin:0 0 10px 0; font-size:12px; font-weight:bold; color:#9ca3af; letter-spacing:1px; font-family:Arial,sans-serif; text-transform:uppercase;">
+                Senha provisória
+              </p>
+              <div style="display:inline-block; background-color:#f1faee; border:2px solid #a8dadc;
+                          padding:16px 36px; border-radius:8px; font-size:28px; font-weight:bold;
+                          letter-spacing:6px; color:#1d3557; font-family:'Courier New',monospace;">
+                ${senha}
+              </div>
+              <p style="margin:16px 0 0 0; font-size:13px; color:#6b7280; font-family:Arial,sans-serif;">
+                Esta senha é válida para <strong>um único acesso</strong>.<br>
+                Após o login, você deverá cadastrar uma nova senha definitiva.
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:0 28px 24px 28px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="padding:9px 0; font-size:14px; color:#6b7280; font-family:Arial,sans-serif; width:40%; border-top:1px solid #f1f5f9;">E-mail de acesso</td>
+                  <td style="padding:9px 0; font-size:14px; color:#111827; font-weight:bold; font-family:Arial,sans-serif; border-top:1px solid #f1f5f9;">${emailLimpo}</td>
+                </tr>
+                <tr>
+                  <td style="padding:9px 0; font-size:14px; color:#6b7280; font-family:Arial,sans-serif; border-top:1px solid #f1f5f9;">Senha provisória</td>
+                  <td style="padding:9px 0; font-size:14px; color:#111827; font-weight:bold; font-family:Arial,sans-serif; border-top:1px solid #f1f5f9; font-family:'Courier New',monospace;">${senha}</td>
+                </tr>
+                <tr>
+                  <td style="padding:9px 0; font-size:14px; color:#6b7280; font-family:Arial,sans-serif; border-top:1px solid #f1f5f9;">Validade</td>
+                  <td style="padding:9px 0; border-top:1px solid #f1f5f9;">
+                    <span style="background-color:#dcfce7; color:#166534; font-size:12px; font-weight:bold;
+                                 padding:4px 12px; border-radius:20px; font-family:Arial,sans-serif;">
+                      Uso único
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:16px 28px; background-color:#fff7ed; border-top:1px solid #fed7aa; border-bottom:1px solid #fed7aa;">
+              <p style="margin:0; font-size:13px; color:#9a3412; line-height:1.7; font-family:Arial,sans-serif;">
+                &#9888;&#65039; Se você não solicitou a recuperação de senha, ignore este e-mail e sua senha permanece inalterada. Se suspeitar de acesso indevido, contate a governança de TI.
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:18px 28px; background-color:#f8fafc; border-radius:0 0 12px 12px;">
+              <p style="margin:0; font-size:12px; color:#9ca3af; line-height:1.6; font-family:Arial,sans-serif;">
+                Este é um e-mail automático do <strong style="color:#6b7280;">ProcDocs Seguro</strong>. Não responda a esta mensagem.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td></tr>
+    </table>`;
+
+    MailApp.sendEmail({
+      to: emailLimpo,
+      subject: "🔑 Senha Provisória — ProcDocs Seguro",
+      htmlBody: corpoHtml
+    });
+
+    registrarLog(emailLimpo, 'Recuperação de Senha', 'Senha provisória gerada e enviada');
+    return { sucesso: true, mensagem: "Se o e-mail estiver cadastrado, você receberá a senha provisória em breve." };
+
+  } catch (e) {
+    console.error("Erro em solicitarRecuperacaoSenha: " + e.message);
+    return { sucesso: false, mensagem: "Erro interno. Tente novamente." };
+  }
+}
+
+
+// Chamada pelo doGet para validar o token quando o usuário clica no link
+function validarTokenRecuperacao(token) {
+  try {
+    if (!token) return { valido: false };
+
+    const props = PropertiesService.getScriptProperties();
+    const dado = props.getProperty("recovery_token_" + token);
+    if (!dado) return { valido: false, mensagem: "Link inválido ou já utilizado." };
+
+    const partes = dado.split("|");
+    const email = partes[0];
+    const expiracao = parseInt(partes[1]);
+
+    if (new Date().getTime() > expiracao) {
+      props.deleteProperty("recovery_token_" + token);
+      return { valido: false, mensagem: "Este link expirou. Solicite um novo." };
+    }
+
+    // Consome o token (uso único)
+    props.deleteProperty("recovery_token_" + token);
+    registrarLog(email, 'Token Recuperação Validado', 'Acesso liberado para troca de senha');
+
+    return { valido: true, usuario: email };
+
+  } catch (e) {
+    console.error("Erro em validarTokenRecuperacao: " + e.message);
+    return { valido: false, mensagem: "Erro ao validar o link." };
+  }
+}
+
+function reenviarCodigoMFA(email) {
+  try {
+    if (!email) return { sucesso: false, mensagem: "E-mail não identificado." };
+
+    const usuarioLimpo = String(email).trim().toLowerCase();
+    const cache = CacheService.getUserCache();
+    const metadadosSalvos = cache.get("mfa_" + usuarioLimpo);
+
+    if (!metadadosSalvos) {
+      return { sucesso: false, mensagem: "Sessão expirada. Faça o login novamente." };
+    }
+
+    const perfilUsuario = metadadosSalvos.split('|')[1];
+
+    // Gera um novo código e sobrescreve o anterior no cache
+    const novoCodigoMFA = Math.floor(100000 + Math.random() * 900000).toString();
+    cache.put("mfa_" + usuarioLimpo, novoCodigoMFA + "|" + perfilUsuario, 300);
+
+    MailApp.sendEmail({
+      to: usuarioLimpo,
+      subject: "🛡️ Novo Código de Verificação — ProcDocs Seguro",
+      htmlBody: `
+        <table width="100%" cellpadding="0" cellspacing="0" border="0"
+          style="font-family:Arial,sans-serif; background-color:#f0f2f5; padding:40px 20px;">
+          <tr><td align="center">
+            <table width="560" cellpadding="0" cellspacing="0" border="0"
+              style="max-width:560px; width:100%; background:#ffffff; border:1px solid #d1d5db;
+                     border-radius:12px; border-collapse:separate; overflow:hidden;">
+              <tr>
+                <td style="background-color:#1d3557; padding:22px 28px; border-radius:12px 12px 0 0;">
+                  <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+                    <td width="44" valign="middle" style="font-size:28px; padding-right:14px;">&#9878;&#65039;</td>
+                    <td valign="middle">
+                      <p style="margin:0; color:#ffffff; font-size:17px; font-weight:bold;">ProcDocs Seguro</p>
+                      <p style="margin:4px 0 0 0; color:#a8dadc; font-size:12px;">Verificação de Identidade (MFA)</p>
+                    </td>
+                  </tr></table>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:28px; text-align:center; border-bottom:1px solid #e5e7eb;">
+                  <p style="margin:0 0 6px 0; font-size:14px; color:#374151;">Este é o seu novo código de verificação:</p>
+                  <div style="display:inline-block; background-color:#f1faee; border:2px solid #a8dadc;
+                              padding:16px 36px; border-radius:8px; font-size:32px; font-weight:bold;
+                              letter-spacing:8px; color:#1d3557; font-family:'Courier New',monospace;">
+                    ${novoCodigoMFA}
+                  </div>
+                  <p style="margin:16px 0 0 0; font-size:13px; color:#6b7280;">
+                    Válido por <strong>5 minutos</strong>. O código anterior foi invalidado.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:16px 28px; background-color:#fff7ed; border-bottom:1px solid #fed7aa;">
+                  <p style="margin:0; font-size:13px; color:#9a3412; line-height:1.7;">
+                    &#9888;&#65039; Se você não solicitou este código, ignore este e-mail e contate a governança de TI.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:18px 28px; background-color:#f8fafc; border-radius:0 0 12px 12px;">
+                  <p style="margin:0; font-size:12px; color:#9ca3af; line-height:1.6;">
+                    E-mail automático do <strong style="color:#6b7280;">ProcDocs Seguro</strong>. Não responda.
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td></tr>
+        </table>`
+    });
+
+    registrarLog(usuarioLimpo, 'MFA Reenviado', 'Novo código gerado a pedido do usuário');
+    return { sucesso: true, mensagem: "Novo código enviado com sucesso!" };
+
+  } catch (e) {
+    console.error("Erro em reenviarCodigoMFA: " + e.message);
+    return { sucesso: false, mensagem: "Erro ao reenviar o código." };
+  }
+}

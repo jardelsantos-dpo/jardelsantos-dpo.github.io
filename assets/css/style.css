@@ -1,7 +1,7 @@
 /* ==========================================================================
    1. CONFIGURAÇÕES GERAIS E VARIÁVEIS
    ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 
 :root {
     --bg-dark: #232732;
@@ -45,18 +45,8 @@ ol { list-style-position: inside; text-align: justify; }
 /* ==========================================================================
    2. HEADER E NAVEGAÇÃO
    ========================================================================== */
-header {
-    position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
-    background-color: #ffffff; color: #333333; display: flex;
-    justify-content: space-between; align-items: center; padding: 0 5%;
-    z-index: 1000; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
 
-.logo { display: flex; align-items: center; font-weight: 700; font-size: 1.2rem; gap: 10px; }
-.nav-links { display: flex; gap: 30px; }
-.nav-links a { font-weight: 500; font-size: 1.2rem; transition: color 0.3s; }
-.nav-links a:hover { color: var(--accent-blue); }
-.hamburger { display: none; font-size: 1.6rem; cursor: pointer; }
+
 
 /* ==========================================================================
    ALINHAMENTO VERTICAL DO HEADER (TEXTOS + ÍCONE DE BUSCA)
@@ -648,27 +638,181 @@ cite.cite--sep-slash a + a::before { content: " / "; color: var(--text-gray); ma
 /* ==========================================================================
    12. FOOTER (TODAS AS PÁGINAS)
    ========================================================================== */
-.site-footer { background-color: var(--bg-darker); color: var(--text-gray); border-top: 1px solid rgba(255, 255, 255, 0.05); }
-.footer-container { width: 90%; max-width: 1200px; margin: 0 auto; }
-.footer-top { background-color: rgba(255, 255, 255, 0.03); padding: 20px 0; }
-.top-flex { display: flex; justify-content: space-between; align-items: center; }
-.social-icons { display: flex; gap: 20px; }
-.social-icons a { font-size: 1.2rem; transition: color 0.3s; }
-.social-icons a:hover { color: var(--accent-blue); }
-.footer-main { padding: 60px 0; }
-.main-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
-.footer-col h3 { color: white; margin-bottom: 25px; font-size: 1.1rem; position: relative; padding-bottom: 10px; }
-.footer-col h3::after { content: ''; position: absolute; bottom: 0; left: 0; width: 40px; height: 2px; background-color: var(--accent-blue); }
-.contact-list li { display: flex; gap: 15px; margin-bottom: 15px; }
-.contact-list i { color: var(--accent-blue); margin-top: 5px; }
-.footer-about { line-height: 1.6; margin-bottom: 20px; }
-.footer-about strong { color: var(--accent-blue); font-weight: 700; }
-.linkedin-btn { display: inline-block; color: var(--accent-blue); font-weight: 600; }
-.footer-bottom { background-color: rgba(0, 0, 0, 0.2); padding: 20px 0; font-size: 0.85rem; }
-.bottom-flex { display: flex; justify-content: space-between; align-items: center; }
-.legal-links a { margin-right: 20px; }
-.footer-col ul li a { color: var(--text-gray); transition: color 0.2s; }
-.footer-col ul li a:hover { color: var(--text-white); padding-left: 5px; }
+.site-footer {
+    background-color: var(--bg-darker); 
+    color: var(--text-gray);
+	font-family: 'Poppins', sans-serif;
+    padding: 20px 0 20px 0;
+    font-size: 14px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 40px;
+}
+
+.footer-col h3 {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.footer-logo {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 0 15px 0;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.footer-tagline {
+    color: #b3b7d1;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.social-title {
+    color: #b3b7d1;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+}
+
+.social-icons a {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 18px;
+    transition: background 0.3s ease;
+}
+
+.social-icons a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+	color: #ffffff;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 15px;
+}
+
+.footer-col ul li a {
+    color: #b3b7d1;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-col ul li a:hover {
+    color: #ffffff;
+}
+
+.cert-link {
+    color: #b3b7d1;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 15px;
+    transition: color 0.3s ease;
+}
+
+.cert-link:hover {
+    color: #ffffff;
+}
+
+.contact-item:hover {
+    color: #ffffff;
+}
+
+.footer-divider {
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 20px 0;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #b3b7d1;
+}
+
+.contact-item i {
+    font-size: 16px;
+    color: #ffffff;
+}
+
+/* Barra Inferior (Links de Políticas e Copyright) */
+.footer-bottom {
+    margin-top: 50px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 25px;
+}
+
+.footer-bottom-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #8c91b3;
+    font-size: 13px;
+}
+
+.legal-links a {
+    color: #8c91b3;
+    text-decoration: none;
+    margin-left: 20px;
+    transition: color 0.3s ease;
+}
+
+.legal-links a:hover {
+    color: #ffffff;
+}
+
+/* Ajustes de Responsividade */
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .footer-bottom-container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    .legal-links a {
+        margin: 0 10px;
+    }
+}
+
 
 /* ==========================================================================
    13. MEDIA QUERIES GERAIS DE ESTRUTURA (DESKTOP E TABLET)
@@ -757,13 +901,6 @@ cite.cite--sep-slash a + a::before { content: " / "; color: var(--text-gray); ma
     .services-section { padding: 50px 20px; }
     .service-card { padding: 25px; }
     .service-card h3 { font-size: 1.15rem; }
-    
-    /* Footer */
-    .top-flex, .bottom-flex { flex-direction: column; gap: 20px; text-align: center; }
-    .footer-col h3 { display: inline-block; text-align: center; width: auto; margin-left: auto; margin-right: auto; }
-    .footer-col h3::after { left: 50% !important; transform: translateX(-50%); width: 40px; }
-    .footer-col { display: flex; flex-direction: column; align-items: center; text-align: center; }
-    .footer-col ul li, .contact-list li { justify-content: center; text-align: center; }
     
     /* Botões Flutuantes e Ícones */
     .btn-print-floating { display: flex; align-items: center; justify-content: center; position: fixed; bottom: 20px; right: 20px; width: 52px; height: 52px; border-radius: 50%; background: #0b5ed7; color: #fff; border: none; font-size: 22px; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.2); z-index: 9999; }
@@ -1289,4 +1426,540 @@ cite.cite--sep-slash a + a::before { content: " / "; color: var(--text-gray); ma
 .nav-links a:hover i,
 .nav-links button:hover i {
   color: #ffffff; /* ajuste conforme seu tema */
+}
+
+/* CÓDIGO PÁGINA VISUALIZADOR */
+:root {
+            --bg-dark: #121214;
+            --card-bg: #1a1a1e;
+            --primary-blue: #00d4ff;
+            --text-white: #ffffff;
+            --text-gray: #969696;
+            --border-color: #29292e;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            margin: 0;
+            padding: 0;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 25px;
+        }
+
+        /* Coluna da Esquerda: Lista de Arquivos */
+        .sidebar-arquivos {
+            width: 35%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        /* Coluna da Direita: Visualizador Seguro */
+        .area-visualizador {
+            width: 65%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .header-dashboard {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .underline {
+            width: 50px;
+            height: 4px;
+            background: var(--primary-blue);
+            margin-top: 5px;
+            border-radius: 2px;
+        }
+
+        /* Estilo dos cards de cada arquivo */
+        .card-arquivo {
+            background: #202024;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card-arquivo:hover {
+            transform: translateX(3px);
+            border-color: var(--primary-blue);
+        }
+
+        .info-arquivo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 60%;
+        }
+
+        .info-arquivo i {
+            font-size: 1.4rem;
+            color: var(--primary-blue);
+        }
+
+        .nome-arquivo {
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .acoes-arquivo {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Botões */
+        .btn-acao {
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .btn-ver { background: #29292e; color: var(--text-white); }
+        .btn-ver:hover { background: #323238; }
+
+        .btn-baixar { background: #0077b5; color: var(--text-white); }
+        .btn-baixar:hover { background: #00598a; }
+
+        .btn-batch {
+            width: 100%;
+            background: #22c55e;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-batch:hover { background: #16a34a; }
+
+        /* Loader */
+        .loader-inline {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.2);
+            border-top: 3px solid var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        #visualizador-vazio {
+            margin: auto;
+            text-align: center;
+            color: var(--text-gray);
+        }
+
+        #iframe-seguro {
+            width: 100%;
+            height: 700px;
+            border-radius: 4px;
+            background: #121214;
+            border: none;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-container { flex-direction: column; }
+            .sidebar-arquivos, .area-visualizador { width: 100%; }
+        }
+
+
+/* ==========================================================================
+   NOVO HEADER E NAVEGAÇÃO CONSOLIDADO
+   ========================================================================== */
+.main-header {
+    position: fixed; /* Mantém o cabeçalho grudado no topo e tela cheia */
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100% !important;
+    height: var(--nav-height);
+    background-color: #ffffff;
+    color: #333333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px; /* Espaçamento interno lateral */
+    margin: 0 !important;
+    box-sizing: border-box;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo { display: flex; align-items: center; font-weight: 700; font-size: 1.2rem; gap: 10px; }
+.nav-links a { font-weight: 500; font-size: 1.0rem; transition: color 0.3s; }
+.nav-links a:hover { color: var(--accent-blue); }
+.hamburger { display: none; font-size: 1.4rem; cursor: pointer; }
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 15px;
+}
+
+/* Novo padrão visual para os botões do menu com transição suave */
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease !important;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+/* Botões padrões de ação (Busca e Login) */
+.nav-btn.btn-action {
+    color: var(--bg-dark);
+}
+
+/* Botão específico do WhatsApp */
+.nav-btn.btn-whatsapp {
+    color: #25D366;
+    font-size: 20px;
+}
+
+/* ==========================================================================
+   IMPLEMENTAÇÃO DOS NOVOS COMPORTAMENTOS DE HOVER (SOLICITADOS)
+   ========================================================================== */
+
+/* 1. WHATSAPP: Fundo verde e logo branca */
+.nav-btn.btn-whatsapp:hover {
+    background-color: #25D366 !important;
+    color: #ffffff !important;
+}
+
+/* 2. BUSCA: Fundo azul e logo branca */
+#openSearch.nav-btn:hover {
+    background-color: var(--color-primary) !important;
+    color: #ffffff !important;
+}
+
+/* 3. ÁREA RESTRITA: Fundo azul e logo branca (Desktop e Mobile) */
+.nav-login-desktop .nav-btn:hover,
+.nav-login-mobile:hover {
+    background-color: var(--color-primary) !important;
+    color: #ffffff !important;
+}
+
+/* --- Caixa do WhatsApp Estilo Popover --- */
+.nav-whatsapp-wrapper {
+    position: relative;
+}
+
+.whatsapp-tooltip-box {
+    position: absolute;
+    top: 50px;
+    right: -10px;
+    width: 280px;
+    background-color: #ffffff;
+    color: var(--bg-dark);
+    padding: 14px 16px;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 1000;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Pequena seta indicadora apontando para o ícone */
+.whatsapp-tooltip-box::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: 22px;
+    width: 12px;
+    height: 12px;
+    background-color: #ffffff;
+    transform: rotate(45deg);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-left: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.whatsapp-tooltip-box strong {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.whatsapp-tooltip-box span {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* Gatilho para abrir a caixa do WhatsApp */
+.nav-whatsapp-wrapper:hover .whatsapp-tooltip-box {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Tooltips Gerais Nativos via CSS (Busca e Login) --- */
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-5px);
+    background-color: var(--bg-darker);
+    color: var(--text-white);
+    padding: 6px 12px;
+    font-size: 11px;
+    border-radius: 5px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.tooltip-left[data-tooltip]::after {
+    left: auto;
+    right: 0;
+    transform: translateY(-5px);
+}
+
+[data-tooltip]:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.tooltip-left[data-tooltip]:hover::after {
+    transform: translateY(0);
+}
+
+/* --- Regras de Responsividade (Mobile) --- */
+.mobile-actions {
+    display: none;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-login-mobile {
+    display: none;
+    border-radius: 50%; /* Garante formato circular no mobile */
+}
+
+@media (max-width: 768px) {
+/* --- Regras de Responsividade (Mobile Ajustado) --- */
+.nav-search-mobile {
+    display: none; /* Escondido por padrão no desktop */
+}
+
+.mobile-login-text {
+    display: none; /* Esconde o texto descritivo no desktop, deixando apenas o ícone */
+}
+
+@media (max-width: 768px) {
+    /* Oculta os fluxos indesejados de dentro do menu hambúrguer */
+    #navLinks .nav-whatsapp-wrapper,
+    #navLinks .nav-search-desktop {
+        display: none !important;
+    }
+
+    /* Exibe a Área Restrita dentro do menu hambúrguer como link de texto */
+    #navLinks .nav-login-item {
+        display: block !important;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    #navLinks .btn-login-nav {
+        display: flex !important;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        background: transparent !important;
+        color: var(--bg-dark) !important; /* Cor igual aos outros links do menu */
+        border-radius: 0;
+        justify-content: flex-start;
+        font-size: 1.0rem; /* Igual ao tamanho dos links do menu */
+        font-weight: 500;
+    }
+
+    #navLinks .btn-login-nav i {
+        font-size: 16px;
+    }
+
+	#navLinks .nav-whatsapp-wrapper,
+    #navLinks [data-tooltip="Clique para pesquisar artigos e conteúdos no site"] {
+        display: none !important;
+    }
+
+	.hero-content {
+        padding-top: 15px !important;
+    }
+
+    .mobile-login-text {
+        display: inline !important; /* Mostra o texto "Área Restrita" ao lado do cadeado no menu */
+    }
+
+    /* Ativa o container de ações rápidas no topo (Busca + Hambúrguer) */
+    .mobile-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* Garante a busca móvel visível na barra do topo */
+    .nav-search-mobile {
+        display: inline-flex !important;
+        color: var(--bg-dark);
+    }
+    
+    .nav-search-mobile:hover {
+        background-color: var(--color-primary) !important;
+        color: #ffffff !important;
+    }
+
+    .hamburger {
+        display: inline-flex !important;
+        color: var(--bg-dark) !important;
+    }
+
+    /* Desativa os tooltips flutuantes em telas de toque */
+    [data-tooltip]::after, .whatsapp-tooltip-box {
+        display: none !important;
+    }
+
+/* FORÇAR A EXIBIÇÃO DO MENU HAMBÚRGUER NO MOBILE */
+    .hamburger {
+        display: inline-flex !important; /* Anula o 'display: none' do desktop */
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        color: var(--bg-dark) !important; /* Garante que o ícone fique visível (escuro) sobre o header branco */
+        cursor: pointer;
+        font-size: 1.4rem;
+        padding: 8px;
+        transition: color 0.25s ease;
+    }
+
+    /* Efeito hover opcional para o hambúrguer no mobile */
+    .hamburger:hover {
+        color: var(--color-primary) !important;
+    }
+}
+/* ==========================================================================
+   MOBILE — Cards de arquivo: botões só com ícone centralizado
+   ========================================================================== */
+@media (max-width: 600px) {
+
+    /* Card: linha única, sem quebra */
+    .card-arquivo {
+        flex-wrap: nowrap;
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    /* Nome: cresce mas corta com reticências */
+    .info-arquivo {
+        flex: 1;
+        min-width: 0;
+        max-width: none;
+        gap: 8px;
+    }
+
+    .nome-arquivo {
+        font-size: 0.82rem;
+    }
+
+    /* Grupo de botões fixo à direita */
+    .acoes-arquivo {
+        flex-shrink: 0;
+        gap: 8px;
+    }
+
+    /*
+     * Botão: quadrado 44×44 px
+     * padding e gap zerados com !important para sobrescrever
+     * as regras do bloco aninhado no style.css (que usa o mesmo seletor)
+     */
+    .btn-acao {
+        width: 44px !important;
+        height: 44px !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        border-radius: 10px !important;
+        font-size: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0;
+    }
+
+    /* Restaura apenas o ícone FontAwesome */
+    .btn-acao i {
+        font-size: 1.1rem !important;
+        line-height: 1 !important;
+        display: block !important;
+        margin: 0 !important;
+    }
+
+    /* Cores de destaque */
+    .btn-ver {
+        background: #1a73e8 !important;
+        color: #fff !important;
+    }
+
+    .btn-baixar {
+        background: #0f9d58 !important;
+        color: #fff !important;
+    }
 }

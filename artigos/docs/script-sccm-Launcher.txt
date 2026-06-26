@@ -1,0 +1,33 @@
+@echo off
+:: Define UTF-8 para evitar problemas com acentos
+chcp 65001 >nul
+SETLOCAL EnableExtensions
+
+:: Garante que o diretório de trabalho é o mesmo do script
+pushd "%~dp0"
+SET "PS_FILE=SCCM_REMOTO.ps1"
+
+title Lançador SCCM - %COMPUTERNAME%
+
+:: 1. Verifica se o arquivo PowerShell existe antes de tentar abrir
+if not exist "%PS_FILE%" (
+    echo.
+    echo [ERRO] Arquivo %PS_FILE% nao encontrado na pasta:
+    echo %cd%
+    echo.
+    pause
+    exit /b
+)
+
+echo [INFO] Solicitando privilegios de administrador para rodar o %PS_FILE%...
+
+:: 2. Executa o PowerShell com melhor tratamento de caminho e erro
+:: -WindowStyle Maximized mantém sua preferência visual
+:: -NoExit (opcional) poderia ser usado para debugar se o PS fechar sozinho
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command ^
+    "& { $proc = Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0%PS_FILE%""' ^
+    -WindowStyle Maximized -Verb RunAs -PassThru; ^
+    if ($proc -eq $null) { Write-Host 'Erro: O usuario negou a elevacao de privilegio (UAC).' -ForegroundColor Red; pause } }"
+
+popd
+exit

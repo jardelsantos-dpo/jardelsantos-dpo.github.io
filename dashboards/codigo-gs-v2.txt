@@ -1,0 +1,219 @@
+const MAX_TENTATIVAS = 5;
+const TEMPO_BLOQUEIO_MS = 15 * 60 * 1000; // 15 minutos
+
+/**
+ * Função obrigatória para servir a interface web (App Web)
+ */
+function doGet() {
+  return HtmlService.createTemplateFromFile('Index')
+    .evaluate()
+    .setTitle('Portal de Acesso Processual')
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+function registrarTentativa(email) {
+  const cache = CacheService.getScriptCache();
+  let tentativas = parseInt(cache.get(email) || 0) + 1;
+  cache.put(email, tentativas, 15 * 60); // Expira em 15min
+  return tentativas;
+}
+
+function resetarTentativas(email) {
+  CacheService.getScriptCache().remove(email);
+}
+
+function estaBloqueado(email) {
+  const cache = CacheService.getScriptCache();
+  return parseInt(cache.get(email) || 0) >= MAX_TENTATIVAS;
+}
+
+function registrarLog(email, status, motivo) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Logs_Acesso");
+  // Captura o IP do cliente através do contexto do servidor
+  const ip = "IP_Indisponivel_Via_GAS"; // Nota: O GAS não expõe o IP real do cliente por questões de segurança
+  sheet.appendRow([new Date(), email, ip, status, motivo]);
+}
+
+function executarLogin(email, senha) {
+  try {
+    const emailNormalizado = email.toLowerCase().trim();
+
+    // 1. Verificação de Segurança (Bloqueio)
+    if (estaBloqueado(emailNormalizado)) {
+      registrarLog(emailNormalizado, "BLOQUEADO", "Excesso de tentativas");
+
+      // Chama a função de notificação criada acima
+      notificarBloqueio(emailNormalizado);
+
+      return { sucesso: false, msg: "Conta bloqueada por segurança. Tente em 15 minutos." };
+    }
+
+    const planilha = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Usuários");
+    const dados = planilha.getDataRange().getValues();
+    let usuario = null;
+    let linha = -1;
+
+    for (let i = 1; i < dados.length; i++) {
+      if (dados[i][0].toLowerCase().trim() === emailNormalizado) {
+        usuario = dados[i];
+        linha = i + 1;
+        break;
+      }
+    }
+
+    // 2. Validação de Usuário e Senha
+    if (!usuario) {
+      registrarLog(emailNormalizado, "FALHA", "Email inexistente");
+      return { sucesso: false, msg: "Credenciais inválidas." };
+    }
+
+    const senhaArmazenada = usuario[1].toString();
+    const status = usuario[2].toString().toUpperCase();
+
+    // Lógica de senha provisória vs definitiva
+    let autenticado = false;
+    if (status === "PROVISORIA") {
+      autenticado = (senha === senhaArmazenada);
+    } else {
+      autenticado = (gerarHashSHA256(senha) === senhaArmazenada);
+    }
+
+    if (!autenticado) {
+      let t = registrarTentativa(emailNormalizado);
+      registrarLog(emailNormalizado, "FALHA", "Senha incorreta");
+      return { sucesso: false, msg: `Senha incorreta. Restam ${MAX_TENTATIVAS - t} tentativas.` };
+    }
+
+    // 3. Sucesso
+    resetarTentativas(emailNormalizado);
+    registrarLog(emailNormalizado, "SUCESSO", "Login efetuado");
+
+    // --- CORREÇÃO AQUI ---
+    var template = HtmlService.createTemplateFromFile("Painel");
+    
+    // Você precisa definir a propriedade 'email' no objeto template,
+    // usando a variável que você já tem no escopo (emailNormalizado)
+    template.email = emailNormalizado; 
+    
+    var htmlConteudo = template.evaluate().getContent();
+    // ---------------------
+   
+    return { 
+      sucesso: true,
+      html: htmlConteudo,
+      forcarTroca: (status === "PROVISORIA") 
+    };
+
+  } catch (e) {
+    return { sucesso: false, msg: "Erro no servidor: " + e.message };
+  }
+}
+
+function atualizarSenhaDefinitiva(email, novaSenha) {
+  try {
+    var planilha = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Usuários");
+    var dados = planilha.getDataRange().getValues();
+    
+    for (var i = 1; i < dados.length; i++) {
+      if (dados[i][0].toString().toLowerCase().trim() === email.toLowerCase().trim()) {
+        var linha = i + 1;
+        
+        // Criptografa a nova senha
+        var hashNovaSenha = gerarHashSHA256(novaSenha);
+        
+        // Atualiza a Planilha
+        planilha.getRange(linha, 2).setValue(hashNovaSenha); // Coluna B: Senha
+        planilha.getRange(linha, 3).setValue("DEFINITIVA");   // Coluna C: Status
+        
+        registrarLog(email, "SUCESSO", "Senha alterada com sucesso");
+        
+        return { sucesso: true, msg: "Senha atualizada!" };
+      }
+    }
+    return { sucesso: false, msg: "Usuário não encontrado." };
+  } catch (e) {
+    return { sucesso: false, msg: "Erro: " + e.message };
+  }
+}
+
+/**
+ * Função para gerar Hash SHA-256 (Criptografia)
+ */
+function gerarHashSHA256(input) {
+  var rawHash = Utilities.computeDigest(
+    Utilities.DigestAlgorithm.SHA_256, 
+    input, 
+    Utilities.Charset.UTF_8
+  );
+  
+  var output = "";
+  for (var i = 0; i < rawHash.length; i++) {
+    var v = rawHash[i];
+    if (v < 0) v += 256;
+    if (v < 16) output += "0";
+    output += v.toString(16);
+  }
+  return output;
+}
+
+function carregarPainel(emailUsuario) {
+  var template = HtmlService.createTemplateFromFile("Painel");
+  
+  // A variável 'email' aqui deve corresponder ao que você usou no Painel.html
+  template.email = emailUsuario; 
+  
+  return template.evaluate().getContent();
+}
+
+function notificarBloqueio(email) {
+  var destinatario = "jardelsantos-dpo@outlook.com.br";
+  var assunto = "⚠️ Alerta de Segurança: Bloqueio de Acesso";
+  var mensagem = "O sistema detectou um bloqueio de acesso por excesso de tentativas.\n\n" +
+                 "Usuário: " + email + "\n" +
+                 "Data/Hora: " + new Date().toLocaleString() + "\n\n" +
+                 "A conta ficará bloqueada por 15 minutos para novas tentativas.";
+  
+  MailApp.sendEmail(destinatario, assunto, mensagem);
+}
+
+/**
+ * Retorna o conteúdo HTML da Calculadora de Meação
+ */
+function getCalculadoraMeacaoHTML() {
+  // Você pode retornar o HTML fixo ou processar via template para injetar dados seguros
+  return HtmlService.createHtmlOutputFromFile('conta-bancaria-meacao').getContent();
+}
+
+
+
+  function carregarCalculos() {
+    const mes = document.getElementById('mesSelect').value;
+    const ano = document.getElementById('anoSelect').value;
+
+    // Chama a função do servidor com segurança
+    google.script.run
+      .withSuccessHandler(function(dados) {
+        // Recebe o JSON pronto e apenas preenche os elementos HTML
+        atualizarInterface(dados);
+        atualizarGrafico(dados.grafico);
+      })
+      .obterDadosDashboard(mes, ano);
+  }
+
+  function atualizarInterface(dados) {
+    // Exemplo: document.getElementById('valor-meacao').innerText = dados.resultados.INDICE_X.meacao;
+  }
+
+
+// Exemplo simplificado no seu codigo.gs
+function obterDadosDashboard(mesParam, anoParam) {
+  // ... sua lógica de cálculo com as constantes ORIGINAL, CC_ORIG, APLIC_ORIG, etc.
+  // ... certifique-se de que esses valores estejam definidos no servidor
+  
+  return {
+    resultados: resultadosIndices,
+    grafico: { labels: labelsAnos, datasets: datasetsGrafico },
+    valoresOriginais: { original: ORIGINAL, cc: CC_ORIG, aplic: APLIC_ORIG }
+  };
+}

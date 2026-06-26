@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  /* Estrutura do Header */
+  .painel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: var(--header-bg);
+    color: var(--header-texto);
+    border-radius: 0 0 12px 12px;
+    margin-bottom: 2rem;
+  }
+  
+  .user-info { font-size: 0.95rem; font-weight: 600; }
+  
+  .actions-nav { display: flex; gap: 10px; }
+  
+  .btn-nav {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+  }
+
+  /* Grid de Cards */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 0 2rem 2rem;
+  }
+
+  .card-recurso {
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+    border: 1px solid var(--borda);
+  }
+
+  .btn-recurso {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background: var(--btn-bg);
+    color: var(--btn-texto);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  /* Isso garante que o mouse sempre vire o ponteiro sobre qualquer botão */
+  button, .btn-recurso, .btn-nav {
+    cursor: pointer !important;
+  }
+</style>
+</head>
+<body>
+<header class="painel-header">
+  <div class="user-info">👤 <?= email ?></div>
+  <div class="actions-nav">
+    <button class="btn-nav" id="btn-tema-painel" onclick="toggleTemaPainel()">🌙 Tema</button>
+    <button class="btn-nav" style="background:#dc2626; color:white;" onclick="efetuarLogout()">Sair</button>
+  </div>
+</header>
+
+<div class="dashboard-grid">
+  <div class="card-recurso">
+    <h3>Calculadora Meação</h3>
+    <p>Cálculo de direito da ex-esposa.</p>
+    <button class="btn-recurso" onclick="abrirModulo('meacao')">Acessar</button>
+  </div>
+  <div class="card-recurso">
+    <h3>Multas Veículo</h3>
+    <p>Dashboard de infrações acumuladas.</p>
+    <button class="btn-recurso" onclick="abrirModulo('multas')">Ver Dashboard</button>
+  </div>
+  <div class="card-recurso">
+    <h3>Fiador</h3>
+    <p>Cálculo de débitos em processos.</p>
+    <button class="btn-recurso" onclick="abrirModulo('fiador')">Calcular</button>
+  </div>
+  <div class="card-recurso">
+    <h3>Danos Morais/Materiais</h3>
+    <p>Avaliação de riscos processuais.</p>
+    <button class="btn-recurso" onclick="abrirModulo('danos')">Avaliar</button>
+  </div>
+  <div class="card-recurso">
+    <h3>Medidas de Urgência</h3>
+    <p>Defesa do espólio (Tutela).</p>
+    <button class="btn-recurso" onclick="abrirModulo('urgencia')">Análise Técnica</button>
+  </div>
+</div>
+
+<div id="container-modulo" style="margin-top: 20px; padding: 20px; border-top: 2px solid var(--borda);">
+  </div>
+
+<script>
+  function abrirModulo(modulo) {
+      const container = document.getElementById('container-modulo');
+      
+      if (modulo === 'meacao') {
+        google.script.run
+          .withSuccessHandler(function(html) {
+            container.innerHTML = html;
+            
+            // --- ADICIONE ESTA PARTE ---
+            // Busca todos os scripts dentro do conteúdo injetado e os recria
+            const scripts = container.getElementsByTagName('script');
+            for (let i = 0; i < scripts.length; i++) {
+              const novoScript = document.createElement('script');
+              novoScript.textContent = scripts[i].textContent;
+              // Se o script tiver 'src', você precisaria copiar o atributo src também
+              document.body.appendChild(novoScript);
+            }
+            // ---------------------------
+          })
+          .getCalculadoraMeacaoHTML();
+      } else {
+      container.innerHTML = "<h3>Módulo " + modulo + " em desenvolvimento.</h3>";
+    }
+    
+  }
+</script>
+
+
+<script>
+  // Ao carregar, sincroniza o botão com o tema salvo no localStorage
+  window.onload = function() {
+    const temaAtual = localStorage.getItem('portal-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', temaAtual);
+    atualizarTextoBotaoTema(temaAtual);
+  };
+
+  function toggleTemaPainel() {
+    const atual = document.documentElement.getAttribute('data-theme');
+    const novo = atual === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', novo);
+    localStorage.setItem('portal-theme', novo);
+    atualizarTextoBotaoTema(novo);
+  }
+
+  function atualizarTextoBotaoTema(tema) {
+    const btn = document.getElementById('btn-tema-painel');
+    btn.textContent = tema === 'dark' ? '☀️ Modo Claro' : '🌙 Modo Escuro';
+  }
+
+  function abrirModulo(modulo) {
+    alert("Módulo " + modulo + " em construção.");
+  }
+</script>
+</body>
+</html>

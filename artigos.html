@@ -21,8 +21,9 @@
 	<meta name="twitter:description" content="Proteção de dados, LGPD e segurança da informação">
 	<meta name="twitter:image" content="https://jardelsantos-dpo.github.io/img/og-image.png">
     
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">    
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <link rel="stylesheet" href="assets/css/style.css">
@@ -50,11 +51,13 @@
 		
         <!-- AJUSTADO: Adicionada uma margem superior para evitar que os artigos dinâmicos fiquem prensados ou sobrepostos devido ao comportamento do CSS do hero -->
 		<section style="padding: 0 5% 40px 5%; position: relative; z-index: 10;">
-			<div class="footer-container">
+			<div style="max-width: 1200px; margin: 0 auto;">
+			
 				<div class="articles-grid" id="container-artigos-dinamico"></div>
 				
 				<div id="paginacao-controles" class="pagination-wrapper"></div>
 			</div>
+
 		</section>
 		
     </main>

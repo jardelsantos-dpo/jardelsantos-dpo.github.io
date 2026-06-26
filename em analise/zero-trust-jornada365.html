@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Zero Trust na prática: o caminho mais seguro para proteger sua organização</title>
+  <meta name="description" content="Artigo prático e atualizado sobre Zero Trust: princípios, motivos para adoção, roteiro de implementação e como medir a maturidade, com referências do NIST, CISA e Microsoft.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <script id="article-data" type="application/json">
+  {
+    "headline": "Zero Trust na prática: o caminho mais seguro para proteger sua organização",
+    "description": "Princípios, roteiro e maturidade de Zero Trust, baseados em boas práticas e referências oficiais (NIST, CISA, Microsoft).",
+    "image": "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&q=80&w=1200",
+    "datePublished": "2026-02-11",
+    "dateModified": "2026-02-11",
+    "url": "https://jardelsantos.com.br/artigos/zero-trust-jornada365.html"
+  }
+  </script>
+</head>
+<body>
+<header></header>
+
+<main class="about-container" id="artigo">
+  <div class="about-header" style="text-align: left;">
+    <a href="../artigos.html" style="color: var(--accent-blue); font-size: 0.9rem;"><i class="fas fa-arrow-left"></i> Voltar para Artigos</a>
+    <h1 style="margin-top: 20px;">Zero Trust na prática: o caminho mais seguro para proteger sua organização</h1>
+    <div class="underline" style="margin: 20px 0;"></div>
+    <p style="color: var(--text-gray); font-size: 0.9rem;">
+      <i class="far fa-calendar-alt"></i> Publicado em: 11/02/2026
+      <i class="far fa-clock" style="margin-left: 12px;"></i> 9 min de leitura
+    </p>
+  </div>
+
+  <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&q=80&w=1200" 
+       alt="Cadeado digital e circuito representando segurança cibernética e Zero Trust" class="article-banner">
+
+  <article class="article-body">
+
+    <!-- Introdução -->
+    <section class="article-section">
+      <p>Em um cenário em que trabalho remoto, SaaS e dispositivos heterogêneos já são a regra, o modelo clássico de “muro e fosso” não dá mais conta. <strong>Zero Trust</strong> surge como a abordagem que assume que a rede pode estar comprometida e, por isso, <strong>nunca confia por padrão e sempre verifica</strong> cada solicitação com base em identidade, contexto e risco.</p>
+    </section>
+
+    <!-- Conceito -->
+    <section class="article-section">
+      <h2>O que é Zero Trust (e o que não é)</h2>
+      <p><strong>Zero Trust não é um produto</strong>; é uma <strong>filosofia de segurança</strong> que orienta arquitetura, processos e controles técnicos. Seu princípio é simples: <strong>verificar explicitamente</strong>, <strong>usar acesso de menor privilégio</strong> e <strong>assumir violação</strong> — pilares que guiam decisões de acesso em tempo real, com monitoramento contínuo e políticas dinâmicas.</p>
+      <p>Na prática, isso significa abandonar a ideia de “rede confiável” e focar em <strong>proteger recursos</strong> (dados, apps, serviços) independentemente da localização (on‑premises, nuvem, múltiplas nuvens). Autenticação e autorização de usuários <em>e</em> dispositivos são requisitos por sessão, antes de qualquer acesso.</p>
+
+      <h3>Três princípios fundamentais</h3>
+      <ul class="styled-list">
+        <li><strong>Verifique explicitamente:</strong> autentique e autorize usando múltiplos sinais (identidade, integridade do dispositivo, localização, risco, contexto do app e sensibilidade dos dados).</li>
+        <li><strong>Menor privilégio:</strong> conceda apenas o necessário, no tempo necessário (JIT/JEA, RBAC), com revisão contínua.</li>
+        <li><strong>Assuma violação:</strong> monitore, registre e responda com base em risco; segmente dados e serviços para reduzir o raio de explosão.</li>
+      </ul>
+    </section>
+
+    <!-- Por que agora -->
+    <div class="content-box content-box--info">
+      <h4>Por que adotar Zero Trust agora</h4>
+      <p><strong>Perímetro dissolvido:</strong> trabalho híbrido e uso de SaaS tornam a localização um sinal fraco; a verificação precisa considerar identidade, postura do dispositivo, horário, local e anomalias.</p>
+      <p><strong>Ameaças modernas:</strong> ataques que exploram identidades e privilégios excessivos exigem contenção de movimento lateral e redução do tempo de detecção.</p>
+      <p><strong>Governança e conformidade:</strong> modelos de maturidade ajudam a diagnosticar lacunas e priorizar investimentos por pilar (Identidade, Dispositivos, Redes, Aplicações &amp; Workloads, Dados).</p>
+    </div>
+
+    <!-- Roteiro -->
+    <section class="article-section">
+      <h2>Como começar: um roteiro prático e incremental</h2>
+      <p>Use um plano em <strong>ondas</strong> para reduzir risco de interrupções e acelerar ganhos de segurança.</p>
+
+      <div class="checklist-box">
+        <h4><i class="fas fa-shield-alt"></i> Onda 1 — Fundamentos de identidade e acesso</h4>
+        <ul class="checklist">
+          <li><strong>MFA para todos</strong> e <strong>acesso condicional</strong> (bloquear logins de dispositivos não conformes/locais de alto risco).</li>
+          <li><strong>Proteção de identidade</strong> para detectar e remediar risco de usuários e sessões (exigir MFA quando risco for alto).</li>
+          <li><strong>Privilégios JIT</strong> com <em>Privileged Identity Management</em> e auditoria — acesso administrativo não é permanente.</li>
+        </ul>
+      </div>
+
+      <div class="checklist-box">
+        <h4><i class="fas fa-laptop"></i> Onda 2 — Dispositivos e postura</h4>
+        <ul class="checklist">
+          <li><strong>Registro e gerenciamento de endpoints</strong> (MDM/MAM) para impor criptografia, atualização e integridade antes do acesso.</li>
+          <li><strong>Bloquear BYOD fora de compliance</strong> via acesso condicional — priorize apps críticos e dados sensíveis.</li>
+        </ul>
+      </div>
+
+      <div class="checklist-box">
+        <h4><i class="fas fa-database"></i> Onda 3 — Dados, aplicações e governança</h4>
+        <ul class="checklist">
+          <li><strong>Gerenciamento de direitos</strong> com <em>pacotes de acesso</em> para padronizar concessões (quem, o quê, por quanto tempo) com autoatendimento controlado.</li>
+          <li><strong>Revisões de acesso periódicas</strong> para grupos, apps e funções; desprovisionamento automático quando não há justificativa.</li>
+          <li><strong>Classificação e DLP</strong> para aplicar controles proporcionais à sensibilidade dos dados.</li>
+        </ul>
+      </div>
+
+      <div class="checklist-box">
+        <h4><i class="fas fa-wave-square"></i> Onda 4 — Detecção e resposta contínuas</h4>
+        <ul class="checklist">
+          <li><strong>XDR/SIEM</strong> para correlacionar sinais (identidade, endpoint, e‑mail e nuvem) e automatizar contenções.</li>
+          <li><strong>Telemetria e automação</strong>: visibilidade, orquestração e governança como capacidades transversais.</li>
+        </ul>
+      </div>
+
+      <p><em>Dica:</em> implante políticas de acesso condicional em <strong>grupos piloto</strong> antes de expandir para toda a organização.</p>
+    </section>
+
+    <!-- Maturidade -->
+    <section class="article-section">
+      <h2>Como medir maturidade (Modelo CISA)</h2>
+      <p>O <strong>Zero Trust Maturity Model</strong> divide a jornada em estágios <em>Tradicional → Inicial → Avançado → Ótimo</em> por pilar. Exemplo:</p>
+      <ul class="styled-list">
+        <li><strong>Identidade:</strong> de MFA apenas para admin (Inicial) → MFA para todos, risco adaptativo e PIM JIT (Avançado/Ótimo).</li>
+        <li><strong>Dispositivos:</strong> de inventário parcial (Tradicional) → conformidade obrigatória antes do acesso, quarentena automática (Avançado).</li>
+      </ul>
+      <p>Mapeie controles e defina metas trimestrais por pilar para evoluir de forma consistente.</p>
+    </section>
+
+    <!-- Tendências -->
+    <section class="article-section">
+      <h2>Tendências: ZTNA, SSE e apps próprias</h2>
+      <p>A evolução integra <strong>identidade e rede</strong> em soluções SSE/ZTNA com políticas unificadas, e leva os princípios de Zero Trust para <strong>aplicações próprias</strong>, adotando protocolos modernos, <em>Continuous Access Evaluation</em> e contextos de autenticação.</p>
+    </section>
+
+    <!-- Checklist 90 dias -->
+    <section class="article-section">
+      <h2>Checklist rápido (90 dias)</h2>
+      <ul class="checklist">
+        <li><strong>0–30 dias:</strong> MFA universal; políticas básicas de acesso condicional; inventário de dispositivos; PIM para administradores.</li>
+        <li><strong>31–60 dias:</strong> CA baseado em risco e conformidade; revisões de acesso; pacotes de acesso; DLP prioritária.</li>
+        <li><strong>61–90 dias:</strong> integração XDR/SIEM; automações de resposta; metas de maturidade por pilar e expansão de escopo.</li>
+      </ul>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-box">
+      <h3>Pronto para dar o próximo passo?</h3>
+      <p>Precisa de apoio para mapear riscos, desenhar políticas e acelerar a adoção de Zero Trust? Fale com um especialista.</p>
+      <a href="https://wa.me/5521995498872" class="btn" style="background: var(--accent-blue);">Fale com um Especialista em Segurança</a>
+    </div>
+
+    <!-- Fontes -->
+    <div class="source-list">
+      <strong>📚 Fontes e Leituras Recomendadas:</strong>
+      <ul style="list-style:none; padding-left:0; margin-top:10px;">
+        <li>• <a href="https://jornada365.cloud/zero-trust-na-pratica-aumentando-a-seguranca-da-sua-organizacao/" target="_blank" rel="noopener">Jornada 365 — Zero Trust na Prática: Aumentando a Segurança da sua Organização</a></li>
+        <li>• <a href="https://csrc.nist.gov/pubs/sp/800/207/final" target="_blank" rel="noopener">NIST SP 800‑207 — Zero Trust Architecture</a></li>
+        <li>• <a href="https://www.cisa.gov/sites/default/files/2023-04/zero_trust_maturity_model_v2_508.pdf" target="_blank" rel="noopener">CISA — Zero Trust Maturity Model v2.0 (PDF)</a></li>
+        <li>• <a href="https://learn.microsoft.com/en-us/entra/identity-platform/zero-trust-for-developers" target="_blank" rel="noopener">Microsoft Learn — Zero Trust para desenvolvedores</a></li>
+        <li>• <a href="https://www.microsoft.com/en-us/security/blog/2024/12/19/new-microsoft-guidance-for-the-cisa-zero-trust-maturity-model/" target="_blank" rel="noopener">Microsoft Security Blog — Guia para o CISA ZTMM</a></li>
+        <li>• <a href="https://jornada365.cloud/zero-trust-bloqueie-o-acesso-corporativo-em-dispositivos-pessoais-com-conditional-access/" target="_blank" rel="noopener">Jornada 365 — Bloquear BYOD com Acesso Condicional</a></li>
+        <li>• <a href="https://jornada365.cloud/entra-id-criando-uma-conexao-ztna-zero-trust-network-access-usando-o-microsoft-traffic-profile-e-o-global-secure-access/" target="_blank" rel="noopener">Jornada 365 — ZTNA com Global Secure Access</a></li>
+      </ul>
+    </div>
+
+  </article>
+</main>
+
+<footer class="site-footer"></footer>
+<script src="../assets/js/busca.js"></script>
+<script src="../assets/js/components.js"></script>
+<script src="../assets/js/script.js"></script>
+<script src="../assets/js/sharing.js"></script>
+<script src="../assets/js/schema-article.js"></script>
+<script src="../assets/js/image-lightbox.js"></script>
+</body>
+</html>

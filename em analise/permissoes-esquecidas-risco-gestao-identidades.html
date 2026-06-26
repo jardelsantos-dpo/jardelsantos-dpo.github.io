@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>O dia em que percebemos que o maior risco de segurança não era um hacker, mas as permissões esquecidas | Jardel Santos</title>
+  <meta name="description" content="Como uma falha silenciosa na gestão de identidades — contas inativas, permissões acumuladas e ausência de offboarding — pode se tornar um incidente grave de segurança e violar a LGPD.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" type="image/png" href="../img/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="../img/favicon.svg" />
+  <link rel="shortcut icon" href="../img/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png" />
+  <link rel="manifest" href="../img/site.webmanifest" />
+
+  <!-- Schema Article será injetado via JS -->
+  <script id="article-data" type="application/json">
+  {
+    "headline": "O dia em que percebemos que o maior risco de segurança não era um hacker, mas as permissões esquecidas",
+    "description": "Como uma falha silenciosa na gestão de identidades pode se tornar um incidente grave de segurança e violar a LGPD.",
+    "image": "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&q=80&w=1200",
+    "datePublished": "2026-06-11",
+    "dateModified": "2026-06-11",
+    "url": "artigos/permissoes-esquecidas-risco-gestao-identidades.html"
+  }
+  </script>
+
+</head>
+
+<body>
+
+<header></header>
+
+<main class="about-container" id="artigo">
+
+  <!-- Cabeçalho do artigo -->
+  <div class="about-header" style="text-align: left;">
+    <a href="../artigos.html" style="color: var(--accent-blue); font-size: 0.9rem;"><i class="fas fa-arrow-left"></i> Voltar para Artigos</a>
+    <h1 style="margin-top: 20px;">O dia em que percebemos que o maior risco de segurança não era um hacker, mas as permissões esquecidas</h1>
+    <div class="underline" style="margin: 20px 0;"></div>
+    <p style="color: var(--text-gray); font-size: 0.9rem;"><i class="far fa-calendar-alt"></i> Publicado em: 11 de junho de 2026 | <i class="far fa-clock"></i> Leitura de 12 minutos</p>
+  </div>
+
+  <!-- Imagem principal -->
+  <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&q=80&w=1200" alt="Tela de computador exibindo painel de gerenciamento de identidades e acessos com múltiplos usuários e permissões listados" class="article-banner">
+
+  <!-- Corpo do artigo -->
+  <article class="article-body">
+
+    <!-- Introdução -->
+    <section class="article-section">
+      <h2>Introdução</h2>
+      <p>Durante anos trabalhando com ambientes corporativos, gerenciando Active Directory, Microsoft 365, Azure AD e suporte técnico estratégico, aprendi que as maiores ameaças raramente chegam de fora. Elas já estão dentro de casa, silenciosas, acumuladas ao longo do tempo, escondidas em listas de grupos de segurança que ninguém revisou, em contas de colaboradores que saíram da empresa há meses e ainda têm acesso ativo, em permissões concedidas "só temporariamente" que nunca foram revogadas.</p>
+      <p>Este artigo não é sobre um ataque sofisticado com malware de última geração. É sobre algo muito mais comum e igualmente perigoso: a falha na gestão de identidades. Uma falha silenciosa, invisível no dia a dia, mas que pode se transformar em um incidente de segurança grave com consequências reais para o negócio, para a conformidade com a LGPD e para a reputação da empresa.</p>
+      <p>Se você atua em TI, RH, Jurídico ou ocupa uma posição de gestão, este conteúdo é para você.</p>
+    </section>
+
+    <!-- Cenário inicial -->
+    <section class="article-section">
+      <h2>O cenário que mais se repete nas empresas</h2>
+      <p>Imagine uma empresa em crescimento acelerado. Em dois anos, o quadro de colaboradores triplicou. Novas áreas foram criadas, projetos foram abertos e fechados, colaboradores foram promovidos, transferidos entre departamentos ou simplesmente desligados. Tudo isso acontecendo ao mesmo tempo, em ritmo intenso.</p>
+      <p>Nesse contexto, a equipe de TI era mal dimensionada, pequena e sobrecarregada. Cada nova contratação gerava uma solicitação de acesso urgente: e-mail, VPN, sistemas internos, pastas compartilhadas, licenças do Microsoft 365. Tudo configurado às pressas para que o colaborador pudesse começar a trabalhar no primeiro dia.</p>
+      <p><strong>O problema? Ninguém tinha um processo formal (documentado, testado, validado) para o sentido inverso.</p></strong>
+      <p>Quando um colaborador era desligado, o RH comunicava o setor responsável, mas nem sempre isso chegava à equipe de TI a tempo. Às vezes chegava no dia do desligamento. Em alguns casos, chegava dias depois. Em outros, simplesmente não chegava.</p>
+      <p>Resultado: contas de ex-funcionários permaneciam ativas no Active Directory. Caixas de e-mail corporativas continuavam abertas. Licenças do Microsoft 365 ainda atribuídas a usuários que não faziam mais parte da organização. Pastas no SharePoint e OneDrive continuavam acessíveis.</p>
+      <p>Mas o problema não parava por aí.</p>
+    </section>
+
+    <!-- Estatísticas do cenário -->
+    <div class="stats-box">
+      <h4>📊 O cenário real da gestão de identidades nas empresas</h4>
+      <ul>
+        <li>• Em 91% dos ambientes corporativos analisados pela Akamai em 2025, havia usuários fora do grupo de administradores com permissões suficientes para comprometer o domínio inteiro sem qualquer alerta automático.</li>
+        <li>• Contas sem revisão periódica acumulando permissões ao longo de anos, criando perfis com acesso equivalente ao de administradores sem que ninguém perceba.</li>
+        <li>• A ANPD aplicou mais de 120 autos de infração entre janeiro e junho de 2025, totalizando R$ 45 milhões em multas, muitos relacionados a falhas em controles de acesso e proteção de dados pessoais.</li>
+      </ul>
+    </div>
+
+    <!-- Permission creep -->
+    <section class="article-section">
+      <h2>O acúmulo silencioso de permissões</h2>
+      <p>Além das contas de ex-funcionários, havia outro problema igualmente grave: o acúmulo de permissões ao longo do tempo.</p>
+      <p>Um colaborador que, em 2022, participou de um projeto específico e precisou de acesso temporário a uma pasta restrita ao ser consultado em 2024 verificou-se que ainda tinha esse acesso. Não porque alguém decidiu mantê-lo. Simplesmente porque ninguém lembrou de removê-lo.</p>
+      <p>Esse fenômeno é conhecido como "permission creep" ou acúmulo progressivo de privilégios. Acontece de forma lenta e quase imperceptível. Cada projeto que começa gera uma nova adição a um grupo de segurança. Cada mudança de função acrescenta novos acessos, mas raramente remove os anteriores. Com o tempo, um colaborador do nível operacional pode acumular permissões que, somadas, equivalem a um perfil administrativo sem que ninguém tenha percebido.</p>
+	  <p>Você pode estar se perguntando: Com tanta forma de gerenciamento de identidade, isso ainda acontece?</p>
+	  <p>A resposta é: SIM. Muitos ambientes possuem a ferramenta, mas o conhecimento é restrito ou a ferramenta está mal configurada.</p> 
+      <p>Em ambientes que trabalham com Active Directory e grupos de segurança aninhados (grupos dentro de grupos), isso se torna ainda mais complexo. É perfeitamente possível que uma conta esteja herdando permissões por pertencer a um grupo, que pertence a outro grupo, que pertence a um terceiro e que nenhum dos três grupos seja revisado há anos.</p>
+    </section>
+
+    <!-- Exemplo real -->
+    <div class="example-card">
+      <h4>🔍 Experiência real: o que encontrei em uma análise interna</h4>
+      <p>Em uma empresa que trabalhei, ao realizar um levantamento completo de grupos de segurança no Active Directory, encontrei: contas de usuários desligados há mais de 12 meses ainda ativas no domínio; grupos de projeto criados para iniciativas encerradas, com membros que não lembravam nem de ter participado; um colaborador transferido para o setor administrativo que ainda possuía as permissões de leitura em pastas do financeiro; e licenças do Microsoft 365 atribuídas a contas "esquecidas" há mais de 180 dias. Nenhum desses problemas foi causado por negligência intencional, mas foram o resultado acumulado de anos sem um processo formal de revisão de acessos.</p>
+    </div>
+
+    <!-- Por que é um risco real -->
+    <section class="article-section">
+      <h2>Por que isso é um risco real?</h2>
+      <p>Pode parecer exagero num primeiro momento, mas <strong>do ponto de vista de segurança:</strong> uma conta com permissões excessivas representa uma superfície de ataque maior. Se essa conta for comprometida por phishing, por vazamento de credenciais ou por qualquer outro vetor, o atacante não terá acesso apenas ao que aquela pessoa deveria ver, mas a tudo que ela pode acessar. Isso inclui dados de clientes, informações financeiras, projetos estratégicos, registros de RH.</p>
+      <p><strong>Do ponto de vista do risco interno:</strong> colaboradores com acesso a sistemas ou dados que não são necessários para sua função atual podem, intencional ou acidentalmente, causar danos. Excluir arquivos, copiar informações confidenciais, visualizar dados de outros departamentos. Nem sempre há má intenção — mas o dano pode ser o mesmo.</p>
+      <p><strong>Do ponto de vista das contas de ex-funcionários:</strong> uma conta ativa de alguém que saiu da empresa é uma porta aberta. Esse ex-colaborador pode ainda ter a senha salva em um dispositivo pessoal. Pode ter compartilhado com alguém. Pode ser vítima de um ataque de credential stuffing. E como a conta ainda está ativa, qualquer tentativa de login bem-sucedida passará pelos sistemas como se fosse legítima porque, para o sistema, é legítima.</p>
+    </section>
+
+    <!-- Alerta de risco -->
+    <div class="content-box content-box--alert">
+      <h4>⚠️ Muita atenção: o risco invisível das contas inativas</h4>
+      <p>Uma conta de ex-funcionário ativa no Active Directory ou no Microsoft Entra ID não é apenas um desperdício de licença. É uma porta de entrada real para o ambiente corporativo. O sistema não distingue um login legítimo de um acesso indevido, ele apenas valida usuário e senha. Se as credenciais existem e a conta está ativa, o acesso é concedido. Ponto.</p>
+    </div>
+
+    <!-- LGPD -->
+    <section class="article-section">
+      <h2>O que a LGPD diz sobre isso</h2>
+      <p>A Lei Geral de Proteção de Dados (LGPD) não trata gestão de identidades como um tema técnico exclusivo de TI. Ela estabelece, de forma clara, que as organizações devem adotar medidas técnicas e administrativas para proteger os dados pessoais que tratam, garantindo segurança, integridade e confidencialidade.</p>
+      <p>Quando uma conta de ex-funcionário permanece ativa com acesso a dados pessoais de clientes ou colaboradores, a empresa está exposta a uma potencial violação da LGPD — mesmo que nenhum dado tenha sido acessado indevidamente. A simples existência da vulnerabilidade já representa uma falha no dever de segurança previsto na lei.</p>
+      <p>O artigo 46 da LGPD é direto: os agentes de tratamento devem adotar medidas de segurança, técnicas e administrativas, aptas a proteger os dados pessoais de acessos não autorizados e de situações acidentais ou ilícitas de destruição, perda, alteração, comunicação ou qualquer forma de tratamento inadequado ou ilícito.</p>
+      <p>Permissões esquecidas e contas inativas são exatamente o tipo de falha administrativa que essa norma busca prevenir. Além disso, a LGPD estabelece obrigação de protocolo específico após o desligamento de um colaborador: o RH deve determinar quais informações devem ser mantidas, excluídas ou arquivadas, garantindo a conformidade durante todo o processo de offboarding.</p>
+    </section>
+
+    <!-- Info LGPD -->
+    <div class="content-box content-box--info">
+      <h4>📋 LGPD e gestão de acessos: o que a lei exige na prática</h4>
+      <p>O artigo 46 da LGPD exige medidas técnicas e administrativas aptas a proteger dados pessoais de acessos não autorizados. Isso inclui, diretamente, a desativação imediata de contas de ex-colaboradores, a revisão periódica de permissões e a documentação de quem acessa quais dados — com registro auditável. Não é uma recomendação de boas práticas: é uma obrigação legal com potencial de multa de até 2% do faturamento anual.</p>
+    </div>
+
+    <!-- Grid boas práticas x problemas -->
+    <div class="info-grid">
+      <div class="info-card info-card--allowed">
+        <h5>✅ Processo de offboarding eficiente</h5>
+        <ul>
+          <li>Conta desativada no mesmo dia do desligamento</li>
+          <li>Sessões ativas revogadas no Microsoft 365</li>
+          <li>Acesso à VPN bloqueado imediatamente</li>
+          <li>Licenças liberadas e realocadas</li>
+          <li>Auditoria de atividades recentes registrada</li>
+          <li>Comunicação automática entre RH e TI</li>
+          <li>Processo documentado e auditável</li>
+        </ul>
+      </div>
+
+      <div class="info-card info-card--restricted">
+        <h5>❌ O que não pode acontecer</h5>
+        <ul>
+          <li>Conta de ex-funcionário ativa por semanas após desligamento</li>
+          <li>Comunicação informal entre RH e TI (via WhatsApp ou verbal)</li>
+          <li>Licenças do Microsoft 365 atribuídas a contas sem uso</li>
+          <li>Grupos de segurança sem responsável identificado</li>
+          <li>Permissões temporárias que nunca são revogadas</li>
+          <li>Ausência de revisão periódica de acessos</li>
+          <li>Nenhum log de quem autorizou cada acesso</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Solução: inventário -->
+    <section class="article-section">
+      <h2>A solução: estruturar o ciclo completo de gestão de identidades</h2>
+      <p>A resposta para esse problema não está em uma ferramenta específica. Está em um processo. Ferramentas como o Microsoft Entra ID (antigo Azure AD), o Privileged Identity Management (PIM) e as Access Reviews do Microsoft 365 são extremamente úteis — mas só funcionam se houver um processo de gestão que as suporte.</p>
+      <h3>1. Inventário de acessos</h3>
+      <p>O primeiro passo é saber exatamente quem tem acesso a quê. Isso parece óbvio, mas na prática muitas organizações não têm essa visão consolidada. Um inventário de acessos deve mapear todos os usuários ativos no Active Directory e no Microsoft Entra ID; os grupos de segurança dos quais cada usuário faz parte (incluindo grupos aninhados); as permissões herdadas por cada grupo; as licenças do Microsoft 365 atribuídas e seu uso real; contas com último login acima de 30, 60 e 90 dias; e contas sem login algum (criadas mas nunca utilizadas). Esse inventário não é uma atividade pontual. Deve ser realizado periodicamente e integrado ao processo de governança de TI da organização.</p>
+      <h3>2. Revisão periódica de grupos de segurança</h3>
+      <p>Após o inventário, é preciso revisar ativamente os grupos. O Microsoft Entra ID oferece um recurso nativo chamado <strong>Access Reviews</strong> (Revisões de Acesso), que permite agendar revisões periódicas de membros de grupos, com notificação automática para os responsáveis. Os próprios gestores de área podem confirmar se cada colaborador ainda precisa do acesso atribuído. Essa prática é diretamente alinhada ao <strong>Princípio do Menor Privilégio</strong>: cada usuário deve ter acesso apenas ao que é estritamente necessário para desempenhar sua função atual — nem mais, nem menos.</p>
+      <h3>3. Processo de onboarding estruturado</h3>
+      <p>O onboarding de um novo colaborador precisa seguir um fluxo definido, documentado e auditável. Isso inclui checklist de acessos necessários por função (cargo) — e não por solicitação individual; criação de conta com grupos de segurança predefinidos por perfil de função; atribuição de licenças somente das ferramentas necessárias para aquela função; e registro do responsável por cada acesso concedido, com data e justificativa. Com um modelo baseado em perfis por função (Role-Based Access Control — RBAC), o processo de concessão de acessos se torna padronizado, previsível e auditável. Em vez de conceder acessos caso a caso, a organização define o que cada cargo precisa acessar e aplica isso de forma consistente.</p>
+      <h3>4. Processo de offboarding imediato e rastreável</h3>
+      <p>O offboarding é a etapa mais crítica e, paradoxalmente, a mais negligenciada. Quando um colaborador é desligado, o protocolo precisa ser claro, rápido e rastreável. Um processo de offboarding eficiente deve garantir desativação imediata da conta no Active Directory e no Microsoft Entra ID; revogação de sessões ativas no Microsoft 365 (especialmente importantes em ambientes com acesso via navegador e dispositivos pessoais); bloqueio do acesso à VPN e a sistemas externos; auditoria de atividades recentes da conta antes da desativação; transferência de dados e e-mails para o gestor responsável, quando necessário; revogação de licenças para liberação e economia de custos; e registro formal de data, hora e responsável pela execução do offboarding. O RH deve ter um fluxo de comunicação com a TI que seja automático — de preferência integrado ao sistema de gestão de pessoas (HCM) — para que o desligamento gere imediatamente uma ordem de trabalho para o time técnico.</p>
+      <h3>5. Monitoramento contínuo</h3>
+      <p>Além dos processos de onboarding e offboarding, é fundamental ter monitoramento contínuo de atividades suspeitas. O Microsoft Entra ID oferece relatórios de entradas de risco, logins de locais atípicos, tentativas de acesso fora do horário usual e outras anomalias. Esses alertas devem ser configurados e revisados regularmente. O PIM (Privileged Identity Management) permite ainda que acessos privilegiados sejam concedidos de forma temporária — chamada de acesso <em>just-in-time</em> — eliminando o acesso persistente a funções críticas. Em vez de um colaborador ser permanentemente administrador de um sistema, ele solicita a elevação de privilégio quando necessário, com aprovação e registro automáticos.</p>
+    </section>
+
+    <!-- Dica prática -->
+    <div class="guide-box-yellow">
+      💡 <strong>Dica:</strong> O Microsoft Entra ID (Azure AD) oferece nativamente o recurso de <strong>Access Reviews</strong>, que permite agendar revisões automáticas de grupos de segurança com notificação para os gestores de área. Configure revisões a cada 90 dias para grupos sensíveis — RH, Financeiro, Jurídico e TI. O processo todo pode ser feito sem escrita de código, diretamente pelo portal administrativo.
+    </div>
+
+    <!-- Tabela de ferramentas -->
+    <div class="data-block table-responsive">
+      <table class="data-table responsive-table">
+        <thead>
+          <tr>
+            <th>Ferramenta / Recurso</th>
+            <th>Finalidade na Gestão de Identidades</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Ferramenta / Recurso">Active Directory (AD DS)</td>
+            <td data-label="Finalidade na Gestão de Identidades">Gerenciamento central de usuários, grupos e políticas em ambientes on-premises</td>
+          </tr>
+          <tr>
+            <td data-label="Ferramenta / Recurso">Microsoft Entra ID (Azure AD)</td>
+            <td data-label="Finalidade na Gestão de Identidades">Autenticação e autorização em nuvem, SSO e acesso condicional</td>
+          </tr>
+          <tr>
+            <td data-label="Ferramenta / Recurso">Access Reviews (Entra ID)</td>
+            <td data-label="Finalidade na Gestão de Identidades">Revisão periódica automatizada de membros de grupos e permissões</td>
+          </tr>
+          <tr>
+            <td data-label="Ferramenta / Recurso">PIM – Privileged Identity Management</td>
+            <td data-label="Finalidade na Gestão de Identidades">Acesso just-in-time a funções privilegiadas, com aprovação e registro</td>
+          </tr>
+          <tr>
+            <td data-label="Ferramenta / Recurso">Microsoft 365 Admin Center</td>
+            <td data-label="Finalidade na Gestão de Identidades">Gerenciamento de licenças, contas ativas e relatórios de uso</td>
+          </tr>
+          <tr>
+            <td data-label="Ferramenta / Recurso">Acesso Condicional (Entra ID)</td>
+            <td data-label="Finalidade na Gestão de Identidades">Controle de acesso baseado em risco, localização, dispositivo e função</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="data-source">Fonte: Microsoft Learn – Melhores práticas de identidade e segurança de acesso do Azure (2026)</p>
+    </div>
+
+    <!-- Resultados -->
+    <section class="article-section">
+      <h2>Os resultados concretos de uma gestão de identidades eficiente</h2>
+      <p>Quando um processo estruturado de gestão de identidades é implementado, os resultados são visíveis em múltiplas dimensões.</p>
+      <p><strong>Redução da superfície de ataque:</strong> menos contas ativas sem necessidade, menos permissões excessivas, menos portas abertas. O impacto potencial de um comprometimento de credenciais é significativamente menor.</p>
+      <p><strong>Conformidade com a LGPD e outras normas:</strong> o controle de quem acessa dados pessoais, com registros auditáveis, é um requisito direto da LGPD. Ter esse processo documentado e funcionando é evidência concreta de conformidade.</p>
+      <p><strong>Redução de custos:</strong> licenças do Microsoft 365 atribuídas a contas inativas representam custo direto. Um processo de offboarding eficiente recupera essas licenças imediatamente.</p>
+      <p><strong>Melhoria na governança:</strong> com visibilidade total de quem acessa o quê, o time de TI ganha capacidade de resposta a incidentes, de auditoria e de tomada de decisão baseada em dados reais.</p>
+      <p><strong>Cultura de segurança:</strong> quando gestores de área são envolvidos no processo de revisão de acessos, eles passam a entender que a segurança é uma responsabilidade compartilhada — não exclusiva da TI.</p>
+    </section>
+
+    <!-- Checklist -->
+    <div class="checklist-box">
+      <h4><i class="fas fa-check-double"></i> Checklist rápido: por onde começar</h4>
+      <p>Se você reconheceu sua organização em algum dos cenários descritos, o próximo passo prático é executar este levantamento inicial:</p>
+      <ul class="checklist">
+        <li><input type="checkbox"> Exportar a lista de usuários ativos no Active Directory e cruzar com a lista de colaboradores ativos no RH</li>
+        <li><input type="checkbox"> Identificar contas sem login nos últimos 30, 60 e 90 dias</li>
+        <li><input type="checkbox"> Mapear os grupos de segurança e verificar se os membros ainda fazem parte da empresa e da função original</li>
+        <li><input type="checkbox"> Verificar licenças do Microsoft 365 atribuídas a contas sem uso recente</li>
+        <li><input type="checkbox"> Revisar o processo atual de offboarding: existe? É documentado? É rápido o suficiente?</li>
+        <li><input type="checkbox"> Definir um calendário de revisões periódicas de acessos (recomendado: a cada 90 dias, no mínimo)</li>
+        <li><input type="checkbox"> Verificar se o PIM está habilitado para funções administrativas críticas no Entra ID</li>
+        <li><input type="checkbox"> Confirmar se existe um fluxo automático ou formal de comunicação entre RH e TI para desligamentos</li>
+      </ul>
+    </div>
+
+    <!-- Conclusão -->
+    <section class="article-section">
+      <h2>Conclusão</h2>
+      <p>O hacker dos filmes de tecnologia não é o maior inimigo das organizações. O maior inimigo costuma ser a conta do João — que saiu da empresa em março — ainda ativa em junho. É o grupo de segurança "Projeto Alpha 2021" que ninguém lembrou de desativar. É a permissão temporária que foi concedida há dois anos e nunca revogada.</p>
+      <p>Gestão de identidades não é um assunto técnico menor. É o fundamento da segurança corporativa. É onde a proteção de dados começa, na prática, muito antes de qualquer firewall ou antivírus.</p>
+      <p>Com processos bem definidos, ferramentas adequadas e engajamento das áreas envolvidas — TI, RH, Jurídico e gestores de negócio —, é possível transformar esse cenário de risco silencioso em um ambiente controlado, auditável e em conformidade com a LGPD.</p>
+      <p>A pergunta não é se sua empresa tem permissões esquecidas. A pergunta é: quando foi a última vez que alguém verificou?</p>
+    </section>
+
+    <!-- Info sobre o autor -->
+    <div class="content-box content-box--info">
+      <h4>Sobre o autor</h4>
+      <p>Jardel Santos é DPO certificado EXIN, especialista em Segurança da Informação, LGPD e Governança de TI, com mais de 15 anos de experiência em ambientes corporativos. Atuou na gestão de Active Directory, Microsoft 365, Azure AD e suporte técnico estratégico. Saiba mais em <a href="https://jardelsantos-dpo.github.io/sobre.html" target="_blank" rel="noopener">jardelsantos-dpo.github.io/sobre.html</a>.</p>
+    </div>
+
+    <!-- Fontes -->
+    <div class="source-list">
+      <strong>📚 Fontes:</strong>
+      <ul style="list-style:none; padding-left:0; margin-top:10px;">
+        <li>• <a href="https://learn.microsoft.com/pt-br/azure/security/fundamentals/identity-management-best-practices" target="_blank" rel="noopener">Microsoft Learn – Melhores práticas de identidade e segurança de acesso do Azure</a></li>
+        <li>• <a href="https://learn.microsoft.com/pt-br/entra/id-governance/scenarios/least-privileged" target="_blank" rel="noopener">Microsoft Learn – Princípio do privilégio mínimo com o Microsoft Entra ID</a></li>
+        <li>• <a href="https://learn.microsoft.com/pt-br/azure/active-directory/roles/best-practices" target="_blank" rel="noopener">Microsoft Learn – Melhores práticas para as funções do Microsoft Entra</a></li>
+        <li>• <a href="https://www.cybersecbrazil.com.br/post/falha-critica-no-windows-server-2025-permite-que-hackers-comprometam-qualquer-conta-do-active-directory" target="_blank" rel="noopener">CybersecBrazil – Falha crítica BadSuccessor no Windows Server 2025 (Akamai, 2025)</a></li>
+        <li>• <a href="https://grsadv.com.br/protecao-de-dados-em-2025-o-panorama-atual-da-lgpd-no-brasil/" target="_blank" rel="noopener">GRS Advogados – Proteção de Dados em 2025: o panorama atual da LGPD no Brasil</a></li>
+        <li>• <a href="https://www.deel.com/pt/blog/tudo-sobre-a-lgpd/" target="_blank" rel="noopener">Deel – Tudo o que sua equipe de RH precisa saber sobre a LGPD</a></li>
+        <li>• <a href="https://www.diazerosecurity.com.br/pt/blog/principio-do-menor-privilegio-o-que-e-e-como-aplicar" target="_blank" rel="noopener">DiaZero Security – Princípio do menor privilégio: o que é e como aplicar</a></li>
+        <li>• <a href="https://jornada365.cloud/active-directory-como-aplicar-o-principio-do-menor-privilegio-e-delegar-permissoes-com-seguranca/" target="_blank" rel="noopener">Jornada 365 – Active Directory: Como Aplicar o Princípio do Menor Privilégio (2026)</a></li>
+      </ul>
+    </div>
+
+  </article>
+
+</main>
+
+<footer class="site-footer"></footer>
+<script src="../assets/js/busca.js"></script>
+<script src="../assets/js/artigos-dados.js"></script>
+<script src="../assets/js/acesso-rapido.js"></script>
+<script src="../assets/js/components.js"></script>
+<script src="../assets/js/sharing.js"></script>
+<script src="../assets/js/schema-article.js"></script>
+<script src="../assets/js/image-lightbox.js"></script>
+
+</body>
+</html>

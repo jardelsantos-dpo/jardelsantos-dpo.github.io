@@ -1,0 +1,84 @@
+<#
+.SYNOPSIS
+    Script de remediação remota do client SCCM.
+    Inclui Log de auditoria e tratamento de erros.
+#>
+
+# --- Configurações e Variáveis ---
+$LogFile = ".\SCCM_Remote_Log.log"
+$Host.UI.RawUI.WindowTitle = "SCCM Remote Management Tool"
+
+function Write-Log {
+    param([string]$Message, [string]$Color = "White")
+    $TimeStamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    $FullMessage = "[$TimeStamp] $Message"
+    Write-Host $FullMessage -ForegroundColor $Color
+    $FullMessage | Out-File -FilePath $LogFile -Append
+}
+
+# --- Verificação de Privilégios ---
+if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    Write-Warning "ERRO: Direitos de Administrador Necessários."
+    pause
+    Exit 1
+}
+
+Write-Log "Sessão iniciada pelo usuário: $env:USERNAME" -Color Cyan
+
+while ($ConfirmNext -ne 'n') {
+    $IP = Read-Host -Prompt "`nInforme o ENDEREÇO IP (ou pressione ENTER para sair)"
+    
+    if ([string]::IsNullOrWhiteSpace($IP)) { break }
+
+    Write-Log "Iniciando verificação no IP: $IP"
+    
+    # Teste de Conexão
+    if (Test-Connection -ComputerName $IP -Count 1 -Quiet) {
+        
+        try {
+            $HostName = (Resolve-DnsName $IP -ErrorAction Stop | Select-Object -ExpandProperty NameHost -First 1)
+            Write-Host "Host identificado: $HostName" -ForegroundColor Green
+        } catch {
+            $HostName = "Hostname não resolvido"
+            Write-Warning "Aviso: DNS reverso falhou para $IP"
+        }
+
+        $RemotePath = "\\$IP\c$\Temp"
+        
+        try {
+            # Garantir pasta Temp
+            if (!(Test-Path $RemotePath)) {
+                New-Item -ItemType Directory -Path $RemotePath -ErrorAction Stop | Out-Null
+                Write-Log "Pasta $RemotePath criada com sucesso."
+            }
+
+            # Validar arquivos locais antes de copiar
+            $Files = @("CCMSETUP.EXE", "sccm_client.bat")
+            foreach ($File in $Files) {
+                if (Test-Path ".\$File") {
+                    Copy-Item ".\$File" -Destination $RemotePath -Force -ErrorAction Stop
+                    Write-Log "Arquivo $File copiado para $IP"
+                } else {
+                    throw "Arquivo local $File não encontrado na pasta do script!"
+                }
+            }
+
+            # Execução Remota via PsExec
+            Write-Log "Disparando sccm_client.bat via PsExec em $IP..." -Color Yellow
+            & ".\psexec.exe" \\$IP -s -nobanner -accepteula c:\temp\sccm_client.bat
+
+            Write-Log "Processo disparado com sucesso em $HostName ($IP)" -Color Green
+
+        } catch {
+            Write-Log "ERRO crítico em $IP : $($_.Exception.Message)" -Color Red
+        }
+
+    } else {
+        Write-Log "ERRO: O dispositivo $IP não responde ao ping." -Color Red
+    }
+
+    $ConfirmNext = Read-Host -Prompt "`nConsultar outro equipamento? (s/n)"
+    Clear-Host
+}
+
+Write-Log "Sessão finalizada." -Color Cyan

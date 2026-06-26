@@ -1,0 +1,90 @@
+@ECHO OFF
+chcp 65001 >nul
+SETLOCAL ENABLEDELAYEDEXPANSION
+
+:: Configurações de Log
+SET LOG_FILE=C:\Temp\SCCM_Repair_Local.log
+echo [INFO] Iniciando reparo em %DATE% as %TIME% > %LOG_FILE%
+
+TITLE OCYAN - CLIENT SCCM - REPARO [%COMPUTERNAME%]
+
+:: Cores ANSI
+SET RED=[31m
+SET GRN=[32m
+SET YEL=[33m
+SET WHT=[37m
+SET RST=[0m
+
+ECHO %YEL%=====================================================%RST%
+ECHO   PROCESSO DE MANUTENÇÃO SCCM - %COMPUTERNAME%
+ECHO %YEL%=====================================================%RST%
+
+:: Verifica se o serviço está rodando
+SET EXEC=CcmExec.exe
+TASKLIST | FINDSTR /I "%EXEC%" >nul
+IF ERRORLEVEL 1 (
+    echo [WARN] Servico CcmExec nao encontrado rodando. >> %LOG_FILE%
+    GOTO :error-servico
+) ELSE (
+    echo [INFO] Servico CcmExec detectado. Iniciando Reset. >> %LOG_FILE%
+    GOTO :sccm_auto
+)
+
+:sccm_auto
+    ECHO.
+    ECHO %YEL%[%TIME%] Reiniciando serviços e forçando comunicação...%RST%
+    
+    NET STOP ccmexec /y >> %LOG_FILE% 2>&1
+    NET STOP CMRCSERVICE /y >> %LOG_FILE% 2>&1
+    TASKKILL /F /IM ccmexec.exe /T >nul 2>&1
+
+    SC CONFIG CMRCSERVICE start= auto
+    SC CONFIG CCMEXEC start= auto
+    
+    NET START CCMEXEC >> %LOG_FILE% 2>&1
+    NET START CMRCSERVICE >> %LOG_FILE% 2>&1
+    
+    ECHO %GRN%Serviços reiniciados. Aguarde a política ser baixada.%RST%
+    GOTO :QUESTION
+
+:error-servico
+    IF EXIST "C:\Windows\ccmsetup\ccmsetup.exe" (
+        ECHO %RED%[%TIME%] Client corrompido detectado. Desinstalando...%RST%
+        echo [ACTION] Executando uninstall do client antigo. >> %LOG_FILE%
+        START "" /WAIT "C:\Windows\ccmsetup\ccmsetup.exe" /uninstall
+        timeout /t 5 >nul
+    )
+    GOTO :QUESTION
+
+:QUESTION
+    ECHO.
+    SET /P c=Deseja forçar REINSTALAÇÃO completa do Client [S/N]? 
+    IF /I "%c%" EQU "S" GOTO :install_sccm
+    IF /I "%c%" EQU "N" GOTO :sair
+    GOTO :QUESTION
+
+:install_sccm
+    ECHO.
+    IF NOT EXIST "C:\temp\ccmsetup.exe" (
+        ECHO %RED%ERRO: Instalador nao encontrado em C:\temp\%RST%
+        echo [ERROR] Arquivo C:\temp\ccmsetup.exe ausente. >> %LOG_FILE%
+        GOTO :sair
+    )
+
+    ECHO %YEL%[%TIME%] Iniciando instalação forçada...%RST%
+    echo [ACTION] Instalando via OCYAN-SP-SCCM01.OCYAN.NET >> %LOG_FILE%
+
+    :: Comando de instalação com parâmetros recomendados
+    "C:\temp\ccmsetup.exe" /ForceInstall /MP:OCYAN-SP-SCCM01.OCYAN.NET SMSSITECODE=OCY FSP=OCYAN-SP-SCCM01.OCYAN.NET /Retry:1 /NoService
+    
+    ECHO %GRN%Instalação enviada ao sistema.%RST%
+    ECHO Verificando se o processo ccmsetup está ativo:
+    TASKLIST | FINDSTR /I "ccmsetup.exe"
+    GOTO :sair
+
+:sair
+    echo [INFO] Fim do processo local as %TIME% >> %LOG_FILE%
+    ECHO.
+    ECHO %YEL%Processo concluído. Verifique o log em C:\Temp\SCCM_Repair_Local.log%RST%
+    timeout /t 5
+    EXIT

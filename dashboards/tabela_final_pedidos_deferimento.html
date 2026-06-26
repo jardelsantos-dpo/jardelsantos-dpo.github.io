@@ -1,0 +1,232 @@
+
+<style>
+.wrap{padding:1rem 0;font-size:13px;color:var(--color-text-primary)}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+.card{background:var(--color-background-secondary);border-radius:8px;padding:.875rem;text-align:center}
+.card-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.card-val{font-size:22px;font-weight:500}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th{background:var(--color-background-secondary);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);padding:8px 10px;text-align:left;border-bottom:1px solid var(--color-border-tertiary)}
+td{padding:8px 10px;border-bottom:.5px solid var(--color-border-tertiary);vertical-align:top;line-height:1.55;font-size:12px}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--color-background-secondary)}
+.c1{width:22%}.c2{width:10%}.c3{width:11%}.c4{width:11%}.c5{width:46%}
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.alta{background:#EAF3DE;color:#3B6D11}
+.media-alta{background:#E1F5EE;color:#0F6E56}
+.media{background:#FAEEDA;color:#854F0B}
+.baixa{background:#FCEBEB;color:#A32D2D}
+.cau{background:#E6F1FB;color:#185FA5}
+.ant{background:#EEEDFE;color:#534AB7}
+.pro{background:#F0F0F0;color:#444441}
+.adm{background:#FFF3E0;color:#854F0B}
+.pn{font-weight:500;font-size:12px}
+.sub{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.note{font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:.75rem 1rem;border-radius:8px;margin-top:1.25rem;line-height:1.6;border-left:3px solid var(--color-border-secondary)}
+.sep td{background:var(--color-background-secondary);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-secondary);padding:6px 10px}
+</style>
+<div class="wrap">
+<div class="cards">
+  <div class="card"><div class="card-label">Total de pedidos</div><div class="card-val">19</div></div>
+  <div class="card"><div class="card-label">Alta probabilidade</div><div class="card-val" style="color:#3B6D11">11</div></div>
+  <div class="card"><div class="card-label">Média-alta</div><div class="card-val" style="color:#0F6E56">6</div></div>
+  <div class="card"><div class="card-label">Média</div><div class="card-val" style="color:#854F0B">2</div></div>
+</div>
+
+<table>
+<thead>
+<tr>
+<th class="c1">Pedido</th>
+<th class="c2">Natureza</th>
+<th class="c3">Urgência</th>
+<th class="c4">Prob. deferimento</th>
+<th class="c5">Fundamento e análise</th>
+</tr>
+</thead>
+<tbody>
+
+<!-- VEÍCULOS -->
+<tr class="sep"><td colspan="5">VEÍCULOS</td></tr>
+
+<tr>
+<td><div class="pn">Reintegração de posse — T-Cross</div><div class="sub">Entrega + oficial de justiça</div></td>
+<td><span class="badge cau">Cautelar</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td>7 multas pós-óbito nos autos provam uso contínuo e descumprimento de decisão judicial anterior. Fumus boni iuris decorre da nomeação como inventariante (art. 618 CPC). Periculum in mora concreto, progressivo e documentado. Pedido mais sólido da petição.</td>
+</tr>
+
+<tr>
+<td><div class="pn">Proibição de uso — T-Cross</div><div class="sub">Sob pena de astreinte</div></td>
+<td><span class="badge cau">Cautelar</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td>Medida acessória natural à reintegração. Astreinte adequada para coibir descumprimento. Deferimento praticamente certo em conjunto com a reintegração.</td>
+</tr>
+
+<tr>
+<td><div class="pn">Alienação — T-Cross</div><div class="sub">Após reintegração de posse</div></td>
+<td><span class="badge adm">Adm. necessária</span></td>
+<td><span class="badge media-alta">Média-alta</span></td>
+<td><span class="badge media-alta">Média-alta</span></td>
+<td>Enquadrado como ato de administração (art. 619, IV CPC), não como tutela cautelar — tecnicamente correto. Produto destinado à reserva para processo de fiança e obrigações não mapeadas. Risco residual: juiz pode querer aguardar atualização do cálculo da fiança antes de autorizar. Mitigado pelo argumento de depreciação acelerada e depósito em conta judicial.</td>
+</tr>
+
+<tr>
+<td><div class="pn">Reintegração de posse — Santana Quantum</div><div class="sub">Fotos comprovam uso ativo</div></td>
+<td><span class="badge cau">Cautelar</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td>Fotografias juntadas pela própria parte adversa mostram veículo com faróis ligados em via pública à noite — evidência de uso ativo por terceiro produzida contra quem a apresentou. Placa LCG-8174 identificável. Argumento de que as fotos reforçam o uso indevido, e não a conservação, é tecnicamente preciso e difícil de rebater.</td>
+</tr>
+
+<tr>
+<td><div class="pn">Avaliação técnica — Karmann Ghia</div><div class="sub">Perícia de estado e valor</div></td>
+<td><span class="badge cau">Cautelar</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td>Medida conservatória clássica, de mínimo impacto decisório. Deterioração documentada em fotografias da própria parte adversa. Bem de coleção com valor sensível ao estado de conservação. Conexão com título executivo de meação reforça. Deferimento de alto grau de certeza.</td>
+</tr>
+
+<tr>
+<td><div class="pn">Alienação — Karmann Ghia e Santana Quantum</div><div class="sub">50% meação + restante ao espólio</div></td>
+<td><span class="badge adm">Adm. necessária</span></td>
+<td><span class="badge media-alta">Média-alta</span></td>
+<td><span class="badge media-alta">Média-alta</span></td>
+<td>Título executivo transitado em julgado é o fundamento mais robusto — alienação como cumprimento de obrigação preexistente, não antecipação de partilha. Frase de blindagem incluída no pedido afasta conflito com suspensão. Risco residual: juiz pode intimar ex-cônjuge antes de deferir, o que atrasa mas não inviabiliza. Sem esse entrave, deferimento provável.</td>
+</tr>
+
+<!-- IMÓVEIS -->
+<tr class="sep"><td colspan="5">IMÓVEIS E FRUTOS CIVIS</td></tr>
+
+<tr>
+<td><div class="pn">Depósito judicial dos aluguéis</div><div class="sub">A partir da intimação</div></td>
+<td><span class="badge cau">Cautelar</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td>Admissão da própria parte (ID 268891131) confirma recebimento. Retenção de frutos civis por não-inventariante é indevida per se. Estimativa quantificada (R$ 9k–16,2k). Frutos do espólio independem da definição da união estável. Pedido imune à suspensão processual.</td>
+</tr>
+
+<tr>
+<td><div class="pn">Prestação de contas retroativa</div><div class="sub">Desde o óbito + correção monetária</div></td>
+<td><span class="badge cau">Cautelar</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td>Consequência lógica e necessária do depósito judicial. Dever de prestar contas decorre diretamente da retenção indevida de frutos do espólio. Deferimento esperado em conjunto com o depósito.</td>
+</tr>
+
+<tr>
+<td><div class="pn">Entrega de contratos e dados dos locatários</div><div class="sub">Intimação + astreinte</div></td>
+<td><span class="badge pro">Probatória</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td>Dever de colaboração processual (art. 379 CPC). Conexão com regularização do débito da Light e comunicação de eventual alienação é argumento adicional bem construído. Pedido de baixa complexidade decisória.</td>
+</tr>
+
+<tr>
+<td><div class="pn">IPTU — Apto 203 (execução fiscal)</div><div class="sub">R$ 4.312,17 — CDA 2008090577</div></td>
+<td><span class="badge adm">Adm. necessária</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td><span class="badge media-alta">Média-alta</span></td>
+<td>Execução fiscal em curso é argumento sólido — risco concreto de penhora e hasta pública sobre bem do espólio. O contraste com os aluguéis recebidos pela Sra. Eliane sem repasse é argumento persuasivo adicional. Risco residual: juiz pode exigir comprovação de que o débito está mesmo vinculado ao espólio antes de autorizar o pagamento, dado que o imóvel está registrado em nome da CEHAB.</td>
+</tr>
+
+<tr>
+<td><div class="pn">IPTU — Apto 102</div><div class="sub">R$ 345,87 — dívida administrativa</div></td>
+<td><span class="badge adm">Adm. necessária</span></td>
+<td><span class="badge media">Média</span></td>
+<td><span class="badge media">Média</span></td>
+<td>Dívida administrativa simples, sem execução fiscal em curso. Valor baixo. Urgência menos evidente que o Apto 203. Provavelmente deferido junto com os demais pedidos financeiros, mas sem força autônoma como tutela de urgência. Vale manter como pedido subsidiário.</td>
+</tr>
+
+<!-- DOCUMENTOS E CELULAR -->
+<tr class="sep"><td colspan="5">DOCUMENTOS, CELULAR E ARMA</td></tr>
+
+<tr>
+<td><div class="pn">Entrega de documentos do espólio</div><div class="sub">Intimação + prazo + astreinte</div></td>
+<td><span class="badge cau">Cautelar</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td>Retenção documentada. Conexão direta com impossibilidade de retificação do IRPF confere urgência tributária objetiva independente. Dever de colaboração (art. 379 CPC) bem articulado.</td>
+</tr>
+
+<tr>
+<td><div class="pn">Entrega do celular</div><div class="sub">Sem formatação + sem bloqueio de acesso</div></td>
+<td><span class="badge cau">Cautelar</span></td>
+<td><span class="badge media-alta">Média-alta</span></td>
+<td><span class="badge media-alta">Média-alta</span></td>
+<td>Bem do espólio + BP On-line documentado pela Marinha + desequilíbrio informacional como risco objetivo. A cláusula "sem bloqueio de acesso" é acerto técnico. Risco residual: juiz pode deferir a entrega mas determinar que o acesso ao conteúdo seja feito por perícia, não diretamente pelo inventariante — o que é aceitável e já está previsto na petição.</td>
+</tr>
+
+<tr>
+<td><div class="pn">Preservação do conteúdo do celular</div><div class="sub">Medida cautelar de proteção à prova</div></td>
+<td><span class="badge cau">Cautelar</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td><span class="badge media-alta">Média-alta</span></td>
+<td>Desequilíbrio de acesso como risco concreto e atual está bem formulado. Art. 301 CPC adequado. Risco residual: depende do deferimento da entrega — se o juiz deferir apenas a entrega com perícia subsequente, a preservação está implícita e este pedido se torna redundante, mas inofensivo.</td>
+</tr>
+
+<tr>
+<td><div class="pn">Arma de fogo — apuração e destinação</div><div class="sub">Esclarecimentos + eventual apreensão</div></td>
+<td><span class="badge cau">Cautelar</span></td>
+<td><span class="badge media-alta">Média-alta</span></td>
+<td><span class="badge media-alta">Média-alta</span></td>
+<td>Arts. 12 e 14 do Estatuto do Desarmamento + Decreto 9.845/2019 conferem urgência legal objetiva. Enquadramento como apuração (não apreensão direta) é correto. Pedido de baixo impacto — o juiz tende a deferir a intimação para esclarecimentos sem resistência.</td>
+</tr>
+
+<!-- FISCAL E FINANCEIRO -->
+<tr class="sep"><td colspan="5">FISCAL, FINANCEIRO E PASSIVOS</td></tr>
+
+<tr>
+<td><div class="pn">Autorização uso da conta bancária</div><div class="sub">Obrigações urgentes + reserva meação</div></td>
+<td><span class="badge adm">Adm. necessária</span></td>
+<td><span class="badge media-alta">Média-alta</span></td>
+<td><span class="badge media-alta">Média-alta</span></td>
+<td>CTPS referenciada como prova do desemprego fortalece o argumento de "única fonte disponível". Reserva expressa da meação pendente afasta risco de indeferimento por conflito com a separação judicial. Risco residual: juiz pode exigir autorização específica por obrigação, em vez de autorização genérica — pedido já está estruturado dessa forma, o que é correto.</td>
+</tr>
+
+<tr>
+<td><div class="pn">IPTU imóvel alienado</div><div class="sub">R$ 2.481,62 — inscrição 664073-7</div></td>
+<td><span class="badge adm">Adm. necessária</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td><span class="badge media-alta">Média-alta</span></td>
+<td>Urgência concreta: comprador de boa-fé impedido de registrar o imóvel. Risco de ação regressiva por evicção (art. 447 CC) bem articulado. Risco residual: contrato de gaveta não tem registro formal — juiz pode querer confirmar a obrigação antes de autorizar o pagamento. Mitigado pela cópia do contrato juntada aos autos.</td>
+</tr>
+
+<!-- RUA SANTA RITA -->
+<tr class="sep"><td colspan="5">IMÓVEL RUA SANTA RITA</td></tr>
+
+<tr>
+<td><div class="pn">Medidas probatórias — Rua Santa Rita</div><div class="sub">Ofícios + vedação cadastral</div></td>
+<td><span class="badge pro">Probatória</span></td>
+<td><span class="badge media-alta">Média-alta</span></td>
+<td><span class="badge media-alta">Média-alta</span></td>
+<td>Reformulado como medida probatória — não tutela sobre o bem. Três indícios documentados (cadastro bancário, conta de água, linha telefônica). Vedação de alterações cadastrais é conservatória e compatível com suspensão. A alteração unilateral da titularidade da água pela Sra. Eliane é argumento de urgência autônomo. Deferimento dos ofícios e vedações cadastrais provável; expedição de ofícios à Águas do Rio e Vivo tem resistência mínima.</td>
+</tr>
+
+<!-- CIÊNCIA FORMAL -->
+<tr class="sep"><td colspan="5">CIÊNCIA FORMAL AO JUÍZO</td></tr>
+
+<tr>
+<td><div class="pn">Ciência — processo de fiança</div><div class="sub">Proc. 0062907-67.2015.8.19.0038</div></td>
+<td><span class="badge pro">Probatória</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td>Pedido de ciência formal tem deferimento praticamente certo — o juízo não pode negar. Bem conectado à necessidade de reserva patrimonial e à justificativa de alienação dos veículos.</td>
+</tr>
+
+<tr>
+<td><div class="pn">Ciência — separação judicial</div><div class="sub">Proc. 0002179-28.2007.8.19.0204</div></td>
+<td><span class="badge pro">Probatória</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td><span class="badge alta">Alta</span></td>
+<td>Essencial para que o juiz compreenda a ordem de prioridades: título executivo → dívidas → partilha. Contextualiza a meação da ex-cônjuge e o saldo bancário não partilhado de 2006. Deferimento certo.</td>
+</tr>
+
+</tbody>
+</table>
+
+<div class="note">
+<strong>Conclusão geral:</strong> 11 pedidos com alta probabilidade de deferimento, 6 com média-alta e 2 com média. Nenhum pedido tem probabilidade baixa na versão atual da petição. Os dois pedidos com probabilidade média (alienação T-Cross e IPTU Apto 102) não comprometem os demais — são independentes e seu eventual indeferimento isolado não afeta a estrutura da tutela. O conjunto da petição está tecnicamente consistente, com argumentação coerente, prova adequada e plena compatibilidade com o processo suspenso.
+</div>
+</div>

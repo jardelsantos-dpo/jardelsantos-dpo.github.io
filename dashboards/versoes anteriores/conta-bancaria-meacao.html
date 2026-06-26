@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Meação — Correção Monetária Histórica e Dinâmica</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: #f8f7f4; color: #1a1a18; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 820px; margin: 0 auto; }
+  h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #888780; margin-bottom: 1.5rem; }
+  
+  .control-panel { background: #fff; border: 0.5px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+  .control-group { display: flex; flex-direction: column; gap: 6px; }
+  .control-group label { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: #888780; font-weight: 500; }
+  .control-group select { padding: 8px 12px; border-radius: 8px; border: 0.5px solid rgba(0,0,0,0.15); background: #fff; font-size: 13px; color: #5F5E5A; outline: none; }
+  .control-group select:focus { border-color: #185FA5; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+  .card { background: #fff; border: 0.5px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 1rem 1.25rem; }
+  .card-label { font-size: 11px; color: #888780; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+  .card-value { font-size: 22px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .card-sub { font-size: 12px; color: #888780; margin-top: 4px; }
+  .card.highlight { border-color: #378ADD; background: #f0f7fd; }
+  .card.highlight .card-value { color: #185FA5; }
+  .card.meacao { border-color: #D85A30; background: #fdf4f0; }
+  .card.meacao .card-value { color: #993C1D; }
+  
+  .selector { background: #fff; border: 0.5px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
+  .selector-title { font-size: 13px; font-weight: 500; margin-bottom: 1rem; color: #444441; }
+  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btn-idx { padding: 8px 16px; border-radius: 8px; border: 0.5px solid rgba(0,0,0,0.15); background: #fff; cursor: pointer; font-size: 13px; font-weight: 500; color: #5F5E5A; transition: all .15s; }
+  .btn-idx:hover { background: #f1efe8; border-color: rgba(0,0,0,0.25); }
+  .btn-idx.active { background: #185FA5; color: #fff; border-color: #185FA5; }
+  
+  .info-box { background: #fff; border: 0.5px solid rgba(0,0,0,0.10); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
+  .info-title { font-size: 13px; font-weight: 500; color: #444441; margin-bottom: .75rem; }
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .info-row { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 0.5px solid rgba(0,0,0,0.06); font-variant-numeric: tabular-nums; }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .lbl { color: #888780; }
+  .info-row .val { font-weight: 500; }
+  
+  .chart-box { background: #fff; border: 0.5px solid rgba(0,0,0,0.10); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
+  .chart-title { font-size: 13px; font-weight: 500; color: #444441; margin-bottom: 1rem; }
+  
+  .table-box { background: #fff; border: 0.5px solid rgba(0,0,0,0.10); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; overflow-x: auto; }
+  .table-title { font-size: 13px; font-weight: 500; color: #444441; margin-bottom: 1rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #f8f7f4; font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: #888780; padding: 8px 10px; text-align: left; border-bottom: 0.5px solid rgba(0,0,0,0.10); }
+  td { padding: 8px 10px; border-bottom: 0.5px solid rgba(0,0,0,0.06); font-variant-numeric: tabular-nums; }
+  tr:last-child td { border-bottom: none; font-weight: 600; background: #f8f7f4; }
+  .right { text-align: right; }
+  
+  .badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 500; }
+  .badge-blue { background: #E6F1FB; color: #185FA5; }
+  .badge-red { background: #FCEBEB; color: #A32D2D; }
+  .badge-amber { background: #FAEEDA; color: #854F0B; }
+  
+  .note { font-size: 12px; color: #888780; border-top: 0.5px solid rgba(0,0,0,0.08); padding-top: .75rem; margin-top: .75rem; line-height: 1.6; }
+  .idx-desc { font-size: 12px; color: #5F5E5A; line-height: 1.6; padding: .75rem; background: #f8f7f4; border-radius: 8px; margin-top: .75rem; }
+  @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; gap: 0; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Calculadora de meação — correção monetária</h1>
+  <p class="subtitle">Conta BB ag. 0296-8 / 17.926-4 — JORBEL JOSÉ DOS SANTOS — base: novembro/2006</p>
+
+  <div class="control-panel">
+    <div class="control-group">
+      <label for="select-mes">Mês Final</label>
+      <select id="select-mes"></select>
+    </div>
+    <div class="control-group">
+      <label for="select-ano">Ano Final</label>
+      <select id="select-ano"></select>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">Saldo original (nov/2006)</div>
+      <div class="card-value">R$ 18.852,48</div>
+      <div class="card-sub">CC + aplicação automática</div>
+    </div>
+    <div class="card highlight">
+      <div class="card-label">Total atualizado</div>
+      <div class="card-value" id="total-atualizado">R$ —</div>
+      <div class="card-sub" id="fator-label">Fator: —</div>
+    </div>
+    <div class="card meacao">
+      <div class="card-label">Meação ex-cônjuge (50%)</div>
+      <div class="card-value" id="meacao-valor">R$ —</div>
+      <div class="card-sub" id="indice-ativo-label">Índice: —</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Valorização</div>
+      <div class="card-value" id="valorizacao">—</div>
+      <div class="card-sub" id="periodo-label">nov/2006 → —</div>
+    </div>
+  </div>
+
+  <div class="selector">
+    <div class="selector-title">Selecione o índice de correção monetária</div>
+    <div class="btn-group" id="btn-group"></div>
+    <div class="idx-desc" id="idx-desc"></div>
+  </div>
+
+  <div class="info-box">
+    <div class="info-title">Composição do patrimônio partilhável</div>
+    <div class="info-grid">
+      <div>
+        <div class="info-row"><span class="lbl">Saldo conta corrente</span><span class="val">R$ 2.463,28</span></div>
+        <div class="info-row"><span class="lbl">Aplicação resgate automático</span><span class="val">R$ 16.389,20</span></div>
+        <div class="info-row"><span class="lbl">Total partilhável</span><span class="val">R$ 18.852,48</span></div>
+      </div>
+      <div>
+        <div class="info-row"><span class="lbl">CC atualizado</span><span class="val" id="cc-atualizado">—</span></div>
+        <div class="info-row"><span class="lbl">Aplicação atualizada</span><span class="val" id="aplic-atualizada">—</span></div>
+        <div class="info-row"><span class="lbl">Total atualizado</span><span class="val" id="total-atualizado-2">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-box">
+    <div class="chart-title">Evolução da meação ao longo do tempo (R$)</div>
+    <canvas id="myChart" height="220"></canvas>
+  </div>
+
+  <div class="table-box">
+    <div class="table-title" id="table-title-dinamico">Comparativo entre todos os índices</div>
+    <table id="comp-table">
+      <thead><tr><th>Índice</th><th>Uso típico</th><th class="right">Fator</th><th class="right">Total atualizado</th><th class="right">Meação (50%)</th></tr></thead>
+      <tbody id="comp-tbody"></tbody>
+    </table>
+    <p class="note">Valores baseados na série histórica de índices oficiais. Selecionar datas anteriores ou posteriores recalcula instantaneamente as proporções e projeções financeiras correspondentes.</p>
+  </div>
+</div>
+
+<script>
+const ORIGINAL = 18852.48;
+const CC_ORIG = 2463.28;
+const APLIC_ORIG = 16389.20;
+
+const BASE_INDICES = {
+  "IPCA": { fatorBase: 2.959331, proreataMensal: 0.0035, uso: "Família / inventários", badge: "badge-blue", desc: "Índice Nacional de Preços ao Consumidor Amplo (IBGE). Principal índice usado em processos de família e inventários pelo TJERJ." },
+  "INPC": { fatorBase: 3.017878, proreataMensal: 0.0033, uso: "Alimentos / trabalhista", badge: "badge-blue", desc: "Índice Nacional de Preços ao Consumidor (IBGE). Mede a inflação para famílias com renda de 1 a 5 salários mínimos." },
+  "IGP-M": { fatorBase: 3.763753, proreataMensal: 0.0040, uso: "Locações / contratos", badge: "badge-amber", desc: "Índice Geral de Preços do Mercado (FGV). Muito usado em contratos de locação. Mais volátil que IPCA/INPC." },
+  "IGP-DI": { fatorBase: 3.689286, proreataMensal: 0.0038, uso: "Contratos civis", badge: "badge-amber", desc: "Índice Geral de Preços — Disponibilidade Interna (FGV). Usado em alguns contratos financeiros e obrigações civis." },
+  "SELIC": { fatorBase: 6.669170, proreataMensal: 0.0074, uso: "Mora / tributário", badge: "badge-red", desc: "Taxa básica de juros da economia (BCB). Aplicada em casos de mora qualificada. Produz os maiores valores por incluir juros." }
+};
+
+const MESES = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+const YEARS = [2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026];
+
+// Dados históricos anuais da MEAÇÃO (Correspondem ao valor final de cada ano)
+const SERIES_BASE = {
+  "IPCA": [9473.37,9895.88,10479.74,10931.42,11577.46,12330.0,13050.07,13821.33,14707.28,16276.54,17300.34,17810.7,18478.6,19275.03,20146.26,22172.97,23456.79,24540.49,25725.8,27135.57],
+  "INPC": [9478.08,9951.99,10571.0,11043.53,11737.06,12503.49,13264.95,14002.48,14900.04,16579.28,17690.09,18047.43,18682.7,19590.68,20658.37,22852.29,24141.16,25089.9,26251.57,27645.53],
+  "IGP-M": [9473.37,10205.66,11152.75,10995.49,12240.18,12864.43,13866.57,14636.17,15186.49,16784.11,17992.56,17897.2,19243.07,20647.82,25421.59,29933.92,31508.45,30396.2,32280.76,34411.29],
+  "IGP-DI": [9461.12,10140.43,11063.2,10940.4,12161.35,12769.42,13796.08,14559.0,15116.61,16679.67,17838.91,17681.93,18947.95,20306.52,25031.85,29362.36,31009.58,29964.56,31744.46,33769.75],
+  "SELIC": [9643.04,10782.85,12116.69,13319.88,14626.56,16367.12,17741.96,19464.7,21652.53,24534.48,27974.22,29932.41,31863.05,33599.59,34328.7,37339.33,42480.95,47510.7,52451.81,59139.42]
+};
+
+const COLORS = {"IPCA":"#378ADD","INPC":"#1D9E75","IGP-M":"#EF9F27","IGP-DI":"#D85A30","SELIC":"#E24B4A"};
+
+let activeIdx = "IPCA";
+let chart;
+
+function fmt(v) {
+  return "R$ " + v.toLocaleString("pt-BR", {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+// CORREÇÃO CRÍTICA: Lógica de cálculo bidirecional (passado e futuro) baseado no tempo selecionado
+function calcularFatorDinamico(idx, mes, ano) {
+  const info = BASE_INDICES[idx];
+  
+  // Cenário 1: Data Futura (Posterior ao limite de Maio de 2026)
+  if (ano > 2026 || (ano === 2026 && mes > 4)) {
+    const dataAncora = new Date(2026, 4, 1);
+    const dataAlvo = new Date(ano, mes, 1);
+    const diffMeses = (dataAlvo.getFullYear() - dataAncora.getFullYear()) * 12 + (dataAlvo.getMonth() - dataAncora.getMonth());
+    return info.fatorBase * Math.pow(1 + info.proreataMensal, diffMeses);
+  }
+  
+  // Cenário 2: Exatamente o teto consolidado (Maio/2026)
+  if (ano === 2026 && mes === 4) {
+    return info.fatorBase;
+  }
+
+  // Cenário 3: Passado (Anos anteriores ou meses anteriores de 2026)
+  // Extraímos o fechamento do ano anterior para obter o fator base real daquela época
+  const arrayHistorico = SERIES_BASE[idx];
+  const indexAno = ano - 2006;
+  
+  let valorMeacaoAno = arrayHistorico[indexAno];
+  if (ano === 2026) {
+    valorMeacaoAno = (ORIGINAL * info.fatorBase) / 2;
+  }
+
+  // Se o usuário escolher um mês específico daquele ano, fazemos a regressão pró-rata interna dos meses
+  const totalAno = valorMeacaoAno * 2;
+  const fatorAnoFechado = totalAno / ORIGINAL;
+  
+  // Ajuste sutil por meses dentro do próprio ano selecionado
+  const pesoMes = (mes + 1) / 12; 
+  return 1 + ((fatorAnoFechado - 1) * pesoMes);
+}
+
+function inicializarSeletoresData() {
+  const selectMes = document.getElementById("select-mes");
+  const selectAno = document.getElementById("select-ano");
+  
+  MESES.forEach((m, idx) => {
+    const opt = document.createElement("option");
+    opt.value = idx;
+    opt.textContent = m;
+    selectMes.appendChild(opt);
+  });
+  
+  for (let a = 2006; a <= 2030; a++) {
+    const opt = document.createElement("option");
+    opt.value = a;
+    opt.textContent = a;
+    selectAno.appendChild(opt);
+  }
+
+  // Inicia com a data atual do computador do usuário
+  const hoje = new Date();
+  selectMes.value = hoje.getMonth();
+  selectAno.value = hoje.getFullYear();
+
+  selectMes.onchange = renderizarPainelCompleto;
+  selectAno.onchange = renderizarPainelCompleto;
+}
+
+function renderizarPainelCompleto() {
+  const mes = parseInt(document.getElementById("select-mes").value);
+  const ano = parseInt(document.getElementById("select-ano").value);
+  const nomeMesReduzido = MESES[mes].substring(0,3).toLowerCase();
+
+  document.getElementById("periodo-label").textContent = `nov/2006 → ${nomeMesReduzido}/${ano}`;
+  document.getElementById("table-title-dinamico").textContent = `Comparativo entre todos os índices — ${nomeMesReduzido}/${ano}`;
+
+  update(activeIdx);
+  buildTable();
+  atualizarGrafico(mes, ano);
+}
+
+function update(idx) {
+  activeIdx = idx;
+  const mes = parseInt(document.getElementById("select-mes").value);
+  const ano = parseInt(document.getElementById("select-ano").value);
+  
+  const info = BASE_INDICES[idx];
+  const fator = calcularFatorDinamico(idx, mes, ano);
+  const total = ORIGINAL * fator;
+  const meacao = total / 2;
+  const cc = CC_ORIG * fator;
+  const aplic = APLIC_ORIG * fator;
+  const valorizacao = ((fator - 1) * 100).toFixed(1);
+
+  document.getElementById("total-atualizado").textContent = fmt(total);
+  document.getElementById("fator-label").textContent = "Fator: " + fator.toFixed(4) + "× (" + idx + ")";
+  document.getElementById("meacao-valor").textContent = fmt(meacao);
+  document.getElementById("indice-ativo-label").textContent = "Índice: " + idx;
+  document.getElementById("valorizacao").textContent = (fator >= 1 ? "+" : "") + valorizacao + "%";
+  document.getElementById("cc-atualizado").textContent = fmt(cc);
+  document.getElementById("aplic-atualizada").textContent = fmt(aplic);
+  document.getElementById("total-atualizado-2").textContent = fmt(total);
+  document.getElementById("idx-desc").textContent = info.desc;
+
+  document.querySelectorAll(".btn-idx").forEach(b => b.classList.toggle("active", b.dataset.idx === idx));
+}
+
+function buildButtons() {
+  const g = document.getElementById("btn-group");
+  g.innerHTML = "";
+  Object.keys(BASE_INDICES).forEach(idx => {
+    const b = document.createElement("button");
+    b.className = "btn-idx" + (idx === activeIdx ? " active" : "");
+    b.dataset.idx = idx;
+    b.textContent = idx;
+    b.onclick = () => { update(idx); renderizarPainelCompleto(); };
+    g.appendChild(b);
+  });
+}
+
+function buildTable() {
+  const tbody = document.getElementById("comp-tbody");
+  tbody.innerHTML = "";
+  const mes = parseInt(document.getElementById("select-mes").value);
+  const ano = parseInt(document.getElementById("select-ano").value);
+
+  Object.entries(BASE_INDICES).forEach(([idx, info]) => {
+    const fator = calcularFatorDinamico(idx, mes, ano);
+    const total = ORIGINAL * fator;
+    const meacao = total / 2;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><strong>${idx}</strong></td>
+      <td><span class="badge ${info.badge}">${info.uso}</span></td>
+      <td class="right">${fator.toFixed(4)}×</td>
+      <td class="right">${fmt(total)}</td>
+      <td class="right">${fmt(meacao)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  
+  const trOrig = document.createElement("tr");
+  trOrig.innerHTML = `<td>Original (sem correção)</td><td></td><td class="right">1,0000×</td><td class="right">${fmt(ORIGINAL)}</td><td class="right">${fmt(ORIGINAL/2)}</td>`;
+  tbody.appendChild(trOrig);
+}
+
+function buildChart() {
+  const ctx = document.getElementById("myChart").getContext("2d");
+  chart = new Chart(ctx, {
+    type: "line",
+    data: { labels: [...YEARS], datasets: [] },
+    options: {
+      responsive: true,
+      interaction: { mode: "index", intersect: false },
+      plugins: {
+        legend: { position: "bottom", labels: { font: { size: 12 }, usePointStyle: true, boxWidth: 20, padding: 16 } },
+        tooltip: { callbacks: { label: ctx => " " + ctx.dataset.label + ": " + fmt(ctx.parsed.y) } }
+      },
+      scales: {
+        x: { grid: { color: "rgba(0,0,0,0.05)" }, ticks: { font: { size: 11 } } },
+        y: { grid: { color: "rgba(0,0,0,0.05)" }, ticks: { font: { size: 11 }, callback: v => "R$ " + (v/1000).toFixed(0) + "k" } }
+      }
+    }
+  });
+}
+
+function atualizarGrafico(mes, ano) {
+  if (!chart) return;
+
+  const localYears = [];
+  const ateAno = Math.max(ano, 2026);
+  
+  for (let a = 2006; a <= ateAno; a++) {
+    localYears.push(a);
+  }
+
+  const datasets = Object.entries(SERIES_BASE).map(([idx, dataBase]) => {
+    const fullData = [...dataBase];
+    
+    const fator2026 = BASE_INDICES[idx].fatorBase;
+    const valorMeacao2026 = (ORIGINAL * fator2026) / 2;
+    fullData.push(valorMeacao2026);
+
+    if (ano > 2026) {
+      for (let a = 2027; a <= ano; a++) {
+        const fFuturo = calcularFatorDinamico(idx, mes, a);
+        fullData.push((ORIGINAL * fFuturo) / 2);
+      }
+    }
+
+    return {
+      label: idx,
+      data: fullData,
+      borderColor: COLORS[idx],
+      backgroundColor: "transparent",
+      borderWidth: idx === activeIdx ? 2.5 : 1,
+      borderDash: idx === activeIdx ? [] : [4,3],
+      pointRadius: idx === activeIdx ? 3 : 0,
+      pointHoverRadius: 5,
+      tension: 0.1
+    };
+  });
+
+  chart.data.labels = localYears;
+  chart.data.datasets = datasets;
+  chart.update();
+}
+
+inicializarSeletoresData();
+buildButtons();
+buildChart();
+renderizarPainelCompleto();
+</script>
+</body>
+</html>

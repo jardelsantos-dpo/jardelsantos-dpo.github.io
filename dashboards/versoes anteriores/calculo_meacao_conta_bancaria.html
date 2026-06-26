@@ -1,0 +1,208 @@
+<style>
+/* --- DESIGN SYSTEM & TOPO DA ESPECIFICAÇÃO --- */
+.wrap {
+  padding: 1.5rem 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-primary, #2d3748);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* --- CARDS RESPONSIVOS (Mobile First) --- */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr; /* Uma coluna por padrão no mobile */
+  gap: 16px;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background: var(--color-background-secondary, #f7fafc);
+  border: 1px solid var(--color-border-tertiary, #e2e8f0);
+  border-radius: 8px;
+  padding: 1.25rem;
+  text-align: left; /* Alinhamento à esquerda melhora a leitura em blocos verticais */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.card-label {
+  font-size: 11px;
+  color: var(--color-text-secondary, #4a5568);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-weight: 600;
+}
+
+.card-val {
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Semântica de Cores Refinada */
+.red { color: var(--color-error, #dc2626); }
+.green { color: var(--color-success, #16a34a); }
+.blue { color: var(--color-brand, #2563eb); }
+
+/* --- ELEMENTOS DE APOIO --- */
+.fator {
+  font-size: 13px;
+  color: var(--color-text-secondary, #4a5568);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+  background: var(--color-background-tertiary, #edf2f7);
+  border-radius: 6px;
+}
+
+/* --- TABELA RESPONSIVA --- */
+.table-container {
+  width: 100%;
+  overflow-x: auto; /* Garante que a tabela não quebre o layout em telas mini */
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--color-border-tertiary, #e2e8f0);
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap; /* Evita quebras de linha bizarras nos valores */
+}
+
+th {
+  background: var(--color-background-secondary, #f7fafc);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--color-text-secondary, #4a5568);
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 2px solid var(--color-border-secondary, #cbd5e0);
+}
+
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border-tertiary, #e2e8f0);
+  vertical-align: middle;
+}
+
+tr:hover td {
+  background: var(--color-background-hover, #f8fafc); /* Feedback visual de linha */
+}
+
+.tot td {
+  background: var(--color-background-secondary, #f7fafc);
+  font-weight: 700;
+  border-top: 2px solid var(--color-border-secondary, #cbd5e0);
+  border-bottom: none;
+  color: var(--color-text-dark, #1a202c);
+}
+
+.right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- NOTA DE ATENÇÃO (ALERT BOX) --- */
+.note {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-text-warning-dark, #9a3412);
+  background: var(--color-background-warning, #fff7ed);
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  border-left: 4px solid var(--color-warning, #ea580c);
+}
+
+/* --- MEDIA QUERIES (Responsividade Progressiva) --- */
+@media (min-width: 576px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas em tablets pequenos */
+  }
+  .card:last-child {
+    grid-column: span 2; /* O card de meação ganha destaque ocupando a largura toda */
+    text-align: center;
+  }
+}
+
+@media (min-width: 768px) {
+  .cards {
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas em desktops */
+  }
+  .card:last-child {
+    grid-column: auto;
+    text-align: left;
+  }
+  .card {
+    padding: 1.5rem;
+  }
+}
+</style>
+
+<div class="wrap">
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">Patrimônio original (nov/2006)</div>
+      <div class="card-val">R$ 18.852,48</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Patrimônio atualizado (mai/2026)</div>
+      <div class="card-val blue">R$ 55.790,73</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Meação da ex-cônjuge (50%)</div>
+      <div class="card-val red">R$ 27.895,37</div>
+    </div>
+  </div>
+
+  <div class="fator">
+    Fator IPCA nov/2006 → mai/2026: <strong>2,96×</strong> &nbsp;|&nbsp; Valorização: <strong>+195,9%</strong>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Componente</th>
+          <th class="right">Valor original</th>
+          <th class="right">Valor atualizado (IPCA)</th>
+          <th class="right">Meação (50%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Saldo conta corrente</td>
+          <td class="right">R$ 2.463,28</td>
+          <td class="right">R$ 7.289,66</td>
+          <td class="right">R$ 3.644,83</td>
+        </tr>
+        <tr>
+          <td>Aplicação c/ resgate automático</td>
+          <td class="right">R$ 16.389,20</td>
+          <td class="right">R$ 48.501,07</td>
+          <td class="right">R$ 24.250,54</td>
+        </tr>
+        <tr class="tot">
+          <td>Total</td>
+          <td class="right">R$ 18.852,48</td>
+          <td class="right">R$ 55.790,73</td>
+          <td class="right">R$ 27.895,37</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <strong>Atenção:</strong> Os valores atualizados são uma <strong>estimativa</strong> com base no IPCA histórico (IBGE). O valor exato a ser pago dependerá do índice oficial determinado pelo Juízo — que pode aplicar IPCA, INPC ou outro índice — e da data de efetivo pagamento. O cálculo oficial deverá ser elaborado por contador judicial ou perito nomeado pelo Juízo. O valor de 2026 (jan–mai) foi estimado em 2,80%.
+  </div>
+</div>
