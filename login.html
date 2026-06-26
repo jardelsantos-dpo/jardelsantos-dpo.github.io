@@ -408,7 +408,7 @@ async function executarLogin(e) {
 
             exibirAlerta("Acesso autorizado! Redirecionando...", "sucesso");
             setTimeout(() => {
-                window.location.href = "visualizador.html";
+                window.location.href = "visualizador";
             }, 1500);
         }
         // MFA é obrigatório no sistema e este usuário ainda não configurou:
@@ -762,7 +762,7 @@ async function confirmarConfiguracaoMfa() {
             btn.innerText = "Ativado";
 
             setTimeout(() => {
-                window.location.href = "visualizador.html";
+                window.location.href = "visualizador";
             }, 1800);
         } else {
             exibirAlertaMfa(resultado.msg || "Código inválido. Tente novamente.", "erro");
