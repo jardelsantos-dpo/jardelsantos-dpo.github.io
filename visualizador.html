@@ -81,7 +81,7 @@
     // acontece de novo no servidor a cada chamada; isto aqui é só para não
     // mostrar a tela do painel "vazia" para quem nunca fez login.
     if (!TOKEN) {
-        window.location.href = "login.html";
+        window.location.href = "login";
     }
     
     let perfilUsuario = "Leitor"; // Padrão de segurança restrito
@@ -99,7 +99,7 @@
             .then(data => {
                 if(data.erro) {
                     alert(data.msg || "Sessão inválida. Por favor, refaça o login.");
-                    window.location.href = "login.html";
+                    window.location.href = "login";
                     return;
                 }
 
@@ -328,7 +328,7 @@
         sessionStorage.removeItem("portalToken");
         sessionStorage.removeItem("usuarioLogado");
         sessionStorage.removeItem("tipoUsuario");
-        window.location.href = "index.html";
+        window.location.href = "index";
     }
 
     // 8. Logout automático por inatividade (30 minutos sem clique, tecla,
@@ -360,7 +360,7 @@
         sessionStorage.removeItem("portalToken");
         sessionStorage.removeItem("usuarioLogado");
         sessionStorage.removeItem("tipoUsuario");
-        window.location.href = "index.html";
+        window.location.href = "index";
     }
 </script>
 
