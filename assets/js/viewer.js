@@ -23,7 +23,7 @@
 
     // 1. Busca os arquivos e o perfil do usuário usando o Token de Sessão seguro
     function carregarDadosPainel() {
-        fetch(`${API_URL}?action=obterDados&token=${TOKEN}`)
+        fetch(`${APPS_SCRIPT_URL}?action=obterDados&token=${TOKEN}`)
             .then(res => res.json())
             .then(data => {
                 if(data.erro) {
@@ -155,7 +155,7 @@
         const iframeViewer = document.getElementById("iframe-seguro");
         iframeViewer.src = "about:blank"; // Limpa visualização anterior
 
-        fetch(`${API_URL}?action=obterLinkVisualizacao&token=${TOKEN}&fileId=${id}`)
+        fetch(`${APPS_SCRIPT_URL}?action=obterLinkVisualizacao&token=${TOKEN}&fileId=${id}`)
             .then(res => res.json())
             .then(data => {
                 if (data.erro) {
@@ -171,7 +171,7 @@
     // servidor confirma a permissão de novo, independente do botão exibido aqui)
     
     function baixarArquivoIndividual(id, nome) {
-        fetch(`${API_URL}?action=stream&token=${TOKEN}&fileId=${id}&finalidade=download`)
+        fetch(`${APPS_SCRIPT_URL}?action=stream&token=${TOKEN}&fileId=${id}&finalidade=download`)
             .then(res => res.json())
             .then(data => {
                 if (data.erro) {
@@ -193,7 +193,7 @@
         btn.innerHTML = `<div class="loader-inline"></div> Compactando arquivos...`;
         btn.disabled = true;
 
-        fetch(`${API_URL}?action=downloadZip&token=${TOKEN}`)
+        fetch(`${APPS_SCRIPT_URL}?action=downloadZip&token=${TOKEN}`)
             .then(res => res.json())
             .then(data => {
                 if (data.erro) {
@@ -252,7 +252,7 @@
         // Revoga o token no servidor. Usa fetch sem esperar a resposta (não
         // bloqueia a navegação) - mesmo que essa chamada falhe por qualquer
         // motivo, o token expira por conta própria depois de algumas horas.
-        fetch(`${API_URL}?action=logout&token=${TOKEN}`).catch(() => {});
+        fetch(`${APPS_SCRIPT_URL}?action=logout&token=${TOKEN}`).catch(() => {});
 
         sessionStorage.removeItem("portalToken");
         sessionStorage.removeItem("usuarioLogado");
@@ -284,7 +284,7 @@
     function encerrarPorInatividade() {
         alert("Sua sessão foi encerrada automaticamente por inatividade (" + MINUTOS_INATIVIDADE + " minutos sem uso). Faça login novamente.");
 
-        fetch(`${API_URL}?action=logout&token=${TOKEN}`).catch(() => {});
+        fetch(`${APPS_SCRIPT_URL}?action=logout&token=${TOKEN}`).catch(() => {});
 
         sessionStorage.removeItem("portalToken");
         sessionStorage.removeItem("usuarioLogado");
