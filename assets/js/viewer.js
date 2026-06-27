@@ -91,11 +91,22 @@
 
             // Condicional de Segurança: Insere o botão de download com o novo fluxo de Popup de 5s
             if(perfilUsuario === "Editor") {
-                html += `
-                    <button class="btn-acao btn-baixar" onclick="baixarArquivoComPopup('${arq.id}', '${nomeEscapado}')">
-                        <i class="fa-solid fa-download"></i> Salvar
-                    </button>
-                `;
+                if (arq.tamanhoExcedeLimite) {
+                    // Arquivo grande demais para o proxy de download do Apps Script -
+                    // avisa antes mesmo de tentar, em vez de deixar o usuário esperar
+                    // e receber um erro genérico depois.
+                    html += `
+                        <button class="btn-acao btn-baixar" disabled title="Arquivo muito grande para baixar por aqui" style="opacity:0.5; cursor:not-allowed;" onclick="alert('Este arquivo é grande demais para ser baixado por este painel. Solicite o arquivo por outro meio.')">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Muito grande
+                        </button>
+                    `;
+                } else {
+                    html += `
+                        <button class="btn-acao btn-baixar" onclick="baixarArquivoComPopup('${arq.id}', '${nomeEscapado}')">
+                            <i class="fa-solid fa-download"></i> Salvar
+                        </button>
+                    `;
+                }
             }
 
             html += `</div></div>`;
@@ -186,41 +197,60 @@
             .catch(() => alert("Falha ao baixar o arquivo. Tente novamente."));
     }
 
-    // 5. Ação de download em Massa ZIP (Disponível apenas para EDITORES)
+    // 5. Ação de download em Massa ZIP (Disponível apenas para EDITORES).
+    // Quando os arquivos somados excedem o limite seguro de uma única
+    // resposta do Apps Script, o servidor divide em vários lotes/zips -
+    // esta função busca e baixa cada lote em sequência, uma chamada por vez.
     function baixarTodosArquivos() {
         const btn = document.querySelector(".btn-batch");
         const textoOriginal = btn.innerHTML;
-        btn.innerHTML = `<div class="loader-inline"></div> Compactando arquivos...`;
         btn.disabled = true;
 
-        fetch(`${APPS_SCRIPT_URL}?action=downloadZip&token=${TOKEN}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.erro) {
-                    alert(data.msg || "Não foi possível gerar o pacote de arquivos.");
+        const dataHoje = new Date().toLocaleDateString('pt-BR').replace(/\//g, '-');
+
+        function baixarLote(numeroLote) {
+            btn.innerHTML = `<div class="loader-inline"></div> Compactando arquivos` +
+                (numeroLote > 0 ? ` (parte ${numeroLote + 1})` : '') + `...`;
+
+            fetch(`${APPS_SCRIPT_URL}?action=downloadZip&token=${TOKEN}&lote=${numeroLote}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.erro) {
+                        alert(data.msg || "Não foi possível gerar o pacote de arquivos.");
+                        btn.innerHTML = textoOriginal;
+                        btn.disabled = false;
+                        return;
+                    }
+
+                    const link = document.createElement('a');
+                    link.href = `data:application/zip;base64,${data.bytes}`;
+
+                    // Nome do arquivo: se houver só 1 lote, mantém o nome simples;
+                    // com múltiplos lotes, numera cada parte.
+                    link.download = data.totalLotes > 1
+                        ? `Pacote_Arquivos_${dataHoje}_Parte${data.loteAtual + 1}de${data.totalLotes}.zip`
+                        : `Pacote_Arquivos_${dataHoje}.zip`;
+
+                    link.click();
+
+                    if (data.ultimoLote) {
+                        btn.innerHTML = textoOriginal;
+                        btn.disabled = false;
+                    } else {
+                        // Pequena pausa entre downloads, para o navegador processar
+                        // cada um antes de disparar o próximo (evita bloqueio de
+                        // múltiplos downloads simultâneos por alguns navegadores).
+                        setTimeout(() => baixarLote(numeroLote + 1), 800);
+                    }
+                })
+                .catch(() => {
+                    alert("Erro ao processar o download em lote.");
                     btn.innerHTML = textoOriginal;
                     btn.disabled = false;
-                    return;
-                }
-                
-                // AJUSTE DE DATA: Gera a data no formato dd-mm-aaaa
-                const dataHoje = new Date().toLocaleDateString('pt-BR').replace(/\//g, '-');
+                });
+        }
 
-                const link = document.createElement('a');
-                link.href = `data:application/zip;base64,${data.bytes}`;
-                
-                // O arquivo agora será baixado como: Pacote_Arquivos_25-06-2026.zip
-                link.download = `Pacote_Arquivos_${dataHoje}.zip`;
-                
-                link.click();
-                btn.innerHTML = textoOriginal;
-                btn.disabled = false;
-            })
-            .catch(() => {
-                alert("Erro ao processar o download em lote.");
-                btn.innerHTML = textoOriginal;
-                btn.disabled = false;
-            });
+        baixarLote(0);
     }
 
     // 6. Camada Extrema de Segurança no Navegador (Focado no Perfil LEITOR)
