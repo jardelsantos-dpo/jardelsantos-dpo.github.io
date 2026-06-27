@@ -1,6 +1,6 @@
 // Insira aqui a URL gerada após publicar o seu script como "Aplicativo da Web"
-const APPS_SCRIPT_URL = "https://google-drive-shield.jardelassis.workers.dev/";
- 
+//const APPS_SCRIPT_URL = "https://google-drive-shield.jardelassis.workers.dev/";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjp0qfCz5lQRssIH9fDdON-AwmwZa0iL3rB-ldTJ_rO0-NX6Sva5VenZswvIC1bx-3/exec";
 
 // Estados de controle baseados nas regras de negócio do seu arquivo GS
 let loginEtapa = "CREDENCIAIS"; // Pode mudar para "MFA" ou "ALTERAR_SENHA"
