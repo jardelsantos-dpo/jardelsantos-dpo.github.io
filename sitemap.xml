@@ -192,7 +192,13 @@
 
   <url>
     <loc>https://jardelsantos-dpo.github.io/login.html</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://jardelsantos-dpo.github.io/painel.html</loc>
+    <lastmod>2026-06-30</lastmod>
     <priority>0.5</priority>
   </url>
 
