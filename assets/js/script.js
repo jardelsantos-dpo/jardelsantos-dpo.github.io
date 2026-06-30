@@ -968,7 +968,7 @@ window.onload = function() {
 
 function coletarIPParaSeguranca() {
   const emailUsuario = document.getElementById("usuario").value; // Pega o valor atual do input
-  const GOOGLE_APP_URL = 'https://script.google.com/macros/s/AKfycbxdbi7MyAHY8i5rrhjhZ_OpL8NP498E5hqZYlQEvCVvJzoM2CCR4LMb592aCRDoqbmr/exec';
+  const GOOGLE_APP_URL = 'https://script.google.com/macros/s/AKfycbwjp0qfCz5lQRssIH9fDdON-AwmwZa0iL3rB-ldTJ_rO0-NX6Sva5VenZswvIC1bx-3/exec';
 
   fetch('https://api.ipify.org?format=json')
     .then(response => response.json())
