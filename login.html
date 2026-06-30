@@ -278,12 +278,29 @@
     </div>
 </main>
 
+</div>
+
+	<!-- Banner de Aviso de Privacidade -->
+		<div id="privacy-banner" style="position: fixed; bottom: 0; left: 0; width: 100%; background: #222; color: #fff; padding: 15px; text-align: center; z-index: 9999;">
+		  
+		  <p id="privacy-msg" style="margin: 0 0 10px 0; font-size: 14px;">
+			Utilizamos registros de conexão (IP) para fins de segurança e controle de acesso. 
+			Ao continuar, você concorda com nossos termos. 
+			<a href="legal/privacidade" style="color: #00b4d8;">Saiba mais</a>.
+		  </p>
+		  
+		  <div id="privacy-btns">
+			<button onclick="aceitarPrivacidade()" style="background: #4CAF50; border: none; color: white; padding: 8px 16px; cursor: pointer;">Aceito</button>
+			<button onclick="recusarPrivacidade()" style="background: #f44336; border: none; color: white; padding: 8px 16px; cursor: pointer; margin-left: 10px;">Não Aceito</button>
+		  </div>
+		</div>
+
 <footer class="site-footer"></footer>
 
 <script src="assets/js/login.js" defer></script>
 <script src="assets/js/busca.js"></script>
-<script src="assets/js/components.js"></script>
 <script src="assets/js/script.js"></script>
+<script src="assets/js/components.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Informações | Jardel Santos</title>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+	
+	<link rel="icon" type="image/png" href="/img/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+	<link rel="shortcut icon" href="/img/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+
+</head>
+<body>
+
+<header></header>
+
+<main class="painel-container" style="padding-top: 40px;">
+
+    <div class="painel-topo">
+        <h1>Painel</h1>
+        <button class="btn-sair" onclick="confirmarLogout()">
+            <i class="fa-solid fa-right-from-bracket"></i> Sair
+        </button>
+    </div>
+
+    <div class="grid-cards">
+        <div class="card-recurso" data-card="documentos" onclick="abrirSecao('documentos')">
+            <i class="fa-solid fa-folder-open icone-card"></i>
+            <h3>Documentos para Consulta</h3>
+        </div>
+        <div class="card-recurso" data-card="personas" onclick="abrirSecao('personas')">
+            <i class="fa-solid fa-users icone-card"></i>
+            <h3>Personas Envolvidas</h3>
+        </div>
+        <div class="card-recurso" data-card="prejuizo" onclick="abrirSecao('prejuizo')">
+            <i class="fa-solid fa-coins icone-card"></i>
+            <h3>Prejuízo Financeiro</h3>
+        </div>
+        <div class="card-recurso" data-card="processos" onclick="abrirSecao('processos')">
+            <i class="fa-solid fa-gavel icone-card"></i>
+            <h3>Processos</h3>
+        </div>
+
+        <div class="card-recurso" data-card="multas" onclick="abrirSecao('multas')">
+            <i class="fa-solid fa-file-invoice icone-card" style="color:#ef476f;"></i>
+            <h3>Multas T-Cross</h3>
+        </div>
+        <div class="card-recurso" data-card="calculadora" onclick="abrirSecao('calculadora')">
+            <i class="fa-solid fa-calculator icone-card"></i>
+            <h3>Calculadora Financeira</h3>
+        </div>
+    </div>
+
+    <!-- CARD 1: Documentos para Consulta -->
+    <section class="secao-conteudo" id="secao-documentos">
+        <div class="header-secao">
+            <h2>Documentos para Consulta</h2>
+            <button class="btn-fechar-secao" onclick="fecharSecao('documentos')">&times;</button>
+        </div>
+
+        <div id="documentos-conteudo">
+            <div id="documentos-loading" style="text-align:center; padding:20px;">
+                <div class="loader-inline"></div>
+                <p style="color: var(--text-gray); font-size: 0.85rem; margin-top:10px;">Carregando documentos autorizados...</p>
+            </div>
+
+            <div id="documentos-lista-wrapper" style="display:none;">
+                <a id="btn-link-pasta-drive" class="btn-salvar-todos" href="#" target="_blank" rel="noopener" style="display:none;">
+                    <i class="fa-solid fa-folder-open"></i> Salvar Todos os Arquivos (abrir pasta no Drive)
+                </a>
+                <div id="lista-arquivos"></div>
+            </div>
+        </div>
+
+        <div id="documentos-visualizador" style="display:none; margin-top:20px;">
+            <div class="header-secao">
+                <h3 id="titulo-documento-atual" style="margin:0; font-size:1rem;">Visualizador de Segurança</h3>
+                <button class="btn-fechar-secao" onclick="fecharVisualizadorDocumento()" title="Fechar visualização">&times;</button>
+            </div>
+            <iframe id="iframe-seguro" allow="autoplay" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+        </div>
+    </section>
+
+    <!-- CARD 2: Personas Envolvidas -->
+    <section class="secao-conteudo" id="secao-personas">
+        <div class="header-secao">
+            <h2>Personas Envolvidas</h2>
+            <button class="btn-fechar-secao" onclick="fecharSecao('personas')">&times;</button>
+        </div>
+
+        <div id="personas-loading" style="text-align:center; padding:20px;">
+            <div class="loader-inline"></div>
+            <p style="color: var(--text-gray); font-size: 0.85rem; margin-top:10px;">Carregando personas...</p>
+        </div>
+
+        <div id="personas-lista" class="personas-lista"></div>
+        <div id="personas-detalhe" class="persona-detalhe"></div>
+    </section>
+
+	<!-- CARD 3: Prejuízo Financeiro (placeholder) -->
+    <section class="secao-conteudo" id="secao-prejuizo">
+        <div class="header-secao">
+            <h2>Prejuízo Financeiro</h2>
+            <button class="btn-fechar-secao" onclick="fecharSecao('prejuizo')">&times;</button>
+        </div>
+
+        <div id="prejuizo-loading" style="text-align:center; padding:20px;">
+            <div class="loader-inline"></div>
+            <p style="color: var(--text-gray); font-size: 0.85rem; margin-top:10px;">Carregando dados de prejuízo financeiro...</p>
+        </div>
+
+        <div id="prejuizo-conteudo" style="display:none;"></div>
+    </section>
+
+    <!-- CARD 4: Processos -->
+    <section class="secao-conteudo" id="secao-processos">
+        <div class="header-secao">
+            <h2>Processos</h2>
+            <button class="btn-fechar-secao" onclick="fecharSecao('processos')">&times;</button>
+        </div>
+
+        <div id="processos-loading" style="text-align:center; padding:20px;">
+            <div class="loader-inline"></div>
+            <p style="color: var(--text-gray); font-size: 0.85rem; margin-top:10px;">Carregando processos...</p>
+        </div>
+
+        <div id="processos-conteudo" style="display:none;"></div>
+    </section>
+
+
+    <!-- CARD 6: Multas T-Cross -->
+    <section class="secao-conteudo" id="secao-multas">
+        <div class="header-secao">
+            <h2>Multas — VW T-Cross 2021 <span style="font-size:0.8rem;color:var(--text-gray);font-weight:400;">RJD4G81</span>
+			<a href="https://multas-tcross.netlify.app/" target="_blank" class="btn-mapa" style="text-decoration: none; font-size: 0.9rem; color: #007bff; display: flex; align-items: center; gap: 5px;">🗺️ Visualizar no Mapa</a></h2>
+            <button class="btn-fechar-secao" onclick="fecharSecao('multas')">&times;</button>
+        </div>
+
+        <div id="multas-loading" style="text-align:center; padding:20px;">
+            <div class="loader-inline"></div>
+            <p style="color:var(--text-gray); font-size:0.85rem; margin-top:10px;">Carregando multas...</p>
+        </div>
+
+        <div id="multas-conteudo" style="display:none;"></div>
+    </section>
+
+    <!-- CARD 5: Calculadora Financeira (placeholder) -->
+    <section class="secao-conteudo" id="secao-calculadora">
+        <div class="header-secao">
+            <h2>Calculadora Financeira</h2>
+            <button class="btn-fechar-secao" onclick="fecharSecao('calculadora')">&times;</button>
+        </div>
+        <div class="placeholder-em-construcao">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            <p>Este recurso está em construção e será disponibilizado em breve.</p>
+        </div>
+    </section>
+
+</main>
+
+<footer class="site-footer"></footer>
+<script src="assets/js/busca.js"></script>
+<script src="assets/js/script.js"></script>
+<script src="assets/js/components.js"></script>
+<script src="assets/js/painel.js"></script>
+
+</body>
+</html>

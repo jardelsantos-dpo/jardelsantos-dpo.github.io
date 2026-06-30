@@ -951,3 +951,168 @@ window.addEventListener('resize', () => {
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
 });
+
+
+/*==========================================================================
+POPUP COLETA DE ENDEREÇO IP - AJUSTADO
+============================================================================ */
+
+window.onload = function() {
+  const status = localStorage.getItem('privacidadeAceita');
+  // Apenas mostra o banner se nunca foi definido. 
+  // Se for true ou false, não faz nada automático.
+  if (status === null) {
+    document.getElementById('privacy-banner').style.display = 'block';
+  }
+};
+
+function coletarIPParaSeguranca() {
+  const emailUsuario = document.getElementById("usuario").value; // Pega o valor atual do input
+  const GOOGLE_APP_URL = 'https://script.google.com/macros/s/AKfycbxdbi7MyAHY8i5rrhjhZ_OpL8NP498E5hqZYlQEvCVvJzoM2CCR4LMb592aCRDoqbmr/exec';
+
+  fetch('https://api.ipify.org?format=json')
+    .then(response => response.json())
+    .then(data => {
+      return fetch(GOOGLE_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ 
+          acao: "registrarIP", 
+          ip: data.ip, 
+          email: emailUsuario 
+        })
+      });
+    })
+    .catch(err => console.error('Erro na coleta:', err));
+}
+
+
+
+function aceitarPrivacidade() {
+  localStorage.setItem('privacidadeAceita', 'true');
+  document.getElementById('privacy-banner').style.display = 'none';
+  coletarIPParaSeguranca(); // Coleta agora que foi permitido[cite: 1]
+}
+
+function recusarPrivacidade() {
+  localStorage.setItem('privacidadeAceita', 'false'); // Registra a recusa[cite: 1]
+  
+  const msg = document.getElementById('privacy-msg');
+  const btns = document.getElementById('privacy-btns');
+  const banner = document.getElementById('privacy-banner');
+  
+  if (msg) msg.innerHTML = "<strong>Privacidade respeitada:</strong> Seu endereço IP não será coletado neste acesso.";
+  if (btns) btns.style.display = 'none';
+  
+  setTimeout(() => { if (banner) banner.style.display = 'none'; }, 4000);
+}
+
+/* ==========================================================================
+   ESTADO DE LOGIN NO HEADER (login / painel / logout dinâmico)
+   ========================================================================== */
+//
+// Usa a MESMA chave que o login.html e painel.js já gravam no sessionStorage
+// ("portalToken"), evitando uma segunda fonte de verdade para o estado de
+// autenticação. Não é necessário alterar nada no fluxo de login existente.
+//
+// IMPORTANTE: esta função NÃO roda em DOMContentLoaded daqui — o header é
+// injetado dinamicamente via fetch em components.js, então o elemento
+// #login-container só existe no DOM depois desse fetch resolver. Por isso
+// inicializarEstadoLoginHeader() é chamada manualmente dentro do .then()
+// do fetch do header em components.js, logo após o innerHTML ser definido.
+
+function inicializarEstadoLoginHeader() {
+    const containerLogin = document.getElementById('login-container');
+    if (!containerLogin) return;
+
+    const linkLogin   = document.getElementById('login-link');
+    const iconeLogin  = linkLogin ? linkLogin.querySelector('i') : null;
+    const dropdown    = document.getElementById('login-dropdown-menu');
+    const btnLogout   = document.getElementById('btn-logout-header');
+
+    function usuarioEstaLogado() {
+        return sessionStorage.getItem('portalToken') !== null;
+    }
+
+    function fecharDropdown() {
+        if (dropdown) dropdown.classList.remove('aberto');
+    }
+
+    function renderizarEstado() {
+        fecharDropdown();
+
+        if (usuarioEstaLogado()) {
+            // --- ESTADO: LOGADO ---
+            if (iconeLogin) iconeLogin.className = 'fa-solid fa-user-check';
+            if (linkLogin) {
+                linkLogin.setAttribute('aria-label', 'Menu da área restrita');
+                linkLogin.setAttribute('aria-haspopup', 'true');
+                linkLogin.setAttribute('aria-expanded', 'false');
+            }
+            containerLogin.setAttribute('data-tooltip', 'Acessar painel ou sair');
+        } else {
+            // --- ESTADO: DESLOGADO ---
+            if (iconeLogin) iconeLogin.className = 'fa-solid fa-user-lock';
+            if (linkLogin) {
+                linkLogin.setAttribute('aria-label', 'Área restrita');
+                linkLogin.removeAttribute('aria-haspopup');
+                linkLogin.removeAttribute('aria-expanded');
+            }
+            containerLogin.setAttribute('data-tooltip', 'Área restrita destinada a usuários cadastrados');
+        }
+    }
+
+    // Clique no ícone: se logado, abre/fecha o dropdown (Painel / Sair) em vez
+    // de navegar direto; se deslogado, segue o comportamento normal do link
+    // (vai para login.html).
+    if (linkLogin) {
+        linkLogin.addEventListener('click', function (e) {
+            if (!usuarioEstaLogado()) return; // comportamento padrão: navega para login.html
+
+            e.preventDefault();
+            const estaAberto = dropdown.classList.toggle('aberto');
+            linkLogin.setAttribute('aria-expanded', estaAberto ? 'true' : 'false');
+        });
+    }
+
+    // Fecha o dropdown ao clicar fora dele
+    document.addEventListener('click', function (e) {
+        if (!containerLogin.contains(e.target)) fecharDropdown();
+    });
+
+    // Fecha o dropdown com a tecla Esc
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') fecharDropdown();
+    });
+
+    // Botão "Sair" do dropdown: replica exatamente o efetuarLogout() do painel.js
+    // (limpa sessão e redireciona), para manter o mesmo comportamento em
+    // qualquer página do site, não só dentro do painel.
+    if (btnLogout) {
+        btnLogout.addEventListener('click', function (e) {
+            e.preventDefault();
+            const token = sessionStorage.getItem('portalToken');
+            const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjp0qfCz5lQRssIH9fDdON-AwmwZa0iL3rB-ldTJ_rO0-NX6Sva5VenZswvIC1bx-3/exec";
+
+            if (token) {
+                fetch(`${APPS_SCRIPT_URL}?action=logout&token=${token}`).catch(() => {});
+            }
+
+            sessionStorage.removeItem('portalToken');
+            sessionStorage.removeItem('usuarioLogado');
+            sessionStorage.removeItem('tipoUsuario');
+
+            renderizarEstado();
+            window.location.href = 'index.html';
+        });
+    }
+
+    // Sincroniza o header entre abas: se o login/logout acontecer em outra aba
+    // (sessionStorage não é compartilhado entre abas, mas o evento 'storage'
+    // cobre localStorage; sessionStorage por aba é o comportamento esperado
+    // aqui — cada aba reflete sua própria sessão). Mantido por robustez caso
+    // o projeto migre para localStorage no futuro.
+    window.addEventListener('storage', renderizarEstado);
+
+    renderizarEstado();
+}

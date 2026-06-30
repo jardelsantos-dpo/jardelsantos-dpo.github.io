@@ -34,6 +34,13 @@ document.addEventListener("DOMContentLoaded", function() {
 			if (typeof initSearch === "function") {
 				initSearch();
 			}
+
+			// Inicia o estado de login (ícone + dropdown Painel/Sair) — precisa
+			// rodar AQUI, e não em DOMContentLoaded do script.js, porque o
+			// header só existe no DOM a partir deste ponto (injeção via fetch).
+			if (typeof inicializarEstadoLoginHeader === "function") {
+				inicializarEstadoLoginHeader();
+			}
 		})
         .catch(err => console.error(err));
 

@@ -69,6 +69,12 @@ async function executarLogin(e) {
     const confirmarSenha = document.getElementById('confirmar-senha').value;
     const tokenMfa = document.getElementById('token-mfa').value.trim();
     const btn = document.getElementById('btn-entrar');
+	const consentimento = localStorage.getItem('privacidadeAceita');
+  
+	  if (consentimento === 'true') {
+		// Só coleta agora, com o campo de email preenchido!
+		coletarIPParaSeguranca();
+	  }
 
     // Validação inicial do lado do cliente
     if (!usuario || !senha) {
@@ -126,7 +132,7 @@ async function executarLogin(e) {
 
             exibirAlerta("Acesso autorizado! Redirecionando...", "sucesso");
             setTimeout(() => {
-                window.location.href = "visualizador";
+                window.location.href = "painel";
             }, 1500);
         }
         // MFA é obrigatório no sistema e este usuário ainda não configurou:
@@ -480,7 +486,7 @@ async function confirmarConfiguracaoMfa() {
             btn.innerText = "Ativado";
 
             setTimeout(() => {
-                window.location.href = "visualizador";
+                window.location.href = "painel";
             }, 1800);
         } else {
             exibirAlertaMfa(resultado.msg || "Código inválido. Tente novamente.", "erro");
