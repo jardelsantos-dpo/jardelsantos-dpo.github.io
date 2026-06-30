@@ -1,3 +1,45 @@
+<style>
+/* HEADER MODIFICADO */
+#login-container { position: relative; }
+
+    .login-dropdown-menu {
+        display: none;
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        min-width: 160px;
+        background: #1a1a1e;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+        padding: 6px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        z-index: 200;
+    }
+    .login-dropdown-menu.aberto { display: block; }
+
+    .login-dropdown-menu a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 6px;
+        color: #e0e0e0;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-family: inherit;
+        transition: background 0.15s, color 0.15s;
+    }
+    .login-dropdown-menu a:hover {
+        background: rgba(255,255,255,0.06);
+        color: var(--color-primary, #0077b5);
+    }
+    .login-dropdown-menu a#btn-logout-header:hover {
+        color: #ef476f;
+        background: rgba(239,71,111,0.1);
+    }
+    .login-dropdown-menu i { width: 16px; text-align: center; }
+</style>
+
 <header class="main-header">
     <a href="index" class="logo" aria-label="Jardel Santos - Página Inicial">
         <i class="fas fa-user-shield" style="color: var(--color-primary); font-size: 30px;" aria-hidden="true"></i>
@@ -6,11 +48,11 @@
 
     <nav aria-label="Navegação principal">
         <ul class="nav-links" id="navLinks">
-            <li><a href="index">Início</a></li>
-            <li><a href="atuacao">Atuação</a></li>
-            <li><a href="artigos">Artigos</a></li>
-            <li><a href="projetos">Projetos</a></li>
-            <li><a href="sobre">Sobre</a></li>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="atuacao.html">Atuação</a></li>
+            <li><a href="artigos.html">Artigos</a></li>
+            <li><a href="projetos.html">Projetos</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
             
             <li class="nav-whatsapp-wrapper">
                 <a href="https://wa.me/5521995498872" target="_blank" class="nav-btn btn-whatsapp" aria-label="Falar no WhatsApp">
@@ -28,10 +70,18 @@
                 </button>
             </li>
             
-            <li class="nav-login-desktop tooltip-left" data-tooltip="Área restrita destinada a usuários cadastrados">
-                <a href="login" class="nav-btn btn-action" aria-label="Área restrita">
+            <li class="nav-login-desktop tooltip-left" id="login-container" data-tooltip="Área restrita destinada a usuários cadastrados">
+                <a href="login.html" class="nav-btn btn-action" id="login-link" aria-label="Área restrita">
                     <i class="fa-solid fa-user-lock" aria-hidden="true"></i>
                 </a>
+                <div class="login-dropdown-menu" id="login-dropdown-menu" role="menu">
+                    <a href="painel.html" role="menuitem">
+                        <i class="fa-solid fa-table-columns" aria-hidden="true"></i> Painel
+                    </a>
+                    <a href="#" id="btn-logout-header" role="menuitem">
+                        <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Sair
+                    </a>
+                </div>
             </li>
         </ul>
     </nav>
