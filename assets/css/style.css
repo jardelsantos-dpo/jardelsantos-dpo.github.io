@@ -1964,3 +1964,17 @@ cite.cite--sep-slash a + a::before { content: " / "; color: var(--text-gray); ma
         color: #fff !important;
     }
 }
+
+@media (max-width: 768px) {
+    /* Centraliza e iguala visualmente o título de subseção ao título principal no Mobile */
+    .sub-section-title {
+        justify-content: center;
+        text-align: center;
+        font-size: 1.8rem; 
+    }
+
+    /* Reduz levemente o título principal para criar harmonia com a subseção em telas pequenas */
+    .section-title {
+        font-size: 1.8rem !important; 
+    }
+}
