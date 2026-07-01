@@ -12,11 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <link rel="stylesheet" href="assets/css/style.css">
-	
-	<link rel="icon" type="image/png" href="/img/favicon-96x96.png" sizes="96x96" />
-	<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
-	<link rel="shortcut icon" href="/img/favicon.ico" />
-	<link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+
     <style>
         .painel-container {
             max-width: 1200px;
@@ -157,7 +153,7 @@
         }
         .info-arquivo { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
         .info-arquivo i { font-size: 1.2rem; }
-        .nome-arquivo { font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .nome-arquivo { font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
         .acoes-arquivo { display: flex; gap: 8px; flex-shrink: 0; }
         .btn-acao {
             border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;
@@ -274,6 +270,8 @@
             letter-spacing: 0.02em;
             flex: 1;
             min-width: 0;
+            overflow-wrap: anywhere;
+            word-break: break-word;
         }
         .proc-subtopo {
             display: flex;
@@ -324,6 +322,11 @@
             .card-arquivo { flex-direction: column; align-items: flex-start; }
             .acoes-arquivo { width: 100%; }
             .btn-acao { flex: 1; justify-content: center; }
+        }
+
+        @media (max-width: 480px) {
+            .proc-topo { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .badge-status { max-width: 100%; }
         }
 
         /* Card 6 - Multas */
@@ -502,8 +505,9 @@
             margin-top: 4px;
         }
         .btn-ver-mais-personas:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
-		
-		/* Card 3 - Prejuízo Financeiro */
+
+
+        /* Card 3 - Prejuízo Financeiro */
         .prejuizo-meta { font-size: 13px; color: var(--text-gray); margin-bottom: 1.2rem; }
 
         .prejuizo-tabs { display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 1.5rem; }
@@ -595,6 +599,139 @@
             border: 1px solid var(--border-color); margin-top: 10px; line-height: 1.6;
         }
 
+
+        /* ====== Calculadora Partilha ====== */
+        .calc-tabs {
+            display: flex; gap: 8px; margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color); padding-bottom: 0;
+        }
+        .calc-tab {
+            padding: 10px 18px; font-size: 13px; cursor: pointer;
+            border: none; border-bottom: 2px solid transparent;
+            color: var(--text-gray); background: none;
+            font-family: 'Poppins', sans-serif;
+            display: flex; align-items: center; gap: 7px;
+            transition: color 0.2s;
+        }
+        .calc-tab.active  { color: var(--primary-blue); border-bottom-color: var(--primary-blue); }
+        .calc-tab:hover:not(.active) { color: #e0e0e0; }
+
+        .calc-painel { display: none; }
+        .calc-painel.active { display: block; }
+
+        .calc-bloco {
+            background: #202024; border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 18px 20px; margin-bottom: 14px;
+        }
+        .calc-bloco-titulo {
+            font-size: 11px; font-weight: 700; letter-spacing: 0.07em;
+            text-transform: uppercase; color: var(--text-gray); margin-bottom: 14px;
+        }
+
+        .calc-info-proc {
+            font-size: 13px; color: var(--text-gray); line-height: 1.5;
+            display: flex; align-items: flex-start; gap: 8px;
+        }
+        .calc-info-proc strong { color: #e0e0e0; }
+        .calc-partilha-header { margin-bottom: 14px; }
+
+        /* Badges de índice */
+        .calc-indices-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+        .calc-badge {
+            padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;
+            cursor: pointer; border: 1px solid; background: transparent;
+            color: var(--badge-cor, #378ADD); font-family: 'Poppins', sans-serif;
+            transition: background 0.15s;
+        }
+        .calc-badge:hover { background: rgba(255,255,255,0.06); }
+        .calc-badge.selecionado { background: color-mix(in srgb, var(--badge-cor, #378ADD) 20%, transparent); }
+        .badge-blue   { --badge-cor: #378ADD; }
+        .badge-amber  { --badge-cor: #EF9F27; }
+        .badge-red    { --badge-cor: #E24B4A; }
+
+        /* Toggle juros */
+        .calc-juros-toggle { margin-top: 4px; }
+        .calc-toggle-label {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 13px; color: var(--text-gray); cursor: pointer;
+        }
+        .calc-toggle-label strong { color: #e0e0e0; }
+        .calc-toggle-label input[type=checkbox] { width: 15px; height: 15px; cursor: pointer; }
+
+        /* Bens da partilha */
+        .calc-bem-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            gap: 12px;
+        }
+        .calc-bem-row:last-child { border-bottom: none; }
+        .calc-bem-label { font-size: 14px; color: #e0e0e0; }
+        .calc-bem-original { font-size: 12px; color: var(--text-gray); margin-top: 2px; }
+        .calc-bem-resultado { font-size: 16px; font-weight: 700; color: #ef476f; white-space: nowrap; }
+
+        .calc-total-row {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 14px; padding: 14px 16px;
+            background: rgba(239,71,111,0.08); border-radius: 8px;
+            border: 1px solid rgba(239,71,111,0.2);
+        }
+        .calc-total-label { font-size: 13px; font-weight: 600; color: #c0c0c0; }
+        .calc-total-valor { font-size: 22px; font-weight: 700; color: #ef476f; }
+
+        /* Formulário livre */
+        .calc-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .calc-campo label { display: block; font-size: 12px; color: var(--text-gray); margin-bottom: 6px; }
+        .calc-campo input {
+            width: 100%; background: #16161a; border: 1px solid var(--border-color);
+            border-radius: 6px; padding: 9px 12px; color: #e0e0e0;
+            font-family: 'Poppins', sans-serif; font-size: 14px;
+        }
+        .calc-campo input:focus { outline: none; border-color: var(--primary-blue); }
+
+        /* Resultado livre */
+        .calc-resultado-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 10px; margin-bottom: 16px; }
+        .calc-res-item { background: #16161a; border-radius: 8px; padding: 12px 14px; border: 1px solid var(--border-color); }
+        .calc-res-item.destaque { border-color: rgba(239,71,111,0.3); background: rgba(239,71,111,0.07); }
+        .calc-res-label { font-size: 11px; color: var(--text-gray); margin-bottom: 6px; }
+        .calc-res-valor { font-size: 17px; font-weight: 700; color: #e0e0e0; }
+        .calc-res-item.destaque .calc-res-valor { color: #ef476f; }
+
+        /* Memória de cálculo */
+        .calc-mem-grid { margin-top: 16px; }
+        .calc-mem-titulo {
+            font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+            text-transform: uppercase; color: var(--text-gray);
+            margin-bottom: 8px;
+        }
+        .calc-mem-linha {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 8px; padding: 7px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 12px; color: #c0c0c0; align-items: center;
+        }
+        .calc-mem-linha.header { color: var(--text-gray); font-weight: 600; }
+        .calc-mem-linha.footer { font-weight: 600; color: #e0e0e0; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: none; padding-top: 10px; margin-top: 4px; }
+        .calc-mem-linha .destaque { color: #ef476f; font-weight: 700; }
+
+        /* Botão imprimir */
+        .calc-btn-imprimir {
+            margin-top: 18px; background: transparent;
+            border: 1px solid var(--border-color); color: var(--text-gray);
+            padding: 10px 20px; border-radius: 6px; cursor: pointer;
+            font-family: 'Poppins', sans-serif; font-size: 13px;
+            display: inline-flex; align-items: center; gap: 8px;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .calc-btn-imprimir:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
+
+        @media (max-width: 600px) {
+            .calc-form-grid { grid-template-columns: 1fr; }
+            .calc-mem-linha { grid-template-columns: 1fr 1fr; }
+            .calc-mem-linha .header span:nth-child(n+3),
+            .calc-mem-linha span:nth-child(n+3) { display: none; }
+        }
+
     </style>
 </head>
 <body>
@@ -634,7 +771,7 @@
         </div>
         <div class="card-recurso" data-card="calculadora" onclick="abrirSecao('calculadora')">
             <i class="fa-solid fa-calculator icone-card"></i>
-            <h3>Calculadora Financeira</h3>
+            <h3>Calculadora Partilha</h3>
         </div>
     </div>
 
@@ -653,7 +790,7 @@
 
             <div id="documentos-lista-wrapper" style="display:none;">
                 <a id="btn-link-pasta-drive" class="btn-salvar-todos" href="#" target="_blank" rel="noopener" style="display:none;">
-                    <i class="fa-solid fa-folder-open"></i> Salvar Todos os Arquivos (abrir pasta no Drive)
+                    <i class="fa-solid fa-folder-open"></i> Salvar todos os arquivos (abrir pasta no Drive)
                 </a>
                 <div id="lista-arquivos"></div>
             </div>
@@ -731,16 +868,19 @@
         <div id="multas-conteudo" style="display:none;"></div>
     </section>
 
-    <!-- CARD 5: Calculadora Financeira (placeholder) -->
+    <!-- CARD 5: Calculadora Partilha -->
     <section class="secao-conteudo" id="secao-calculadora">
         <div class="header-secao">
-            <h2>Calculadora Financeira</h2>
+            <h2>Calculadora Partilha</h2>
             <button class="btn-fechar-secao" onclick="fecharSecao('calculadora')">&times;</button>
         </div>
-        <div class="placeholder-em-construcao">
-            <i class="fa-solid fa-screwdriver-wrench"></i>
-            <p>Este recurso está em construção e será disponibilizado em breve.</p>
+
+        <div id="calc-loading" style="text-align:center; padding:20px; display:none;">
+            <div class="loader-inline"></div>
+            <p style="color:var(--text-gray); font-size:0.85rem; margin-top:10px;">Carregando calculadora...</p>
         </div>
+
+        <div id="calc-conteudo" style="display:none;"></div>
     </section>
 
 </main>

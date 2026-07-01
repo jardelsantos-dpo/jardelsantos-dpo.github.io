@@ -49,7 +49,8 @@ function abrirSecao(nomeCard) {
         if (nomeCard === "personas") carregarPersonas();
         if (nomeCard === "processos") carregarProcessos();
         if (nomeCard === "multas") carregarMultas();
-		if (nomeCard === "prejuizo") carregarPrejuizoFinanceiro();
+        if (nomeCard === "prejuizo") carregarPrejuizoFinanceiro();
+        if (nomeCard === "calculadora") carregarCalculadora();
     }
 
     // Rola a tela até a seção aberta, para o usuário ver o conteúdo
@@ -58,8 +59,7 @@ function abrirSecao(nomeCard) {
 }
 
 // Envia para o backend um registro de qual card/ação foi acessada.
-// "fire and forget": não bloqueia a navegação nem trata erro visualmente,
-// pois o log não pode atrapalhar a experiência do usuário no painel.
+// "fire and forget": não bloqueia a navegação nem trata erro visualmente.
 function registrarAcessoCard(card, detalhe) {
     let url = `${APPS_SCRIPT_URL}?action=registrarAcessoCard&token=${TOKEN}&card=${encodeURIComponent(card)}`;
     if (detalhe) url += `&detalhe=${encodeURIComponent(detalhe)}`;
@@ -344,9 +344,6 @@ function abrirDetalhePersona(idx) {
     lista.style.display = "none";
     if (loading) loading.style.display = "none";
 
-    // Registra no log qual persona específica foi aberta
-    registrarAcessoCard("personas", persona.nome);
-
     const camposHtml = persona.campos.map(c => `
         <div class="linha-campo-persona">
             <span class="nome-campo">${c.campo}</span>
@@ -441,17 +438,12 @@ function renderizarPrejuizoFinanceiro(data) {
 function renderizarPainelIolanda(iolanda) {
     const b = iolanda.blocosEspeciais;
 
-    // Totais agrupados vindos do backend:
-    //  - totalIntervencaoEliane: pensão em atraso + custo com defesa criminal
-    //  - totalObstrucaoInventario: conta bancária + meação (com IPCA + juros, total do backend)
+    // KPI: apenas danos diretos por intervenção de Eliane
     const totalIntervencao = iolanda.totalIntervencaoEliane;
-    const totalObstrucao   = iolanda.totalObstrucaoInventario;
 
-    // Total geral nominal (mantido para o card de total ao final) — soma os
-    // valores originais (sem correção) dos blocos especiais + itens da planilha
-    const totalBlocosEspeciaisNominal = b.contaBancaria.valorOriginal + b.meacaoBens.valorOriginal + b.pensao.totalEmAtraso;
+    // Total nominal dos itens individuais da planilha (ex: custo advogado)
     const totalItensIndividuais = (iolanda.itens || []).reduce((soma, i) => soma + (i.valorOriginal || 0), 0);
-    const totalNominal = totalBlocosEspeciaisNominal + totalItensIndividuais;
+    const totalNominal = b.pensao.totalEmAtraso + totalItensIndividuais;
 
     let html = `
         <div class="prejuizo-kpi-row">
@@ -461,33 +453,13 @@ function renderizarPainelIolanda(iolanda) {
                 <div class="prejuizo-kpi-sub">Pensão em atraso + defesa criminal</div>
             </div>
             <div class="prejuizo-kpi">
-                <div class="prejuizo-kpi-label">Danos por obstrução no inventário</div>
-                <div class="prejuizo-kpi-valor danger">${fmtBRL(totalObstrucao)}</div>
-                <div class="prejuizo-kpi-sub">Partilha judicial não concluída</div>
-            </div>
-            <div class="prejuizo-kpi">
                 <div class="prejuizo-kpi-label">Pensão em atraso</div>
                 <div class="prejuizo-kpi-valor warning">${fmtBRL(b.pensao.totalEmAtraso)}</div>
                 <div class="prejuizo-kpi-sub">${b.pensao.mesesEmAtraso} meses em atraso</div>
             </div>
         </div>
 
-        <div class="section-titlev1"><span class="section-numv1">1</span>Conta bancária — partilha judicial (15/01/2008)</div>
-        <div class="item-card">
-            <div class="item-header">
-                <div class="item-desc">50% do saldo em conta corrente — determinado judicialmente no proc. 0002179-28.2007.8.19.0204. A conclusão da partilha está impedida enquanto o inventário permanece suspenso por ações de Eliane.</div>
-                <div class="item-valor-destaque">${fmtBRL(b.contaBancaria.subtotalIpca)}</div>
-            </div>
-            <div><span class="item-badge badge-partilha">Partilha suspensa — proc. 0002179</span></div>
-            <div class="prejuizo-vals" style="margin-top:12px;">
-                <div class="val-block"><div class="val-label">Valor original (50%)</div><div class="val-num">${fmtBRL(b.contaBancaria.valorOriginal)}</div></div>
-                <div class="val-block"><div class="val-label">Fator IPCA acumulado</div><div class="val-num">${b.contaBancaria.fator.toFixed(4)}×</div></div>
-                <div class="val-block"><div class="val-label">Valor atualizado (IPCA)</div><div class="val-num updated">${fmtBRL(b.contaBancaria.subtotalIpca)}</div></div>
-            </div>
-            <div class="item-nota">Base: 50% do saldo apurado em 15/01/2008, atualizado pelo IPCA acumulado até a data-base do cálculo. Não inclui juros moratórios — apenas correção monetária.</div>
-        </div>
-
-        <div class="section-titlev1"><span class="section-numv1">2</span>Pensão alimentícia — suspensa desde ago/2025</div>
+        <div class="section-titlev1"><span class="section-numv1">1</span>Pensão alimentícia — suspensa desde ago/2025</div>
         <div class="item-card">
             <div class="item-header">
                 <div class="item-desc">Pensão mensal com trânsito julgado (proc. 0002177-58.2007.8.19.0204). Suspensa pois a Marinha aguarda certidão de óbito corrigida — correção impedida por Eliane e seu advogado junto ao cartório.</div>
@@ -509,15 +481,19 @@ function renderizarPainelIolanda(iolanda) {
     }
 
     html += `
-        <div class="prejuizo-total-card">
-            <div>
-                <div class="prejuizo-total-label">Total de danos mensurados — Iolanda</div>
-                <small>Conta + Pensão em atraso + itens adicionais · Valores nominais declarados — sem correção monetária aplicada</small>
-            </div>
-            <div class="prejuizo-total-valor">${fmtBRL(totalNominal)}</div>
-
+        <div class="prejuizo-nota-rodape" style="border-left: 2px solid var(--primary-blue); margin-top: 1.5rem;">
+            <strong style="color: #e0e0e0; display:block; margin-bottom: 6px;">
+                <i class="fa-solid fa-scale-balanced" style="color: var(--primary-blue); margin-right: 6px;"></i>
+                Outros danos não contabilizados acima
+            </strong>
+            Além dos danos materiais listados, Iolanda possui direito à partilha de bens determinada em processo judicial com trânsito em julgado de nº
+            <strong style="color: #e0e0e0;">0002179-28.2007.8.19.0204</strong>
+            — cujo cumprimento está impedido enquanto o processo de inventário permanecer suspenso em razão das ações da parte adversa.
+            Os valores referentes a esses direitos podem ser consultados no card
+            <strong style="color: var(--primary-blue); cursor: pointer;" onclick="fecharSecao('prejuizo'); abrirSecao('calculadora')">
+                Calculadora Partilha
+            </strong>.
         </div>
-        <div class="prejuizo-nota-rodape">Correção monetária (IPCA) e juros moratórios (1% a.m.) não estão aplicados. Os valores de partilha referem-se ao proc. 0002179. Solicite ao advogado o cálculo individualizado para apresentação em juízo.</div>
     `;
 
     return html;
@@ -583,7 +559,6 @@ function blocoItemMaterial(item) {
         </div>
     `;
 }
-
 
 
 // ---------------------------------------------------------------------
@@ -840,4 +815,438 @@ function encerrarPorInatividade() {
     sessionStorage.removeItem("usuarioLogado");
     sessionStorage.removeItem("tipoUsuario");
     window.location.href = "index";
+}
+
+// =====================================================================
+// CARD — Calculadora Partilha
+// =====================================================================
+
+let dadosCalculadora = null; // cache dos dados carregados da API
+
+function carregarCalculadora() {
+    const container = document.getElementById("calc-conteudo");
+    const loading   = document.getElementById("calc-loading");
+    if (loading) loading.style.display = "block";
+    if (container) container.style.display = "none";
+
+    fetch(`${APPS_SCRIPT_URL}?action=obterCalculadora&token=${TOKEN}`)
+        .then(res => res.json())
+        .then(data => {
+            if (loading) loading.style.display = "none";
+            if (data.erro) {
+                if (container) container.innerHTML =
+                    `<p style="color:#ef476f;">${data.msg || "Erro ao carregar calculadora."}</p>`;
+                if (container) container.style.display = "block";
+                return;
+            }
+            dadosCalculadora = data;
+            if (container) container.style.display = "block";
+            renderizarCalculadora(data);
+        })
+        .catch(() => {
+            if (loading) loading.style.display = "none";
+            if (container) {
+                container.innerHTML = '<p style="color:#ef476f;">Não foi possível carregar a calculadora. Tente novamente mais tarde.</p>';
+                container.style.display = "block";
+            }
+        });
+}
+
+// ------------------------------------------------------------------
+// Helpers de cálculo
+// ------------------------------------------------------------------
+
+function calcFatorEntreDatas(series, indice, anoIni, mesIni, anoFim, mesFim) {
+    const lista = (series[indice] || []);
+    // filtra o intervalo: mes/ano > inicio e <= fim
+    let fator = 1;
+    lista.forEach(p => {
+        const depois = p.ano > anoIni || (p.ano === anoIni && p.mes > mesIni);
+        const antes  = p.ano < anoFim || (p.ano === anoFim && p.mes <= mesFim);
+        if (depois && antes) fator *= (1 + p.variacaoMensal / 100);
+    });
+    return fator;
+}
+
+function mesesEntreDatas(anoIni, mesIni, anoFim, mesFim) {
+    return (anoFim - anoIni) * 12 + (mesFim - mesIni);
+}
+
+const NOMES_MES = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+
+function fmtMesAno(ano, mes) {
+    return NOMES_MES[mes - 1] + "/" + ano;
+}
+
+function fmtBRLCalc(v) {
+    return "R$ " + (isNaN(v) ? "0,00" : Math.abs(v).toLocaleString("pt-BR", {minimumFractionDigits:2, maximumFractionDigits:2}));
+}
+
+// ------------------------------------------------------------------
+// Renderização principal
+// ------------------------------------------------------------------
+
+function renderizarCalculadora(data) {
+    const container = document.getElementById("calc-conteudo");
+    if (!container) return;
+
+    const indices = data.indices || [];
+
+    container.innerHTML = `
+        <div class="calc-tabs">
+            <button class="calc-tab active" onclick="calcTrocarAba('partilha', this)">
+                <i class="fa-solid fa-scale-balanced"></i> Partilha Judicial
+            </button>
+            <button class="calc-tab" onclick="calcTrocarAba('livre', this)">
+                <i class="fa-solid fa-calculator"></i> Calculadora Livre
+            </button>
+        </div>
+
+        <div id="calc-painel-partilha" class="calc-painel active">
+            ${renderizarAbaPartilha(data, indices)}
+        </div>
+        <div id="calc-painel-livre" class="calc-painel">
+            ${renderizarAbaLivre(indices)}
+        </div>
+    `;
+}
+
+function calcTrocarAba(aba, el) {
+    document.querySelectorAll(".calc-tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".calc-painel").forEach(p => p.classList.remove("active"));
+    el.classList.add("active");
+    document.getElementById("calc-painel-" + aba).classList.add("active");
+}
+
+// ------------------------------------------------------------------
+// Aba A: Partilha Judicial (bens pré-carregados do Calculadora_Config)
+// ------------------------------------------------------------------
+
+function renderizarAbaPartilha(data, indices) {
+    const cfg = data.config || {};
+    const dataBase = cfg.dataBase || "15/01/2008";
+    const proc = cfg.processoPartilha || "0002179-28.2007.8.19.0204";
+    const perc = parseFloat(cfg.percentualMeacao || 50) / 100;
+    const juros = parseFloat(cfg.jurosAoMes || 1);
+
+    const bens = [
+        { id: "contaBancaria", label: "Conta bancária",    valorTotal: parseFloat(cfg.contaBancariaTotal || 0), valor50: parseFloat(cfg.contaBancariaTotal || 0) * perc },
+        { id: "karmanGhia",    label: "Karmann Ghia 1969", valorTotal: parseFloat(cfg.karmanGhia || 0),          valor50: parseFloat(cfg.karmanGhia || 0) * perc },
+        { id: "santanaQ",      label: "Santana Quantum",   valorTotal: parseFloat(cfg.santanaQuantum || 0),       valor50: parseFloat(cfg.santanaQuantum || 0) * perc },
+        { id: "terreno",       label: "Terreno Tanguá-RJ", valorTotal: parseFloat(cfg.terrenoTangua || 0),        valor50: parseFloat(cfg.terrenoTangua || 0) * perc },
+    ];
+
+    const seletorIndices = indices.map(idx =>
+        `<button class="calc-badge ${idx.badge || 'badge-blue'}"
+            style="border-color:${idx.cor || '#378ADD'}; --badge-cor:${idx.cor || '#378ADD'};"
+            onclick="calcPartilhaAtualizarIndice('${idx.indice}', this)"
+            title="${idx.uso || ''}"
+            data-indice="${idx.indice}">
+            ${idx.indice}
+        </button>`
+    ).join("");
+
+    const bensList = bens.map(b => `
+        <div class="calc-bem-row" id="bem-row-${b.id}">
+            <div class="calc-bem-info">
+                <div class="calc-bem-label">${b.label}</div>
+                <div class="calc-bem-original">50% = ${fmtBRLCalc(b.valor50)}</div>
+            </div>
+            <div class="calc-bem-resultado" id="bem-res-${b.id}">—</div>
+        </div>
+    `).join("");
+
+    return `
+        <div class="calc-partilha-header">
+            <div class="calc-info-proc">
+                <i class="fa-solid fa-gavel"></i>
+                Partilha referente ao proc. <strong>${proc}</strong> · Data-base: <strong>${dataBase}</strong>
+            </div>
+        </div>
+
+        <div class="calc-bloco">
+            <div class="calc-bloco-titulo">Selecione o índice de correção</div>
+            <div class="calc-indices-row" id="partilha-indices">
+                ${seletorIndices}
+            </div>
+            <div class="calc-juros-toggle">
+                <label class="calc-toggle-label">
+                    <input type="checkbox" id="partilha-juros" checked onchange="calcPartilhaRecalcular()">
+                    Incluir juros moratórios de <strong>${juros}% a.m.</strong> sobre o valor original
+                </label>
+            </div>
+        </div>
+
+        <div class="calc-bloco" id="partilha-resultado-bloco" style="display:none;">
+            <div class="calc-bloco-titulo">Resultado por bem — meação de 50%</div>
+            ${bensList}
+            <div class="calc-total-row">
+                <div class="calc-total-label">Total da meação (50%)</div>
+                <div class="calc-total-valor" id="partilha-total">—</div>
+            </div>
+            <div class="calc-mem-grid" id="partilha-memoria"></div>
+            <button class="calc-btn-imprimir" onclick="calcImprimir()">
+                <i class="fa-solid fa-print"></i> Salvar / Imprimir
+            </button>
+        </div>
+    `;
+}
+
+function calcPartilhaAtualizarIndice(indice, el) {
+    document.querySelectorAll("#partilha-indices .calc-badge").forEach(b => b.classList.remove("selecionado"));
+    el.classList.add("selecionado");
+    calcPartilhaRecalcular();
+}
+
+function calcPartilhaRecalcular() {
+    if (!dadosCalculadora) return;
+    const cfg = dadosCalculadora.config || {};
+    const series = dadosCalculadora.series || {};
+    const perc = parseFloat(cfg.percentualMeacao || 50) / 100;
+    const juros = parseFloat(cfg.jurosAoMes || 1) / 100;
+
+    const btnSel = document.querySelector("#partilha-indices .calc-badge.selecionado");
+    if (!btnSel) return;
+    const indice = btnSel.dataset.indice;
+    const incluirJuros = document.getElementById("partilha-juros").checked;
+
+    // Data-base
+    const dataBaseStr = cfg.dataBase || "15/01/2008";
+    const partes = dataBaseStr.split("/");
+    const anoIni = parseInt(partes[2]), mesIni = parseInt(partes[1]);
+    const agora = new Date();
+    const anoFim = agora.getFullYear(), mesFim = agora.getMonth() + 1;
+
+    const fatorIPCA = calcFatorEntreDatas(series, indice, anoIni, mesIni, anoFim, mesFim);
+    const meses = mesesEntreDatas(anoIni, mesIni, anoFim, mesFim);
+
+    // Bens pecuniários (conta bancária) recebem correção monetária + juros
+    // de mora normalmente. Bens partilhados IN NATURA (veículos, terreno)
+    // não seguem essa lógica — são avaliados pelo valor de mercado atual
+    // no momento da partilha efetiva, sem correção de um valor histórico.
+    const bens = [
+        { id: "contaBancaria", label: "Conta bancária",    valorTotal: parseFloat(cfg.contaBancariaTotal || 0), inNatura: false },
+        { id: "karmanGhia",    label: "Karmann Ghia 1969", valorTotal: parseFloat(cfg.karmanGhia || 0),          inNatura: true, valorMercadoAtual: parseFloat(cfg.karmanGhiaMercadoAtual || 0) },
+        { id: "santanaQ",      label: "Santana Quantum",   valorTotal: parseFloat(cfg.santanaQuantum || 0),       inNatura: true, valorMercadoAtual: parseFloat(cfg.santanaQuantumMercadoAtual || 0) },
+        { id: "terreno",       label: "Terreno Tanguá-RJ", valorTotal: parseFloat(cfg.terrenoTangua || 0),        inNatura: true, valorMercadoAtual: parseFloat(cfg.terrenoTanguaMercadoAtual || 0) },
+    ];
+
+    let totalMeacao = 0;
+    let memoriaHtml = `<div class="calc-mem-titulo">Memória de cálculo — índice: ${indice} · ${fmtMesAno(anoIni, mesIni)} → ${fmtMesAno(anoFim, mesFim)}</div>`;
+    memoriaHtml += `<div class="calc-mem-linha header"><span>Bem</span><span>50% original</span><span>Após ${indice}</span><span>Juros mora</span><span>Total</span></div>`;
+
+    bens.forEach(b => {
+        const v50 = b.valorTotal * perc;
+
+        if (b.inNatura) {
+            const temValorMercado = b.valorMercadoAtual > 0;
+            const total = temValorMercado ? (b.valorMercadoAtual * perc) : v50;
+            totalMeacao += total;
+
+            const el = document.getElementById("bem-res-" + b.id);
+            if (el) el.textContent = fmtBRLCalc(total);
+
+            memoriaHtml += `
+                <div class="calc-mem-linha">
+                    <span>${b.label}</span>
+                    <span>${fmtBRLCalc(v50)}</span>
+                    <span>—</span>
+                    <span>—</span>
+                    <span class="destaque">${fmtBRLCalc(total)}</span>
+                </div>
+                <div class="calc-mem-linha" style="border-bottom:none; padding-top:0;">
+                    <span style="grid-column: 1 / -1; font-style: italic; color:#8a8f98;">
+                        ${temValorMercado
+                            ? "Bem partilhado in natura — valor de mercado atual (50%), sem correção monetária ou juros de mora."
+                            : "Bem partilhado in natura — valor de mercado atual ainda não informado; exibindo 50% do valor histórico sem correção. Atualize \"" + b.id + "MercadoAtual\" na aba Calculadora_Config."}
+                    </span>
+                </div>`;
+            return;
+        }
+
+        const aposIPCA = v50 * fatorIPCA;
+        const jurosMora = incluirJuros ? v50 * juros * meses : 0;
+        const total = aposIPCA + jurosMora;
+        totalMeacao += total;
+
+        const el = document.getElementById("bem-res-" + b.id);
+        if (el) el.textContent = fmtBRLCalc(total);
+
+        memoriaHtml += `
+            <div class="calc-mem-linha">
+                <span>${b.label}</span>
+                <span>${fmtBRLCalc(v50)}</span>
+                <span>${fmtBRLCalc(aposIPCA)}</span>
+                <span>${incluirJuros ? fmtBRLCalc(jurosMora) : "—"}</span>
+                <span class="destaque">${fmtBRLCalc(total)}</span>
+            </div>`;
+    });
+
+    memoriaHtml += `
+        <div class="calc-mem-linha footer">
+            <span>Total da meação (50%)</span>
+            <span></span>
+            <span></span>
+            <span>${(incluirJuros ? "Conta bancária — Fator " + indice + ": " + fatorIPCA.toFixed(6) + "× · " + meses + " meses × " + (juros*100) + "% a.m." : "Conta bancária — Fator " + indice + ": " + fatorIPCA.toFixed(6) + "×") + " · Veículos/terreno: valor de mercado atual"}</span>
+            <span class="destaque">${fmtBRLCalc(totalMeacao)}</span>
+        </div>`;
+
+    document.getElementById("partilha-total").textContent = fmtBRLCalc(totalMeacao);
+    document.getElementById("partilha-memoria").innerHTML = memoriaHtml;
+    document.getElementById("partilha-resultado-bloco").style.display = "block";
+}
+
+// ------------------------------------------------------------------
+// Aba B: Calculadora Livre
+// ------------------------------------------------------------------
+
+function renderizarAbaLivre(indices) {
+    const seletorIndices = indices.map(idx =>
+        `<button class="calc-badge ${idx.badge || 'badge-blue'}"
+            style="border-color:${idx.cor || '#378ADD'}; --badge-cor:${idx.cor || '#378ADD'};"
+            onclick="calcLivreAtualizarIndice('${idx.indice}', this)"
+            title="${idx.uso || ''}"
+            data-indice="${idx.indice}">
+            ${idx.indice}
+        </button>`
+    ).join("");
+
+    return `
+        <div class="calc-bloco">
+            <div class="calc-bloco-titulo">Parâmetros do cálculo</div>
+            <div class="calc-form-grid">
+                <div class="calc-campo">
+                    <label>Valor original (R$)</label>
+                    <input type="number" id="livre-valor" placeholder="Ex: 18852.48" min="0" step="0.01" oninput="calcLivreRecalcular()">
+                </div>
+                <div class="calc-campo">
+                    <label>Data-base (mês/ano)</label>
+                    <input type="month" id="livre-data" oninput="calcLivreRecalcular()">
+                </div>
+            </div>
+            <div class="calc-bloco-titulo" style="margin-top:16px;">Índice de correção</div>
+            <div class="calc-indices-row" id="livre-indices">
+                ${seletorIndices}
+            </div>
+            <div class="calc-juros-toggle">
+                <label class="calc-toggle-label">
+                    <input type="checkbox" id="livre-juros" checked onchange="calcLivreRecalcular()">
+                    Incluir juros moratórios de <strong>1% a.m.</strong> sobre o valor original
+                </label>
+            </div>
+        </div>
+
+        <div class="calc-bloco" id="livre-resultado-bloco" style="display:none;">
+            <div class="calc-bloco-titulo">Resultado</div>
+            <div class="calc-resultado-grid">
+                <div class="calc-res-item">
+                    <div class="calc-res-label">Valor original</div>
+                    <div class="calc-res-valor" id="livre-res-original">—</div>
+                </div>
+                <div class="calc-res-item">
+                    <div class="calc-res-label">Após correção monetária</div>
+                    <div class="calc-res-valor" id="livre-res-ipca">—</div>
+                </div>
+                <div class="calc-res-item">
+                    <div class="calc-res-label">Juros de mora</div>
+                    <div class="calc-res-valor" id="livre-res-juros">—</div>
+                </div>
+                <div class="calc-res-item destaque">
+                    <div class="calc-res-label">Total atualizado</div>
+                    <div class="calc-res-valor" id="livre-res-total">—</div>
+                </div>
+            </div>
+            <div class="calc-mem-grid" id="livre-memoria"></div>
+            <button class="calc-btn-imprimir" onclick="calcImprimir()">
+                <i class="fa-solid fa-print"></i> Salvar / Imprimir
+            </button>
+        </div>
+    `;
+}
+
+function calcLivreAtualizarIndice(indice, el) {
+    document.querySelectorAll("#livre-indices .calc-badge").forEach(b => b.classList.remove("selecionado"));
+    el.classList.add("selecionado");
+    calcLivreRecalcular();
+}
+
+function calcLivreRecalcular() {
+    if (!dadosCalculadora) return;
+    const series = dadosCalculadora.series || {};
+
+    const valor = parseFloat(document.getElementById("livre-valor").value);
+    const dataStr = document.getElementById("livre-data").value; // "YYYY-MM"
+    const btnSel = document.querySelector("#livre-indices .calc-badge.selecionado");
+    const incluirJuros = document.getElementById("livre-juros").checked;
+
+    if (!valor || !dataStr || !btnSel) return;
+
+    const [anoIniStr, mesIniStr] = dataStr.split("-");
+    const anoIni = parseInt(anoIniStr), mesIni = parseInt(mesIniStr);
+    const agora = new Date();
+    const anoFim = agora.getFullYear(), mesFim = agora.getMonth() + 1;
+    const indice = btnSel.dataset.indice;
+
+    const fatorIPCA = calcFatorEntreDatas(series, indice, anoIni, mesIni, anoFim, mesFim);
+    const meses = mesesEntreDatas(anoIni, mesIni, anoFim, mesFim);
+    const aposIPCA = valor * fatorIPCA;
+    const jurosMora = incluirJuros ? valor * 0.01 * meses : 0;
+    const total = aposIPCA + jurosMora;
+
+    document.getElementById("livre-res-original").textContent = fmtBRLCalc(valor);
+    document.getElementById("livre-res-ipca").textContent = fmtBRLCalc(aposIPCA);
+    document.getElementById("livre-res-juros").textContent = incluirJuros ? fmtBRLCalc(jurosMora) : "—";
+    document.getElementById("livre-res-total").textContent = fmtBRLCalc(total);
+
+    document.getElementById("livre-memoria").innerHTML = `
+        <div class="calc-mem-titulo">Memória de cálculo — ${indice} · ${fmtMesAno(anoIni, mesIni)} → ${fmtMesAno(anoFim, mesFim)}</div>
+        <div class="calc-mem-linha"><span>Valor original</span><span>${fmtBRLCalc(valor)}</span></div>
+        <div class="calc-mem-linha"><span>Fator ${indice} acumulado</span><span>${fatorIPCA.toFixed(8)}×</span></div>
+        <div class="calc-mem-linha"><span>Subtotal 1 — após correção ${indice}</span><span>${fmtBRLCalc(aposIPCA)}</span></div>
+        ${incluirJuros ? `<div class="calc-mem-linha"><span>Juros de mora (${meses} meses × 1% a.m. s/ valor original)</span><span>${fmtBRLCalc(jurosMora)}</span></div>` : ""}
+        <div class="calc-mem-linha footer"><span>Total final</span><span class="destaque">${fmtBRLCalc(total)}</span></div>
+    `;
+
+    document.getElementById("livre-resultado-bloco").style.display = "block";
+}
+
+// ------------------------------------------------------------------
+// Impressão / exportação
+// ------------------------------------------------------------------
+
+function calcImprimir() {
+    const abaAtiva = document.querySelector(".calc-painel.active");
+    if (!abaAtiva) return;
+
+    const nomeAba = abaAtiva.id === "calc-painel-partilha" ? "Partilha Judicial" : "Calculadora Livre";
+    const conteudo = abaAtiva.innerHTML;
+    const agora = new Date().toLocaleString("pt-BR");
+
+    const janela = window.open("", "_blank");
+    janela.document.write(`
+        <!DOCTYPE html><html lang="pt-br"><head>
+        <meta charset="UTF-8">
+        <title>Calculadora Partilha — ${nomeAba}</title>
+        <style>
+            body { font-family: Arial, sans-serif; font-size: 13px; color: #111; padding: 24px; }
+            h1 { font-size: 16px; margin-bottom: 4px; }
+            .meta { font-size: 11px; color: #666; margin-bottom: 20px; }
+            .calc-mem-grid { margin-top: 16px; }
+            .calc-mem-titulo { font-weight: bold; margin-bottom: 8px; font-size: 12px; }
+            .calc-mem-linha { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 8px; padding: 5px 0; border-bottom: 1px solid #ddd; font-size: 12px; }
+            .calc-mem-linha.header { font-weight: bold; background: #f5f5f5; }
+            .calc-mem-linha.footer { font-weight: bold; background: #e8f0fe; }
+            .destaque { font-weight: bold; color: #c0392b; }
+            .calc-total-row { display: flex; justify-content: space-between; font-weight: bold; font-size: 15px; margin-top: 16px; padding: 10px; background: #f5f5f5; border-radius: 4px; }
+            button, .calc-tabs, .calc-indices-row, .calc-form-grid, .calc-juros-toggle, .calc-btn-imprimir { display: none !important; }
+            .calc-bloco { margin-bottom: 20px; }
+        </style>
+        </head><body>
+        <h1>Calculadora Partilha — ${nomeAba}</h1>
+        <div class="meta">Gerado em: ${agora} · Processo 0002179-28.2007.8.19.0204</div>
+        ${conteudo}
+        <script>window.onload = function() { window.print(); }<\/script>
+        </body></html>
+    `);
+    janela.document.close();
 }
