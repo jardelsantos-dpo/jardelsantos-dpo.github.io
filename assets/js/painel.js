@@ -965,7 +965,7 @@ function renderizarAbaPartilha(data, indices) {
         </div>
 
         <div class="calc-bloco">
-            <div class="calc-bloco-titulo">Selecione o índice de correção</div>
+            <div class="calc-bloco-titulo" id="partilha-titulo-indice">Selecione o índice de correção</div>
             <div class="calc-indices-row" id="partilha-indices">
                 ${seletorIndices}
             </div>
@@ -978,11 +978,13 @@ function renderizarAbaPartilha(data, indices) {
         </div>
 
         <div class="calc-bloco" id="partilha-resultado-bloco" style="display:none;">
-            <div class="calc-bloco-titulo">Resultado por bem — meação de 50%</div>
-            ${bensList}
-            <div class="calc-total-row">
-                <div class="calc-total-label">Total da meação (50%)</div>
-                <div class="calc-total-valor" id="partilha-total">—</div>
+            <div id="partilha-resultado-detalhe">
+                <div class="calc-bloco-titulo">Resultado por bem — meação de 50%</div>
+                ${bensList}
+                <div class="calc-total-row">
+                    <div class="calc-total-label">Total da meação (50%)</div>
+                    <div class="calc-total-valor" id="partilha-total">—</div>
+                </div>
             </div>
             <div class="calc-mem-grid" id="partilha-memoria"></div>
             <button class="calc-btn-imprimir" onclick="calcImprimir()">
@@ -1219,18 +1221,52 @@ function calcImprimir() {
     if (!abaAtiva) return;
 
     const nomeAba = abaAtiva.id === "calc-painel-partilha" ? "Partilha Judicial" : "Calculadora Livre";
-    const conteudo = abaAtiva.innerHTML;
     const agora = new Date().toLocaleString("pt-BR");
+
+    // Clona o painel ativo para manipular o conteúdo sem afetar a tela real.
+    const clone = abaAtiva.cloneNode(true);
+
+    if (abaAtiva.id === "calc-painel-partilha") {
+        // 1) Título do índice: "Selecione o índice de correção" -> "Índice de
+        //    correção selecionado: <índice>", com nota de juros abaixo, se marcado.
+        const btnSel = abaAtiva.querySelector("#partilha-indices .calc-badge.selecionado");
+        const indiceSelecionado = btnSel ? btnSel.dataset.indice : "—";
+        const incluirJuros = !!document.getElementById("partilha-juros") && document.getElementById("partilha-juros").checked;
+
+        const tituloIndice = clone.querySelector("#partilha-titulo-indice");
+        if (tituloIndice) {
+            tituloIndice.textContent = `Índice de correção selecionado: ${indiceSelecionado}`;
+            if (incluirJuros) {
+                const notaJuros = document.createElement("div");
+                notaJuros.className = "calc-print-nota-juros";
+                notaJuros.textContent = "Juros de mora de 1% ao mês incluído";
+                tituloIndice.insertAdjacentElement("afterend", notaJuros);
+            }
+        }
+
+        // 2) Remove a seção "Resultado por bem" (o quadro de Memória de
+        //    cálculo abaixo já traz o mesmo detalhamento por bem).
+        const detalheResultado = clone.querySelector("#partilha-resultado-detalhe");
+        if (detalheResultado) detalheResultado.remove();
+    }
+
+    const conteudo = clone.innerHTML;
 
     const janela = window.open("", "_blank");
     janela.document.write(`
         <!DOCTYPE html><html lang="pt-br"><head>
         <meta charset="UTF-8">
         <title>Calculadora Partilha — ${nomeAba}</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
         <style>
+            :root { --color-primary: #00d4ff; }
             body { font-family: Arial, sans-serif; font-size: 13px; color: #111; padding: 24px; }
+            .print-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+            .print-header i { color: var(--color-primary); font-size: 30px; }
+            .print-header span { font-size: 18px; font-weight: 700; }
             h1 { font-size: 16px; margin-bottom: 4px; }
             .meta { font-size: 11px; color: #666; margin-bottom: 20px; }
+            .calc-print-nota-juros { font-size: 12px; color: #444; margin-top: 4px; font-style: italic; }
             .calc-mem-grid { margin-top: 16px; }
             .calc-mem-titulo { font-weight: bold; margin-bottom: 8px; font-size: 12px; }
             .calc-mem-linha { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 8px; padding: 5px 0; border-bottom: 1px solid #ddd; font-size: 12px; }
@@ -1242,6 +1278,10 @@ function calcImprimir() {
             .calc-bloco { margin-bottom: 20px; }
         </style>
         </head><body>
+        <div class="print-header">
+            <i class="fas fa-user-shield" aria-hidden="true"></i>
+            <span>Jardel Santos</span>
+        </div>
         <h1>Calculadora Partilha — ${nomeAba}</h1>
         <div class="meta">Gerado em: ${agora} · Processo 0002179-28.2007.8.19.0204</div>
         ${conteudo}
