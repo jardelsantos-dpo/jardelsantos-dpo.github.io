@@ -104,6 +104,13 @@
         .secao-conteudo .header-secao h2 {
             margin: 0;
             font-size: 1.3rem;
+            flex: 1;
+        }
+        .header-secao-acoes {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-shrink: 0;
         }
         .btn-fechar-secao {
             background: transparent;
@@ -114,6 +121,15 @@
             line-height: 1;
         }
         .btn-fechar-secao:hover { color: #ef476f; }
+        .btn-imprimir-secao {
+            background: transparent;
+            border: none;
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .btn-imprimir-secao:hover { color: var(--primary-blue); }
 
         .placeholder-em-construcao {
             text-align: center;
@@ -235,6 +251,16 @@
             transition: border-color 0.2s, color 0.2s;
         }
         .btn-voltar-personas:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
+
+        .btn-imprimir-persona {
+            margin-top: 24px; margin-left: 10px; background: transparent;
+            border: 1px solid var(--border-color); color: var(--text-gray);
+            padding: 9px 20px; border-radius: 6px; cursor: pointer;
+            font-family: 'Poppins', sans-serif; font-size: 0.85rem;
+            display: inline-flex; align-items: center; gap: 8px;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .btn-imprimir-persona:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
 
         @media (max-width: 600px) {
             .linha-campo-persona { grid-template-columns: 1fr; gap: 2px; }
@@ -790,7 +816,7 @@
 
             <div id="documentos-lista-wrapper" style="display:none;">
                 <a id="btn-link-pasta-drive" class="btn-salvar-todos" href="#" target="_blank" rel="noopener" style="display:none;">
-                    <i class="fa-solid fa-folder-open"></i> Salvar todos os arquivos (abrir pasta no Drive)
+                    <i class="fa-solid fa-folder-open"></i> Salvar Todos os Arquivos (abrir pasta no Drive)
                 </a>
                 <div id="lista-arquivos"></div>
             </div>
@@ -825,7 +851,12 @@
     <section class="secao-conteudo" id="secao-prejuizo">
         <div class="header-secao">
             <h2>Prejuízo Financeiro</h2>
-            <button class="btn-fechar-secao" onclick="fecharSecao('prejuizo')">&times;</button>
+            <div class="header-secao-acoes">
+                <button class="btn-imprimir-secao" onclick="imprimirPrejuizoFinanceiro()" title="Salvar / Imprimir (Iolanda e Jardel)">
+                    <i class="fa-solid fa-print"></i>
+                </button>
+                <button class="btn-fechar-secao" onclick="fecharSecao('prejuizo')">&times;</button>
+            </div>
         </div>
 
         <div id="prejuizo-loading" style="text-align:center; padding:20px;">
@@ -840,7 +871,12 @@
     <section class="secao-conteudo" id="secao-processos">
         <div class="header-secao">
             <h2>Processos</h2>
-            <button class="btn-fechar-secao" onclick="fecharSecao('processos')">&times;</button>
+            <div class="header-secao-acoes">
+                <button class="btn-imprimir-secao" onclick="imprimirProcessos()" title="Salvar / Imprimir">
+                    <i class="fa-solid fa-print"></i>
+                </button>
+                <button class="btn-fechar-secao" onclick="fecharSecao('processos')">&times;</button>
+            </div>
         </div>
 
         <div id="processos-loading" style="text-align:center; padding:20px;">
@@ -857,7 +893,12 @@
         <div class="header-secao">
             <h2>Multas — VW T-Cross 2021 <span style="font-size:0.8rem;color:var(--text-gray);font-weight:400;">RJD4G81</span>
 			<a href="https://multas-tcross.netlify.app/" target="_blank" class="btn-mapa" style="text-decoration: none; font-size: 0.9rem; color: #007bff; display: flex; align-items: center; gap: 5px;">🗺️ Visualizar no Mapa</a></h2>
-            <button class="btn-fechar-secao" onclick="fecharSecao('multas')">&times;</button>
+            <div class="header-secao-acoes">
+                <button class="btn-imprimir-secao" onclick="imprimirMultas()" title="Salvar / Imprimir">
+                    <i class="fa-solid fa-print"></i>
+                </button>
+                <button class="btn-fechar-secao" onclick="fecharSecao('multas')">&times;</button>
+            </div>
         </div>
 
         <div id="multas-loading" style="text-align:center; padding:20px;">
