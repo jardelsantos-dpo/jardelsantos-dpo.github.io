@@ -300,7 +300,7 @@ ol { list-style-position: inside; text-align: justify; }
 /* ==========================================================================
    8. EDUCAÇÃO CONTINUADA E TI EXAMES
    ========================================================================== */
-.continuous-learning-block { margin-top: 3rem; }
+.continuous-learning-block { margin-top: 1rem; }
 .sub-section-title { font-size: 1.5rem; color: #fff; margin: 2.5rem 0 0.5rem; display: flex; align-items: center; gap: 10px; }
 .sub-section-title i { color: #00b4d8; }
 .section-title i { color: #00b4d8; }
@@ -1791,13 +1791,6 @@ cite.cite--sep-slash a + a::before { content: " / "; color: var(--text-gray); ma
 }
 
 @media (max-width: 768px) {
-    /* Centraliza e iguala visualmente o título de subseção ao título principal no Mobile */
-    .sub-section-title {
-        justify-content: center;
-        text-align: center;
-        font-size: 1.8rem; 
-    }
-
     /* Reduz levemente o título principal para criar harmonia com a subseção em telas pequenas */
     .section-title {
         font-size: 1.8rem !important; 
