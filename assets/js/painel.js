@@ -360,6 +360,9 @@ function abrirDetalhePersona(idx) {
         <button class="btn-voltar-personas" onclick="voltarListaPersonas()">
             <i class="fa-solid fa-arrow-left"></i> Voltar para personas
         </button>
+        <button class="btn-imprimir-persona" onclick="imprimirPersona(${idx})">
+            <i class="fa-solid fa-print"></i> Salvar / Imprimir
+        </button>
     `;
     detalhe.classList.add("visivel");
 }
@@ -1291,4 +1294,155 @@ function calcImprimir() {
         </body></html>
     `);
     janela.document.close();
+}
+
+// ------------------------------------------------------------------
+// Impressão genérica — Personas, Prejuízo Financeiro, Processos e
+// Multas T-Cross. Reaproveita o CSS já carregado na página (assets/
+// css/style.css + o <style> interno do painel.html), garantindo a
+// mesma fidelidade visual dos cards, e aplica por cima um tema de
+// impressão (fundo branco, texto escuro) preservando os acentos de
+// cor funcionais (badges de status, alertas, destaques).
+// ------------------------------------------------------------------
+
+function abrirImpressao(tituloDocumento, conteudoHtml, opcoes) {
+    opcoes = opcoes || {};
+    const agora = new Date().toLocaleString("pt-BR");
+
+    // Reaproveita todo o CSS já carregado na página atual (evita duplicar
+    // manualmente cada classe usada pelos cards em um novo stylesheet).
+    const estilosInternos = Array.from(document.querySelectorAll("style"))
+        .map(s => s.innerHTML).join("\n");
+
+    const janela = window.open("", "_blank");
+    janela.document.write(`
+        <!DOCTYPE html><html lang="pt-br"><head>
+        <meta charset="UTF-8">
+        <title>${tituloDocumento}</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <style>
+            ${estilosInternos}
+
+            :root { --color-primary: #1A73E8; }
+
+            /* ===== Tema de impressão: fundo branco, texto escuro ===== */
+            * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            html, body { background: #fff !important; color: #111 !important; padding: 24px; font-family: Arial, sans-serif; }
+
+            .proc-card, .multa-card, .item-card, .prejuizo-kpi, .multas-kpi,
+            .linha-campo-persona, .persona-detalhe-header, .val-block,
+            .prejuizo-nota-rodape {
+                background: #f7f7f8 !important;
+                border: 1px solid #ddd !important;
+                color: #111 !important;
+            }
+
+            .proc-numero, .nome-campo, .valor-campo, .persona-detalhe-nome,
+            .persona-item-nome, .persona-item-relacao, .item-desc, .item-nota,
+            .val-num, .val-label, .multa-descricao, .multa-auto, .multa-local,
+            .multa-meta-item, .kpi-label, .prejuizo-kpi-label, .prejuizo-kpi-sub,
+            .section-titlev1, .legenda-item, .prejuizo-meta, .proc-subtopo-item,
+            .proc-resumo, .prejuizo-nota-rodape, .prejuizo-nota-rodape strong {
+                color: #111 !important;
+            }
+
+            /* Acentos de cor funcionais, mantidos legíveis em papel */
+            .badge-status.ativo { background: #e8f0fe !important; color: #1a73e8 !important; }
+            .badge-status.suspenso, .badge-recurso.transitado,
+            .item-badge.badge-suspenso, .prejuizo-kpi-valor.danger,
+            .item-valor-destaque { background: #fdecec !important; color: #c0392b !important; }
+            .badge-status.encerrado { background: #eee !important; color: #555 !important; }
+            .badge-recurso.defesa, .badge-recurso.jari,
+            .prejuizo-kpi-valor.warning, .item-valor-destaque.warning {
+                background: #fff4e5 !important; color: #b45309 !important;
+            }
+            .val-num.updated { color: #1a73e8 !important; font-weight: 700; }
+            .section-numv1 { background: #1A73E8 !important; color: #fff !important; }
+
+            .print-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+            .print-header i { color: var(--color-primary); font-size: 30px; }
+            .print-header span { font-size: 18px; font-weight: 700; }
+            .print-titulo { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+            .print-meta { font-size: 11px; color: #666 !important; margin-bottom: 20px; }
+            .print-page-break { page-break-before: always; margin-top: 0; }
+            .print-subtitulo { font-size: 14px; font-weight: 700; margin: 18px 0 10px; color: #1A73E8 !important; }
+
+            /* Elementos interativos que não fazem sentido no papel */
+            button, .btn-fechar-secao, .btn-imprimir-secao, .btn-voltar-personas,
+            .btn-imprimir-persona, .btn-ver-mais-personas, .prejuizo-tabs, .btn-mapa, .loader-inline,
+            #personas-loading, #prejuizo-loading, #processos-loading, #multas-loading {
+                display: none !important;
+            }
+
+            ${opcoes.estiloExtra || ""}
+        </style>
+        </head><body>
+        <div class="print-header">
+            <i class="fas fa-user-shield" aria-hidden="true"></i>
+            <span>Jardel Santos</span>
+        </div>
+        <div class="print-titulo">${tituloDocumento}</div>
+        <div class="print-meta">Gerado em: ${agora}</div>
+        ${conteudoHtml}
+        <script>window.onload = function() { window.print(); }<\/script>
+        </body></html>
+    `);
+    janela.document.close();
+}
+
+// ---- Personas Envolvidas: botão só aparece com uma persona aberta ----
+function imprimirPersona(idx) {
+    const persona = personasCarregadas[idx];
+    if (!persona) return;
+
+    const camposHtml = persona.campos.map(c => `
+        <div class="linha-campo-persona">
+            <span class="nome-campo">${c.campo}</span>
+            <span class="valor-campo">${c.valor}</span>
+        </div>
+    `).join("");
+
+    const conteudo = `
+        <div class="persona-detalhe-header">
+            <div class="persona-avatar-grande">${gerarIniciais(persona.nome)}</div>
+            <div class="persona-detalhe-nome">${persona.nome}</div>
+        </div>
+        <div class="persona-detalhe-campos">${camposHtml}</div>
+    `;
+
+    abrirImpressao(`Persona — ${persona.nome}`, conteudo);
+}
+
+// ---- Prejuízo Financeiro: imprime as duas abas (Iolanda e Jardel) ----
+function imprimirPrejuizoFinanceiro() {
+    if (!dadosPrejuizoCarregados) return;
+    const data = dadosPrejuizoCarregados;
+    const mes = String(data.dataBaseCalculo.mes).padStart(2, "0");
+    const ano = data.dataBaseCalculo.ano;
+
+    const conteudo = `
+        <div class="prejuizo-meta">Consulta de danos — Caso Eliane · Base de referência: ${mes}/${ano} · Valores nominais declarados</div>
+        <div class="print-subtitulo">Iolanda</div>
+        ${renderizarPainelIolanda(data.iolanda)}
+        <div class="print-page-break"></div>
+        <div class="print-subtitulo">Jardel</div>
+        ${renderizarPainelJardel(data.jardel)}
+    `;
+
+    abrirImpressao("Prejuízo Financeiro — Iolanda e Jardel", conteudo);
+}
+
+// ---- Processos ----
+function imprimirProcessos() {
+    const container = document.getElementById("processos-conteudo");
+    if (!container || !container.innerHTML.trim()) return;
+    abrirImpressao("Processos", container.innerHTML);
+}
+
+// ---- Multas T-Cross ----
+function imprimirMultas() {
+    const container = document.getElementById("multas-conteudo");
+    if (!container || !container.innerHTML.trim()) return;
+    abrirImpressao("Multas — VW T-Cross 2021 (RJD4G81)", container.innerHTML);
 }
