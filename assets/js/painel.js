@@ -472,7 +472,7 @@ function renderizarPainelIolanda(iolanda) {
             </div>
         </div>
 
-        <div class="section-title"><span class="section-num">1</span>Conta bancária — partilha judicial (15/01/2008)</div>
+        <div class="section-titlev1"><span class="section-numv1">1</span>Conta bancária — partilha judicial (15/01/2008)</div>
         <div class="item-card">
             <div class="item-header">
                 <div class="item-desc">50% do saldo em conta corrente — determinado judicialmente no proc. 0002179-28.2007.8.19.0204. A conclusão da partilha está impedida enquanto o inventário permanece suspenso por ações de Eliane.</div>
@@ -487,7 +487,7 @@ function renderizarPainelIolanda(iolanda) {
             <div class="item-nota">Base: 50% do saldo apurado em 15/01/2008, atualizado pelo IPCA acumulado até a data-base do cálculo. Não inclui juros moratórios — apenas correção monetária.</div>
         </div>
 
-        <div class="section-title"><span class="section-num">2</span>Pensão alimentícia — suspensa desde ago/2025</div>
+        <div class="section-titlev1"><span class="section-numv1">2</span>Pensão alimentícia — suspensa desde ago/2025</div>
         <div class="item-card">
             <div class="item-header">
                 <div class="item-desc">Pensão mensal com trânsito julgado (proc. 0002177-58.2007.8.19.0204). Suspensa pois a Marinha aguarda certidão de óbito corrigida — correção impedida por Eliane e seu advogado junto ao cartório.</div>
@@ -504,7 +504,7 @@ function renderizarPainelIolanda(iolanda) {
     `;
 
     if (iolanda.itens && iolanda.itens.length > 0) {
-        html += `<div class="section-title"><span class="section-num">+</span>Outros itens de dano material</div>`;
+        html += `<div class="section-titlev1"><span class="section-numv1">+</span>Outros itens de dano material</div>`;
         iolanda.itens.forEach(item => { html += blocoItemMaterial(item); });
     }
 
@@ -546,7 +546,7 @@ function renderizarPainelJardel(jardel) {
                 <div class="prejuizo-kpi-sub">Valor nominal</div>
             </div>
         </div>
-        <div class="section-title">Prejuízos causados por Eliane, Rodrigo (adv.) e Rosemar</div>
+        <div class="section-titlev1">Prejuízos causados por Eliane, Rodrigo (adv.) e Rosemar</div>
     `;
 
     (jardel.itens || []).forEach(item => { html += blocoItemMaterial(item); });
