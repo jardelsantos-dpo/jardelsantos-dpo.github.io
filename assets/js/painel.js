@@ -1259,14 +1259,16 @@ function calcImprimir() {
         <title>Calculadora Partilha — ${nomeAba}</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
         <style>
-            :root { --color-primary: #00d4ff; }
+            :root { --color-primary: #1A73E8; }
             body { font-family: Arial, sans-serif; font-size: 13px; color: #111; padding: 24px; }
             .print-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
             .print-header i { color: var(--color-primary); font-size: 30px; }
             .print-header span { font-size: 18px; font-weight: 700; }
             h1 { font-size: 16px; margin-bottom: 4px; }
             .meta { font-size: 11px; color: #666; margin-bottom: 20px; }
-            .calc-print-nota-juros { font-size: 12px; color: #444; margin-top: 4px; font-style: italic; }
+            .calc-info-proc { margin-bottom: 10px; }
+            #partilha-titulo-indice { margin-bottom: 8px; }
+            .calc-print-nota-juros { font-size: 12px; color: #444; margin-top: 4px; margin-bottom: 10px; font-style: italic; }
             .calc-mem-grid { margin-top: 16px; }
             .calc-mem-titulo { font-weight: bold; margin-bottom: 8px; font-size: 12px; }
             .calc-mem-linha { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 8px; padding: 5px 0; border-bottom: 1px solid #ddd; font-size: 12px; }
