@@ -706,15 +706,15 @@
   },
    {
     "id": 56,
-    "titulo": "Imersão EXTIN AI Essentials",
+    "titulo": "Imersão EXIN AI Essentials",
     "ano": "2026",
     "categoria": "ai-governanca",
     "tag": "tag-ai-gov",
     "tagLabel": "Governança IA",
     "link": "assets/certificados/imersao-exin-ai-essentials-ti-exames.pdf",
 	"tipoLink": "Certificado",
-	"highlight": false,
-	"textoBadge": "Imersão EXTIN AI Essentials",
+	"highlight": true,
+	"textoBadge": "Imersão EXIN AI Essentials",
 	"tiExames": true
   }
 ]
