@@ -703,5 +703,18 @@
 	"highlight": false,
 	"textoBadge": "Segurança da Informação ISO/IEC 27002",
 	"tiExames": true
+  },
+   {
+    "id": 56,
+    "titulo": "Imersão EXTIN AI Essentials",
+    "ano": "2026",
+    "categoria": "ai-governanca",
+    "tag": "tag-ai-gov",
+    "tagLabel": "Governança IA",
+    "link": "assets/certificados/imersao-exin-ai-essentials-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"textoBadge": "Imersão EXTIN AI Essentials",
+	"tiExames": true
   }
 ]
