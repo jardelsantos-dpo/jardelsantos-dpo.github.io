@@ -51,6 +51,7 @@ function abrirSecao(nomeCard) {
         if (nomeCard === "multas") carregarMultas();
         if (nomeCard === "prejuizo") carregarPrejuizoFinanceiro();
         if (nomeCard === "calculadora") carregarCalculadora();
+        if (nomeCard === "dividas") carregarDividas();
     }
 
     // Rola a tela até a seção aberta, para o usuário ver o conteúdo
@@ -77,8 +78,44 @@ function fecharSecao(nomeCard) {
 // CARD 1 — Documentos para Consulta
 // ---------------------------------------------------------------------
 
+// Controla o estado visual (ícone girando + botão travado) de qualquer
+// botão "Atualizar" de card, reutilizável por todos eles. `funcaoCarregar`
+// deve ser uma das funções carregarX(), que precisam devolver a Promise
+// do fetch para que o botão saiba quando reabilitar.
+function acionarAtualizacao(btnId, funcaoCarregar) {
+    const btn = document.getElementById(btnId);
+    if (!btn || btn.disabled) return; // já atualizando, ignora clique duplo
+
+    btn.disabled = true;
+    btn.classList.add("girando");
+
+    const resultado = funcaoCarregar();
+
+    const reabilitar = () => {
+        btn.disabled = false;
+        btn.classList.remove("girando");
+    };
+
+    if (resultado && typeof resultado.finally === "function") {
+        resultado.finally(reabilitar);
+    } else {
+        // Segurança: caso a função não devolva uma Promise por algum motivo,
+        // reabilita o botão de qualquer forma após um tempo curto.
+        setTimeout(reabilitar, 800);
+    }
+}
+
 function carregarDocumentos() {
-    fetch(`${APPS_SCRIPT_URL}?action=obterDados&token=${TOKEN}`)
+    document.getElementById("documentos-lista-wrapper").style.display = "none";
+    const loading = document.getElementById("documentos-loading");
+    loading.style.display = "block";
+    loading.innerHTML =
+        '<div class="loader-inline"></div>' +
+        '<p style="color: var(--text-gray); font-size: 0.85rem; margin-top:10px;">Carregando documentos autorizados...</p>';
+
+    // Parâmetro "_" só serve para o navegador nunca reaproveitar uma
+    // resposta em cache de uma chamada anterior com a mesma URL.
+    return fetch(`${APPS_SCRIPT_URL}?action=obterDados&token=${TOKEN}&_=${Date.now()}`)
         .then(res => res.json())
         .then(data => {
             if (data.erro) {
@@ -92,9 +129,43 @@ function carregarDocumentos() {
         })
         .catch(err => {
             console.error("Erro ao conectar à API:", err);
-            document.getElementById("documentos-loading").innerHTML =
+            loading.innerHTML =
                 '<p style="color:#ef476f; font-size:0.85rem;">Não foi possível carregar os documentos. Tente novamente mais tarde.</p>';
         });
+}
+
+// Quebra um texto em linhas de no máximo `maxCaracteres`, preferindo
+// quebrar entre palavras (não no meio de uma palavra) sempre que possível.
+// Se uma única "palavra" (sem espaços) já for maior que o limite — comum
+// em nomes de arquivo sem espaços — ela é fatiada em pedaços fixos para
+// não estourar a linha de qualquer forma.
+function quebrarTexto(texto, maxCaracteres) {
+    maxCaracteres = maxCaracteres || 32;
+    const palavras = String(texto).split(" ");
+    const linhas = [];
+    let linhaAtual = "";
+
+    palavras.forEach(palavra => {
+        while (palavra.length > maxCaracteres) {
+            if (linhaAtual) {
+                linhas.push(linhaAtual);
+                linhaAtual = "";
+            }
+            linhas.push(palavra.slice(0, maxCaracteres));
+            palavra = palavra.slice(maxCaracteres);
+        }
+
+        const tentativa = linhaAtual ? linhaAtual + " " + palavra : palavra;
+        if (tentativa.length > maxCaracteres) {
+            linhas.push(linhaAtual);
+            linhaAtual = palavra;
+        } else {
+            linhaAtual = tentativa;
+        }
+    });
+
+    if (linhaAtual) linhas.push(linhaAtual);
+    return linhas.join("<br>");
 }
 
 function renderizarDocumentos(arquivos, urlPastaDrive) {
@@ -133,11 +204,18 @@ function renderizarDocumentos(arquivos, urlPastaDrive) {
         const nomeSemExtensao = arq.nome.replace(/\.[^/.]+$/, "");
         const nomeEscapado = arq.nome.replace(/'/g, "\\'");
 
+        // Selo com o caminho da subpasta, exibido só quando o arquivo não
+        // está na raiz da pasta configurada (arq.pasta vem "" nesse caso).
+        const seloPasta = arq.pasta
+            ? `<span class="selo-subpasta" title="Pasta: ${arq.pasta}"><i class="fa-solid fa-folder"></i> ${arq.pasta}</span>`
+            : '';
+
         html += `
             <div class="card-arquivo">
                 <div class="info-arquivo">
                     <i class="fa-solid ${icone}" style="color: ${corIcone};"></i>
-                    <span class="nome-arquivo" title="${arq.nome}">${nomeSemExtensao}</span>
+                    <span class="nome-arquivo" title="${arq.nome}">${quebrarTexto(nomeSemExtensao, 32)}</span>
+                    ${seloPasta}
                 </div>
                 <div class="acoes-arquivo">
                     <button class="btn-acao btn-ver" onclick="abrirArquivoNovaGuia('${arq.id}')">
@@ -212,7 +290,15 @@ let personasCarregadas = [];
 let secundariosVisiveis = false;
 
 function carregarPersonas() {
-    fetch(`${APPS_SCRIPT_URL}?action=obterPersonas&token=${TOKEN}`)
+    const loading = document.getElementById("personas-loading");
+    loading.style.display = "block";
+    loading.innerHTML =
+        '<div class="loader-inline"></div>' +
+        '<p style="color: var(--text-gray); font-size: 0.85rem; margin-top:10px;">Carregando personas...</p>';
+    document.getElementById("personas-lista").innerHTML = "";
+    document.getElementById("personas-detalhe").innerHTML = "";
+
+    return fetch(`${APPS_SCRIPT_URL}?action=obterPersonas&token=${TOKEN}&_=${Date.now()}`)
         .then(res => res.json())
         .then(data => {
             document.getElementById("personas-loading").style.display = "none";
@@ -382,11 +468,18 @@ function voltarListaPersonas() {
 let abaPrejuizoAtiva = "iolanda";
 
 function carregarPrejuizoFinanceiro() {
-    fetch(`${APPS_SCRIPT_URL}?action=obterPrejuizoFinanceiro&token=${TOKEN}`)
+    const loading = document.getElementById("prejuizo-loading");
+    const container = document.getElementById("prejuizo-conteudo");
+    loading.style.display = "block";
+    loading.innerHTML =
+        '<div class="loader-inline"></div>' +
+        '<p style="color: var(--text-gray); font-size: 0.85rem; margin-top:10px;">Carregando dados de prejuízo financeiro...</p>';
+    container.style.display = "none";
+
+    return fetch(`${APPS_SCRIPT_URL}?action=obterPrejuizoFinanceiro&token=${TOKEN}&_=${Date.now()}`)
         .then(res => res.json())
         .then(data => {
-            document.getElementById("prejuizo-loading").style.display = "none";
-            const container = document.getElementById("prejuizo-conteudo");
+            loading.style.display = "none";
             container.style.display = "block";
 
             if (data.erro) {
@@ -398,7 +491,7 @@ function carregarPrejuizoFinanceiro() {
             renderizarPrejuizoFinanceiro(data);
         })
         .catch(() => {
-            document.getElementById("prejuizo-loading").innerHTML =
+            loading.innerHTML =
                 '<p style="color:#ef476f; font-size:0.85rem;">Não foi possível carregar os dados. Tente novamente mais tarde.</p>';
         });
 }
@@ -569,11 +662,18 @@ function blocoItemMaterial(item) {
 // ---------------------------------------------------------------------
 
 function carregarProcessos() {
-    fetch(`${APPS_SCRIPT_URL}?action=obterProcessos&token=${TOKEN}`)
+    const loading = document.getElementById("processos-loading");
+    const container = document.getElementById("processos-conteudo");
+    loading.style.display = "block";
+    loading.innerHTML =
+        '<div class="loader-inline"></div>' +
+        '<p style="color: var(--text-gray); font-size: 0.85rem; margin-top:10px;">Carregando processos...</p>';
+    container.style.display = "none";
+
+    return fetch(`${APPS_SCRIPT_URL}?action=obterProcessos&token=${TOKEN}&_=${Date.now()}`)
         .then(res => res.json())
         .then(data => {
-            document.getElementById("processos-loading").style.display = "none";
-            const container = document.getElementById("processos-conteudo");
+            loading.style.display = "none";
             container.style.display = "block";
 
             if (data.erro) {
@@ -615,7 +715,7 @@ function carregarProcessos() {
             container.innerHTML = html;
         })
         .catch(() => {
-            document.getElementById("processos-loading").innerHTML =
+            loading.innerHTML =
                 '<p style="color:#ef476f; font-size:0.85rem;">Não foi possível carregar os processos. Tente novamente mais tarde.</p>';
         });
 }
@@ -637,11 +737,18 @@ function classificarStatusBadge(status) {
 // ---------------------------------------------------------------------
 
 function carregarMultas() {
-    fetch(`${APPS_SCRIPT_URL}?action=obterMultas&token=${TOKEN}`)
+    const loading = document.getElementById("multas-loading");
+    const container = document.getElementById("multas-conteudo");
+    loading.style.display = "block";
+    loading.innerHTML =
+        '<div class="loader-inline"></div>' +
+        '<p style="color:var(--text-gray); font-size:0.85rem; margin-top:10px;">Carregando multas...</p>';
+    container.style.display = "none";
+
+    return fetch(`${APPS_SCRIPT_URL}?action=obterMultas&token=${TOKEN}&_=${Date.now()}`)
         .then(res => res.json())
         .then(data => {
-            document.getElementById("multas-loading").style.display = "none";
-            const container = document.getElementById("multas-conteudo");
+            loading.style.display = "none";
             container.style.display = "block";
 
             if (data.erro) {
@@ -652,7 +759,7 @@ function carregarMultas() {
             renderizarMultas(data.multas || []);
         })
         .catch(() => {
-            document.getElementById("multas-loading").innerHTML =
+            loading.innerHTML =
                 '<p style="color:#ef476f; font-size:0.85rem;">Não foi possível carregar as multas. Tente novamente mais tarde.</p>';
         });
 }
@@ -757,6 +864,79 @@ function renderizarMultas(multas) {
 }
 
 // ---------------------------------------------------------------------
+// CARD 7 — Dívidas Conhecidas
+// ---------------------------------------------------------------------
+
+function carregarDividas() {
+    const loading = document.getElementById("dividas-loading");
+    const container = document.getElementById("dividas-conteudo");
+    loading.style.display = "block";
+    loading.innerHTML =
+        '<div class="loader-inline"></div>' +
+        '<p style="color:var(--text-gray); font-size:0.85rem; margin-top:10px;">Carregando dívidas conhecidas...</p>';
+    container.style.display = "none";
+
+    return fetch(`${APPS_SCRIPT_URL}?action=obterDividasConhecidas&token=${TOKEN}&_=${Date.now()}`)
+        .then(res => res.json())
+        .then(data => {
+            loading.style.display = "none";
+            container.style.display = "block";
+
+            if (data.erro) {
+                container.innerHTML = `<p style="color:#ef476f; font-size:0.9rem;">${data.msg || "Não foi possível carregar as dívidas."}</p>`;
+                return;
+            }
+
+            renderizarDividas(data.dividas || []);
+        })
+        .catch(() => {
+            loading.innerHTML =
+                '<p style="color:#ef476f; font-size:0.85rem;">Não foi possível carregar as dívidas. Tente novamente mais tarde.</p>';
+        });
+}
+
+// Guarda os dados carregados para reaproveitar na impressão sem
+// precisar reconsultar o DOM ou a API.
+let dividasCarregadas = [];
+
+function renderizarDividas(dividas) {
+    dividasCarregadas = dividas;
+
+    if (!dividas.length) {
+        document.getElementById("dividas-conteudo").innerHTML =
+            '<p style="color:var(--text-gray);">Nenhuma dívida cadastrada.</p>';
+        return;
+    }
+
+    const fmtBRL = v => "R$ " + Number(v).toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    const total = dividas.reduce((acc, d) => acc + (Number(d.valor) || 0), 0);
+
+    let html = `
+        <div class="dividas-kpi-total">
+            <div class="kpi-valor">${fmtBRL(total)}</div>
+            <div class="kpi-label">Total em dívidas conhecidas (${dividas.length} ${dividas.length === 1 ? "item" : "itens"})</div>
+        </div>
+        <div class="dividas-lista">
+    `;
+
+    dividas.forEach(d => {
+        html += `
+            <div class="divida-card">
+                <div class="divida-nome">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <span>${d.nomeDivida}</span>
+                </div>
+                <div class="divida-valor">${fmtBRL(d.valor)}</div>
+            </div>
+        `;
+    });
+
+    html += '</div>';
+    document.getElementById("dividas-conteudo").innerHTML = html;
+}
+
+// ---------------------------------------------------------------------
 // Segurança no navegador (mesmo comportamento do visualizador anterior)
 // ---------------------------------------------------------------------
 
@@ -832,7 +1012,7 @@ function carregarCalculadora() {
     if (loading) loading.style.display = "block";
     if (container) container.style.display = "none";
 
-    fetch(`${APPS_SCRIPT_URL}?action=obterCalculadora&token=${TOKEN}`)
+    return fetch(`${APPS_SCRIPT_URL}?action=obterCalculadora&token=${TOKEN}&_=${Date.now()}`)
         .then(res => res.json())
         .then(data => {
             if (loading) loading.style.display = "none";
@@ -963,7 +1143,10 @@ function renderizarAbaPartilha(data, indices) {
         <div class="calc-partilha-header">
             <div class="calc-info-proc">
                 <i class="fa-solid fa-gavel"></i>
-                Partilha referente ao proc. <strong>${proc}</strong> · Data-base: <strong>${dataBase}</strong>
+                <div class="calc-info-proc-linhas">
+                    <div>Partilha referente ao proc. <strong>${proc}</strong></div>
+                    <div>Data-base: <strong>${dataBase}</strong></div>
+                </div>
             </div>
         </div>
 
@@ -1332,7 +1515,7 @@ function abrirImpressao(tituloDocumento, conteudoHtml, opcoes) {
 
             .proc-card, .multa-card, .item-card, .prejuizo-kpi, .multas-kpi,
             .linha-campo-persona, .persona-detalhe-header, .val-block,
-            .prejuizo-nota-rodape {
+            .prejuizo-nota-rodape, .divida-card, .dividas-kpi-total {
                 background: #f7f7f8 !important;
                 border: 1px solid #ddd !important;
                 color: #111 !important;
@@ -1343,7 +1526,9 @@ function abrirImpressao(tituloDocumento, conteudoHtml, opcoes) {
             .val-num, .val-label, .multa-descricao, .multa-auto, .multa-local,
             .multa-meta-item, .kpi-label, .prejuizo-kpi-label, .prejuizo-kpi-sub,
             .section-titlev1, .legenda-item, .prejuizo-meta, .proc-subtopo-item,
-            .proc-resumo, .prejuizo-nota-rodape, .prejuizo-nota-rodape strong {
+            .proc-resumo, .prejuizo-nota-rodape, .prejuizo-nota-rodape strong,
+            .divida-nome, .divida-valor, .dividas-kpi-total .kpi-valor,
+            .dividas-kpi-total .kpi-label {
                 color: #111 !important;
             }
 
@@ -1371,7 +1556,8 @@ function abrirImpressao(tituloDocumento, conteudoHtml, opcoes) {
             /* Elementos interativos que não fazem sentido no papel */
             button, .btn-fechar-secao, .btn-imprimir-secao, .btn-voltar-personas,
             .btn-imprimir-persona, .btn-ver-mais-personas, .prejuizo-tabs, .btn-mapa, .loader-inline,
-            #personas-loading, #prejuizo-loading, #processos-loading, #multas-loading {
+            #personas-loading, #prejuizo-loading, #processos-loading, #multas-loading,
+            #dividas-loading {
                 display: none !important;
             }
 
@@ -1445,4 +1631,11 @@ function imprimirMultas() {
     const container = document.getElementById("multas-conteudo");
     if (!container || !container.innerHTML.trim()) return;
     abrirImpressao("Multas — VW T-Cross 2021 (RJD4G81)", container.innerHTML);
+}
+
+// ---- Dívidas Conhecidas ----
+function imprimirDividas() {
+    const container = document.getElementById("dividas-conteudo");
+    if (!container || !container.innerHTML.trim()) return;
+    abrirImpressao("Dívidas Conhecidas", container.innerHTML);
 }

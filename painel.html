@@ -12,6 +12,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <link rel="stylesheet" href="assets/css/style.css">
+	
+	<link rel="icon" type="image/png" href="/img/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+	<link rel="shortcut icon" href="/img/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
 
     <style>
         .painel-container {
@@ -130,6 +135,21 @@
             line-height: 1;
         }
         .btn-imprimir-secao:hover { color: var(--primary-blue); }
+        .btn-atualizar-secao {
+            background: transparent;
+            border: none;
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .btn-atualizar-secao:hover { color: var(--primary-blue); }
+        .btn-atualizar-secao:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-atualizar-secao.girando i { animation: girar-atualizar 0.8s linear infinite; }
+        @keyframes girar-atualizar {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
 
         .placeholder-em-construcao {
             text-align: center;
@@ -167,9 +187,31 @@
             gap: 10px;
             flex-wrap: wrap;
         }
-        .info-arquivo { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
-        .info-arquivo i { font-size: 1.2rem; }
-        .nome-arquivo { font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
+        .info-arquivo { display: flex; align-items: flex-start; gap: 12px; min-width: 0; flex: 1; }
+        .info-arquivo i { font-size: 1.2rem; margin-top: 2px; }
+        .nome-arquivo {
+            font-size: 0.9rem;
+            white-space: normal;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            line-height: 1.35;
+            flex: 1;
+            min-width: 0;
+        }
+        .selo-subpasta {
+            font-size: 0.72rem;
+            color: var(--text-gray);
+            background: #2a2a2f;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 2px 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .selo-subpasta i { font-size: 0.7rem; color: #ffd166; }
         .acoes-arquivo { display: flex; gap: 8px; flex-shrink: 0; }
         .btn-acao {
             border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;
@@ -476,6 +518,56 @@
             width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0;
         }
 
+        /* Card 7 - Dívidas Conhecidas */
+        .dividas-kpi-total {
+            background: #1a2530;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .dividas-kpi-total .kpi-valor {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #ef476f;
+        }
+        .dividas-kpi-total .kpi-label {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            margin-top: 6px;
+        }
+        .dividas-lista { display: flex; flex-direction: column; gap: 10px; }
+        .divida-card {
+            background: #202024;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            transition: border-color 0.2s;
+        }
+        .divida-card:hover { border-color: var(--primary-blue); }
+        .divida-nome {
+            font-size: 0.95rem;
+            color: #e8e8e8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+        .divida-nome i { color: #ef476f; flex-shrink: 0; }
+        .divida-valor {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ef476f;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
 
         /* Personas — grupos principal / secundário */
         .personas-grupo-label {
@@ -658,6 +750,7 @@
             font-size: 13px; color: var(--text-gray); line-height: 1.5;
             display: flex; align-items: flex-start; gap: 8px;
         }
+        .calc-info-proc-linhas { display: flex; flex-direction: column; gap: 2px; }
         .calc-info-proc strong { color: #e0e0e0; }
         .calc-partilha-header { margin-bottom: 14px; }
 
@@ -799,13 +892,22 @@
             <i class="fa-solid fa-calculator icone-card"></i>
             <h3>Calculadora Partilha</h3>
         </div>
+        <div class="card-recurso" data-card="dividas" onclick="abrirSecao('dividas')">
+            <i class="fa-solid fa-hand-holding-dollar icone-card" style="color:#ef476f;"></i>
+            <h3>Dívidas Conhecidas</h3>
+        </div>
     </div>
 
     <!-- CARD 1: Documentos para Consulta -->
     <section class="secao-conteudo" id="secao-documentos">
         <div class="header-secao">
             <h2>Documentos para Consulta</h2>
-            <button class="btn-fechar-secao" onclick="fecharSecao('documentos')">&times;</button>
+            <div class="header-secao-acoes">
+                <button class="btn-atualizar-secao" id="btn-atualizar-documentos" onclick="acionarAtualizacao('btn-atualizar-documentos', carregarDocumentos)" title="Atualizar lista de documentos">
+                    <i class="fa-solid fa-rotate"></i>
+                </button>
+                <button class="btn-fechar-secao" onclick="fecharSecao('documentos')">&times;</button>
+            </div>
         </div>
 
         <div id="documentos-conteudo">
@@ -835,7 +937,12 @@
     <section class="secao-conteudo" id="secao-personas">
         <div class="header-secao">
             <h2>Personas Envolvidas</h2>
-            <button class="btn-fechar-secao" onclick="fecharSecao('personas')">&times;</button>
+            <div class="header-secao-acoes">
+                <button class="btn-atualizar-secao" id="btn-atualizar-personas" onclick="acionarAtualizacao('btn-atualizar-personas', carregarPersonas)" title="Atualizar personas">
+                    <i class="fa-solid fa-rotate"></i>
+                </button>
+                <button class="btn-fechar-secao" onclick="fecharSecao('personas')">&times;</button>
+            </div>
         </div>
 
         <div id="personas-loading" style="text-align:center; padding:20px;">
@@ -852,6 +959,9 @@
         <div class="header-secao">
             <h2>Prejuízo Financeiro</h2>
             <div class="header-secao-acoes">
+                <button class="btn-atualizar-secao" id="btn-atualizar-prejuizo" onclick="acionarAtualizacao('btn-atualizar-prejuizo', carregarPrejuizoFinanceiro)" title="Atualizar dados">
+                    <i class="fa-solid fa-rotate"></i>
+                </button>
                 <button class="btn-imprimir-secao" onclick="imprimirPrejuizoFinanceiro()" title="Salvar / Imprimir (Iolanda e Jardel)">
                     <i class="fa-solid fa-print"></i>
                 </button>
@@ -872,6 +982,9 @@
         <div class="header-secao">
             <h2>Processos</h2>
             <div class="header-secao-acoes">
+                <button class="btn-atualizar-secao" id="btn-atualizar-processos" onclick="acionarAtualizacao('btn-atualizar-processos', carregarProcessos)" title="Atualizar processos">
+                    <i class="fa-solid fa-rotate"></i>
+                </button>
                 <button class="btn-imprimir-secao" onclick="imprimirProcessos()" title="Salvar / Imprimir">
                     <i class="fa-solid fa-print"></i>
                 </button>
@@ -894,6 +1007,9 @@
             <h2>Multas — VW T-Cross 2021 <span style="font-size:0.8rem;color:var(--text-gray);font-weight:400;">RJD4G81</span>
 			<a href="https://multas-tcross.netlify.app/" target="_blank" class="btn-mapa" style="text-decoration: none; font-size: 0.9rem; color: #007bff; display: flex; align-items: center; gap: 5px;">🗺️ Visualizar no Mapa</a></h2>
             <div class="header-secao-acoes">
+                <button class="btn-atualizar-secao" id="btn-atualizar-multas" onclick="acionarAtualizacao('btn-atualizar-multas', carregarMultas)" title="Atualizar multas">
+                    <i class="fa-solid fa-rotate"></i>
+                </button>
                 <button class="btn-imprimir-secao" onclick="imprimirMultas()" title="Salvar / Imprimir">
                     <i class="fa-solid fa-print"></i>
                 </button>
@@ -909,11 +1025,39 @@
         <div id="multas-conteudo" style="display:none;"></div>
     </section>
 
+    <!-- CARD 7: Dívidas Conhecidas -->
+    <section class="secao-conteudo" id="secao-dividas">
+        <div class="header-secao">
+            <h2>Dívidas Conhecidas</h2>
+            <div class="header-secao-acoes">
+                <button class="btn-atualizar-secao" id="btn-atualizar-dividas" onclick="acionarAtualizacao('btn-atualizar-dividas', carregarDividas)" title="Atualizar dívidas">
+                    <i class="fa-solid fa-rotate"></i>
+                </button>
+                <button class="btn-imprimir-secao" onclick="imprimirDividas()" title="Salvar / Imprimir">
+                    <i class="fa-solid fa-print"></i>
+                </button>
+                <button class="btn-fechar-secao" onclick="fecharSecao('dividas')">&times;</button>
+            </div>
+        </div>
+
+        <div id="dividas-loading" style="text-align:center; padding:20px;">
+            <div class="loader-inline"></div>
+            <p style="color:var(--text-gray); font-size:0.85rem; margin-top:10px;">Carregando dívidas conhecidas...</p>
+        </div>
+
+        <div id="dividas-conteudo" style="display:none;"></div>
+    </section>
+
     <!-- CARD 5: Calculadora Partilha -->
     <section class="secao-conteudo" id="secao-calculadora">
         <div class="header-secao">
             <h2>Calculadora Partilha</h2>
-            <button class="btn-fechar-secao" onclick="fecharSecao('calculadora')">&times;</button>
+            <div class="header-secao-acoes">
+                <button class="btn-atualizar-secao" id="btn-atualizar-calculadora" onclick="acionarAtualizacao('btn-atualizar-calculadora', carregarCalculadora)" title="Atualizar calculadora">
+                    <i class="fa-solid fa-rotate"></i>
+                </button>
+                <button class="btn-fechar-secao" onclick="fecharSecao('calculadora')">&times;</button>
+            </div>
         </div>
 
         <div id="calc-loading" style="text-align:center; padding:20px; display:none;">
