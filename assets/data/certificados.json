@@ -714,11 +714,11 @@
     "link": "assets/certificados/imersao-exin-ai-essentials-ti-exames.pdf",
 	"tipoLink": "Certificado",
 	"highlight": true,
-	"textoBadge": "EXIN AI ESSENTIALS",
+	"textoBadge": "EXIN AI Essentials",
 	"tiExames": true
   },
    {
-    "id": 56,
+    "id": 57,
     "titulo": "Governança de IA que destrava",
     "ano": "2026",
     "categoria": "ai-governanca",
