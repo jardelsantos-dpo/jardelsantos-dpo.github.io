@@ -716,5 +716,18 @@
 	"highlight": true,
 	"textoBadge": "EXIN AI Essentials",
 	"tiExames": true
+  },
+   {
+    "id": 56,
+    "titulo": "Governança de IA que destrava",
+    "ano": "2026",
+    "categoria": "ai-governanca",
+    "tag": "tag-ai-gov",
+    "tagLabel": "Governança IA",
+    "link": "assets/certificados/governanca-ia-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"textoBadge": "Governança de IA que destrava",
+	"tiExames": true
   }
 ]
