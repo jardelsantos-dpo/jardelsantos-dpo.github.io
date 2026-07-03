@@ -181,7 +181,7 @@
     "tag": "tag-ai-gov",
     "tagLabel": "Governança IA",
     "textoBadge": "auditoria iso/iec 42001:2023",
-    "link": "assets/certificados/auditoria-iso42001-ti-exames.pdf",
+    "link": "assets/certificados/auditoria-iso42001-ti-exames.pdf",imersao-exin-ai-essentials-ti-exames
     "tipoLink": "Certificado",
     "highlight": false,
 	"tiExames": true
@@ -702,6 +702,19 @@
 	"tipoLink": "Certificado",
 	"highlight": false,
 	"textoBadge": "Segurança da Informação ISO/IEC 27002",
+	"tiExames": true
+  },
+  {
+    "id": 56,
+    "titulo": "Imersão Exin AI Essentials",
+	"ano": "2026",
+    "categoria": "ai-governanca",
+    "tag": "tag-ai-gov",
+    "tagLabel": "Governança IA",
+    "textoBadge": "Imersão Exin AI Essentials",
+    "link": "assets/certificados/imersao-exin-ai-essentials-ti-exames.pdf",
+    "tipoLink": "Certificado",
+    "highlight": false,
 	"tiExames": true
   }
 ]
