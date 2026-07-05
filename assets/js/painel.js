@@ -9,6 +9,23 @@ if (!TOKEN) {
     window.location.href = "login";
 }
 
+// Envia uma ação para o backend via POST, com o token no CORPO da
+// requisição em vez de na querystring da URL. Isso evita que o token
+// fique gravado em históricos do navegador, logs de proxy corporativo,
+// ou visível de forma persistente em qualquer lugar que registre URLs
+// completas - diferente do corpo de um POST, que normalmente não é
+// logado dessa forma.
+//
+// Continua devolvendo a Promise do fetch (Response), igual ao fetch(url)
+// que existia antes, para não precisar alterar os ".then(res => res.json())"
+// já escritos em cada chamada abaixo.
+function chamarAPI(action, extraParams = {}) {
+    return fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: action, token: TOKEN, ...extraParams })
+    });
+}
+
 let perfilUsuario = "Leitor"; // Padrão de segurança restrito
 
 // Controla quais cards já tiveram seus dados carregados, para não repetir
@@ -62,9 +79,9 @@ function abrirSecao(nomeCard) {
 // Envia para o backend um registro de qual card/ação foi acessada.
 // "fire and forget": não bloqueia a navegação nem trata erro visualmente.
 function registrarAcessoCard(card, detalhe) {
-    let url = `${APPS_SCRIPT_URL}?action=registrarAcessoCard&token=${TOKEN}&card=${encodeURIComponent(card)}`;
-    if (detalhe) url += `&detalhe=${encodeURIComponent(detalhe)}`;
-    fetch(url).catch(() => {});
+    const extras = { card: card };
+    if (detalhe) extras.detalhe = detalhe;
+    chamarAPI("registrarAcessoCard", extras).catch(() => {});
 }
 
 function fecharSecao(nomeCard) {
@@ -115,7 +132,7 @@ function carregarDocumentos() {
 
     // Parâmetro "_" só serve para o navegador nunca reaproveitar uma
     // resposta em cache de uma chamada anterior com a mesma URL.
-    return fetch(`${APPS_SCRIPT_URL}?action=obterDados&token=${TOKEN}&_=${Date.now()}`)
+    return chamarAPI("obterDados")
         .then(res => res.json())
         .then(data => {
             if (data.erro) {
@@ -248,7 +265,7 @@ function renderizarDocumentos(arquivos, urlPastaDrive) {
 // "Ver": abre o documento em uma nova guia (permite tanto visualizar
 // quanto, a partir dela, salvar - conforme solicitado).
 function abrirArquivoNovaGuia(id) {
-    fetch(`${APPS_SCRIPT_URL}?action=obterLinkVisualizacao&token=${TOKEN}&fileId=${id}`)
+    chamarAPI("obterLinkVisualizacao", { fileId: id })
         .then(res => res.json())
         .then(data => {
             if (data.erro) {
@@ -266,7 +283,7 @@ function fecharVisualizadorDocumento() {
 }
 
 function baixarArquivoIndividual(id, nome) {
-    fetch(`${APPS_SCRIPT_URL}?action=stream&token=${TOKEN}&fileId=${id}&finalidade=download`)
+    chamarAPI("stream", { fileId: id, finalidade: "download" })
         .then(res => res.json())
         .then(data => {
             if (data.erro) {
@@ -298,7 +315,7 @@ function carregarPersonas() {
     document.getElementById("personas-lista").innerHTML = "";
     document.getElementById("personas-detalhe").innerHTML = "";
 
-    return fetch(`${APPS_SCRIPT_URL}?action=obterPersonas&token=${TOKEN}&_=${Date.now()}`)
+    return chamarAPI("obterPersonas")
         .then(res => res.json())
         .then(data => {
             document.getElementById("personas-loading").style.display = "none";
@@ -476,7 +493,7 @@ function carregarPrejuizoFinanceiro() {
         '<p style="color: var(--text-gray); font-size: 0.85rem; margin-top:10px;">Carregando dados de prejuízo financeiro...</p>';
     container.style.display = "none";
 
-    return fetch(`${APPS_SCRIPT_URL}?action=obterPrejuizoFinanceiro&token=${TOKEN}&_=${Date.now()}`)
+    return chamarAPI("obterPrejuizoFinanceiro")
         .then(res => res.json())
         .then(data => {
             loading.style.display = "none";
@@ -670,7 +687,7 @@ function carregarProcessos() {
         '<p style="color: var(--text-gray); font-size: 0.85rem; margin-top:10px;">Carregando processos...</p>';
     container.style.display = "none";
 
-    return fetch(`${APPS_SCRIPT_URL}?action=obterProcessos&token=${TOKEN}&_=${Date.now()}`)
+    return chamarAPI("obterProcessos")
         .then(res => res.json())
         .then(data => {
             loading.style.display = "none";
@@ -745,7 +762,7 @@ function carregarMultas() {
         '<p style="color:var(--text-gray); font-size:0.85rem; margin-top:10px;">Carregando multas...</p>';
     container.style.display = "none";
 
-    return fetch(`${APPS_SCRIPT_URL}?action=obterMultas&token=${TOKEN}&_=${Date.now()}`)
+    return chamarAPI("obterMultas")
         .then(res => res.json())
         .then(data => {
             loading.style.display = "none";
@@ -876,7 +893,7 @@ function carregarDividas() {
         '<p style="color:var(--text-gray); font-size:0.85rem; margin-top:10px;">Carregando dívidas conhecidas...</p>';
     container.style.display = "none";
 
-    return fetch(`${APPS_SCRIPT_URL}?action=obterDividasConhecidas&token=${TOKEN}&_=${Date.now()}`)
+    return chamarAPI("obterDividasConhecidas")
         .then(res => res.json())
         .then(data => {
             loading.style.display = "none";
@@ -965,7 +982,7 @@ function confirmarLogout() {
 }
 
 function efetuarLogout() {
-    fetch(`${APPS_SCRIPT_URL}?action=logout&token=${TOKEN}`).catch(() => {});
+    chamarAPI("logout").catch(() => {});
 
     sessionStorage.removeItem("portalToken");
     sessionStorage.removeItem("usuarioLogado");
@@ -992,7 +1009,7 @@ function reiniciarTimeoutInatividade() {
 function encerrarPorInatividade() {
     alert("Sua sessão foi encerrada automaticamente por inatividade (" + MINUTOS_INATIVIDADE + " minutos sem uso). Faça login novamente.");
 
-    fetch(`${APPS_SCRIPT_URL}?action=logout&token=${TOKEN}`).catch(() => {});
+    chamarAPI("logout").catch(() => {});
 
     sessionStorage.removeItem("portalToken");
     sessionStorage.removeItem("usuarioLogado");
@@ -1012,7 +1029,7 @@ function carregarCalculadora() {
     if (loading) loading.style.display = "block";
     if (container) container.style.display = "none";
 
-    return fetch(`${APPS_SCRIPT_URL}?action=obterCalculadora&token=${TOKEN}&_=${Date.now()}`)
+    return chamarAPI("obterCalculadora")
         .then(res => res.json())
         .then(data => {
             if (loading) loading.style.display = "none";
