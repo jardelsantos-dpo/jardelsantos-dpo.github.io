@@ -729,5 +729,18 @@
 	"highlight": false,
 	"textoBadge": "Governança de IA que destrava",
 	"tiExames": true
+  },
+   {
+    "id": 58,
+    "titulo": "Construção de PCN que funcionam",
+    "ano": "2026",
+	"categoria": "gestao",
+	"tag": "tag-gestao",
+	"tagLabel": "Gestão & Governança",
+    "link": "assets/certificados/pcn-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"textoBadge": "Plano de Continuidade de Negócios",
+	"tiExames": true
   }
 ]
