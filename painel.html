@@ -851,6 +851,137 @@
             .calc-mem-linha span:nth-child(n+3) { display: none; }
         }
 
+
+        /* ---------------------------------------------------------------
+           LINHA DO TEMPO — timeline vertical com fitas coloridas
+           alternando lado a lado, inspirada no card "UL timeline cards"
+        --------------------------------------------------------------- */
+        .timeline-wrapper {
+            position: relative;
+            max-width: 900px;
+            margin: 10px auto 0;
+            padding: 10px 0;
+        }
+        .timeline-linha-central {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color, rgba(255,255,255,0.15));
+            transform: translateX(-50%);
+        }
+        .timeline-item {
+            position: relative;
+            width: 46%;
+            margin-bottom: 34px;
+        }
+        .timeline-item.esquerda { left: 0; text-align: right; }
+        .timeline-item.direita  { left: 54%; text-align: left; }
+
+        .timeline-marcador {
+            position: absolute;
+            top: 6px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--card-bg, #13161c);
+            border: 3px solid #f4b400;
+            box-sizing: border-box;
+            z-index: 2;
+        }
+        .timeline-item.esquerda .timeline-marcador { right: -9%; transform: translateX(50%); }
+        .timeline-item.direita  .timeline-marcador { left: -9%;  transform: translateX(-50%); }
+
+        .timeline-fita {
+            display: inline-block;
+            position: relative;
+            padding: 8px 18px;
+            border-radius: 6px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            max-width: 100%;
+        }
+        /* "rabicho" da fita apontando para a linha central */
+        .timeline-item.esquerda .timeline-fita::after {
+            content: "";
+            position: absolute;
+            right: -9px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-style: solid;
+            border-width: 9px 0 9px 9px;
+            border-color: transparent transparent transparent currentColor;
+            opacity: 0.75;
+        }
+        .timeline-item.direita .timeline-fita::before {
+            content: "";
+            position: absolute;
+            left: -9px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-style: solid;
+            border-width: 9px 9px 9px 0;
+            border-color: transparent currentColor transparent transparent;
+            opacity: 0.75;
+        }
+
+        .timeline-titulo {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-white);
+            margin: 0 0 6px;
+        }
+        .timeline-descricao {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--text-gray);
+            margin: 0;
+        }
+        .timeline-item.esquerda .timeline-conteudo { padding-right: 14px; }
+        .timeline-item.direita  .timeline-conteudo { padding-left: 14px; }
+
+        @media (max-width: 720px) {
+            .timeline-linha-central { left: 14px; }
+            .timeline-item, .timeline-item.esquerda, .timeline-item.direita {
+                width: calc(100% - 46px);
+                left: 46px !important;
+                text-align: left !important;
+            }
+            .timeline-item .timeline-marcador {
+                left: -32px !important; right: auto !important; transform: none !important;
+            }
+            .timeline-item.esquerda .timeline-fita::after,
+            .timeline-item.direita .timeline-fita::before { display: none; }
+            .timeline-item.esquerda .timeline-conteudo,
+            .timeline-item.direita .timeline-conteudo { padding: 0; }
+        }
+
+        /* ---------------------------------------------------------------
+           UPLOAD DE ARQUIVOS
+        --------------------------------------------------------------- */
+        .upload-caixa {
+            background: var(--card-bg, #13161c);
+            border: 1px dashed var(--border-color, rgba(255,255,255,0.2));
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            max-width: 480px;
+        }
+        .upload-caixa input[type="file"] {
+            color: var(--text-gray);
+            font-size: 0.85rem;
+            max-width: 100%;
+        }
+        #btn-enviar-upload {
+            margin-top: 6px;
+        }
+        #btn-enviar-upload:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -895,6 +1026,14 @@
         <div class="card-recurso" data-card="dividas" onclick="abrirSecao('dividas')">
             <i class="fa-solid fa-hand-holding-dollar icone-card" style="color:#ef476f;"></i>
             <h3>Dívidas Conhecidas</h3>
+        </div>
+        <div class="card-recurso" data-card="linhadotempo" onclick="abrirSecao('linhadotempo')">
+            <i class="fa-solid fa-timeline icone-card" style="color:#f4b400;"></i>
+            <h3>Linha do Tempo</h3>
+        </div>
+        <div class="card-recurso" data-card="upload" onclick="abrirSecao('upload')" style="display:none;">
+            <i class="fa-solid fa-cloud-arrow-up icone-card" style="color:#2a9d8f;"></i>
+            <h3>Upload de Arquivos</h3>
         </div>
     </div>
 
@@ -1046,6 +1185,67 @@
         </div>
 
         <div id="dividas-conteudo" style="display:none;"></div>
+    </section>
+
+    <!-- CARD 8: Linha do Tempo -->
+    <section class="secao-conteudo" id="secao-linhadotempo">
+        <div class="header-secao">
+            <h2>Linha do Tempo</h2>
+            <div class="header-secao-acoes">
+                <button class="btn-atualizar-secao" id="btn-atualizar-linhadotempo" onclick="acionarAtualizacao('btn-atualizar-linhadotempo', carregarLinhaDoTempo)" title="Atualizar linha do tempo">
+                    <i class="fa-solid fa-rotate"></i>
+                </button>
+                <button class="btn-imprimir-secao" onclick="imprimirLinhaDoTempo()" title="Salvar / Imprimir">
+                    <i class="fa-solid fa-print"></i>
+                </button>
+                <button class="btn-fechar-secao" onclick="fecharSecao('linhadotempo')">&times;</button>
+            </div>
+        </div>
+
+        <div id="linhadotempo-loading" style="text-align:center; padding:20px;">
+            <div class="loader-inline"></div>
+            <p style="color:var(--text-gray); font-size:0.85rem; margin-top:10px;">Carregando linha do tempo...</p>
+        </div>
+
+        <div id="linhadotempo-filtro-wrapper" style="display:none; align-items:center; gap:8px; margin-bottom:16px;">
+            <label for="linhadotempo-filtro-categoria" style="font-size:0.8rem; color:var(--text-gray);">
+                <i class="fa-solid fa-filter"></i> Filtrar por categoria:
+            </label>
+            <select id="linhadotempo-filtro-categoria" onchange="filtrarLinhaDoTempo()"
+                style="background:#13161c; color:var(--text-white); border:1px solid var(--border-color); border-radius:4px; padding:6px 10px; font-size:0.85rem;">
+                <option value="todas">Todas</option>
+            </select>
+        </div>
+
+        <div id="linhadotempo-conteudo" style="display:none;"></div>
+    </section>
+
+    <!-- CARD 9: Upload de Arquivos (só visível para perfil Editor) -->
+    <section class="secao-conteudo" id="secao-upload">
+        <div class="header-secao">
+            <h2>Upload de Arquivos</h2>
+            <div class="header-secao-acoes">
+                <button class="btn-fechar-secao" onclick="fecharSecao('upload')">&times;</button>
+            </div>
+        </div>
+
+        <p style="color:var(--text-gray); font-size:0.85rem; margin-bottom:16px;">
+            Os arquivos enviados aqui passam por uma revisão antes de ficarem disponíveis
+            no card "Documentos para Consulta". Tipos aceitos: PDF, Word, Excel, CSV, TXT, JPG e PNG
+            (até 15&nbsp;MB por arquivo).
+        </p>
+
+        <div class="upload-caixa">
+            <input type="file" id="upload-input-arquivo" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png" onchange="aoSelecionarArquivoUpload()">
+            <div id="upload-arquivo-selecionado" style="margin:10px 0; font-size:0.85rem; color:var(--text-gray);">
+                Nenhum arquivo selecionado.
+            </div>
+            <button class="btn-salvar-todos" id="btn-enviar-upload" onclick="enviarArquivoUpload()" disabled>
+                <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+            </button>
+        </div>
+
+        <div id="upload-status" style="margin-top:14px; font-size:0.85rem;"></div>
     </section>
 
     <!-- CARD 5: Calculadora Partilha -->

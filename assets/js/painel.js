@@ -35,7 +35,27 @@ const cardsJaCarregados = {};
 document.addEventListener("DOMContentLoaded", function () {
     bloquearAtalhosSeguranca();
     iniciarMonitorDeInatividade();
+
+    // Descobre o perfil do usuário (Leitor/Editor) já na carga da página,
+    // sem esperar o usuário abrir o card "Documentos" - é o que decide se
+    // o card "Upload de Arquivos" deve aparecer ou não. Reaproveita
+    // carregarDocumentos() (que já faz essa chamada e guarda o resultado
+    // em perfilUsuario) e marca o card como já carregado, para não buscar
+    // os documentos de novo quando o usuário efetivamente abrir o card.
+    cardsJaCarregados["documentos"] = true;
+    carregarDocumentos().then(atualizarVisibilidadeCardsPorPerfil);
 });
+
+// Mostra/oculta cards que dependem do perfil (hoje só "Upload de
+// Arquivos", restrito a Editor). Isso é só uma conveniência de interface
+// - a permissão de verdade é sempre checada de novo no servidor a cada
+// ação, então esconder o card aqui não é a proteção real.
+function atualizarVisibilidadeCardsPorPerfil() {
+    const cardUpload = document.querySelector('.card-recurso[data-card="upload"]');
+    if (cardUpload) {
+        cardUpload.style.display = perfilUsuario === "Editor" ? "" : "none";
+    }
+}
 
 // ---------------------------------------------------------------------
 // Navegação entre cards / seções
@@ -69,6 +89,7 @@ function abrirSecao(nomeCard) {
         if (nomeCard === "prejuizo") carregarPrejuizoFinanceiro();
         if (nomeCard === "calculadora") carregarCalculadora();
         if (nomeCard === "dividas") carregarDividas();
+        if (nomeCard === "linhadotempo") carregarLinhaDoTempo();
     }
 
     // Rola a tela até a seção aberta, para o usuário ver o conteúdo
@@ -1655,4 +1676,275 @@ function imprimirDividas() {
     const container = document.getElementById("dividas-conteudo");
     if (!container || !container.innerHTML.trim()) return;
     abrirImpressao("Dívidas Conhecidas", container.innerHTML);
+}
+
+
+// ---------------------------------------------------------------------
+// CARD 8 — Linha do Tempo
+// ---------------------------------------------------------------------
+
+// Escapa HTML antes de inserir texto vindo da planilha no DOM via
+// innerHTML - evita que um valor de célula contendo "<script>" ou tags
+// HTML seja interpretado como código pelo navegador.
+function escaparHtml(texto) {
+    const div = document.createElement("div");
+    div.textContent = String(texto == null ? "" : texto);
+    return div.innerHTML;
+}
+
+// Paleta de cores das fitas, alternando na ordem em que os eventos
+// aparecem (mesmo espírito visual do card de referência: cada marco tem
+// uma cor diferente da anterior, sem precisar cadastrar cor na planilha).
+const TIMELINE_CORES = ["#2b3a55", "#f4b400", "#e63950", "#1f6fb2", "#2a9d8f", "#6d4aa3"];
+
+// Guarda os eventos já buscados do servidor, para que trocar o filtro de
+// categoria seja instantâneo (sem precisar chamar a API de novo).
+let linhaDoTempoCache = [];
+
+function carregarLinhaDoTempo() {
+    const loading = document.getElementById("linhadotempo-loading");
+    const container = document.getElementById("linhadotempo-conteudo");
+    const filtroWrapper = document.getElementById("linhadotempo-filtro-wrapper");
+    const selectFiltro = document.getElementById("linhadotempo-filtro-categoria");
+
+    // Preserva a categoria selecionada antes de atualizar, para não
+    // "resetar" o filtro do usuário toda vez que ele clica em Atualizar.
+    const categoriaAnterior = selectFiltro ? selectFiltro.value : "todas";
+
+    loading.style.display = "block";
+    loading.innerHTML =
+        '<div class="loader-inline"></div>' +
+        '<p style="color: var(--text-gray); font-size: 0.85rem; margin-top:10px;">Carregando linha do tempo...</p>';
+    container.style.display = "none";
+    filtroWrapper.style.display = "none";
+
+    return chamarAPI("obterLinhaDoTempo")
+        .then(res => res.json())
+        .then(data => {
+            loading.style.display = "none";
+            container.style.display = "block";
+
+            if (data.erro) {
+                container.innerHTML = `<p style="color:#ef476f; font-size:0.9rem;">${escaparHtml(data.msg || "Não foi possível carregar a linha do tempo.")}</p>`;
+                return;
+            }
+
+            linhaDoTempoCache = data.eventos || [];
+
+            if (linhaDoTempoCache.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-gray); font-size:0.9rem;">Nenhum evento cadastrado.</p>';
+                return;
+            }
+
+            popularFiltroCategoriasLinhaDoTempo(categoriaAnterior);
+            filtroWrapper.style.display = "flex";
+            renderizarLinhaDoTempo(selectFiltro.value);
+        })
+        .catch(() => {
+            loading.innerHTML =
+                '<p style="color:#ef476f; font-size:0.85rem;">Não foi possível carregar a linha do tempo. Tente novamente mais tarde.</p>';
+        });
+}
+
+// Monta as opções do <select> de categoria a partir dos valores que
+// realmente existem nos eventos carregados (nada fixo/hardcoded), e
+// tenta manter a categoria que estava selecionada antes de atualizar.
+function popularFiltroCategoriasLinhaDoTempo(categoriaParaManter) {
+    const select = document.getElementById("linhadotempo-filtro-categoria");
+
+    const categorias = Array.from(new Set(
+        linhaDoTempoCache
+            .map(e => (e.categoria || "").trim())
+            .filter(c => c !== "")
+    )).sort();
+
+    let opcoesHtml = '<option value="todas">Todas</option>';
+    categorias.forEach(cat => {
+        opcoesHtml += `<option value="${escaparHtml(cat)}">${escaparHtml(cat)}</option>`;
+    });
+    // Eventos sem categoria preenchida também podem existir - agrupa-os.
+    const temSemCategoria = linhaDoTempoCache.some(e => !(e.categoria || "").trim());
+    if (temSemCategoria) {
+        opcoesHtml += '<option value="__sem_categoria__">Sem categoria</option>';
+    }
+
+    select.innerHTML = opcoesHtml;
+
+    // Restaura a seleção anterior, se essa categoria ainda existir na
+    // lista atual; caso contrário, cai de volta para "Todas".
+    const valores = Array.from(select.options).map(o => o.value);
+    select.value = valores.includes(categoriaParaManter) ? categoriaParaManter : "todas";
+}
+
+// Chamada pelo <select onchange> - filtra e redesenha usando o cache
+// local, sem nenhuma chamada ao servidor.
+function filtrarLinhaDoTempo() {
+    const select = document.getElementById("linhadotempo-filtro-categoria");
+    renderizarLinhaDoTempo(select.value);
+}
+
+// Desenha a timeline no DOM a partir do cache, aplicando o filtro de
+// categoria selecionado ("todas" = sem filtro).
+function renderizarLinhaDoTempo(filtroCategoria) {
+    const container = document.getElementById("linhadotempo-conteudo");
+
+    const eventosFiltrados = linhaDoTempoCache.filter(evento => {
+        if (!filtroCategoria || filtroCategoria === "todas") return true;
+        const categoria = (evento.categoria || "").trim();
+        if (filtroCategoria === "__sem_categoria__") return categoria === "";
+        return categoria === filtroCategoria;
+    });
+
+    if (eventosFiltrados.length === 0) {
+        container.innerHTML = '<p style="color:var(--text-gray); font-size:0.9rem;">Nenhum evento nesta categoria.</p>';
+        return;
+    }
+
+    let html = '<div class="timeline-wrapper"><div class="timeline-linha-central"></div>';
+
+    eventosFiltrados.forEach((evento, indice) => {
+        const lado = indice % 2 === 0 ? "esquerda" : "direita";
+        const cor = TIMELINE_CORES[indice % TIMELINE_CORES.length];
+
+        html += `
+            <div class="timeline-item ${lado}">
+                <div class="timeline-marcador" style="border-color:${cor};"></div>
+                <div class="timeline-conteudo">
+                    <span class="timeline-fita" style="background:${cor}; color:${cor};">
+                        <span style="color:#fff;">${escaparHtml(evento.data)}</span>
+                    </span>
+                    <p class="timeline-titulo">${escaparHtml(evento.titulo)}</p>
+                    <p class="timeline-descricao">${escaparHtml(evento.descricao)}</p>
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+// Imprime exatamente o que está sendo exibido no momento (respeita o
+// filtro de categoria ativo), reaproveitando o padrão dos outros cards.
+function imprimirLinhaDoTempo() {
+    const container = document.getElementById("linhadotempo-conteudo");
+    if (!container || !container.innerHTML.trim()) return;
+
+    abrirImpressao("Linha do Tempo", container.innerHTML, {
+        estiloExtra: `
+            .timeline-titulo, .timeline-descricao { color: #111 !important; }
+            .timeline-linha-central { background: #999 !important; }
+            .timeline-marcador { background: #fff !important; }
+            .timeline-fita, .timeline-fita span { color: #fff !important; }
+        `
+    });
+}
+
+
+// ---------------------------------------------------------------------
+// CARD 9 — Upload de Arquivos (Editor)
+// ---------------------------------------------------------------------
+//
+// Toda a validação "de verdade" (perfil Editor, tipo de arquivo, tamanho)
+// é refeita no servidor - o que está aqui é só para dar feedback rápido
+// ao usuário sem esperar o upload inteiro para descobrir que o arquivo
+// não é aceito.
+
+const UPLOAD_TAMANHO_MAXIMO_BYTES = 15 * 1024 * 1024; // 15 MB - espelha o TAMANHO_MAXIMO_UPLOAD_BYTES do .gs
+const UPLOAD_EXTENSOES_PERMITIDAS = ["pdf", "doc", "docx", "xls", "xlsx", "csv", "txt", "jpg", "jpeg", "png"];
+
+let arquivoSelecionadoParaUpload = null;
+
+function aoSelecionarArquivoUpload() {
+    const input = document.getElementById("upload-input-arquivo");
+    const infoDiv = document.getElementById("upload-arquivo-selecionado");
+    const btnEnviar = document.getElementById("btn-enviar-upload");
+    const statusDiv = document.getElementById("upload-status");
+
+    statusDiv.innerHTML = "";
+    arquivoSelecionadoParaUpload = null;
+    btnEnviar.disabled = true;
+
+    const arquivo = input.files && input.files[0];
+    if (!arquivo) {
+        infoDiv.textContent = "Nenhum arquivo selecionado.";
+        return;
+    }
+
+    const extensao = (arquivo.name.split(".").pop() || "").toLowerCase();
+    const tamanhoMB = (arquivo.size / (1024 * 1024)).toFixed(2);
+
+    if (UPLOAD_EXTENSOES_PERMITIDAS.indexOf(extensao) === -1) {
+        infoDiv.innerHTML = `<span style="color:#ef476f;">Tipo ".${escaparHtml(extensao)}" não é aceito.</span>`;
+        input.value = "";
+        return;
+    }
+
+    if (arquivo.size > UPLOAD_TAMANHO_MAXIMO_BYTES) {
+        infoDiv.innerHTML = `<span style="color:#ef476f;">Arquivo muito grande (${tamanhoMB} MB). O limite é 15 MB.</span>`;
+        input.value = "";
+        return;
+    }
+
+    infoDiv.innerHTML = `<i class="fa-solid fa-file"></i> ${escaparHtml(arquivo.name)} (${tamanhoMB} MB)`;
+    arquivoSelecionadoParaUpload = arquivo;
+    btnEnviar.disabled = false;
+}
+
+// Lê o arquivo selecionado como base64 (via FileReader/readAsDataURL) e
+// envia para a ação "uploadArquivo" do backend, no corpo do POST - igual
+// ao restante do painel, o arquivo nunca viaja na URL.
+function enviarArquivoUpload() {
+    if (!arquivoSelecionadoParaUpload) return;
+
+    const btnEnviar = document.getElementById("btn-enviar-upload");
+    const statusDiv = document.getElementById("upload-status");
+    const input = document.getElementById("upload-input-arquivo");
+
+    btnEnviar.disabled = true;
+    btnEnviar.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
+    statusDiv.innerHTML = "";
+
+    const leitor = new FileReader();
+
+    leitor.onerror = function () {
+        statusDiv.innerHTML = '<p style="color:#ef476f;">Não foi possível ler o arquivo selecionado.</p>';
+        btnEnviar.disabled = false;
+        btnEnviar.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Upload';
+    };
+
+    leitor.onload = function () {
+        // readAsDataURL devolve "data:<mime>;base64,<conteudo>" - só nos
+        // interessa a parte depois da vírgula.
+        const resultado = String(leitor.result || "");
+        const base64 = resultado.substring(resultado.indexOf(",") + 1);
+
+        chamarAPI("uploadArquivo", {
+            nomeArquivo: arquivoSelecionadoParaUpload.name,
+            tipoMime: arquivoSelecionadoParaUpload.type,
+            conteudoBase64: base64
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.erro) {
+                    statusDiv.innerHTML = `<p style="color:#ef476f;">${escaparHtml(data.msg || "Não foi possível enviar o arquivo.")}</p>`;
+                    return;
+                }
+                statusDiv.innerHTML = `<p style="color:#2a9d8f;"><i class="fa-solid fa-circle-check"></i> ${escaparHtml(data.msg || "Arquivo enviado com sucesso.")}</p>`;
+                input.value = "";
+                arquivoSelecionadoParaUpload = null;
+                document.getElementById("upload-arquivo-selecionado").textContent = "Nenhum arquivo selecionado.";
+            })
+            .catch(() => {
+                statusDiv.innerHTML = '<p style="color:#ef476f;">Não foi possível enviar o arquivo. Tente novamente mais tarde.</p>';
+            })
+            .finally(() => {
+                btnEnviar.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Upload';
+                // Só reabilita se ainda houver um arquivo válido selecionado
+                // (pode já ter sido limpo acima, em caso de sucesso).
+                btnEnviar.disabled = !arquivoSelecionadoParaUpload;
+            });
+    };
+
+    leitor.readAsDataURL(arquivoSelecionadoParaUpload);
 }
