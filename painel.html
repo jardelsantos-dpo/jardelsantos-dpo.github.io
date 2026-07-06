@@ -1018,6 +1018,10 @@
             <i class="fa-solid fa-timeline icone-card"></i>
             <h3>Linha do Tempo</h3>
         </div>
+		<div class="card-recurso" data-card="contradicoes" onclick="abrirSecao('contradicoes')">
+			<i class="fa-solid fa-triangle-exclamation icone-card"></i>
+			<h3>Contradições da Eliane</h3>
+		</div>
         <div class="card-recurso" data-card="personas" onclick="abrirSecao('personas')">
             <i class="fa-solid fa-users icone-card"></i>
             <h3>Personas Envolvidas</h3>
@@ -1242,6 +1246,36 @@
 
         <div id="linhadotempo-conteudo" style="display:none;"></div>
     </section>
+
+    <!-- CARD 9: Contradições Eliane -->
+	<section class="secao-conteudo" id="secao-contradicoes">
+		<div class="header-secao">
+			<h2>Contradições Eliane</h2>
+			<div class="header-secao-acoes">
+				<button class="btn-atualizar-secao" id="btn-atualizar-contradicoes" onclick="acionarAtualizacao('btn-atualizar-contradicoes', carregarContradicoesEliane)" title="Atualizar">
+					<i class="fa-solid fa-rotate"></i>
+				</button>
+				<button class="btn-imprimir-secao" onclick="imprimirContradicoesEliane()" title="Salvar / Imprimir">
+					<i class="fa-solid fa-print"></i>
+				</button>
+				<button class="btn-fechar-secao" onclick="fecharSecao('contradicoes')">&times;</button>
+			</div>
+		</div>
+		<div id="contradicoes-loading" style="text-align:center; padding:20px;">
+			<div class="loader-inline"></div>
+			<p style="color:var(--text-gray); font-size:0.85rem; margin-top:10px;">Carregando...</p>
+		</div>
+		<div id="contradicoes-filtro-wrapper" style="display:none; align-items:center; gap:8px; margin-bottom:16px;">
+			<label for="contradicoes-filtro-categoria" style="font-size:0.8rem; color:var(--text-gray);">
+				<i class="fa-solid fa-filter"></i> Filtrar por categoria:
+			</label>
+			<select id="contradicoes-filtro-categoria" onchange="filtrarContradicoesEliane()"
+				style="background:#13161c; color:var(--text-white); border:1px solid var(--border-color); border-radius:4px; padding:6px 10px; font-size:0.85rem;">
+				<option value="todas">Todas</option>
+			</select>
+		</div>
+		<div id="contradicoes-conteudo" style="display:none;"></div>
+	</section>	
 
     <!-- CARD 9: Upload de Arquivos (só visível para perfil Editor) -->
     <section class="secao-conteudo" id="secao-upload">

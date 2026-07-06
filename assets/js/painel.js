@@ -96,6 +96,7 @@ function abrirSecao(nomeCard) {
         if (nomeCard === "calculadora") carregarCalculadora();
         if (nomeCard === "dividas") carregarDividas();
         if (nomeCard === "linhadotempo") carregarLinhaDoTempo();
+		if (nomeCard === "contradicoes") carregarContradicoesEliane();
     }
 
     // Rola a tela até a seção aberta, para o usuário ver o conteúdo
@@ -1953,4 +1954,86 @@ function enviarArquivoUpload() {
     };
 
     leitor.readAsDataURL(arquivoSelecionadoParaUpload);
+}
+
+let contradicoesElianeCache = [];
+
+function carregarContradicoesEliane() {
+    const loading = document.getElementById("contradicoes-loading");
+    const container = document.getElementById("contradicoes-conteudo");
+    const filtroWrapper = document.getElementById("contradicoes-filtro-wrapper");
+    const selectFiltro = document.getElementById("contradicoes-filtro-categoria");
+    const categoriaAnterior = selectFiltro ? selectFiltro.value : "todas";
+
+    loading.style.display = "block";
+    loading.innerHTML = '<div class="loader-inline"></div><p style="color: var(--text-gray); font-size: 0.85rem; margin-top:10px;">Carregando...</p>';
+    container.style.display = "none";
+    filtroWrapper.style.display = "none";
+
+    return chamarAPI("obterContradicoesEliane")
+        .then(res => res.json())
+        .then(data => {
+            loading.style.display = "none";
+            container.style.display = "block";
+            if (data.erro) {
+                container.innerHTML = `<p style="color:#ef476f; font-size:0.9rem;">${escaparHtml(data.msg || "Não foi possível carregar os dados.")}</p>`;
+                return;
+            }
+            contradicoesElianeCache = data.eventos || [];
+            if (contradicoesElianeCache.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-gray); font-size:0.9rem;">Nenhum evento cadastrado.</p>';
+                return;
+            }
+            popularFiltroCategoriasContradicoes(categoriaAnterior);
+            filtroWrapper.style.display = "flex";
+            renderizarContradicoesEliane(selectFiltro.value);
+        })
+        .catch(() => {
+            loading.innerHTML = '<p style="color:#ef476f; font-size:0.85rem;">Não foi possível carregar os dados. Tente novamente mais tarde.</p>';
+        });
+}
+
+function popularFiltroCategoriasContradicoes(categoriaParaManter) {
+    const select = document.getElementById("contradicoes-filtro-categoria");
+    const categorias = Array.from(new Set(contradicoesElianeCache.map(e => (e.categoria || "").trim()).filter(c => c !== ""))).sort();
+    let opcoesHtml = '<option value="todas">Todas</option>';
+    categorias.forEach(cat => { opcoesHtml += `<option value="${escaparHtml(cat)}">${escaparHtml(cat)}</option>`; });
+    if (contradicoesElianeCache.some(e => !(e.categoria || "").trim())) opcoesHtml += '<option value="__sem_categoria__">Sem categoria</option>';
+    select.innerHTML = opcoesHtml;
+    const valores = Array.from(select.options).map(o => o.value);
+    select.value = valores.includes(categoriaParaManter) ? categoriaParaManter : "todas";
+}
+
+function filtrarContradicoesEliane() {
+    renderizarContradicoesEliane(document.getElementById("contradicoes-filtro-categoria").value);
+}
+
+function renderizarContradicoesEliane(filtroCategoria) {
+    const container = document.getElementById("contradicoes-conteudo");
+    const eventosFiltrados = contradicoesElianeCache.filter(evento => {
+        if (!filtroCategoria || filtroCategoria === "todas") return true;
+        const categoria = (evento.categoria || "").trim();
+        if (filtroCategoria === "__sem_categoria__") return categoria === "";
+        return categoria === filtroCategoria;
+    });
+    if (eventosFiltrados.length === 0) {
+        container.innerHTML = '<p style="color:var(--text-gray); font-size:0.9rem;">Nenhum evento nesta categoria.</p>';
+        return;
+    }
+    let html = '<div class="timeline-wrapper"><div class="timeline-linha-central"></div>';
+    eventosFiltrados.forEach((evento, indice) => {
+        const lado = indice % 2 === 0 ? "esquerda" : "direita";
+        const cor = TIMELINE_CORES[indice % TIMELINE_CORES.length];
+        html += `<div class="timeline-item ${lado}"><div class="timeline-marcador" style="border-color:${cor};"></div><div class="timeline-conteudo"><span class="timeline-fita" style="background:${cor}; color:${cor};"><span style="color:#fff;">${escaparHtml(evento.data)}</span></span><p class="timeline-titulo">${escaparHtml(evento.titulo)}</p><p class="timeline-descricao">${escaparHtml(evento.descricao)}</p></div></div>`;
+    });
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+function imprimirContradicoesEliane() {
+    const container = document.getElementById("contradicoes-conteudo");
+    if (!container || !container.innerHTML.trim()) return;
+    abrirImpressao("Contradições da Eliane", container.innerHTML, {
+        estiloExtra: `.timeline-titulo, .timeline-descricao { color: #111 !important; } .timeline-linha-central { background: #999 !important; } .timeline-marcador { background: #fff !important; } .timeline-fita, .timeline-fita span { color: #fff !important; }`
+    });
 }
