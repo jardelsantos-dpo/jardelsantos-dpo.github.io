@@ -55,6 +55,12 @@ function atualizarVisibilidadeCardsPorPerfil() {
     if (cardUpload) {
         cardUpload.style.display = perfilUsuario === "Editor" ? "" : "none";
     }
+
+    // NOVO: mostra/oculta o rótulo de seção junto com o card de upload
+    const tituloAcoes = document.getElementById("titulo-secao-acoes");
+    if (tituloAcoes) {
+        tituloAcoes.style.display = perfilUsuario === "Editor" ? "" : "none";
+    }
 }
 
 // ---------------------------------------------------------------------

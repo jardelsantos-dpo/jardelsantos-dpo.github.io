@@ -57,7 +57,22 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 26px;
+        }
+
+        .titulo-secao-grid {
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            margin: 0 0 12px;
+            padding-top: 6px;
+        }
+        .titulo-secao-grid:not(:first-child) {
+            margin-top: 8px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 22px;
         }
 
         .card-recurso {
@@ -997,41 +1012,49 @@
         </button>
     </div>
 
+    <h2 class="titulo-secao-grid">Visão Geral do Caso</h2>
     <div class="grid-cards">
-        <div class="card-recurso" data-card="documentos" onclick="abrirSecao('documentos')">
-            <i class="fa-solid fa-folder-open icone-card"></i>
-            <h3>Documentos para Consulta</h3>
+        <div class="card-recurso" data-card="linhadotempo" onclick="abrirSecao('linhadotempo')">
+            <i class="fa-solid fa-timeline icone-card"></i>
+            <h3>Linha do Tempo</h3>
         </div>
         <div class="card-recurso" data-card="personas" onclick="abrirSecao('personas')">
             <i class="fa-solid fa-users icone-card"></i>
             <h3>Personas Envolvidas</h3>
         </div>
-        <div class="card-recurso" data-card="prejuizo" onclick="abrirSecao('prejuizo')">
-            <i class="fa-solid fa-coins icone-card"></i>
-            <h3>Prejuízo Financeiro</h3>
+        <div class="card-recurso" data-card="documentos" onclick="abrirSecao('documentos')">
+            <i class="fa-solid fa-folder-open icone-card"></i>
+            <h3>Documentos para Consulta</h3>
         </div>
         <div class="card-recurso" data-card="processos" onclick="abrirSecao('processos')">
             <i class="fa-solid fa-gavel icone-card"></i>
             <h3>Processos</h3>
         </div>
+    </div>
 
-        <div class="card-recurso" data-card="multas" onclick="abrirSecao('multas')">
-            <i class="fa-solid fa-file-invoice icone-card" style="color:#ef476f;"></i>
-            <h3>Multas T-Cross</h3>
-        </div>
-        <div class="card-recurso" data-card="calculadora" onclick="abrirSecao('calculadora')">
-            <i class="fa-solid fa-calculator icone-card"></i>
-            <h3>Calculadora Partilha</h3>
+    <h2 class="titulo-secao-grid">Financeiro</h2>
+    <div class="grid-cards">
+        <div class="card-recurso" data-card="prejuizo" onclick="abrirSecao('prejuizo')">
+            <i class="fa-solid fa-coins icone-card" style="color:#ef476f;"></i>
+            <h3>Prejuízo Financeiro</h3>
         </div>
         <div class="card-recurso" data-card="dividas" onclick="abrirSecao('dividas')">
             <i class="fa-solid fa-hand-holding-dollar icone-card" style="color:#ef476f;"></i>
             <h3>Dívidas Conhecidas</h3>
         </div>
-        <div class="card-recurso" data-card="linhadotempo" onclick="abrirSecao('linhadotempo')">
-            <i class="fa-solid fa-timeline icone-card" style="color:#f4b400;"></i>
-            <h3>Linha do Tempo</h3>
+        <div class="card-recurso" data-card="calculadora" onclick="abrirSecao('calculadora')">
+            <i class="fa-solid fa-calculator icone-card" style="color:#ef476f;"></i>
+            <h3>Calculadora Partilha</h3>
         </div>
-        <div class="card-recurso" data-card="upload" onclick="abrirSecao('upload')" style="display:none;">
+        <div class="card-recurso" data-card="multas" onclick="abrirSecao('multas')">
+            <i class="fa-solid fa-file-invoice icone-card" style="color:#ef476f;"></i>
+            <h3>Multas T-Cross</h3>
+        </div>
+    </div>
+
+    <h2 class="titulo-secao-grid" id="titulo-secao-acoes" style="display:none;">Ações</h2>
+    <div class="grid-cards" id="grid-acoes">
+        <div class="card-recurso" data-card="upload" onclick="abrirSecao('upload')" id="card-upload" style="display:none;">
             <i class="fa-solid fa-cloud-arrow-up icone-card" style="color:#2a9d8f;"></i>
             <h3>Upload de Arquivos</h3>
         </div>
