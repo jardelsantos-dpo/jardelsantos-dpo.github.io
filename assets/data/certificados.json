@@ -742,5 +742,18 @@
 	"highlight": false,
 	"textoBadge": "Plano de Continuidade de Negócios",
 	"tiExames": true
+  },
+   {
+    "id": 59,
+    "titulo": "Competências Comportamentais de Auditores ISO",
+    "ano": "2026",
+	"categoria": "gestao",
+	"tag": "tag-gestao",
+	"tagLabel": "Auditoria & Gestão",
+    "link": "assets/certificados/auditores-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"textoBadge": "Competências Comportamentais de Auditores",
+	"tiExames": true
   }
 ]
