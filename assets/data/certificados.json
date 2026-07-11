@@ -188,7 +188,7 @@
   },
   {
     "id": 16,
-    "titulo": "Imersão EXIN Artificial Intelligence Compliance",
+    "titulo": "Imersão EXIN AI Compliance",
 	"ano": "2026",
     "categoria": "ai-governanca",
     "tag": "tag-ai-gov",
@@ -196,12 +196,12 @@
     "textoBadge": "exin aicp",
     "link": "assets/certificados/imersao-exin-aicp-ti-exames.pdf",
     "tipoLink": "Certificado",
-    "highlight": true,
+    "highlight": false,
 	"tiExames": true
   },
   {
     "id": 17,
-    "titulo": "EXIN Artificial Intelligence Foundation",
+    "titulo": "EXIN AI Foundation",
 	"ano": "2025",
     "categoria": "ai-governanca",
     "tag": "tag-ai-gov",
@@ -765,7 +765,7 @@
     "tagLabel": "Cibersegurança",
     "link": "assets/certificados/imersao-seguranca-ti-exames.pdf",
 	"tipoLink": "Certificado",
-	"highlight": false,
+	"highlight": true,
 	"textoBadge": "Imersão em Segurança da Informação",
 	"tiExames": true
   },
