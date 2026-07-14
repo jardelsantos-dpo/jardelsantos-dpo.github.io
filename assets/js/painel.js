@@ -816,11 +816,29 @@ function renderizarMultas(multas) {
         return;
     }
 
+    // Converte o valor da multa para número, aceitando tanto um número puro
+    // (o que a planilha realmente envia, já que a célula é armazenada como
+    // número mesmo formatada com vírgula na exibição) quanto um texto no
+    // formato brasileiro ("R$ 1.234,56"), caso o valor venha como string
+    // em algum outro cenário. Evita o bug de tratar "130.16" (número
+    // convertido pra texto, com PONTO decimal) como se o ponto fosse
+    // separador de milhar - que inflava o valor em 100x.
+    function converterValorBR(valor) {
+        if (typeof valor === "number") return isNaN(valor) ? 0 : valor;
+
+        const limpo = String(valor || "0").replace(/R\$/g, "").replace(/\s/g, "").trim();
+        if (limpo.includes(",")) {
+            // Formato brasileiro: ponto é milhar, vírgula é decimal.
+            const v = parseFloat(limpo.replace(/\./g, "").replace(",", "."));
+            return isNaN(v) ? 0 : v;
+        }
+        // Sem vírgula: já está em formato numérico "normal" (ponto decimal).
+        const v = parseFloat(limpo);
+        return isNaN(v) ? 0 : v;
+    }
+
     // KPIs
-    const total = multas.reduce((acc, m) => {
-        const v = parseFloat(String(m.valor || "0").replace("R$","").replace(".","").replace(",",".").trim());
-        return acc + (isNaN(v) ? 0 : v);
-    }, 0);
+    const total = multas.reduce((acc, m) => acc + converterValorBR(m.valor), 0);
 
     const qtdVelocidade  = multas.filter(m => String(m.enquadramento||"").startsWith("218")).length;
     const qtdOutros      = multas.length - qtdVelocidade;
@@ -889,7 +907,7 @@ function renderizarMultas(multas) {
 			<div class="multa-card ${cls.card}">
 				<div class="multa-topo">
 					<span class="multa-auto">Auto: ${m.autoInfracao}</span>
-					<span class="multa-valor">${m.valor}</span>
+					<span class="multa-valor">${fmtBRL(converterValorBR(m.valor))}</span>
 				</div>
 				<div class="multa-descricao">${m.descricao}</div>
 				<div class="multa-local"><i class="fa-solid fa-location-dot" style="font-size:0.75rem;"></i> ${m.local}</div>
