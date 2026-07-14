@@ -840,9 +840,33 @@ function renderizarMultas(multas) {
     // KPIs
     const total = multas.reduce((acc, m) => acc + converterValorBR(m.valor), 0);
 
-    const qtdVelocidade  = multas.filter(m => String(m.enquadramento||"").startsWith("218")).length;
-    const qtdOutros      = multas.length - qtdVelocidade;
-    const qtdTransitado  = multas.filter(m => String(m.statusRecurso||"").toLowerCase().includes("transitado")).length;
+    // Classifica cada multa em 3 categorias mutuamente exclusivas:
+    // "velocidade" (código de enquadramento começando em 218, como já era),
+    // "perigosa" (uso de celular ao volante ou avanço de sinal vermelho) e
+    // "outra" (o que sobrar). Usa tanto o código de enquadramento (quando
+    // reconhecido) quanto o texto da descrição, para não depender de saber
+    // de cor todos os códigos do CTB usados na sua planilha.
+    function classificarCategoriaMulta(m) {
+        const enq = String(m.enquadramento || "").trim();
+        const desc = String(m.descricao || "").toLowerCase();
+
+        if (enq.startsWith("218")) return "velocidade";
+
+        const usoCelular = desc.includes("celular") || desc.includes("telefone") || enq.startsWith("252");
+        const avancoSinal = desc.includes("semáfor") || desc.includes("semafor") ||
+            (desc.includes("sinal") && (desc.includes("vermelho") || desc.includes("avan"))) ||
+            enq.startsWith("208");
+
+        if (usoCelular || avancoSinal) return "perigosa";
+
+        return "outra";
+    }
+
+    const categoriasMultas   = multas.map(classificarCategoriaMulta);
+    const qtdVelocidade      = categoriasMultas.filter(c => c === "velocidade").length;
+    const qtdCondutaPerigosa = categoriasMultas.filter(c => c === "perigosa").length;
+    const qtdOutros          = categoriasMultas.filter(c => c === "outra").length;
+    const qtdTransitado      = multas.filter(m => String(m.statusRecurso||"").toLowerCase().includes("transitado")).length;
 
     const fmtBRL = v => "R$ " + v.toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
@@ -872,6 +896,16 @@ function renderizarMultas(multas) {
                 <i class="fa-solid fa-gauge-high kpi-icon" style="color:#ffd166;"></i>
                 <div class="kpi-valor" style="color:#ffd166;">${qtdVelocidade}</div>
                 <div class="kpi-label">Infrações por excesso de velocidade</div>
+            </div>
+            <div class="multas-kpi">
+                <i class="fa-solid fa-mobile-screen-button kpi-icon" style="color:#f77f00;"></i>
+                <div class="kpi-valor" style="color:#f77f00;">${qtdCondutaPerigosa}</div>
+                <div class="kpi-label">Condutas perigosas (celular ao volante / avanço de sinal)</div>
+            </div>
+            <div class="multas-kpi">
+                <i class="fa-solid fa-circle-question kpi-icon" style="color:#8a8f98;"></i>
+                <div class="kpi-valor" style="color:#8a8f98;">${qtdOutros}</div>
+                <div class="kpi-label">Outras infrações</div>
             </div>
             <div class="multas-kpi">
                 <i class="fa-solid fa-list-check kpi-icon" style="color:#58a6ff;"></i>
