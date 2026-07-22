@@ -177,9 +177,9 @@
     "id": 15,
     "titulo": "Auditoria de IA: ISO 42001",
 	"ano": "2026",
-    "categoria": "ai-governanca",
-    "tag": "tag-ai-gov",
-    "tagLabel": "Governança IA",
+    "categoria": "gestao",
+    "tag": "tag-gestao",
+    "tagLabel": "Auditoria de IA",
     "textoBadge": "auditoria iso/iec 42001:2023",
     "link": "assets/certificados/auditoria-iso42001-ti-exames.pdf",
     "tipoLink": "Certificado",
@@ -791,7 +791,7 @@
     "tagLabel": "Gestão de IA",
     "link": "assets/certificados/iso-42001-ti-exames.pdf",
 	"tipoLink": "Certificado",
-	"highlight": false,
+	"highlight": true,
 	"textoBadge": "ISO/IEC 42001 Foundation",
 	"tiExames": true
   }
