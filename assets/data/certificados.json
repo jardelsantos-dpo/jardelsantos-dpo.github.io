@@ -781,5 +781,18 @@
 	"highlight": false,
 	"textoBadge": "Governança de Dados no Setor Energético",
 	"tiExames": true
+  },
+   {
+    "id": 62,
+    "titulo": "ISO/IEC 42001 Foundation",
+    "ano": "2026",
+    "categoria": "gestao",
+    "tag": "tag-gestao",
+    "tagLabel": "Gestão de IA",
+    "link": "assets/certificados/iso-42001-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"textoBadge": "ISO/IEC 42001 Foundation",
+	"tiExames": true
   }
 ]
