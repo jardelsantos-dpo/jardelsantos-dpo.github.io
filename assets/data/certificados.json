@@ -794,5 +794,18 @@
 	"highlight": true,
 	"textoBadge": "ISO/IEC 42001 Foundation",
 	"tiExames": true
+  },
+   {
+    "id": 63,
+    "titulo": "Criação de Política de Segurança da Informação que funcionam",
+    "ano": "2026",
+    "categoria": "ai-governanca",
+    "tag": "tag-ai-gov",
+	"tagLabel": "GOVERNANÇA",
+    "link": "assets/certificados/psi-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"textoBadge": "Política de Segurança da Informação",
+	"tiExames": true
   }
 ]
