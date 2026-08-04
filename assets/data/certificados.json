@@ -807,5 +807,18 @@
 	"highlight": false,
 	"textoBadge": "Política de Segurança da Informação",
 	"tiExames": true
+  },
+   {
+    "id": 64,
+    "titulo": "NIST Zero Trust",
+    "ano": "2026",
+    "categoria": "gestao",
+    "tag": "tag-gestao",
+    "tagLabel": "Gestão & Governança",
+    "link": "assets/certificados/nist-zero-trust-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"textoBadge": "NIST Zero Trust",
+	"tiExames": true
   }
 ]
