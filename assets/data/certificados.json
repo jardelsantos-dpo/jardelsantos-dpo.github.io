@@ -820,5 +820,31 @@
 	"highlight": false,
 	"textoBadge": "NIST Zero Trust",
 	"tiExames": true
+  },
+   {
+    "id": 65,
+    "titulo": "Imersão Executiva em GRC",
+    "ano": "2026",
+    "categoria": "ai-governanca",
+    "tag": "tag-ai-gov",
+	"tagLabel": "GOVERNANÇA",
+    "link": "assets/certificados/imersao-executiva-grc-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"textoBadge": "Imersão Executiva em GRC",
+	"tiExames": true
+  },
+   {
+    "id": 66,
+    "titulo": "Imersão Programa de Cybersegurança + IA",
+    "ano": "2026",
+    "categoria": "security",
+    "tag": "tag-security",
+    "tagLabel": "Cibersegurança",
+    "link": "assets/certificados/imersao-cyber-ia-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"textoBadge": "Imersão Programa de Cybersegurança + IA",
+	"tiExames": true
   }
 ]
