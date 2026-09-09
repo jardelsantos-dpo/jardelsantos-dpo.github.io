@@ -836,15 +836,15 @@
   },
    {
     "id": 66,
-    "titulo": "Imersão Programa de Cybersegurança + IA",
+    "titulo": "Imersão Programa de Cybersegurança + IA usando NIST CSF 2.0 & Cyber AI Profile",
     "ano": "2026",
     "categoria": "security",
     "tag": "tag-security",
     "tagLabel": "Cibersegurança",
     "link": "assets/certificados/imersao-cyber-ia-ti-exames.pdf",
 	"tipoLink": "Certificado",
-	"highlight": false,
-	"textoBadge": "Imersão Programa de Cybersegurança + IA",
+	"highlight": true,
+	"textoBadge": "Cybersegurança + IA usando NIST CSF 2.0",
 	"tiExames": true
   }
 ]
