@@ -846,5 +846,18 @@
 	"highlight": true,
 	"textoBadge": "Cybersegurança + IA usando NIST CSF 2.0",
 	"tiExames": true
+  },
+  {
+    "id": 67,
+    "titulo": "Make",
+	"ano": "2026",
+    "categoria": "automacao",
+    "tag": "tag-auto",
+    "tagLabel": "Automação",
+    "imagem": "img/badge-make.webp",
+    "link": "https://portal.hashtagtreinamentos.com/certificate/verify/makejard1789389663196949218ca",
+    "tipoLink": "Validar",
+    "highlight": false,
+	"hashtag": true
   }
 ]
