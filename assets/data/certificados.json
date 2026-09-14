@@ -859,5 +859,18 @@
     "tipoLink": "Validar",
     "highlight": false,
 	"hashtag": true
+  },
+   {
+    "id": 68,
+    "titulo": "AI Cybersecurity Foundation",
+    "ano": "2026",
+    "categoria": "security",
+    "tag": "tag-security",
+    "tagLabel": "Cibersegurança",
+    "link": "assets/certificados/ai-cybersecurity-foundation-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": true,
+	"textoBadge": "AI Cybersecurity Foundation",
+	"tiExames": true
   }
 ]
