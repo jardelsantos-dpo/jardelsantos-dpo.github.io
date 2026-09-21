@@ -20,7 +20,7 @@ const listaArtigos = [
 	  titulo: "Skills do Claude no Plano Free: Como Pequenas Empresas podem automatizar decisões",
 	  resumo: "Entenda o que são as Skills do Claude, como usá-las de graça e com segurança para gerar relatórios de gestão sem expor dados pessoais.",
 	  categoria: "Automação Corporativa",
-	  data: "2026-09-16",
+	  data: "2026-09-21",
 	  img: "img/skills-claude.webp",
 	  link: "artigos/skills-claude-plano-free-pequenas-empresas"
 	},
