@@ -17,6 +17,22 @@
 
 const listaArtigos = [
 	{
+	  titulo: "Skills do Claude no Plano Free: Como Pequenas Empresas podem automatizar decisões",
+	  resumo: "Entenda o que são as Skills do Claude, como usá-las de graça e com segurança para gerar relatórios de gestão sem expor dados pessoais.",
+	  categoria: "Automação Corporativa",
+	  data: "2026-09-16",
+	  img: "img/skills-claude.webp",
+	  link: "artigos/skills-claude-plano-free-pequenas-empresas"
+	},
+	{
+	  titulo: "Por que precisamos de um plano de contingência para o plano de contingência?",
+	  resumo: "Entenda por que planos de continuidade desatualizados falham na crise e como manter seu PCN sempre ativo, testado e alinhado à ISO 22301 e à LGPD.",
+	  categoria: "Gestão de Riscos",
+	  data: "2026-07-05",
+	  img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=600",
+	  link: "artigos/plano-continuidade-negocios-sempre-atualizado.html"
+	},
+	{
 	  titulo: "O risco invisível das permissões esquecidas",
 	  resumo: "Saiba como contas inativas e permissões acumuladas no Active Directory e Microsoft 365 podem se tornar um incidente real de segurança e violar a LGPD.",
 	  categoria: "Segurança da Informação",

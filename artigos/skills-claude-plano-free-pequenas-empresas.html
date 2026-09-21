@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Skills do Claude no Plano Free: Automação para Pequenas Empresas</title>
+  <meta name="description" content="Entenda o que são as Skills do Claude, por que já funcionam no plano gratuito e como usá-las com segurança para automatizar relatórios e decisões de gestão sem expor dados pessoais.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+	<link rel="icon" type="image/png" href="../img/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="../img/favicon.svg" />
+	<link rel="shortcut icon" href="../img/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png" />
+	<link rel="manifest" href="../img/site.webmanifest" />
+  
+  <!-- Schema Article será injetado via JS -->
+  <script id="article-data" type="application/json">
+  {
+    "headline": "Skills do Claude no Plano Free: Automação para Pequenas Empresas",
+    "description": "Entenda o que são as Skills do Claude e como usá-las no plano gratuito com segurança para automatizar relatórios e decisões de gestão sem expor dados pessoais.",
+    "image": "https://jardelsantos-dpo.github.io/img/skills-claude.webp",
+    "datePublished": "2026-09-16",
+    "dateModified": "2026-09-16",
+    "url": "https://jardelsantos-dpo.github.io/artigos/skills-claude-plano-free-pequenas-empresas.html"
+  }
+  </script>
+
+ 
+</head>
+
+<body>
+
+<header></header>
+
+<main class="about-container" id="artigo">
+
+  <!-- Cabeçalho do artigo -->
+
+      <div class="about-header" style="text-align: left;">
+          <a href="../artigos.html" style="color: var(--accent-blue); font-size: 0.9rem;"><i class="fas fa-arrow-left"></i> Voltar para Artigos</a>
+          <h1 style="margin-top: 20px;">Skills do Claude no Plano Free: Como Pequenas Empresas podem automatizar decisões sem pagar nada</h1>
+          <div class="underline" style="margin: 20px 0;"></div>
+          <p style="color: var(--text-gray); font-size: 0.9rem;"><i class="far fa-calendar-alt"></i> Publicado em: 16 de setembro de 2026 | <i class="far fa-clock"></i> 14 min de leitura</p>
+      </div>
+
+
+  <!-- Imagem principal -->
+  <img src="../img/skills-claude.webp" alt="Laptop sobre mesa de vidro exibindo gráficos de desempenho, representando um painel de métricas de gestão" class="article-banner">
+
+  <!-- Corpo do artigo -->
+  <article class="article-body">
+
+    <!-- Introdução -->
+    <section class="article-section">
+      <h2>Introdução</h2>
+      <p>Por muito tempo, a ideia de "automação inteligente" pareceu reservada a empresas com orçamento de tecnologia, times de dados e assinaturas corporativas caras. Isso mudou com a chegada das <strong>Skills do Claude</strong>, um recurso também disponível no <strong>plano gratuito (Free)</strong> da Anthropic. Na prática, isso significa que qualquer pequeno escritório, autônomo ou pequena empresa pode configurar um "modo de trabalho" específico dentro do Claude "sem custo de assinatura" para tarefas recorrentes como montar relatórios, organizar dados de atendimento ou estruturar decisões de gestão.</p>
+      <p>O objetivo deste artigo é explicar de forma simples o que são Skills, por que esse recurso importa especialmente para pequenos negócios brasileiros, quais riscos de segurança da informação e privacidade envolvem seu uso e como aplicá-las de forma responsável, usando como exemplo prático uma skill real de dashboard de métricas para escritórios de advocacia, mas com aplicação para qualquer negócio que lida com CRM, atendimento e financeiro.</p>
+    </section>
+
+    <!-- O que são Skills -->
+    <section class="article-section">
+      <h2>O que são as Skills do Claude?</h2>
+      <p>De forma simples, uma Skill é um conjunto de instruções, modelos e regras de negócio salvos em um arquivo (o chamado <code>SKILL.md</code>) que o Claude carrega automaticamente quando identifica que uma tarefa se encaixa naquele contexto. Em vez de reescrever o mesmo prompt longo toda vez (explicando fórmulas, formato de relatório, o que pode e o que não pode aparecer no resultado), a pessoa cria a skill uma única vez, e o Claude passa a aplicá-la sempre que o assunto aparecer numa conversa.</p>
+      <p>Isso é diferente de simplesmente "pedir para a IA fazer alguma coisa". Uma skill bem construída define:</p>
+      <ul class="styled-list">
+        <li><strong>Quando acionar</strong> aquele comportamento (e quando não acionar).</li>
+        <li><strong>Regras fixas</strong> que não podem ser quebradas, mesmo que o pedido pareça exigir isso.</li>
+        <li><strong>Formato de saída</strong> padronizado, para que o resultado seja sempre consistente.</li>
+        <li><strong>Limites de escopo</strong>, evitando que a IA "invente" respostas fora do que foi combinado.</li>
+      </ul>
+      <p>Um exemplo comum ilustra bem esse conceito: uma skill de "Dashboard de métricas do escritório". Ela não pede apenas "monte um relatório de vendas". Ela define fórmulas explícitas para cada indicador, exige que todo número venha com a fonte de onde saiu, proíbe a exposição de dados pessoais identificáveis no relatório e obriga que cada gargalo identificado tenha um responsável e um prazo de ação. Ou seja: a skill não é um prompt, é uma política de trabalho encapsulada.</p>
+    </section>
+
+    <!-- Por que importa hoje -->
+    <section class="article-section">
+      <h2>Por que isso importa hoje, especialmente para pequenas empresas?</h2>
+      <p>Nos últimos anos, ferramentas de automação como Power Automate, n8n e Power Apps se popularizaram justamente por permitirem que empresas sem equipe técnica dedicada automatizassem processos. O problema é que a maioria dessas ferramentas ainda exige alguma curva de aprendizado técnica: conectar APIs, montar fluxos visuais, lidar com autenticação.</p>
+      <p>As Skills do Claude reduzem essa barreira de um jeito diferente: em vez de montar um fluxo técnico, a pessoa descreve, em linguagem natural e estruturada, como o trabalho deve ser feito e o Claude assume a execução. Isso é particularmente relevante para:</p>
+      <ul class="styled-list">
+        <li><strong>Micro e pequenas empresas</strong> que não têm orçamento para um analista de dados ou um especialista em BI.</li>
+        <li><strong>Profissionais liberais</strong> (advogados, contadores, consultores, dentistas, clínicas) que já usam CRM ou planilhas, mas não sabem transformar esses dados em decisão.</li>
+        <li><strong>Empreendedores que já usam o Claude no dia a dia</strong>, mas de forma dispersa, sem padronização.</li>
+      </ul>
+      <p>O fato desse recurso estar disponível no plano <strong>gratuito</strong> muda o cálculo de custo-benefício: uma empresa pode testar, estruturar e até operacionalizar um fluxo de decisão gerencial sem comprometer orçamento, antes de decidir se vale investir num plano pago para ganhar mais capacidade de uso.</p>
+    </section>
+
+    <!-- O que o plano Free oferece -->
+    <section class="article-section">
+      <h2>O que o plano Free realmente oferece (e o que fica de fora)?</h2>
+      <p>É importante ser preciso aqui, porque a confusão entre planos costuma gerar expectativa errada e, no contexto de proteção de dados, expectativa errada frequentemente vira risco.</p>
+    </section>
+
+    <div class="info-grid">
+      <div class="info-card info-card--allowed">
+        <h5>Incluso no plano Free</h5>
+        <ul>
+          <li>Conversa via web, iOS, Android e aplicativo desktop</li>
+          <li>Busca na web</li>
+          <li>Criação de arquivos e execução de código</li>
+          <li>Artifacts</li>
+          <li>Skills (inclusive skills personalizadas)</li>
+          <li>Conectores remotos via MCP</li>
+          <li>Modo de voz</li>
+          <li>Memória entre conversas</li>
+          <li>Raciocínio estendido</li>
+        </ul>
+      </div>
+
+      <div class="info-card info-card--restricted">
+        <h5>Só nos planos pagos</h5>
+        <ul>
+          <li>Claude Code</li>
+          <li>Cowork</li>
+          <li>Projects</li>
+          <li>Claude Design</li>
+          <li>Claude Science</li>
+          <li>Integrações diretas com Chrome e Microsoft 365</li>
+          <li>Maior volume de uso dentro da janela de sessão</li>
+        </ul>
+      </div>
+    </div>
+
+    <section class="article-section">
+      <p>Na prática, isso quer dizer que uma pequena empresa pode, sim, habilitar a execução de código e criar uma skill personalizada de gestão no plano gratuito. O que ela vai sentir primeiro, se o uso crescer, é o limite de mensagens dentro da janela mínima de cinco horas, não uma restrição de funcionalidade da skill em si.</p>
+      <p>Essa distinção é importante para o planejamento: a empresa pode validar o processo inteiro (criação da skill, teste, ajuste de regras) sem custo, e só considerar upgrade quando o volume de uso justificar.</p>
+    </section>
+
+    <!-- Uso de dados para treinamento -->
+    <section class="article-section">
+      <h2>Um ponto de atenção à parte: suas conversas podem virar dado de treinamento</h2>
+      <p>Antes de colocar uma skill para operar com dados de clientes no plano Free, vale entender um detalhe de privacidade que é frequentemente ignorado: desde a mudança de política de setembro de 2025, contas de consumidor da Anthropic — Free, Pro e Max — podem ter suas conversas usadas para treinar e aprimorar modelos futuros, salvo se a pessoa desativar isso manualmente na opção de treinamento dentro de "Configurações de privacidade" da conta.</p>
+      <p>Isso significa que, ao usar uma skill de dashboard de métricas conectada a dados reais de CRM ou financeiro, o conteúdo trocado na conversa pode, em tese, ser incorporado ao material usado para melhorar os modelos da Anthropic — a menos que o usuário tenha ativamente desligado essa opção.</p>
+    </section>
+	<!-- Uso de dados para treinamento -->
+    <section class="article-section">
+      <h2>Um ponto de atenção à parte: suas conversas podem virar dado de treinamento</h2>
+      <p>Antes de colocar uma skill para operar com dados de clientes no plano Free, vale entender um detalhe de privacidade que é frequentemente ignorado: desde a mudança de política de setembro de 2025, contas de consumidor da Anthropic — Free, Pro e Max — podem ter suas conversas usadas para treinar e aprimorar modelos futuros, salvo se a pessoa desativar isso manualmente na opção de treinamento dentro de "Configurações de privacidade" da conta.</p>
+      <p>Isso significa que, ao usar uma skill de dashboard de métricas conectada a dados reais de CRM ou financeiro, o conteúdo trocado na conversa pode, em tese, ser incorporado ao material usado para melhorar os modelos da Anthropic — a menos que o usuário tenha ativamente desligado essa opção.</p>
+    </section>
+
+    <!-- Exemplo visual de privacidade -->
+    <section class="example-report">
+      <figure class="media-block media-block--center">
+        <img src="../img/claude-opcoes-de-privacidade.webp" alt="Opções de privacidade e treinamento de dados na conta da Anthropic" class="report-img">
+        <figcaption style="font-size: 0.85rem; color: var(--text-gray); margin-top: 10px; text-align: center;">
+          Configurações de privacidade da conta Anthropic indicando a opção de treinamento de dados.
+        </figcaption>
+      </figure>
+    </section>
+
+    <div class="content-box content-box--alert">
+      <h4><strong>Desativar o treinamento reduz o risco, mas não é uma garantia absoluta</h4></strong>
+      <p>Desligar a opção de uso de conversas para treinamento nas configurações de privacidade é a medida recomendada e reduz também o prazo de retenção dos dados de anos para cerca de 30 dias. No entanto, é importante ter uma expectativa realista: <strong>essa configuração não é uma blindagem total</strong>. A própria política da Anthropic prevê que conversas sinalizadas por seus sistemas de segurança para revisão podem continuar sendo usadas para treinar e aprimorar modelos de segurança, independentemente da preferência de treinamento escolhida pelo usuário e os critérios que acionam essa sinalização não são divulgados publicamente em detalhe. Em outras palavras, <strong>desativar o treinamento no plano Free diminui significativamente a exposição, mas não elimina por completo a possibilidade de que algum trecho de conversa seja utilizado em circunstâncias específicas.</strong></p>
+    </div>
+
+    <section class="article-section">
+      <p>Para empresas que vão operar skills com dados reais de clientes, a recomendação prática é dupla: primeiro, desativar manualmente a opção de treinamento na conta usada para esse fim; segundo, tratar essa configuração como uma camada adicional de proteção e não como substituta das boas práticas já descritas neste artigo como nunca expor CPF, telefone ou e-mail nos relatórios gerados. Para operações que exigem garantias contratuais mais fortes de que os dados nunca serão usados para treinamento, vale considerar planos empresariais (Claude for Work) ou o uso via API, que seguem políticas de retenção e treinamento diferentes das contas de consumidor. Como essas políticas de privacidade têm mudado com alguma frequência, o ideal é sempre conferir a configuração atual diretamente em privacy.claude.com antes de decidir o que conectar à ferramenta.</p>
+    </section>
+
+    <!-- Riscos -->
+    <section class="article-section">
+      <h2>Riscos envolvidos: por que uma skill "livre" pode virar problema de privacidade</h2>
+      <p>Aqui entra a parte que mais interessa a quem pensa em segurança da informação e LGPD: <strong>uma skill mal desenhada pode transformar uma ferramenta de produtividade em um vazamento silencioso de dados pessoais.</strong></p>
+      <p>Isso acontece porque, ao conectar o Claude a fontes de dados reais: CRM, planilhas de atendimento, sistemas financeiros, a IA passa a ter acesso a informações que, dependendo de como são processadas e apresentadas, podem se tornar dado pessoal sob a ótica da LGPD: nome, telefone, e-mail, histórico de atendimento, informações de pagamento.</p>
+      <p>Os riscos mais comuns observados em fluxos de automação com IA aplicados à gestão são:</p>
+    </section>
+
+    <div class="content-box content-box--alert">
+      <h4><strong>1. Exposição de dados identificáveis em relatórios que circulam</h4></strong>
+      <p>Um painel semanal que deveria mostrar apenas números agregados pode, por descuido na instrução, incluir nome e telefone de clientes específicos e muitas vezes, esse relatório é compartilhado por e-mail ou WhatsApp com sócios, investidores ou parceiros, ampliando a superfície de exposição.</p>
+    </div>
+
+    <div class="content-box content-box--alert">
+      <h4><strong>2. Falta de rastreabilidade sobre a origem do dado</h4></strong>
+      <p>Quando a IA "preenche lacunas" com estimativas sem deixar isso explícito, decisões de negócio passam a ser tomadas sobre premissas não verificadas e, em um cenário de auditoria ou questionamento de titular de dados, não há como reconstituir de onde veio cada número.</p>
+    </div>
+
+    <div class="content-box content-box--alert">
+      <h4><strong>3. Conectores com permissão de escrita sem controle</h4></strong>
+      <p>Se uma skill tem acesso a um sistema de CRM e pode alterar etapas, tags ou anotações, um comando mal interpretado pode gerar alterações não autorizadas na base de dados de clientes, um problema tanto operacional quanto de governança.</p>
+    </div>
+
+    <div class="content-box content-box--alert">
+      <h4><strong>4. Concentração de dados sensíveis em um único fluxo de IA sem política de acesso</h4></strong>
+      <p>Se qualquer pessoa da equipe pode acionar a skill e ver dados financeiros e de clientes, a empresa perde o controle de quem acessa o quê, o que contraria o princípio de necessidade e minimização previsto na LGPD.</p>
+    </div>
+
+    <div class="content-box content-box--alert">
+      <h4><strong>5. Uso de benchmarks externos como se fossem metas internas</h4></strong>
+      <p>Isso não é um risco de dados pessoais, mas é um risco de gestão real: decisões tomadas sobre números de referência genéricos da internet, sem validação, podem levar a metas irreais e decisões equivocadas de investimento.</p>
+    </div>
+
+    <section class="article-section">
+      <p>Uma skill de dashboard de métricas bem desenhada já antecipa boa parte desses riscos: ela proíbe explicitamente a inclusão de CPF, telefone, e-mail ou endereço em relatórios; exige que toda métrica tenha fonte declarada; separa claramente o que veio de conector do que é hipótese; e distingue leitura (livre) de escrita (que exige confirmação explícita). Esse é exatamente o padrão de desenho que qualquer empresa deveria exigir ao criar suas próprias skills, especialmente quando lidam com dados de clientes.</p>
+    </section>
+
+    <!-- Impactos no negócio -->
+    <section class="article-section">
+      <h2>Impactos reais no negócio</h2>
+      <p>Quando bem implementada, uma skill de automação de decisão gera impacto direto em três frentes:</p>
+    </section>
+
+    <div class="stats-box">
+      <h4>Ganhos observados com uma skill de gestão bem desenhada</h4>
+      <ul>
+        <li><strong>Velocidade de decisão:</strong> em vez de esperar o fechamento contábil do mês para entender se a captação de clientes está saudável, o gestor recebe, toda semana, um painel com semáforo indicando o que está fora da meta e o que precisa de ação imediata.</li>
+        <li><strong>Padronização de critério:</strong> um dos problemas mais comuns em pequenas empresas é que cada pessoa calcula "taxa de conversão" de um jeito diferente. Uma skill com fórmula explícita elimina essa ambiguidade: o número sempre significa a mesma coisa, independentemente de quem pediu o relatório.</li>
+        <li><strong>Redução de vaidade métrica:</strong> empresas pequenas frequentemente acompanham números que não geram decisão nenhuma: curtidas, visualizações, total de mensagens enviadas. Uma skill bem desenhada força a distinção entre o que é vaidade e o que efetivamente move receita, deixando claro, por regra, o que não deve ser tratado como métrica relevante.</li>
+      </ul>
+    </div>
+
+    <section class="article-section">
+      <p>Do ponto de vista de segurança da informação, o impacto positivo também existe: ao formalizar regras explícitas de anonimização e de tratamento de dado ausente, a empresa reduz a dependência de "bom senso individual" de quem está operando a ferramenta no dia a dia, que é exatamente o tipo de controle que reguladores e auditores de LGPD valorizam.</p>
+    </section>
+
+    <!-- Exemplos práticos -->
+    <section class="article-section">
+      <h2>Exemplos práticos de uso no plano Free</h2>
+      <p>Para tornar isso concreto, veja três cenários de uso de skills gratuitas que pequenas empresas brasileiras já conseguem aplicar hoje:</p>
+    </section>
+
+    <div class="example-card">
+      <h4><strong>Escritório de advocacia ou consultoria</h4></strong>
+      <p>Uma skill de dashboard semanal que cruza dados de CRM, atendimento via WhatsApp e financeiro, sempre seguindo a mesma estrutura: número, leitura do número, ação da semana. Isso substitui reuniões longas de "vamos ver como estamos" por um documento objetivo que já chega com plano de ação.</p>
+    </div>
+
+    <div class="example-card">
+      <h4><strong>Clínica ou consultório</h4></strong>
+      <p>Uma skill para monitorar taxa de no-show de consultas, tempo médio de resposta a mensagens e inadimplência de convênios ou particulares com o mesmo cuidado de nunca expor nome de paciente em relatório que circula entre sócios.</p>
+    </div>
+
+    <div class="example-card">
+      <h4><strong>Pequeno e-commerce ou prestador de serviço</h4></strong>
+      <p>Uma skill que organiza dados de funil comercial (visitas, leads, propostas, vendas) e identifica em qual etapa a conversão está caindo, sem depender de um analista dedicado.</p>
+    </div>
+
+    <section class="article-section">
+      <p>Em todos os casos, o ponto comum é: a skill não substitui o julgamento humano, ela padroniza o processo de chegar até a decisão e, quando bem desenhada, protege a empresa de expor dado que não deveria circular.</p>
+    </section>
+
+    <!-- Boas práticas -->
+    <section class="article-section">
+      <h2>Boas práticas de segurança ao criar e usar Skills</h2>
+      <p>Para quem quer adotar esse recurso de forma responsável, especialmente lidando com dados de clientes, algumas práticas são essenciais:</p>
+    </section>
+
+    <div class="checklist-box">
+      <h4><i class="fas fa-check-double"></i> Checklist de segurança para skills de gestão</h4>
+      <p>Use esta lista antes de colocar uma skill para operar com dados reais de clientes.</p>
+      <ul class="checklist">
+        <li><input type="checkbox"> Nunca deixe a skill inventar dado. Toda informação ausente deve ser marcada como pendência, nunca preenchida com suposição disfarçada de fato.</li>
+        <li><input type="checkbox"> Defina explicitamente o que não pode aparecer no resultado. CPF, telefone, e-mail e endereço de clientes não devem sair em relatórios de gestão, salvo pedido explícito e para uso estritamente interno.</li>
+        <li><input type="checkbox"> Separe leitura de escrita em conectores. Consultar dados deve ser livre; alterar dados em sistemas de CRM ou financeiros deve sempre exigir confirmação explícita na conversa.</li>
+        <li><input type="checkbox"> Documente a fonte de cada número. Isso não é apenas boa prática de gestão, é o que permite, em caso de dúvida ou auditoria, reconstituir de onde veio cada informação usada em uma decisão.</li>
+        <li><input type="checkbox"> Restrinja quem aciona a skill em ambientes com dado sensível. Mesmo em empresas pequenas, vale definir quem tem acesso ao conector que puxa dados de clientes.</li>
+        <li><input type="checkbox"> Revise periodicamente a skill. Regras de negócio mudam e uma skill desatualizada pode aplicar critérios que não fazem mais sentido para a realidade atual da empresa.</li>
+      </ul>
+    </div>
+
+    <!-- Onde encontrar skills prontas -->
+    <section class="article-section">
+      <h2>Onde encontrar skills prontas: recomendação de repositório</h2>
+      <p>Para quem quer começar a partir de exemplos já testados, em vez de criar uma skill do zero, a própria Anthropic mantém um repositório público oficial: <strong>github.com/anthropics/skills</strong>. Nele estão disponíveis skills de referência cobrindo desde criação de documentos e planilhas até fluxos corporativos de comunicação e branding, cada uma com seu <code>SKILL.md</code> servindo tanto para uso direto quanto como modelo de boas práticas para quem for construir uma skill própria, como uma de dashboard de métricas para gestão.</p>
+    </section>
+
+    <div class="content-box content-box--info">
+      <h4>Alerta de segurança sobre skills de comunidade</h4>
+      <p>Além do repositório oficial, existe um ecossistema crescente de skills de comunidade, mantidas por desenvolvedores independentes. Elas podem ser úteis, mas <strong>devem ser tratadas como código de terceiros</strong> ou seja, revisadas antes do uso, especialmente se a empresa pretende conectá-las a dados reais de clientes, CRM ou financeiro. O mesmo cuidado de governança de dados discutido neste artigo vale, com ainda mais atenção, para skills baixadas de repositórios não oficiais: verifique o que a skill instrui o Claude a fazer, se ela solicita algum tipo de conexão externa, e nunca aponte uma skill não verificada para uma base de dados sensível sem antes testá-la em ambiente controlado.</p>
+    </div>
+
+    <!-- Conclusão -->
+    <section class="article-section">
+      <h2>Conclusão</h2>
+      <p>A utilização de Skills no plano gratuito do Claude representa uma mudança real: pequenas empresas e profissionais autônomos, que antes dependiam de ferramentas caras ou de conhecimento técnico avançado para automatizar decisões de gestão, agora podem estruturar esse processo sem custo de assinatura. O ganho de produtividade é evidente: relatórios padronizados, decisões mais rápidas, menos tempo perdido em planilhas manuais.</p>
+      <p>Mas esse ganho só é seguro quando a skill é desenhada com os mesmos princípios que orientam qualquer tratamento responsável de dado: transparência sobre a origem da informação, minimização do que é exposto, separação clara entre o que é fato e o que é hipótese, e controle sobre quem pode acessar e alterar dados sensíveis. Empresas que tratam a criação de uma skill como uma decisão de governança (e não apenas como um atalho de produtividade) colhem o benefício da automação sem abrir uma nova porta de risco à privacidade de seus clientes.</p>
+    </section>
+
+    <!-- Fontes -->
+    <div class="source-list">
+      <strong>📚 Fontes:</strong>
+      <ul style="list-style:none; padding-left:0; margin-top:10px;">
+        <li>• <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener">Anthropic — Repositório oficial de Agent Skills (GitHub)</a></li>
+        <li>• <a href="https://docs.claude.com" target="_blank" rel="noopener">Anthropic — Documentação oficial do Claude</a></li>
+        <li>• <a href="https://support.claude.com" target="_blank" rel="noopener">Anthropic — Central de suporte e planos do Claude</a></li>
+        <li>• <a href="https://privacy.claude.com" target="_blank" rel="noopener">Anthropic — Central de privacidade do Claude</a></li>
+        <li>• <a href="https://www.gov.br/anpd/pt-br" target="_blank" rel="noopener">ANPD — Autoridade Nacional de Proteção de Dados</a></li>
+      </ul>
+    </div>
+  </article>
+
+</main>
+
+    <footer class="site-footer"></footer>
+    <script src="../assets/js/busca.js"></script>
+    <script src="../assets/js/artigos-dados.js"></script>
+	<script src="../assets/js/acesso-rapido.js"></script>
+    <script src="../assets/js/components.js"></script>
+    <script src="../assets/js/sharing.js"></script>
+    <script src="../assets/js/schema-article.js"></script>
+    <script src="../assets/js/image-lightbox.js"></script>
+
+</body>
+</html>
