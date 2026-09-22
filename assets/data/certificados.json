@@ -96,7 +96,7 @@
     "textoBadge": "cis controls",
 	"link": "assets/certificados/cis-control-ti-exames.pdf",
     "tipoLink": "Certificado",
-    "highlight": true,
+    "highlight": false,
 	"tiExames": true
   },
   {
@@ -871,6 +871,19 @@
 	"tipoLink": "Certificado",
 	"highlight": true,
 	"textoBadge": "AI Cybersecurity Foundation",
+	"tiExames": true
+  },
+   {
+    "id": 69,
+    "titulo": "IA vs IA: Segurança na era dos agentes",
+    "ano": "2026",
+    "categoria": "security",
+    "tag": "tag-security",
+    "tagLabel": "Cibersegurança",
+    "link": "assets/certificados/ia-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": false,
+	"textoBadge": "IA vs IA: Segurança na era dos agentes",
 	"tiExames": true
   }
 ]
