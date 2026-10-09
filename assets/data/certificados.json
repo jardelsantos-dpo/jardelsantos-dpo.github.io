@@ -765,7 +765,7 @@
     "tagLabel": "Cibersegurança",
     "link": "assets/certificados/imersao-seguranca-ti-exames.pdf",
 	"tipoLink": "Certificado",
-	"highlight": true,
+	"highlight": false,
 	"textoBadge": "Imersão em Segurança da Informação",
 	"tiExames": true
   },
@@ -843,7 +843,7 @@
     "tagLabel": "Cibersegurança",
     "link": "assets/certificados/imersao-cyber-ia-ti-exames.pdf",
 	"tipoLink": "Certificado",
-	"highlight": true,
+	"highlight": false,
 	"textoBadge": "Cybersegurança + IA usando NIST CSF 2.0",
 	"tiExames": true
   },
@@ -884,6 +884,19 @@
 	"tipoLink": "Certificado",
 	"highlight": false,
 	"textoBadge": "IA vs IA: Segurança na era dos agentes",
+	"tiExames": true
+  },
+   {
+    "id": 70,
+    "titulo": "Mapeando NIS2 + DORA usando CIS Controls v8.1",
+    "ano": "2026",
+    "categoria": "security",
+    "tag": "tag-security",
+    "tagLabel": "Cibersegurança",
+    "link": "assets/certificados/mapeando-nis2-dora-ti-exames.pdf",
+	"tipoLink": "Certificado",
+	"highlight": true,
+	"textoBadge": "Mapeando NIS2 + DORA usando CIS Controls v8.1",
 	"tiExames": true
   }
 ]
