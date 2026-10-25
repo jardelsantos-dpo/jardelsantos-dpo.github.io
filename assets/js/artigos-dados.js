@@ -17,6 +17,14 @@
 
 const listaArtigos = [
 	{
+	  titulo: "Maturidade em IA: o modelo da MITRE explicado para quem não é de TI",
+	  resumo: "6 pilares, 20 dimensões e 5 níveis para descobrir onde sua empresa está e como evoluir com segurança.",
+	  categoria: "Inteligência Artificial",
+	  data: "2026-10-25",
+	  img: "https://images.unsplash.com/photo-1717501220725-83f151c447e7?auto=format&fit=crop&q=80&w=600",
+	  link: "artigos/maturidade-ia-modelo-mitre-explicado"
+	},
+	{
 	  titulo: "Skills do Claude no Plano Free: Como Pequenas Empresas podem automatizar decisões",
 	  resumo: "Entenda o que são as Skills do Claude, como usá-las de graça e com segurança para gerar relatórios de gestão sem expor dados pessoais.",
 	  categoria: "Automação Corporativa",
@@ -30,7 +38,7 @@ const listaArtigos = [
 	  categoria: "Gestão de Riscos",
 	  data: "2026-07-05",
 	  img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=600",
-	  link: "artigos/plano-continuidade-negocios-sempre-atualizado.html"
+	  link: "artigos/plano-continuidade-negocios-sempre-atualizado"
 	},
 	{
 	  titulo: "O risco invisível das permissões esquecidas",
