@@ -1442,8 +1442,6 @@ cite.cite--sep-slash a + a::before { content: " / "; color: var(--text-gray); ma
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-white);
-            margin: 0;
-            padding: 0;
         }
 
         .dashboard-container {
