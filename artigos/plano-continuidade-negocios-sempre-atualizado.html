@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Contingência da contingência: como manter seu PCN sempre atual</title>
+  <meta name="description" content="Entenda por que planos de continuidade desatualizados falham na hora da crise e como manter seu PCN sempre ativo, testado e alinhado à ISO 22301 e à LGPD.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+	<link rel="icon" type="image/png" href="../img/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="../img/favicon.svg" />
+	<link rel="shortcut icon" href="../img/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png" />
+	<link rel="manifest" href="../img/site.webmanifest" />
+  
+  <!-- Schema Article será injetado via JS -->
+  <script id="article-data" type="application/json">
+  {
+    "headline": "Contingência da contingência: como manter seu PCN sempre atual",
+    "description": "Entenda por que planos de continuidade desatualizados falham na hora da crise e como manter seu PCN sempre ativo, testado e alinhado à ISO 22301 e à LGPD.",
+    "image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1200",
+    "datePublished": "2026-09-03",
+    "dateModified": "2026-09-03",
+    "url": "https://jardelsantos-dpo.github.io/artigos/plano-continuidade-negocios-sempre-atualizado.html"
+  }
+  </script>
+
+ 
+</head>
+
+<body>
+
+<header></header>
+
+<main class="about-container" id="artigo">
+
+  <!-- Cabeçalho do artigo -->
+
+      <div class="about-header" style="text-align: left;">
+          <a href="../artigos.html" style="color: var(--accent-blue); font-size: 0.9rem;"><i class="fas fa-arrow-left"></i> Voltar para Artigos</a>
+          <h1 style="margin-top: 20px;">Contingência da contingência: como manter seu PCN sempre atual</h1>
+          <div class="underline" style="margin: 20px 0;"></div>
+          <p style="color: var(--text-gray); font-size: 0.9rem;"><i class="far fa-calendar-alt"></i> Publicado em: 15 de setembro de 2026 | <i class="far fa-clock"></i> 14 min de leitura</p>
+      </div>
+
+
+  <!-- Imagem principal -->
+  <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1200" alt="Sala de servidores com cabos de rede organizados, representando a infraestrutura crítica que sustenta a continuidade de negócios" class="article-banner">
+
+  <!-- Corpo do artigo -->
+  <article class="article-body">
+
+    <!-- Seção 1: Cenário inicial -->
+    <section class="article-section">
+      <h2>O dia em que o plano não funcionou</h2>
+      <p>Imagine o seguinte cenário: Era uma segunda-feira comum em uma empresa de médio porte do setor de serviços financeiros. Por volta das 9:40h, a equipe de TI percebeu que os servidores de arquivos estavam respondendo de forma anormal. Em poucos minutos, ficou claro: um ataque de ransomware havia criptografado boa parte dos dados operacionais, incluindo bancos de dados com informações de clientes.</p>
+      <p><strong>A boa notícia é que a empresa tinha um Plano de Continuidade de Negócios.</strong> Documentado, aprovado pela diretoria dois anos antes, guardado em PDF na intranet. <strong>A má notícia é que ele estava totalmente desatualizado,</strong> apontava para um data center que havia sido descomissionado no ano anterior, listava como responsável pela comunicação de crise uma pessoa que já não trabalhava mais na empresa e não mencionava nada sobre os requisitos de notificação de incidentes com dados pessoais já consolidados pela LGPD.</p>
+      <strong><p>O plano existia. Mas não estava vivo.</p></strong>
+      <p>Esse tipo de cena se repete, com variações, em empresas de todos os portes e ela revela um problema sutil, mas extremamente prático: um Plano de Continuidade de Negócios (PCN, ou BCP — Business Continuity Plan) que não é mantido, testado e atualizado deixa de ser um plano e se torna uma peça decorativa. Se o próprio mecanismo de continuidade pode falhar, então a pergunta que toda organização deveria fazer é: <strong>existe um plano de contingência <em>para</em> o plano de contingência?</p></strong>
+      <p>Decidi escrever este artigo com base na minha experiência profissional para explicar por que essa pergunta não é um exercício teórico, o que causa a "morte silenciosa" dos planos de continuidade e como estruturar, com base em normas reconhecidas internacionalmente e nas exigências da LGPD, uma forma segura de manter o PCN sempre ativo, testado e atualizado.
+	  </p>
+    </section>
+
+    <!-- Seção 2: O problema -->
+    <section class="article-section">
+      <h2>O problema: o plano de papel</h2>
+      <p>Um Plano de Continuidade de Negócios é, segundo a norma internacional que rege o tema, o conjunto de informação documentada que orienta a organização a responder a uma disrupção e a retomar, recuperar e restaurar a entrega de produtos e serviços de acordo com objetivos previamente definidos. Em bom português:<strong> é o manual de sobrevivência da empresa para quando tudo dá errado ao mesmo tempo.</p></strong>
+      <p>Só que existe um problema incômodo por trás dessa definição bonita: ter o documento não garante nada. Um PCN nunca testado não é um plano, é uma aposta. E apostas só se revelam boas ou ruins depois que o dado é lançado, geralmente no pior momento possível: durante a crise real. É só na hora do teste que se descobre se os procedimentos realmente funcionam, se os contatos de emergência ainda estão corretos, se os prazos de recuperação prometidos no papel resistem ao contato com a infraestrutura real.</p>
+      <p>E é aqui que mora o perigo: os planos de continuidade raramente morrem de uma vez. Eles morrem devagar, em silêncio, de três formas diferentes e quase ninguém percebe até que seja tarde demais:</p>
+    </section>
+
+    <!-- Caixa de estatísticas / cenário: causas da obsolescência -->
+    <div class="stats-box">
+      <h4>As três formas silenciosas de um PCN morrer</h4>
+      <ul>
+        <li><strong>Obsolescência técnica:</strong> o plano foi escrito pensando em uma infraestrutura que já não existe mais: servidores que foram migrados para a nuvem, fornecedores que foram substituídos, sistemas que foram descontinuados. Isso é especialmente comum em ambientes que usam Microsoft 365, Azure AD/Microsoft Entra ID e outras plataformas de identidade, onde mudanças de arquitetura acontecem com frequência muito maior do que a frequência de revisão dos planos.</li>
+        <li><strong>Obsolescência humana:</strong> as pessoas listadas como responsáveis pelas etapas críticas — quem aciona o gestor de crise, quem contata a imprensa, quem decide se um incidente precisa ser comunicado à ANPD — não trabalham mais na empresa, mudaram de cargo ou nunca foram treinadas para exercer esse papel.</li>
+        <li><strong>Obsolescência regulatória:</strong> o ambiente legal muda mais rápido do que os planos são revisados. A Resolução CD/ANPD nº 15/2024, por exemplo, trouxe uma série de exigências específicas sobre como e quando comunicar incidentes de segurança envolvendo dados pessoais — e um plano de continuidade escrito antes dessa resolução provavelmente não reflete essas obrigações.</li>
+      </ul>
+    </div>
+
+    <section class="article-section">
+      <p>O erro mais comum de todos, aliás, não é técnico: é confundir "ter um plano de continuidade" com "ter um backup". Backup é apenas um controle isolado. Continuidade de negócios é algo muito mais amplo, que envolve pessoas, processos, comunicação, infraestrutura e fornecedores trabalhando juntos. Outro erro recorrente é tratar a continuidade como um assunto exclusivo do departamento de TI, quando na verdade ela pertence à organização como um todo — processos manuais, pessoas-chave, fornecedores críticos e comunicação com clientes são tão importantes quanto os sistemas de informação.</p>
+      <p>É por isso que a pergunta do título deste artigo não é retórica. Se o plano de continuidade pode falhar silenciosamente por obsolescência, a organização precisa de um mecanismo — um "plano de contingência do plano de contingência" — que garanta que a continuidade em si seja continuamente cuidada, revisada e testada.</p>
+    </section>
+
+    <!-- Seção 3: A solução -->
+    <section class="article-section">
+      <h2>A solução: continuidade como sistema de gestão, não como documento</h2>
+      <p>A resposta para esse problema já existe e tem nome: Sistema de Gestão de Continuidade de Negócios (SGCN), formalizado internacionalmente pela norma ISO 22301 (no Brasil, publicada como ABNT NBR ISO 22301). A diferença essencial entre "ter um plano" e "ter um sistema de gestão" é que o segundo não é um documento estático, mas um ciclo vivo de melhoria contínua, baseado no modelo PDCA (Planejar, Fazer, Verificar, Agir), aplicado especificamente à continuidade: planejar a estrutura de continuidade, implementá-la, monitorar e testar os planos, e agir corretivamente com base no que os testes revelam.</p>
+      <p>Esse ciclo é, na prática, o próprio "plano de contingência do plano de contingência": um mecanismo formal que garante que o PCN nunca fique parado no tempo.</p>
+
+      <h3>O ponto de partida: a Análise de Impacto no Negócio (BIA)</h3>
+      <p>Toda estratégia de continuidade sólida começa pela Análise de Impacto no Negócio (Business Impact Analysis, ou BIA). A BIA identifica quais são as atividades essenciais da organização e avalia o impacto da interrupção de cada uma delas ao longo do tempo. Para cada atividade crítica, a BIA define três parâmetros que qualquer profissional de TI ou segurança deveria conhecer de cor:</p>
+    </section>
+
+    <div class="stats-box">
+      <h4>Os três parâmetros da BIA</h4>
+      <ul>
+        <li><strong>MTPD (Maximum Tolerable Period of Disruption):</strong> o tempo máximo que a organização tolera ficar sem aquela atividade antes que o dano se torne inaceitável.</li>
+        <li><strong>RTO (Recovery Time Objective):</strong> o tempo-alvo para retomar a atividade após uma interrupção.</li>
+        <li><strong>RPO (Recovery Point Objective):</strong> quanto de dados ou trabalho a organização está disposta a perder no processo.</li>
+      </ul>
+    </div>
+
+    <section class="article-section">
+      <p>Sem uma BIA atualizada, é impossível construir planos de continuidade proporcionais aos riscos reais da organização. E aqui está o primeiro ponto crítico da "contingência da contingência": a BIA não é um documento que se faz uma vez e arquiva. Ela precisa ser revisitada sempre que a organização muda de forma relevante — nova infraestrutura, novo fornecedor crítico, nova regulamentação, novo processo de negócio.</p>
+
+      <h3>O segundo pilar: avaliação de riscos</h3>
+      <p>A partir dos resultados da BIA, a organização deve realizar uma avaliação de riscos, buscando entender de forma estruturada quais ameaças podem causar a interrupção das atividades críticas identificadas. Um erro frequente aqui é olhar apenas para riscos isolados, sem mapear as interdependências: uma atividade crítica pode depender de outra atividade — ou de um fornecedor — que nunca foi mapeada, e a BIA precisa necessariamente considerar essas interdependências.</p>
+
+      <h3>O terceiro pilar: estratégias e planos documentados</h3>
+      <p>Somente depois de saber <em>o que</em> precisa continuar funcionando (BIA) e <em>o que</em> pode ameaçar isso (avaliação de riscos) é que a organização deve definir, para cada atividade crítica, como ela será mantida ou retomada — por meio de redundância de infraestrutura, sites alternativos, backup em nuvem, estoques de segurança ou outras estratégias equivalentes. Esses planos devem detalhar os procedimentos de resposta, os critérios de retorno à normalidade e as responsabilidades de cada pessoa envolvida.</p>
+
+      <h3>O quarto pilar — e o mais frequentemente ignorado: testes regulares</h3>
+      <p>Aqui está o núcleo da "contingência da contingência". A ISO 22301 recomenda testes regulares por meio de simulações, exercícios práticos e auditorias, e cada evento de teste deve alimentar o ciclo de melhoria contínua do sistema. Um plano de continuidade de negócios nunca deve ser tratado como um documento definitivo — ele deve ser exercitado, para treinar as pessoas envolvidas na resposta a incidentes, e testado, para validar se as soluções técnicas de recuperação realmente funcionam.</p>
+      <p>É esse ciclo de testes — e não o documento em si — que funciona como o verdadeiro "plano de contingência para o plano de contingência". Enquanto o PCN descreve o que fazer em uma crise, o programa de testes garante que aquilo que está escrito ainda seja verdade.</p>
+
+      <h3>Governança: quem é o guardião da continuidade</h3>
+      <p>Um sistema de gestão de continuidade exige liderança explícita. A alta administração precisa garantir que recursos adequados sejam disponibilizados, que políticas sejam estabelecidas e que pessoas específicas sejam formalmente designadas para implementar e manter o sistema. Isso significa que "manter o plano atualizado" não pode ser uma tarefa informal e implícita — precisa ser uma responsabilidade nomeada, com prazos e indicadores de desempenho definidos, avaliados periodicamente em relação ao planejado.</p>
+    </section>
+
+    <!-- Seção 4: Ponte com a LGPD -->
+    <section class="article-section">
+      <h2>A ponte com a LGPD: continuidade não é só disponibilidade, é também conformidade</h2>
+      <p>Para profissionais de TI e segurança que atuam no Brasil, a continuidade de negócios não pode ser dissociada da proteção de dados pessoais. O artigo 46 da LGPD determina que os agentes de tratamento adotem medidas de segurança técnicas e administrativas capazes de proteger dados pessoais contra acessos não autorizados e situações acidentais ou ilícitas de destruição, perda ou alteração — e um sistema de continuidade mal cuidado é, na prática, uma falha nessa obrigação.</p>
+    </section>
+
+    <div class="content-box content-box--info">
+      <h4>O relógio da LGPD começa a correr no momento do incidente</h4>
+      <p>Mais do que isso: quando a continuidade falha e resulta em um incidente de segurança, o relógio da LGPD começa a correr imediatamente. O artigo 48 da lei estabelece que o controlador deve comunicar à Autoridade Nacional de Proteção de Dados (ANPD) e aos titulares afetados a ocorrência de incidentes que possam gerar risco ou dano relevante. A Resolução CD/ANPD nº 15/2024, que regulamentou esse dever, fixou o prazo de três dias úteis a partir do conhecimento do incidente pelo controlador para que essa comunicação seja feita. Quando o controlador não dispõe de todas as informações a tempo, é possível fazer uma comunicação preliminar, complementada de forma justificada em até vinte dias úteis. A resolução também impõe uma obrigação de memória organizacional: o controlador deve manter o registro de todos os incidentes de segurança com dados pessoais por, no mínimo, cinco anos, independentemente de terem sido ou não comunicados à ANPD.</p>
+    </div>
+
+    <section class="article-section">
+      <p>Isso muda completamente a lógica de manutenção do PCN. Um plano de continuidade que não prevê, dentro dos seus próprios prazos de resposta, a etapa de avaliação e comunicação de incidentes de dados pessoais dentro da janela de três dias úteis está, por definição, desatualizado frente à regulamentação vigente — mesmo que tecnicamente ainda funcione para restaurar sistemas. Continuidade de negócios e conformidade com a LGPD deixaram de ser dois assuntos paralelos: são, hoje, a mesma disciplina vista de dois ângulos.</p>
+    </section>
+
+    <!-- Seção 5: Roteiro prático -->
+    <section class="article-section">
+      <h2>Como estruturar, na prática, um "plano de contingência do plano de contingência"</h2>
+      <p>Trazendo os pilares acima para um roteiro executável, uma organização pode estruturar a manutenção contínua do seu PCN em seis etapas:</p>
+    </section>
+
+    <div class="checklist-box">
+      <h4><i class="fas fa-check-double"></i> Roteiro de manutenção contínua do PCN</h4>
+      <p>Seis etapas para transformar o plano de continuidade em um sistema vivo, em vez de um documento estático:</p>
+      <ul class="checklist">
+        <li><input type="checkbox"> <strong>Defina o escopo e a governança.</strong> Determine quais áreas, processos e unidades estão cobertos pelo sistema de continuidade, e nomeie formalmente um responsável — em muitas empresas, essa responsabilidade acaba dividida entre o time de TI, o gestor de riscos e o encarregado de dados (DPO), e essa divisão precisa estar clara em contrato interno ou política formal.</li>
+        <li><input type="checkbox"> <strong>Atualize a BIA em ciclos fixos.</strong> Não espere um incidente para descobrir que os RTOs e RPOs definidos há três anos não refletem mais a infraestrutura atual. Trate a BIA como um documento vivo, revisado ao menos anualmente ou sempre que houver mudança relevante de infraestrutura, fornecedor ou processo crítico.</li>
+        <li><input type="checkbox"> <strong>Reavalie os riscos periodicamente.</strong> Ameaças mudam: um fornecedor de nuvem que era considerado seguro pode ter mudado de política de segurança; um novo tipo de ataque (como ransomware direcionado a backups) pode ter se tornado mais frequente no setor.</li>
+        <li><input type="checkbox"> <strong>Teste os planos — de verdade.</strong> Programe simulações e exercícios com data marcada, não apenas "quando der tempo". Documente os resultados de cada teste como evidência, e trate cada falha encontrada como um item de ação com responsável e prazo, fechando assim o ciclo do PDCA.</li>
+        <li><input type="checkbox"> <strong>Sincronize com a conformidade legal.</strong> Sempre que a ANPD publicar uma nova resolução, ou sempre que a legislação setorial aplicável à empresa mudar, revise explicitamente se os prazos e responsabilidades do PCN ainda estão alinhados — especialmente o fluxo de avaliação e comunicação de incidentes envolvendo dados pessoais.</li>
+        <li><input type="checkbox"> <strong>Audite o sistema, não apenas o documento.</strong> Conduza auditorias internas em intervalos planejados para verificar se o sistema de gestão de continuidade está de fato implementado e mantido de forma eficaz, usando os resultados para identificar oportunidades de melhoria.</li>
+      </ul>
+    </div>
+
+    <!-- Seção 6: Erros comuns -->
+    <section class="article-section">
+      <h3>Erros comuns que fazem o plano morrer de novo</h3>
+      <p>Mesmo organizações que já entenderam a importância da continuidade tropeçam nos mesmos erros repetidamente:</p>
+      <ul class="styled-list">
+        <li><strong>Tratar o plano como um projeto encerrado</strong>, em vez de um processo contínuo — assim que o documento é aprovado, ele para de receber atenção até o próximo incidente.</li>
+        <li><strong>Concentrar a continuidade no departamento de TI</strong>, esquecendo que processos manuais, pessoas-chave e comunicação com clientes são partes igualmente críticas do sistema.</li>
+        <li><strong>Ignorar as interdependências entre processos</strong>, testando cada sistema isoladamente sem verificar se a cadeia completa de recuperação realmente funciona.</li>
+        <li><strong>Confundir backup com continuidade</strong>, como se ter cópias de segurança dos dados resolvesse, por si só, a capacidade da empresa de continuar operando.</li>
+        <li><strong>Não atualizar a lista de contatos de crise</strong>, um detalhe aparentemente pequeno que, na prática, é uma das causas mais comuns de atraso na resposta a incidentes reais.</li>
+      </ul>
+    </section>
+
+    <!-- Seção 7: Resultado -->
+    <section class="article-section">
+      <h2>O resultado: resiliência real, não resiliência de papel</h2>
+      <p>Quando uma organização trata a continuidade como um sistema de gestão vivo — com BIA atualizada, riscos reavaliados, planos testados e sincronizados com as exigências legais — o comportamento diante de uma crise muda radicalmente.</p>
+    </section>
+
+    <div class="example-card">
+      <h4>Voltando ao cenário do início deste artigo</h4>
+      <p>Em uma empresa com um sistema de continuidade efetivamente mantido, um ataque de ransomware ainda seria uma crise séria, mas deixaria de ser uma crise caótica. A equipe saberia exatamente qual RTO foi prometido para os sistemas afetados, quem precisa ser acionado, como restaurar a partir de backups testados recentemente, e — crucialmente — como avaliar se o incidente envolve dados pessoais e, se envolver, como cumprir o prazo de três dias úteis da comunicação à ANPD sem improviso. O impacto financeiro e reputacional é minimizado, e a empresa passa a contar com evidências documentadas de que agiu com diligência.</p>
+    </div>
+
+    <section class="article-section">
+      <p>Esse é o verdadeiro valor de tratar a continuidade como um sistema, e não como um documento: reduzir a probabilidade de o incidente se tornar catastrófico e, quando ele ocorrer, garantir uma resposta clara e ensaiada, em vez de decisões improvisadas sob pressão. Organizações que adotam essa lógica também tendem a colher benefícios que vão além da crise em si: maior confiança de clientes e parceiros, melhor posicionamento em processos de contratação B2B e licitações que exigem comprovação de continuidade, e uma vantagem competitiva real diante de concorrentes que ainda tratam seus planos como arquivos esquecidos em uma pasta de rede.</p>
+    </section>
+
+    <!-- Seção 8: Conclusão -->
+    <section class="article-section">
+      <h2>Conclusão</h2>
+      <p>A pergunta que abre este artigo — por que precisamos de um plano de contingência para o plano de contingência — tem uma resposta direta: porque todo documento estático tende à obsolescência, e a continuidade de negócios é, por definição, a disciplina que existe para lidar com o inesperado. Um PCN que não é revisado, testado e sincronizado com a realidade técnica, humana e regulatória da empresa se torna, ironicamente, o primeiro ponto de falha na hora em que mais se precisa dele.</p>
+      <p>A boa notícia é que a resposta para esse problema não exige reinventar a roda: normas como a ISO 22301 já oferecem um ciclo de gestão testado internacionalmente, e a LGPD já define, com bastante precisão, os prazos e obrigações que qualquer plano de continuidade brasileiro precisa incorporar. O que falta, na maioria das empresas, não é conhecimento técnico — é disciplina de manutenção. Tratar a continuidade como um sistema vivo, com donos, prazos e testes reais, é a única forma segura de garantir que, quando a crise chegar, o plano esteja realmente lá para funcionar.</p>
+    </section>
+
+    <!-- Fontes -->
+		  <div class="source-list">
+			<strong>📚 Fontes:</strong>
+			<ul style="list-style:none; padding-left:0; margin-top:10px;">
+			  <li>• <a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank" rel="noopener">Lei nº 13.709/2018 (LGPD) — Planalto</a></li>
+			  <li>• <a href="https://www.gov.br/anpd/pt-br/canais_atendimento/agente-de-tratamento/comunicado-de-incidente-de-seguranca-cis" target="_blank" rel="noopener">ANPD — Comunicação de Incidente de Segurança (CIS)</a></li>
+			  <li>• <a href="https://www.machadomeyer.com.br/pt/inteligencia-juridica/publicacoes-ij/direito-digital/anpd-publica-regulamento-de-comunicacao-de-incidente-de-seguranca" target="_blank" rel="noopener">Resolução CD/ANPD nº 15/2024 — Regulamento de Comunicação de Incidente de Segurança</a></li>
+			  <li>• <a href="https://www.bsigroup.com/pt-BR/ISO-22301-Continuidade-dos-Negocios/" target="_blank" rel="noopener">BSI Group — ISO 22301: Gestão da Continuidade dos Negócios</a></li>
+			  <li>• <a href="https://www.sigvirtual.com.br/blog/iso-22301-continuidade-de-negocios/" target="_blank" rel="noopener">SIG Virtual — ISO 22301: Continuidade de Negócios e Resiliência Organizacional</a></li>
+			  <li>• <a href="https://www.mainsafe.com.br/post/plano-de-continuidade-de-neg%C3%B3cios-bcp-pcn-como-se-preparar-para-o-imprevisto" target="_blank" rel="noopener">MainSafe — Plano de Continuidade de Negócios (BCP/PCN)</a></li>
+			</ul>
+		  </div>
+  </article>
+
+</main>
+
+    <footer class="site-footer"></footer>
+    <script src="../assets/js/busca.js"></script>
+    <script src="../assets/js/artigos-dados.js"></script>
+	<script src="../assets/js/acesso-rapido.js"></script>
+    <script src="../assets/js/components.js"></script>
+    <script src="../assets/js/sharing.js"></script>
+    <script src="../assets/js/schema-article.js"></script>
+    <script src="../assets/js/image-lightbox.js"></script>
+
+</body>
+</html>
