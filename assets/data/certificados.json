@@ -989,5 +989,18 @@
 	"highlight": false,
 	"textoBadge": "Governança da Inteligência Artificial",
 	"tiExames": true
+  },
+   {
+    "id": 78,
+    "titulo": "Engenharia de Software com IA",
+    "ano": "2026",
+    "categoria": "ai-governanca",
+    "tag": "tag-ai-gov",
+    "tagLabel": "Governança IA",
+    "link": "https://eadtiexames.com.br/gratuitos.php?codigo=3264067#certificados",
+	"tipoLink": "Validar",
+	"highlight": true,
+	"textoBadge": "Engenharia de Software com IA",
+	"tiExames": true
   }
 ]
