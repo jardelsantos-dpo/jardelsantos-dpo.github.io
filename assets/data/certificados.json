@@ -1002,5 +1002,18 @@
 	"highlight": true,
 	"textoBadge": "Engenharia de Software com IA",
 	"tiExames": true
+  },
+  {
+    "id": 79,
+    "titulo": "ISO/IEC 27090: a nova norma de segurança para sistemas de IA",
+	"ano": "2026",
+    "categoria": "ai-seguranca",
+    "tag": "tag-ai-sec",
+    "tagLabel": "Segurança IA",
+    "textoBadge": "ISO/IEC 27090: Norma de segurança para sistemas de IA",
+    "link": "https://eadtiexames.com.br/gratuitos.php?codigo=3264327#certificados",
+    "tipoLink": "Validar",
+    "highlight": false,
+	"tiExames": true
   }
 ]
