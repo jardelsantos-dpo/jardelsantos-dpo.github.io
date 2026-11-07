@@ -1015,5 +1015,17 @@
     "tipoLink": "Validar",
     "highlight": true,
 	"tiExames": true
-  }
+  },
+  {
+    "id": 80,
+    "titulo": "Apetite ao Risco: da Estratégia à Tomada de Decisão",
+    "ano": "2026",
+	"categoria": "gestao",
+	"tag": "tag-gestao",
+    "tagLabel": "Gestão & Riscos",
+    "link": "https://eadtiexames.com.br/gratuitos.php?codigo=3264579#certificados",
+	"tipoLink": "Validar",
+	"highlight": false,
+	"textoBadge": "Apetite ao Risco",
+	"tiExames": true
 ]
